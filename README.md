@@ -7,6 +7,19 @@
 - version: v2.0.8
 
 
+## 图片演示
+<table>
+    <tr>
+        <td><img src="./doc/pictures/1_proc.jpg" alt="ys_1"/></td>
+        <td><img src="./doc/pictures/2_proc.jpg" alt="ys_2"/></td>
+    </tr>
+    <tr>
+        <td><img src="./doc/pictures/3_proc.jpg" alt="ys_3"/></td>
+        <td><img src="./doc/pictures/4_proc.jpg" alt="ys_4"/></td>
+    </tr>
+</table>
+
+
 ## 功能要点
 
 - [X] 蜜柑RSS订阅自动下载内容
