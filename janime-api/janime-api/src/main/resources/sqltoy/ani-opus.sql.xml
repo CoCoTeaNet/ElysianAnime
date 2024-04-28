@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <sql id="ani_opus_listByUser">
+        <value>
+            <![CDATA[
+            select ao.*, auo.read_status, auo.reading_time, auo.reading_num, auo.user_id
+            from ani_opus ao
+                     left join ani_user_opus auo on (auo.opus_id = ao.id and auo.user_id = :loginId)
+            where ao.is_deleted = 0
+              #[and ao.has_resource = :hasResource]
+              #[and (ao.name_cn like :searchKey or ao.name_original like :searchKey)]
+              #[and ao.id in (:opusIds)]
+              #[and ao.delivery_week in (:deliveryWeeks)]
+              #[and (
+                year(date_format(str_to_date(ao.launch_start, '%Y年%m月%d日'), '%Y-%m-%d')) in (:years) or
+                year(date_format(ao.launch_start, '%Y-%m-%d')) in (:years)
+                )]
+              #[and (
+                month(date_format(str_to_date(ao.launch_start, '%Y年%m月%d日'), '%Y-%m-%d')) in (:months) or
+                month(date_format(launch_start, '%Y-%m-%d')) in (:months)
+                )]
+              #[and auo.read_status in (:status)]
+            order by str_to_date(ao.launch_start, '%Y年%m月%d日') desc, auo.create_time desc
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>

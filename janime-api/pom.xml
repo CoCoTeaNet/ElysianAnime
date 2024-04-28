@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.cocotea</groupId>
+    <artifactId>janime</artifactId>
+    <packaging>pom</packaging>
+    <version>2.0.0</version>
+
+    <modules>
+        <module>janime-api</module>
+        <module>janime-common</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <!-- 内部模块版本 -->
+        <janime.version>2.0.0</janime.version>
+        <!-- 插件版本 -->
+        <lombok.version>1.18.28</lombok.version>
+        <!-- 外部框架版本 -->
+        <spring-boot-starter.version>2.7.15</spring-boot-starter.version>
+        <sqltoy.version>5.2.63</sqltoy.version>
+        <mysql-connector.version>8.0.33</mysql-connector.version>
+        <alibaba-druid.version>1.2.6</alibaba-druid.version>
+        <satoken.version>1.33.0</satoken.version>
+        <fastjson.version>1.2.83</fastjson.version>
+        <validation-api.version>2.0.1.Final</validation-api.version>
+        <hibernate-valid.version>6.2.0.Final</hibernate-valid.version>
+        <hutool.version>5.8.20</hutool.version>
+        <hutool-oshi.version>5.6.1</hutool-oshi.version>
+        <commons-pool2.version>2.11.1</commons-pool2.version>
+        <xpath.version>2.5.3</xpath.version>
+        <mail.version>1.6.2</mail.version>
+        <bouncycastle.version>1.69</bouncycastle.version>
+        <forest.version>1.5.33</forest.version>
+        <forest-jaxb.veraion>1.5.33</forest-jaxb.veraion>
+    </properties>
+
+    <!-- 依赖声明 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- 内部模块 -->
+            <!-- 接口 -->
+            <dependency>
+                <groupId>net.cocotea</groupId>
+                <artifactId>janime-api</artifactId>
+                <version>${janime.version}</version>
+            </dependency>
+            <!-- 通用 -->
+            <dependency>
+                <groupId>net.cocotea</groupId>
+                <artifactId>janime-common</artifactId>
+                <version>${janime.version}</version>
+            </dependency>
+            <!-- 插件使用 -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+            <!-- 外部框架 -->
+            <!-- springboot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot-starter.version}</version>
+            </dependency>
+            <!-- sqltoy spring boot starter -->
+            <dependency>
+                <groupId>com.sagframe</groupId>
+                <artifactId>sagacity-sqltoy-starter</artifactId>
+                <version>${sqltoy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sagframe</groupId>
+                <artifactId>sqltoy-plus-core</artifactId>
+                <version>${sqltoy.version}</version>
+            </dependency>
+            <!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-spring-boot-starter</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
+            <!-- Sa-Token 整合 Redis （使用 jdk 默认序列化方式） -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-dao-redis</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
+            <!-- mysql连接器 -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <!-- alibaba连接池 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${alibaba-druid.version}</version>
+            </dependency>
+            <!-- fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-valid.version}</version>
+            </dependency>
+            <!-- hutool工具 -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>${hutool-oshi.version}</version>
+            </dependency>
+            <!-- 轻量级密码术包 -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15to18</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
+            <!-- 提供Redis连接池 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${commons-pool2.version}</version>
+            </dependency>
+            <!-- redis -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring-boot-starter.version}</version>
+            </dependency>
+            <!-- JsoupXpath -->
+            <dependency>
+                <groupId>cn.wanghaomiao</groupId>
+                <artifactId>JsoupXpath</artifactId>
+                <version>${xpath.version}</version>
+            </dependency>
+            <!--邮件框架-->
+            <dependency>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+                <version>${mail.version}</version>
+            </dependency>
+            <!--声明试http请求框架-->
+            <dependency>
+                <groupId>com.dtflys.forest</groupId>
+                <artifactId>forest-spring-boot-starter</artifactId>
+                <version>${forest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dtflys.forest</groupId>
+                <artifactId>forest-jaxb</artifactId>
+                <version>${forest-jaxb.veraion}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

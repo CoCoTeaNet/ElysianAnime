@@ -1,0 +1,86 @@
+<template>
+  <el-menu :default-active="menuState.defaultActive"
+           :default-openeds="menuState.defaultOpened"
+           :collapse="store.state.isCollapseMenu"
+           :unique-opened="true">
+    <!-- LOGO -->
+    <div v-if="!store.state.isCollapseMenu" class="logo">
+      <img :src="require('@/assets/svg-source/logo.svg')" style="width: 36px;margin-right: 3px" alt="login-logo">
+      <h2>JAnime</h2>
+    </div>
+    <div v-else style="width: 100%;cursor: pointer;display: flex;justify-content: center;margin-top: 1em">
+      <img :src="require('@/assets/svg-source/logo.svg')" style="width: 36px" alt="logo">
+    </div>
+    <!-- 菜单渲染 -->
+    <child-menu :menu-list="store.state.userInfo.menuList"/>
+  </el-menu>
+</template>
+
+<script setup lang="ts">
+import {useStore} from "@/store";
+import {useRoute} from "vue-router";
+import {computed} from "vue";
+import ChildMenu from "@/layout/modules/ChildMenu.vue";
+
+const store = useStore();
+const route = useRoute();
+
+/**
+ * 根据路由路径动态设置当前菜单的状态
+ */
+let menuState = computed(() => {
+  const path = route.path;
+  const routes = store.state.userInfo.menuList;
+  let state = {defaultOpened: [""], defaultActive: ""};
+  if (routes) {
+    let stack: Array<string> = [];
+    for (let i in routes) {
+      let route = routes[i];
+      let len = stack.length;
+      dfs(route, path, stack);
+      if (!route.id) {
+        console.error('路由配置错误，请检查菜单路径');
+      }
+      if (len < stack.length) {
+        // 默认打开的页面
+        state.defaultOpened = [routes[i].id + ''];
+        break;
+      }
+      if (path === route.routerPath) {
+        stack.push(route.id + '');
+      }
+    }
+    if (stack.length > 0) {
+      state.defaultActive = stack[0];
+    }
+  }
+  return state;
+});
+
+const dfs = (root: MenuModel, path: string, stack: Array<string>) => {
+  if (root.children) {
+    let len = stack.length;
+    for (let i in root.children) {
+      let r = root.children[i];
+      if (path === r.routerPath) {
+        stack.push(r.id + '');
+        return;
+      }
+      dfs(r, path, stack);
+      if (len < stack.length) {
+        return;
+      }
+    }
+  }
+}
+</script>
+
+<style scoped lang="css">
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(55, 76, 82);
+  padding: 1em 2em 1em 1.5em;
+}
+</style>

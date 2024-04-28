@@ -1,0 +1,36 @@
+package net.cocotea.janime.api.system.model.vo;
+
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.math.BigInteger;
+import java.util.List;
+
+/**
+ * @author jwss
+ * @version 1.0.0
+ * @project sss-rbac-admin
+ * @description sys_user, 系统用户表
+ */
+@Data
+@Accessors(chain = true)
+public class SysLoginUserVO implements Serializable {
+
+    private static final long serialVersionUID = 1641777558644610990L;
+
+    private Boolean loginStatus;
+
+    private BigInteger id;
+
+    private String username;
+
+    private String nickname;
+
+    private String avatar;
+
+    private List<SysMenuTreeVO> menuList;
+
+    private String token;
+
+}

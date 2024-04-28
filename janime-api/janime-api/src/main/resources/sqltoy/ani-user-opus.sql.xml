@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <sql id="ani_user_opus_listByUser">
+        <value>
+            <![CDATA[
+            select ao.cover_url,
+                   ao.name_cn,
+                   ao.name_original,
+                   auo.id,
+                   auo.read_status,
+                   auo.reading_num,
+                   auo.reading_time,
+                   auo.resource_url,
+                   auo.create_time,
+                   auo.is_share
+            from ani_user_opus auo
+                     left join ani_opus ao on auo.opus_id = ao.id
+            where auo.user_id = :loginId
+              #[and auo.read_status = :readStatus]
+              #[and auo.is_share = :isShare]
+              #[and ao.name_original like :nameOriginal]
+              #[and ao.name_cn like :nameCn]
+              and ao.is_deleted = 0
+            order by auo.id desc
+            ]]>
+        </value>
+    </sql>
+
+    <sql id="ani_user_opus_findFollowsEmail">
+        <value>
+            <![CDATA[
+            select s2.email
+            from ani_user_opus a1
+                     left join sys_user s2 on s2.id = a1.user_id
+            where a1.opus_id = :opusId
+              and s2.is_deleted = 0
+              and s2.email is not null
+            group by s2.email
+            ]]>
+        </value>
+    </sql>
+
+    <sql id="ani_user_opus_findByShares">
+        <value>
+            <![CDATA[
+            select auo.opus_id            as opusId,
+                   ao.name_cn             as opusName,
+                   ao.name_original       as opusNameOriginal,
+                   ao.ani_summary         as opusSummary,
+                   ao.detail_info_url     as detailInfoUrl,
+                   ao.delivery_week       as deliveryWeek,
+                   ao.launch_start        as launchStart,
+                   ao.cover_url           as coverUrl,
+                   su.nickname            as shareUser
+            from ani_user_opus auo
+                     left join sys_user su on (su.id = auo.user_id)
+                     left join ani_opus ao on (ao.id = auo.opus_id)
+            where auo.is_share = :isShare
+            order by auo.id desc, auo.read_status desc, ao.id desc, ao.launch_start desc
+            limit :limits
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>

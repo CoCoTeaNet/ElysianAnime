@@ -1,0 +1,147 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /v2-api
+
+
+janime:
+  # 前端访问地址
+  url:
+    web: http://127.0.0.1:8080
+  # 默认创建用户的密码
+  password: janime123456
+  # 密码加密的加盐
+  password-salt: janime@salt
+  # 开启缓存
+  permission-cache: true
+  # 是否开启系统日志保存功能
+  save-log: true
+  # 强密码，为空或者为none表示关闭
+  strong-password: none
+  # 1秒内访问服务器接口频率
+  once-visits: 30
+  # 路由放行
+  excludes: /system/file/getBackground,/anime/opus/cover,/system/login,/system/captcha,/,/favicon.ico,/css/**,/js/**,/img/**
+  # 文件存放配置
+  file:
+    # 默认文件存放位置
+    default-path: F:/Files/default/
+    # 头像保存位置
+    avatar: F:/Files/avatar/
+    # 背景存放的地址
+    background: F:/Files/background/
+    # 动漫封面保存的位置
+    animation-cover-path: F:/Files/animation-cover/
+    # 动漫资源保存位置
+    animation-path: F:/Files/animation/
+    # 禁止上传的文件
+    not-support-filetype: js,html,htm,shtml,php,css,java,sh,bat,xml
+    # 媒体格式
+    media-filetype: mp4,avi,mpg,mpeg,wmv,flv,swf,mov,mkv
+  qb:
+    # 这三项一般默认，可以不用配置
+    ok: Ok.
+    forbidden: Forbidden
+    # 分类
+    category: JAnime
+    # qb域名或者IP地址
+    domain: https://live1024.cn
+    # 账号
+    username: janime
+    # 密码
+    password: 123456
+
+
+# Sa-Token 配置
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: Authorization
+  # token有效期，单位s 默认30天, -1代表永不过期
+  timeout: 86400
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  activity-timeout: -1
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: true
+  # token风格
+  token-style: random-64
+  # 是否输出操作日志
+  is-log: false
+
+
+forest:
+  # 连接池最大连接数
+  max-connections: 1000
+  # 连接超时时间，单位为毫秒
+  connect-timeout: 60000
+  # 数据读取超时时间，单位为毫秒
+  read-timeout: 10000
+
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  datasource:
+    name: dataSource
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/janime?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
+    username: root
+    password: root
+    druid:
+      initial-size: 5
+      min-idle: 5
+      maxActive: 100
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      numTestsPerEvictionRun: 3
+      keepAlive: true
+      # 切记切记不要打开poolPreparedStatements 和设置maxOpenPreparedStatements，druid这里有bug，会报关闭的语句，让你找不到错误的原因
+      #poolPreparedStatements: false
+      #注意maxOpenPreparedStatements设置>0 就等同于设置poolPreparedStatements=true
+      #maxOpenPreparedStatements: 20
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 100000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 600000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: true
+      testOnReturn: false
+      removeAbandoned: true
+      removeAbandonedTimeout: 300
+  # redis配置
+  redis:
+    # Redis数据库索引（默认为0）
+    # database: 1
+    # Redis服务器地址
+    host: 127.0.0.1
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    # password:
+    # 连接超时时间
+    timeout: 60s
+    lettuce:
+      pool:
+        # 连接池最大连接数
+        max-active: 200
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+        # 连接池中的最大空闲连接
+        max-idle: 10
+        # 连接池中的最小空闲连接
+        min-idle: 0
+  # sqltoy框架相关配置
+  sqltoy:
+    unify-fields-handler: net.cocotea.janime.interceptor.SqlToyUnifyFieldsInterceptor
+    # 配置sql文件路径,多个用逗号分割
+    sqlResourcesDir: classpath:sqltoy
+    # 默认为false，debug模式将打印执行sql,并自动检测sql文件更新并重新加载
+    debug: false
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB

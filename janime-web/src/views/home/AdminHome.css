@@ -1,0 +1,184 @@
+.a-h-card-top-upper,
+.a-h-card,
+.a-h-card-top,
+.a-h-card-top-upper-hover {
+    position: relative;
+    box-sizing: border-box;
+}
+
+
+.a-home-title {
+    border-left: 5px var(--el-color-primary) solid;
+    background-color: rgba(250, 250, 250, 0.06);
+    color: var(--el-color-primary);
+    padding: 6px 16px;
+    margin-bottom: 16px;
+    opacity: 0.8;
+}
+
+.a-home-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 0;
+}
+
+.a-h-card {
+    width: calc(100% / 8);
+    padding: 0 3px 16px 3px;
+}
+
+/* a-h-card 图片部分  */
+.a-h-card-top {
+    overflow: hidden;
+    box-shadow: var(--el-box-shadow-light);
+    box-sizing: border-box;
+    transition: var(--el-transition-duration);
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.a-h-card.downloaded .a-h-card-top {
+//box-shadow: 0 0 10px #ffab62;
+}
+
+.a-h-card-lazy-load {
+    background-repeat: no-repeat;
+    background-size: cover ;
+    background-position: center;
+    padding-bottom: 150%;
+    background-color: #8c939d;
+}
+
+.a-h-card-top-upper {
+    cursor: pointer;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    padding: 12px 16px;
+    bottom: 0;
+    transition: 0.1s;
+}
+
+.a-h-card-top-upper-info {
+    display: flex;
+    background: #0000009e;
+    border-radius: 1em;
+}
+
+.a-h-card:hover .a-h-card-top-upper-info {
+    opacity: 0%;
+}
+
+.a-h-card-top-upper-hover {
+    transition: 0.3s;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 12px;
+    top: 0;
+    left: 0;
+    opacity: 0%;
+}
+
+.a-h-card:hover .a-h-card-top-upper {
+    background: linear-gradient(0deg, #333333, transparent);
+}
+
+.a-h-card:hover .a-h-card-top-upper-hover {
+    opacity: 100%;
+    z-index: 20;
+}
+
+.a-h-card-top-upper-hover .playbtn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    opacity: 0.9;
+    transform: translate(-50%, -50%);
+}
+
+.a-h-card-top-upper-hover .likebtn {
+    position: absolute;
+    bottom: 0;
+}
+
+/* a-h-card 播放信息  */
+.a-h-card-top-upper .playinfo {
+    color: #eee;
+}
+
+.a-tcb-infogroup p {
+    cursor: pointer;
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.15rem;
+    font-weight: 400;
+}
+
+.a-home-cata-filter div {
+    display: flex;
+    width: 100%;
+}
+
+.a-tcb-info-name {
+    display: -webkit-box;
+    white-space: wrap;
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-clamp: 1;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.a-home-cata-filter {
+    width: 5rem;
+}
+
+/* 平板横屏，小笔记本屏幕 */
+@media screen and (max-width: 1439px) {
+    .a-h-card {
+        width: calc(100% / 7);
+    }
+}
+
+/* 手机横屏、平板竖屏 */
+@media screen and (max-width: 1023px) {
+    .a-h-card {
+        width: calc(100% / 4);
+    }
+
+    .a-home-title,
+    .a-home-cata-filter,
+    .a-home-container {
+        width: 100%;
+        margin: 1em auto;
+    }
+
+    .a-home-title {
+        border-left: 5px #ffaa60 solid;
+        padding: 0 16px;
+        margin-top: 32px;
+        margin-bottom: 16px;
+    }
+}
+
+/* 手机竖屏 */
+@media screen and (max-width: 767px) {
+    .a-h-card {
+        width: calc(100% / 3);
+    }
+
+    .playbtn {
+        display: none;
+    }
+
+    .a-home-cata-filter {
+        font-size: 1rem;
+    }
+
+}
