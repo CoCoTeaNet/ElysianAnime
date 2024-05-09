@@ -1,6 +1,7 @@
 package net.cocotea.janime.api.anime.service.impl;
 
-import cn.hutool.http.HttpUtil;
+import cn.hutool.core.io.FileUtil;
+import com.dtflys.forest.Forest;
 import com.sagframe.sagacity.sqltoy.plus.conditions.Wrappers;
 import com.sagframe.sagacity.sqltoy.plus.conditions.query.LambdaQueryWrapper;
 import com.sagframe.sagacity.sqltoy.plus.dao.SqlToyHelperDao;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +61,7 @@ public class AniSpiderServiceImpl implements AniSpiderService {
                 .eq(AniOpus::getIsDeleted, IsEnum.N.getCode());
         AniOpus existOpus = sqlToyHelperDao.findOne(wrapper);
         // 解析HTML
-        String html = HttpUtil.get(bgmUrl);
+        String html = Forest.get(bgmUrl).executeAsString();
         List<AniTag> aniTagList = new ArrayList<>();
         AniOpus aniOpus = doParseHtmlToAcgOpus(html, aniTagList);
         aniOpus.setDetailInfoUrl(detailUrl);
@@ -153,11 +155,17 @@ public class AniSpiderServiceImpl implements AniSpiderService {
             } else {
                 fullUrl.append(domain).append(coverUrl);
             }
-            HttpUtil.downloadFile(fullUrl.toString(), fileProp.getAnimationCoverSavePath());
             // 获取封面的文件名
             String[] split = coverUrl.split("/");
             String fileName = split[split.length - 1];
             aniOpus.setCoverUrl(fileName);
+            // 封面保存目录
+            File file = FileUtil.file(fileProp.getAnimationCoverSavePath());
+            if (file.exists()) {
+                Forest.get(fullUrl.toString()).async().setDownloadFile(file.getPath(), fileName).execute();
+            } else {
+                logger.warn("doParseHtmlToAcgOpus >>>>> coverUrl={}, fileDir={}", fullUrl, file.getPath());
+            }
         }
         return aniOpus;
     }
