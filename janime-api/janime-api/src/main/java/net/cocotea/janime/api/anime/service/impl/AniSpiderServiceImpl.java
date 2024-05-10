@@ -1,6 +1,7 @@
 package net.cocotea.janime.api.anime.service.impl;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.thread.ThreadUtil;
 import com.dtflys.forest.Forest;
 import com.sagframe.sagacity.sqltoy.plus.conditions.Wrappers;
 import com.sagframe.sagacity.sqltoy.plus.conditions.query.LambdaQueryWrapper;
@@ -162,7 +163,7 @@ public class AniSpiderServiceImpl implements AniSpiderService {
             // 封面保存目录
             File file = FileUtil.file(fileProp.getAnimationCoverSavePath());
             if (file.exists()) {
-                Forest.get(fullUrl.toString()).async().setDownloadFile(file.getPath(), fileName).execute();
+                ThreadUtil.execAsync(() -> Forest.get(fullUrl.toString()).setDownloadFile(file.getPath(), fileName).execute());
             } else {
                 logger.warn("doParseHtmlToAcgOpus >>>>> coverUrl={}, fileDir={}", fullUrl, file.getPath());
             }
