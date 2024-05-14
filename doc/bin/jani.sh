@@ -1,6 +1,6 @@
 #!/bin/bash
 #这里可替换为你自己的执行程序，其他代码无需更改
-APP_NAME=sra-bootstrap-1.1.1.jar
+APP_NAME=JAnime.jar
 
 #使用说明，用来提示输入参数
 usage() {
@@ -25,7 +25,7 @@ start(){
   if [ $? -eq "0" ]; then
     echo "${APP_NAME} is already running. pid=${pid} ."
   else
-    nohup java -jar /home/lighthouse/server/spring-boot/$APP_NAME > /home/lighthouse/server/spring-boot/log.log 2>&1 &
+    nohup java -jar $APP_NAME > ./logs/log.log 2>&1 &
     echo "${APP_NAME} start success"
   fi
 }
