@@ -1,5 +1,6 @@
 package net.cocotea.janime.api.anime.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import com.alibaba.fastjson.JSONObject;
 import com.sagframe.sagacity.sqltoy.plus.conditions.Wrappers;
@@ -21,6 +22,7 @@ import net.cocotea.janime.common.enums.IsEnum;
 import net.cocotea.janime.common.enums.ReadStatusEnum;
 import net.cocotea.janime.common.model.ApiPage;
 import net.cocotea.janime.common.model.BusinessException;
+import net.cocotea.janime.properties.DefaultProp;
 import net.cocotea.janime.util.LoginUtils;
 import org.sagacity.sqltoy.model.Page;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,9 @@ import static java.util.stream.Collectors.groupingBy;
 public class AniUserOpusServiceImpl implements AniUserOpusService {
 
     @Resource
+    private DefaultProp defaultProp;
+
+    @Resource
     private SqlToyHelperDao sqlToyHelperDao;
 
     @Resource
@@ -69,7 +74,7 @@ public class AniUserOpusServiceImpl implements AniUserOpusService {
 
     @Override
     public boolean update(AniUserOpusUpdateDTO updateDTO) {
-        AniUserOpus aniUserOpus = Convert.convert(AniUserOpus.class, updateDTO);
+        AniUserOpus aniUserOpus = BeanUtil.copyProperties(updateDTO, AniUserOpus.class);
         long count = sqlToyHelperDao.update(aniUserOpus);
         return count > 0;
     }
@@ -126,6 +131,19 @@ public class AniUserOpusServiceImpl implements AniUserOpusService {
 
     @Override
     public boolean updateProgress(AniUserOpusUpdateDTO updateDTO) {
+        Long readingTime = updateDTO.getReadingTime();
+        Long autoReadingTime = defaultProp.getAutoReadingTime();
+        // 根据观看时长自动更新观看状态
+        if (readingTime != null && autoReadingTime != null) {
+            if (readingTime >= autoReadingTime) {
+                BigInteger id = updateDTO.getId();
+                AniUserOpus userOpus = sqlToyHelperDao.load(new AniUserOpus().setId(id));
+                Integer readStatus = userOpus.getReadStatus();
+                if (readStatus == ReadStatusEnum.NOT_READ.getCode().intValue()) {
+                    updateDTO.setReadStatus(ReadStatusEnum.READING.getCode());
+                }
+            }
+        }
         return update(updateDTO);
     }
 

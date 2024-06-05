@@ -22,6 +22,8 @@ janime:
   once-visits: 30
   # 路由放行
   excludes: /system/file/getBackground,/anime/opus/cover,/system/login,/system/captcha,/,/favicon.ico,/css/**,/js/**,/img/**
+  # 观看到某个时长时，自动更新观看状态为'在看' (单位秒)
+  auto-reading-time: 180
   # 文件存放配置
   file:
     # 默认文件存放位置

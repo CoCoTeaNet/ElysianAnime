@@ -64,4 +64,10 @@ public class DefaultProp {
     @Value("${janime.excludes}")
     private String excludes;
 
+    /**
+     * 观看到某个时长时，自动更新观看状态为'在看' (单位秒)
+     */
+    @Value("${janime.auto-reading-time}")
+    private Long autoReadingTime;
+
 }

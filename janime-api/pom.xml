@@ -7,7 +7,7 @@
     <groupId>net.cocotea</groupId>
     <artifactId>janime</artifactId>
     <packaging>pom</packaging>
-    <version>2.0_20240509</version>
+    <version>2.0_20240605</version>
 
     <modules>
         <module>janime-api</module>
@@ -18,7 +18,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <!-- 内部模块版本 -->
-        <janime.version>2.0_20240509</janime.version>
+        <janime.version>2.0_20240605</janime.version>
         <!-- 插件版本 -->
         <lombok.version>1.18.28</lombok.version>
         <!-- 外部框架版本 -->
