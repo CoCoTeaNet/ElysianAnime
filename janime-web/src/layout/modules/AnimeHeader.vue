@@ -103,8 +103,7 @@
               </p>
               <el-button class="a-h-u-btn" text @click="clickToGo('UserCenterView')">个人中心</el-button>
               <el-button class="a-h-u-btn" text @click="clickToGo('SysFileView')">NAS个人云盘</el-button>
-              <el-button class="a-h-u-btn" text @click="clickToIssues(false)">我要提意见</el-button>
-              <el-button class="a-h-u-btn" text @click="clickToIssues(true)">成为观察员</el-button>
+              <el-button class="a-h-u-btn" text @click="clickToIssues">我要提意见</el-button>
               <el-divider style="margin: 0"/>
               <el-button class="a-h-u-btn" text @click="doLogout">退出登录</el-button>
             </div>
@@ -166,13 +165,9 @@ const onBackup = () => {
   router.back();
 }
 
-// 成为观察者或者提意见
-const clickToIssues = (flag: boolean) => {
-  let url = "https://gitee.com/momoljw/my-acg/issues";
-  if (flag) {
-    url = 'https://gitee.com/momoljw/my-acg/invite_link?invite=830f5193479f459b07d143ab510cc37efafce2f752a98effb7993663152babc58f7fb7bafa61197203eac9232b9ccfc5';
-  }
-  window.open(url, "_blank");
+// 提意见
+const clickToIssues = () => {
+  window.open("https://github.com/CoCoTeaNet/janime/issues", "_blank");
 }
 
 // 获取通知列表
