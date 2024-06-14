@@ -27,12 +27,6 @@
         <dependency>
             <groupId>com.sagframe</groupId>
             <artifactId>sagacity-sqltoy-starter</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-core</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.sagframe</groupId>
