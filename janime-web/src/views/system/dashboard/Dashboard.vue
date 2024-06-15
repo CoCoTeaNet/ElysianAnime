@@ -16,7 +16,20 @@
     <el-row style="margin-top: 1em">
       <el-col>
         <el-card shadow="never">
-          <div id="dashboardPieId" style="height: 300px"></div>
+          <el-descriptions title="CPU使用情况" direction="vertical" :column="4" border>
+            <el-descriptions-item label="CPU核心数">
+              {{ systemInfo.data.cpuCount }}
+            </el-descriptions-item>
+            <el-descriptions-item label="CPU系统使用率">
+              {{ systemInfo.data.cpuSystemUsed }}%
+            </el-descriptions-item>
+            <el-descriptions-item label="CPU用户使用率">
+              {{ systemInfo.data.cpuUserUsed }}%
+            </el-descriptions-item>
+            <el-descriptions-item label="CPU空闲率">
+              {{ systemInfo.data.cpuFree }}%
+            </el-descriptions-item>
+          </el-descriptions>
         </el-card>
       </el-col>
     </el-row>
@@ -68,14 +81,13 @@
 </template>
 
 <script setup lang="ts">
-import * as echarts from "echarts";
-import {nextTick, onMounted, reactive, ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import {getSystemInfo, getCount} from "@/api/system/sys-dashboard-api";
 import {reqCommonFeedback} from "@/api/ApiFeedback";
 import unitUtil from "@/utils/unit-util";
 
 // 系统信息
-const systemInfo = reactive<any>({data: {}});
+const systemInfo = reactive<any>({data: {cpuCount:0, cpuSystemUsed:0, cpuUserUsed:0, cpuFree:0}});
 
 // 表单统计
 const countList = ref<any[]>([]);
@@ -91,7 +103,6 @@ onMounted(() => {
 const initSystemInfo = () => {
   reqCommonFeedback(getSystemInfo(), (systemModel: SystemModel) => {
     systemInfo.data = systemModel;
-    nextTick(() => initPie(systemModel));
   });
 }
 
@@ -102,44 +113,6 @@ const initCount = () => {
   reqCommonFeedback(getCount(), (data: any) => {
     countList.value = data;
   });
-}
-
-/**
- * 初始化饼状图
- * @param systemModel
- */
-const initPie = (systemModel: SystemModel): void => {
-  let htmlElement = document.getElementById("dashboardPieId") as HTMLElement;
-  if (htmlElement) {
-    let myChart = echarts.getInstanceByDom(htmlElement);
-    if (myChart === undefined) {
-      myChart = echarts.init(htmlElement);
-    }
-    let option = {
-      title: {text: 'CPU使用情况', subtext: `CPU核心数: ${systemModel.cpuCount}`, left: 'center'},
-      tooltip: {trigger: 'item', formatter: '{b} : {c} %'},
-      legend: {orient: 'vertical', left: 'left'},
-      series: [
-        {
-          type: 'pie',
-          radius: '50%',
-          data: [
-            {value: systemModel.cpuSystemUsed, name: 'CPU系统使用率'},
-            {value: systemModel.cpuUserUsed, name: 'CPU用户使用率'},
-            {value: systemModel.cpuFree, name: 'CPU空闲率'}
-          ],
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: "rgba(0, 0, 0, 0.5)"
-            }
-          }
-        }
-      ]
-    };
-    option && myChart.setOption(option);
-  }
 }
 </script>
 

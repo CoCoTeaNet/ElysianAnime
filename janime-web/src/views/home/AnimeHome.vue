@@ -127,8 +127,7 @@ import userOpusApi from "@/api/anime/ani-user-opus-api";
 import {reqCommonFeedback} from "@/api/ApiFeedback";
 import {Search, VideoPlay} from "@element-plus/icons-vue";
 import {useRoute, useRouter} from "vue-router";
-import {ElMessage, ElMessageBox} from 'element-plus'
-import type {Action} from 'element-plus'
+import {ElMessage} from 'element-plus'
 import MultSelection from "@/views/home/modules/MultipleConditionsSearch.vue";
 
 const route = useRoute();
@@ -214,7 +213,7 @@ const onSizeChange = (size: number) => {
 };
 
 const onOpenDetail = (url: string) => {
-  window.open(`https://bgm.tv/${url}`, "_blank");
+  window.open(`https://bgm.tv${url}`, "_blank");
 };
 
 const onFollowOpus = (id: string) => {

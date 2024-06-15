@@ -6,7 +6,8 @@
     <sql id="ani_opus_listByUser">
         <value>
             <![CDATA[
-            select ao.*, auo.read_status, auo.reading_time, auo.reading_num, auo.user_id
+            select ao.id, ao.name_original, ao.name_cn, ao.cover_url, ao.detail_info_url, ao.episodes, ao.launch_start, ao.delivery_week, ao.ani_summary, ao.has_resource, ao.rss_url, ao.rss_status, ao.rss_level_index, ao.rss_file_type, ao.rss_only_mark, ao.rss_exclude_res,
+                   auo.read_status, auo.reading_time, auo.reading_num, auo.user_id
             from ani_opus ao
                      left join ani_user_opus auo on (auo.opus_id = ao.id and auo.user_id = :loginId)
             where ao.is_deleted = 0

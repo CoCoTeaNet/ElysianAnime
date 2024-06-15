@@ -1,5 +1,6 @@
 package net.cocotea.janime.api.anime.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
@@ -141,8 +142,8 @@ public class AniOpusServiceImpl implements AniOpusService {
             }
         }
         // 作品主表查询
-        JSONObject mapDTO = Convert.convert(JSONObject.class, homeDTO);
-        mapDTO.fluentPut("loginId", loginId);
+        Map<String, Object> mapDTO = BeanUtil.beanToMap(homeDTO);
+        mapDTO.put("loginId", loginId);
         Page<AniOpusHomeVO> page = sqlToyHelperDao.findPageBySql(homeDTO, "ani_opus_listByUser", mapDTO, AniOpusHomeVO.class);
         return ApiPage.rest(page);
     }
