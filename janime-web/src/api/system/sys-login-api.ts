@@ -1,12 +1,8 @@
-import {request} from '@/utils/axios-util';
+import {get, request} from '@/utils/axios-util';
 
-/**
- * 获取验证码
- */
-export function getCaptcha(data: any) {
-    return request('system/captcha', data, 'POST');
+export function getCaptcha(data: number) {
+    return request(`system/captcha?timestamp=${data}`, {}, get);
 }
-
 
 /**
  * 用户登录

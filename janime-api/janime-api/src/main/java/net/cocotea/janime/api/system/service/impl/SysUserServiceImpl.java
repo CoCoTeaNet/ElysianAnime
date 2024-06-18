@@ -20,7 +20,6 @@ import net.cocotea.janime.api.system.service.SysLogService;
 import net.cocotea.janime.api.system.service.SysMenuService;
 import net.cocotea.janime.api.system.service.SysRoleService;
 import net.cocotea.janime.api.system.service.SysUserService;
-import net.cocotea.janime.common.constant.CommonConst;
 import net.cocotea.janime.common.constant.RedisKeyConst;
 import net.cocotea.janime.common.enums.IsEnum;
 import net.cocotea.janime.common.enums.LogTypeEnum;
@@ -161,7 +160,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Transactional(rollbackFor = BusinessException.class)
     @Override
-    public void login(SysLoginDTO loginDTO, HttpServletRequest request) throws BusinessException {
+    public String login(SysLoginDTO loginDTO, HttpServletRequest request) throws BusinessException {
         SysUser sysUser;
         // 强密码，为空或者为none表示关闭
         boolean closeStrongPwd = true;
@@ -174,9 +173,11 @@ public class SysUserServiceImpl implements SysUserService {
                 .select(SysUser::getId).select(SysUser::getNickname).select(SysUser::getAvatar)
                 .eq(SysUser::getUsername, loginDTO.getUsername())
                 .eq(SysUser::getIsDeleted, IsEnum.N.getCode());
+        // 验证码缓存键
+        String key = null;
         if (closeStrongPwd) {
             // 校验验证码
-            String key = String.format(RedisKeyConst.VERIFY_CODE, CommonConst.LOGIN, IpUtils.getIp(request));
+            key = String.format(RedisKeyConst.VERIFY_CODE_LOGIN, loginDTO.getCaptchaId());
             String code = redisService.get(key);
             if (!loginDTO.getCaptcha().equals(code)) {
                 throw new BusinessException("验证码错误");
@@ -204,6 +205,11 @@ public class SysUserServiceImpl implements SysUserService {
         sqlToyLazyDao.update(loginSysUser);
         // 保存登录日志
         sysLogService.saveByLogType(LogTypeEnum.LOGIN.getCode(), request);
+        // 删除缓存
+        if (StrUtil.isNotBlank(key)) {
+            redisService.delete(key);
+        }
+        return StpUtil.getTokenValue();
     }
 
     @Override
