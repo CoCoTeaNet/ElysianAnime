@@ -21,13 +21,16 @@ export function reqFeedback(apiFn: any, successMsg: string, errorMsg: string, su
             successCallback(res.data);
         } else if (res.code === ApiResultEnum.NOT_LOGIN || res.code === ApiResultEnum.TOKEN_INVALID) {
             if (isLostSession) {
-                router.push({name: 'Login'}).then(r => ElMessage({
-                    message: res.message,
-                    type: 'warning',
-                }));
+                router.push({name: 'Login'}).then((r: any) => {
+                    ElMessage({
+                        message: res.message,
+                        type: 'warning',
+                    });
+                    isLostSession = true;
+                });
+                isLostSession = false;
                 // 清除本地用户信息
                 localStorage.removeItem("userInfo");
-                isLostSession = false;
             }
         } else {
             if (errorMsg) {
