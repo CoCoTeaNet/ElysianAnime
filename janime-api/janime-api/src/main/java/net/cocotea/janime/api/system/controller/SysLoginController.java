@@ -56,6 +56,9 @@ public class SysLoginController {
         // 获取缓存密钥对
         String key = String.format(RedisKeyConst.SM2_KEY_LOGIN, loginDTO.getPublicKey());
         String privateKey = redisService.get(key);
+        if (StrUtil.isBlank(privateKey)) {
+            throw new BusinessException("验证码已过期");
+        }
         // 对密码解密操作
         SM2 sm2 = SmUtil.sm2(privateKey, loginDTO.getPublicKey());
         String decryptPassword = StrUtil.utf8Str(sm2.decrypt(loginDTO.getPassword(), KeyType.PrivateKey));
