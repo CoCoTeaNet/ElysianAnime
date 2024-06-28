@@ -50,16 +50,16 @@
 </template>
 
 <script setup lang="ts">
-import {ref, reactive, onMounted} from "vue";
+import {ref, reactive, onMounted, nextTick} from "vue";
 import type {ElForm} from 'element-plus';
 import {UserFilled, Lock, Connection} from "@element-plus/icons-vue";
 import {getCaptcha, login} from "@/api/system/sys-login-api";
 import {ElMessage} from "element-plus";
-import {setUserInfo} from "@/store";
 import {useRouter, useRoute} from "vue-router";
 import 'element-plus/theme-chalk/display.css'
 import {ApiResultEnum} from "@/api/ApiResultEnum";
 
+const sm2 = require('sm-crypto').sm2;
 const router = useRouter();
 const route = useRoute();
 
@@ -77,6 +77,8 @@ const loginForm = reactive({
   username: '',
   password: '',
   captcha: '',
+  captchaId: '', // 验证码ID
+  publicKey: [], // 公钥
   rememberMe: true
 });
 
@@ -95,9 +97,12 @@ onMounted(() => {
  * 获取验证码
  */
 const getVerifyCodeImage = () => {
-  getCaptcha({codeType: "LOGIN"}).then((res: any) => {
+  let timestamp = new Date().getTime();
+  getCaptcha(timestamp).then((res: any) => {
     if (res.code === ApiResultEnum.SUCCESS) {
-      captcha.value = `data:image/jpeg;base64,${res.data}`;
+      captcha.value = `data:image/jpeg;base64,${res.data.imgBase64}`;
+      loginForm.captchaId = res.data.captchaId;
+      loginForm.publicKey = res.data.publicKey;
     }
   });
 }
@@ -111,20 +116,29 @@ const submitForm = (formEl: FormInstance | undefined) => {
   formEl.validate((valid: any) => {
     if (valid) {
       loading.value = true;
-      login(loginForm).then((res: any) => {
-        if (res.code === ApiResultEnum.SUCCESS) {
-          if (route.query.redirect) {
+
+      // see https://github.com/JuneAndGreen/sm-crypto/issues/72
+      let encPassword = '04' + sm2.doEncrypt(loginForm.password, loginForm.publicKey);
+      let loginParams = {password: ''};
+      Object.assign(loginParams, loginForm);
+      loginParams.password = encPassword;
+
+      nextTick(() => {
+        login(loginParams).then((res: any) => {
+          if (res.code === ApiResultEnum.SUCCESS) {
             if (route.query.redirect) {
-              router.push({name: route.query.redirect + ''});
+              if (route.query.redirect) {
+                router.push({name: route.query.redirect + ''});
+              }
+            } else {
+              router.push({name: 'AnimeHome'});
             }
           } else {
-            router.push({name: 'AnimeHome'});
+            ElMessage.error(!res.data ? res.message : res.data);
+            getVerifyCodeImage();
           }
-        } else {
-          ElMessage.error(!res.data ? res.message : res.data);
-          getVerifyCodeImage();
-        }
-        loading.value = false;
+          loading.value = false;
+        });
       });
     } else {
       console.log('error submit!');

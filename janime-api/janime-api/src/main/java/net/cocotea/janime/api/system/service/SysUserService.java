@@ -30,7 +30,7 @@ public interface SysUserService extends DetailService<ApiPage<SysUserVO>, SysUse
      * @return token
      * @throws BusinessException 业务异常
      */
-    void login(SysLoginDTO param, HttpServletRequest request) throws BusinessException;
+    String login(SysLoginDTO param, HttpServletRequest request) throws BusinessException;
 
     /**
      * 用户获取个人详细信息

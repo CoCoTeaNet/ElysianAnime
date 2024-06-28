@@ -6,13 +6,14 @@
         <h2 class="a-video-title">
           {{ videoInfo.nameCn }} 第{{ currentNum }}集
         </h2>
-        <div ref="videoRef" class="player"/>
+        <div id="dplayer" class="player"/>
       </div>
       <!--番剧信息-->
       <el-card shadow="hover" class="a-video-info-card-wrap no-border-card">
         <div class="a-video-info-card">
           <div style="width: 200px">
             <el-image
+                v-if="videoInfo.coverUrl"
                 :src="`api/anime/opus/cover?resName=${videoInfo.coverUrl}`"
                 :alt="videoInfo.nameCn"
                 style="width: 200px"
@@ -156,7 +157,7 @@
 </template>
 
 <script lang="ts" setup>
-import {onMounted, onUnmounted, ref, watch} from "vue";
+import {nextTick, onMounted, onUnmounted, ref, watch} from "vue";
 import {getOpusMedia} from "@/api/anime/ani-opus-api";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import {useRoute} from "vue-router";
@@ -169,12 +170,11 @@ import {Star} from "@element-plus/icons-vue";
 import formatUtil from "@/utils/format-util";
 
 const route = useRoute();
-const videoRef = ref();
 
 const loading = ref<boolean>(true);
 const videoInfo = ref<any>({readingTime: 0, isFollow: 0});
 const mediaList = ref<any[]>([]);
-const player = ref<Dplayer>();
+const player = ref<Dplayer>(null);
 const currentNum = ref<any>('0');
 const editForm = ref<AcgUserOpusModel>({});
 const epListNewStyle = ref<boolean>(true);
@@ -184,6 +184,21 @@ const init = () => {
     videoInfo.value.id = route.params.id;
     currentNum.value = route.params.num;
     videoInfo.value.readingTime = route.params.time;
+  }
+
+  // 创建h5播放器
+  if (!player.value) {
+    let dplayer = new Dplayer({
+      autoplay: false,
+      container: document.getElementById('dplayer'),
+      video: {
+        type: 'auto'
+      }
+    });
+    dplayer.on('loadeddata', function () {
+      dplayer.play();
+    });
+    player.value = dplayer;
   }
 }
 
@@ -196,7 +211,8 @@ watch(
 
 onMounted(() => {
   init();
-  loadData();
+  nextTick(() => loadData());
+
   // 定时更新当前播放进度
   setInterval(() => {
     if (!player.value.video.paused && videoInfo.value.userOpusId > 0) {
@@ -226,14 +242,7 @@ const loadData = (): void => {
     videoInfo.value = data;
     mediaList.value = data.mediaList;
     editForm.value.readStatus = data.readStatus;
-    // 创建h5播放器
-    player.value = new Dplayer({
-      autoplay: true,
-      container: videoRef.value,
-      video: {
-        type: 'auto'
-      }
-    });
+
     if (!route.params.num && data.readingNum <= 0) {
       // 默认播放集数
       currentNum.value = data.mediaList[0].episodes;
@@ -251,6 +260,7 @@ const loadData = (): void => {
         epListNewStyle.value = false;
       }
     }
+
     // 历史播放进度
     player.value.seek(data.readingTime);
   });
@@ -264,7 +274,7 @@ const doSwitchPlay = (item: any) => {
   });
   player.value.switchVideo({url: getMediaUrl(videoInfo.value.id, item.episodes, item.mediaType)});
   // 切换进度
-  player.value.seek(1);
+  player.value.seek(0);
   // 显示当前播放集数
   currentNum.value = item.episodes;
   // 更新当前播放集数
@@ -302,7 +312,7 @@ const doUpdateReadStatus = (): void => {
 };
 
 const onOpenDetail = (url: string) => {
-  window.open(`https://bgm.tv/${url}`, "_blank");
+  window.open(`https://bgm.tv${url}`, "_blank");
 };
 
 </script>

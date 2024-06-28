@@ -1,12 +1,13 @@
 <template>
-  <el-menu :default-active="menuState.defaultActive"
+  <el-menu class="new-el-menu--sidebar"
+           :default-active="menuState.defaultActive"
            :default-openeds="menuState.defaultOpened"
            :collapse="store.state.isCollapseMenu"
            :unique-opened="true">
     <!-- LOGO -->
     <div v-if="!store.state.isCollapseMenu" class="logo">
       <img :src="require('@/assets/svg-source/logo.svg')" style="width: 36px;margin-right: 3px" alt="login-logo">
-      <h2>JAnime</h2>
+      <h3>JAnime</h3>
     </div>
     <div v-else style="width: 100%;cursor: pointer;display: flex;justify-content: center;margin-top: 1em">
       <img :src="require('@/assets/svg-source/logo.svg')" style="width: 36px" alt="logo">
@@ -78,9 +79,13 @@ const dfs = (root: MenuModel, path: string, stack: Array<string>) => {
 <style scoped lang="css">
 .logo {
   display: flex;
-  justify-content: center;
   align-items: center;
   color: rgb(55, 76, 82);
-  padding: 1em 2em 1em 1.5em;
+  padding: 0.5em 0 0.5em 1em;
+}
+
+/* 解决侧边栏折叠卡顿的问题 */
+.new-el-menu--sidebar:not(.el-menu--collapse) {
+  width: 220px;
 }
 </style>

@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -19,7 +20,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -30,6 +30,7 @@ import java.util.Objects;
  */
 @RestControllerAdvice
 public class GlobalExceptionInterceptor {
+
     private final Logger logger = LoggerFactory.getLogger(GlobalExceptionInterceptor.class);
 
     @Resource
@@ -89,14 +90,17 @@ public class GlobalExceptionInterceptor {
         return ApiResult.error(ApiResultEnum.NOT_PERMISSION.getCode(), ApiResultEnum.NOT_PERMISSION.getDesc());
     }
 
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ApiResult<?> handlerMissingServletRequestParameterException(MissingServletRequestParameterException ex) {
+        logger.error(">>>>> 参数缺失异常: {}", ex.getMessage());
+        return ApiResult.error(ApiResultEnum.MISSING_REQUEST_PARAMETER.getCode(), ApiResultEnum.MISSING_REQUEST_PARAMETER.getDesc());
+    }
+
     private void saveLog() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (requestAttributes != null) {
             HttpServletRequest request = requestAttributes.getRequest();
-            logger.info("-------------------------异常日志打印");
-            logger.info("请求IP：" + request.getRemoteAddr());
-            logger.info("请求地址：" + request.getRequestURL().toString());
-            logger.info("请求方式：" + request.getMethod());
+            logger.info("saveLog >>>>> 异常日志打印，请求IP：{},请求地址：{},请求方式：{}", request.getRemoteAddr(), request.getRequestURL().toString(), request.getMethod());
             // 保存登录日志与操作日志,如果没有登录不去保存
             sysLogService.saveErrorLog(request);
         } else {

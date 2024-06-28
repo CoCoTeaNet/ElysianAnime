@@ -40,7 +40,11 @@ public enum ApiResultEnum {
     /**
      * token失效
      */
-    TOKEN_INVALID(4003, "TOKEN失效")
+    TOKEN_INVALID(4003, "TOKEN失效"),
+    /**
+     * 参数缺失异常
+     */
+    MISSING_REQUEST_PARAMETER(3001, "参数缺失异常")
     ;
     final Integer code;
     final String desc;
