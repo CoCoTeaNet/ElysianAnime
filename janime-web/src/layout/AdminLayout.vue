@@ -42,7 +42,7 @@ const store = useStore();
 }
 
 .slide-fade-enter, .slide-fade-leave-to {
-  transform: translateX(10px);
+  transform: translateX(74px);
   opacity: 0;
 }
 </style>
