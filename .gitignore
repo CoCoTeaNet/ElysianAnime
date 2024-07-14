@@ -29,3 +29,6 @@ hs_err_pid*
 
 /janime-api/src/main/resources/static/doc/
 *.smart-doc-dependency.json
+
+components.d.ts
+auto-imports.d.ts
