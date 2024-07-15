@@ -2,8 +2,6 @@ package net.cocotea.janime.api.system.model.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.sagacity.sqltoy.config.annotation.Column;
-import org.sagacity.sqltoy.config.annotation.Id;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -18,11 +16,39 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 public class SysLogAddDTO {
 
+    /**
+     * ip地址
+     */
     private String ipAddress;
+
+    /**
+     * 操作人ID
+     */
     private BigInteger operator;
+
+    /**
+     * 请求方式
+     */
     private String requestWay;
+
+    /**
+     * 日志状态
+     */
     private Integer logStatus;
+
+    /**
+     * 日志类型：{@link net.cocotea.janime.common.enums.LogTypeEnum}
+     */
     private Integer logType;
+
+    /**
+     *  接口路径
+     */
+    private String apiPath;
+
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
 }

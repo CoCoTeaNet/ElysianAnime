@@ -104,7 +104,7 @@ public class GlobalExceptionInterceptor {
             // 保存登录日志与操作日志,如果没有登录不去保存
             sysLogService.saveErrorLog(request);
         } else {
-            logger.error("ServletRequestAttributes is null");
+            logger.error("saveLog >>>>> ServletRequestAttributes is null");
         }
     }
 }

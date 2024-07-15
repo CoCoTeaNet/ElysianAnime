@@ -8,6 +8,7 @@ import net.cocotea.janime.api.system.model.dto.SysRoleUpdateDTO;
 import net.cocotea.janime.api.system.model.vo.SysRoleMenuVO;
 import net.cocotea.janime.api.system.model.vo.SysRoleVO;
 import net.cocotea.janime.api.system.service.SysRoleService;
+import net.cocotea.janime.common.annotation.LogPersistence;
 import net.cocotea.janime.common.model.ApiPage;
 import net.cocotea.janime.common.model.ApiResult;
 import net.cocotea.janime.common.model.BusinessException;
@@ -25,6 +26,7 @@ public class SysRoleController {
     @Resource
     private SysRoleService sysRoleService;
 
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/add")
     public ApiResult<?> add(@Valid @RequestBody SysRoleAddDTO param) throws BusinessException {
@@ -32,6 +34,7 @@ public class SysRoleController {
         return ApiResult.flag(b);
     }
 
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/update")
     public ApiResult<?> update(@Valid @RequestBody SysRoleUpdateDTO param) throws BusinessException {
@@ -39,6 +42,7 @@ public class SysRoleController {
         return ApiResult.flag(b);
     }
 
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/delete/{id}")
     public ApiResult<?> delete(@PathVariable BigInteger id) throws BusinessException {
@@ -46,6 +50,7 @@ public class SysRoleController {
         return ApiResult.flag(b);
     }
 
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/deleteBatch")
     public ApiResult<?> deleteBatch(@RequestBody List<BigInteger> idList) throws BusinessException {
@@ -53,6 +58,7 @@ public class SysRoleController {
         return ApiResult.flag(b);
     }
 
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/grantPermissionsByRoleId")
     public ApiResult<?> grantPermissionsByRoleId(@Valid @RequestBody List<SysRoleMenuVO> param) throws BusinessException {

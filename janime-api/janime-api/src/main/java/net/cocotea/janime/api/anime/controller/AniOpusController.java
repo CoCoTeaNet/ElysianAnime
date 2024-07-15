@@ -13,6 +13,7 @@ import net.cocotea.janime.api.anime.model.vo.AniOpusVO;
 import net.cocotea.janime.api.anime.model.vo.AniUserOpusVO;
 import net.cocotea.janime.api.anime.service.AniOpusService;
 import net.cocotea.janime.api.anime.service.AniSpiderService;
+import net.cocotea.janime.common.annotation.LogPersistence;
 import net.cocotea.janime.common.enums.ReadStatusEnum;
 import net.cocotea.janime.common.model.ApiPage;
 import net.cocotea.janime.common.model.ApiResult;
@@ -51,6 +52,7 @@ public class AniOpusController {
      * @param multipartFile 文件流（multipart/form-data）
      * @return 路径
      */
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/{opusId}/uploadRes")
     public ApiResult<String> uploadRes(@PathVariable("opusId") BigInteger opusId,
@@ -83,6 +85,7 @@ public class AniOpusController {
         return ApiResult.flag(b);
     }
 
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/deleteBatch")
     public ApiResult<?> deleteBatch(@RequestBody List<BigInteger> param) throws BusinessException {
