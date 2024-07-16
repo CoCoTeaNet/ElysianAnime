@@ -30,7 +30,7 @@ import java.util.List;
 
 @Service
 public class AniSpiderServiceImpl implements AniSpiderService {
-    private final Logger logger = LoggerFactory.getLogger(AniSpiderServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(AniSpiderServiceImpl.class);
 
     @Resource
     private FileProp fileProp;

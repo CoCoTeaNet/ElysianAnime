@@ -62,7 +62,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class AniOpusServiceImpl implements AniOpusService {
-    private final Logger logger = LoggerFactory.getLogger(AniOpusServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(AniOpusServiceImpl.class);
 
     @Resource
     private NonStaticResourceHttpRequestHandler nonStaticResourceHttpRequestHandler;

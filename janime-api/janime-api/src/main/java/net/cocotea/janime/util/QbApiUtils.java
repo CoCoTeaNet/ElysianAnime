@@ -25,7 +25,7 @@ import javax.annotation.Resource;
  */
 @Component
 public class QbApiUtils {
-    private final Logger logger = LoggerFactory.getLogger(QbApiUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(QbApiUtils.class);
 
     @Resource
     private QbittorrentProp qbittorrentProp;

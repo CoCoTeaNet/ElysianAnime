@@ -55,7 +55,7 @@ import java.util.stream.Collectors;
  */
 @Component
 public class MiKanRss {
-    private final Logger logger = LoggerFactory.getLogger(MiKanRss.class);
+    private static final Logger logger = LoggerFactory.getLogger(MiKanRss.class);
 
     @Resource
     private DefaultProp defaultProp;

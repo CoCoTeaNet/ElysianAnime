@@ -23,7 +23,7 @@ import javax.annotation.Resource;
 @Component
 public class RssJobs {
 
-    private final Logger logger = LoggerFactory.getLogger(RssJobs.class);
+    private static final Logger logger = LoggerFactory.getLogger(RssJobs.class);
 
     @Resource
     private RedisService redisService;

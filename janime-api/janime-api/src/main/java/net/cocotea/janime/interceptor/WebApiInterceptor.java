@@ -32,7 +32,7 @@ import java.math.BigInteger;
 
 @Component
 public class WebApiInterceptor implements HandlerInterceptor {
-    private final Logger logger = LoggerFactory.getLogger(WebApiInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(WebApiInterceptor.class);
 
     @Resource
     private RedisService redisService;

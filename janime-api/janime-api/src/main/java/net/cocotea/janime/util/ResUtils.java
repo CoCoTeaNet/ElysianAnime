@@ -22,7 +22,7 @@ import java.util.List;
 
 @Component
 public class ResUtils {
-    private final static Logger logger = LoggerFactory.getLogger(ResUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(ResUtils.class);
 
     @Resource
     private FileProp fileProp;

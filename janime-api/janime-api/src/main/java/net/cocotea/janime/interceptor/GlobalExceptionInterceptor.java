@@ -32,7 +32,7 @@ import java.util.Objects;
 @RestControllerAdvice
 public class GlobalExceptionInterceptor {
 
-    private final Logger logger = LoggerFactory.getLogger(GlobalExceptionInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionInterceptor.class);
 
     @Resource
     private SysLogService sysLogService;
