@@ -8,6 +8,7 @@ import net.cocotea.janime.common.enums.ApiResultEnum;
 import net.cocotea.janime.common.model.ApiResult;
 import net.cocotea.janime.common.model.BusinessException;
 import net.cocotea.janime.common.model.NotLogException;
+import org.apache.catalina.connector.ClientAbortException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -95,6 +96,12 @@ public class GlobalExceptionInterceptor {
         logger.error(">>>>> 参数缺失异常: {}", ex.getMessage());
         return ApiResult.error(ApiResultEnum.MISSING_REQUEST_PARAMETER.getCode(), ApiResultEnum.MISSING_REQUEST_PARAMETER.getDesc());
     }
+
+    /**
+     * 拦截打印无效堆栈：远程主机强迫关闭了一个现有的连接引发的ClientAbortException
+     */
+    @ExceptionHandler(ClientAbortException.class)
+    public void handlerClientAbortException(ClientAbortException ex) {}
 
     private void saveLog() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
