@@ -62,7 +62,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class AniOpusServiceImpl implements AniOpusService {
-    private final Logger logger = LoggerFactory.getLogger(AniOpusServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(AniOpusServiceImpl.class);
 
     @Resource
     private NonStaticResourceHttpRequestHandler nonStaticResourceHttpRequestHandler;
@@ -300,20 +300,25 @@ public class AniOpusServiceImpl implements AniOpusService {
         if (aniOpus == null) {
             throw new BusinessException("作品不存在");
         }
+
         File resource = resUtils.findResource(aniOpus.getNameCn(), resName);
-        if (resource.exists()) {
-            String mimeType = Files.probeContentType(Paths.get(resource.getPath()));
-            if (StrUtil.isNotEmpty(mimeType)) {
-                response.setContentType(mimeType);
-            }
-            request.setAttribute(NonStaticResourceHttpRequestHandler.ATTR_FILE, resource.toPath());
-            response.setContentType(Files.probeContentType(resource.toPath()));
-            nonStaticResourceHttpRequestHandler.handleRequest(request, response);
-        } else {
+        if (resource == null) {
+            throw new BusinessException("资源不存在");
+        }
+
+        if (!resource.exists()) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
             throw new BusinessException("文件不存在");
         }
+
+        String mimeType = Files.probeContentType(Paths.get(resource.getPath()));
+        if (StrUtil.isNotEmpty(mimeType)) {
+            response.setContentType(mimeType);
+        }
+        request.setAttribute(NonStaticResourceHttpRequestHandler.ATTR_FILE, resource.toPath());
+        response.setContentType(Files.probeContentType(resource.toPath()));
+        nonStaticResourceHttpRequestHandler.handleRequest(request, response);
     }
 
     @Override

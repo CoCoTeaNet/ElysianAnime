@@ -7,10 +7,10 @@ import net.cocotea.janime.api.system.model.dto.SysMenuPageDTO;
 import net.cocotea.janime.api.system.model.dto.SysMenuUpdateDTO;
 import net.cocotea.janime.api.system.model.vo.SysMenuVO;
 import net.cocotea.janime.api.system.service.SysMenuService;
+import net.cocotea.janime.common.annotation.LogPersistence;
 import net.cocotea.janime.common.model.ApiPage;
 import net.cocotea.janime.common.model.ApiResult;
 import net.cocotea.janime.common.model.BusinessException;
-import org.sagacity.sqltoy.model.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -28,6 +28,7 @@ public class SysMenuController {
     @Resource
     private SysMenuService sysMenuService;
 
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("add")
     public ApiResult<?> add(@Valid @RequestBody SysMenuAddDTO param) throws BusinessException {
@@ -35,6 +36,7 @@ public class SysMenuController {
         return ApiResult.flag(b);
     }
 
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("deleteBatch")
     public ApiResult<?> deleteBatch(@Valid @RequestBody List<BigInteger> idList) throws BusinessException {
@@ -42,6 +44,7 @@ public class SysMenuController {
         return ApiResult.flag(b);
     }
 
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("update")
     public ApiResult<?> update(@Valid @RequestBody SysMenuUpdateDTO param) throws BusinessException {

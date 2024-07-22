@@ -8,6 +8,7 @@ import net.cocotea.janime.common.enums.ApiResultEnum;
 import net.cocotea.janime.common.model.ApiResult;
 import net.cocotea.janime.common.model.BusinessException;
 import net.cocotea.janime.common.model.NotLogException;
+import org.apache.catalina.connector.ClientAbortException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -31,7 +32,7 @@ import java.util.Objects;
 @RestControllerAdvice
 public class GlobalExceptionInterceptor {
 
-    private final Logger logger = LoggerFactory.getLogger(GlobalExceptionInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionInterceptor.class);
 
     @Resource
     private SysLogService sysLogService;
@@ -96,6 +97,12 @@ public class GlobalExceptionInterceptor {
         return ApiResult.error(ApiResultEnum.MISSING_REQUEST_PARAMETER.getCode(), ApiResultEnum.MISSING_REQUEST_PARAMETER.getDesc());
     }
 
+    /**
+     * 拦截打印无效堆栈：远程主机强迫关闭了一个现有的连接引发的ClientAbortException
+     */
+    @ExceptionHandler(ClientAbortException.class)
+    public void handlerClientAbortException(ClientAbortException ex) {}
+
     private void saveLog() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (requestAttributes != null) {
@@ -104,7 +111,7 @@ public class GlobalExceptionInterceptor {
             // 保存登录日志与操作日志,如果没有登录不去保存
             sysLogService.saveErrorLog(request);
         } else {
-            logger.error("ServletRequestAttributes is null");
+            logger.error("saveLog >>>>> ServletRequestAttributes is null");
         }
     }
 }

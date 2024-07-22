@@ -26,6 +26,7 @@
             <el-text>{{`${scope.row.username}@${scope.row.nickname}`}}</el-text>
           </template>
         </el-table-column>
+        <el-table-column prop="apiPath" label="接口名称" width="250" show-overflow-tooltip/>
         <el-table-column prop="ipAddress" label="IP地址" show-overflow-tooltip/>
         <el-table-column prop="requestWay" label="请求方式"/>
         <el-table-column prop="logStatus" label="操作状态">
@@ -79,10 +80,10 @@ const loading = ref<boolean>(true);
 const getLogType: any = (status: number, type: number) => {
   let obj = {color: '', text: ''};
   switch (status) {
-    case 0:
+    case 1:
       obj = {color: 'success', text: '登录日志'};
       break;
-    case 1:
+    case 2:
       obj = {color: 'warning', text: '操作日志'};
       break;
   }

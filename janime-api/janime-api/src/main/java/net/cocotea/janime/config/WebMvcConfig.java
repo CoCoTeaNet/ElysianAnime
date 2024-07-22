@@ -33,7 +33,7 @@ import java.util.List;
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-    private final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
 
     @Resource
     private DefaultProp defaultProp;

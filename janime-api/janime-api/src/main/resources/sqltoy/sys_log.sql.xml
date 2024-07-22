@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+
+    <sql id="sys_log_JOIN_findList">
+        <value>
+            <![CDATA[
+            select
+                a.id, a.ip_address, a.request_way, a.log_status, a.log_type, a.api_path, a.create_time,
+                b. username, b.nickname
+            from sys_log a
+                     left join sys_user b on (a.operator = b.id)
+            where 1=1
+            #[and a.id = :id]
+            #[and b.username like :operator]
+            #[and b.nickname like :operator]
+            order by a.id desc
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>

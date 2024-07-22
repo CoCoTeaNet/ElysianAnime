@@ -215,6 +215,9 @@ onMounted(() => {
 
   // 定时更新当前播放进度
   setInterval(() => {
+    if (route.name !== 'AnimeVideo') {
+      player.value.pause();
+    }
     if (!player.value.video.paused && videoInfo.value.userOpusId > 0) {
       let currentTime = parseInt(player.value.video.currentTime);
       updateProgress({readingTime: currentTime, id: videoInfo.value.userOpusId});
@@ -227,7 +230,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener("onorientationchange" in window ? "orientationchange" : "resize", onOrientationchange, false)
-})
+});
 
 const onOrientationchange = (): void => {
   if (window.orientation === 90 || window.orientation === -90) {

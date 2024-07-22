@@ -6,6 +6,7 @@ import com.dtflys.forest.Forest;
 import net.cocotea.janime.api.anime.model.dto.AniRssDTO;
 import net.cocotea.janime.api.anime.rss.model.MkXmlDetail;
 import net.cocotea.janime.api.anime.rss.model.MkXmlItem;
+import net.cocotea.janime.common.annotation.LogPersistence;
 import net.cocotea.janime.common.model.ApiResult;
 import net.cocotea.janime.common.model.BusinessException;
 import net.cocotea.janime.api.anime.rss.MiKanRss;
@@ -23,6 +24,7 @@ public class AniRssController {
     @Resource
     private MiKanRss miKanRss;
 
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin", "bangumi:rss:subscriber"}, mode = SaMode.OR)
     @PostMapping("/subscribe")
     public ApiResult<?> subscribe(@Valid @RequestBody AniRssDTO rssDTO) throws BusinessException {
@@ -30,6 +32,7 @@ public class AniRssController {
         return ApiResult.ok(r);
     }
 
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin", "bangumi:rss:subscriber"}, mode = SaMode.OR)
     @PostMapping("/{opusId}/closeSubscribe")
     public ApiResult<?> closeSubscribe(@PathVariable("opusId") BigInteger opusId) {

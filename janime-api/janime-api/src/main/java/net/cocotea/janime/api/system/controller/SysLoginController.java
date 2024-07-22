@@ -36,7 +36,7 @@ import java.util.Locale;
 @RequestMapping("/system")
 public class SysLoginController {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final Logger log = LoggerFactory.getLogger(SysLoginController.class);
 
     @Resource
     private SysUserService userService;

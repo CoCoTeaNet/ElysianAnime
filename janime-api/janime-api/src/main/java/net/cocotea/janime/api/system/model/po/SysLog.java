@@ -47,6 +47,9 @@ public class SysLog implements Serializable {
 	@Column(name="log_type",comment="日志类型：1登录 2操作 ",length=3L,type=java.sql.Types.TINYINT,nativeType="TINYINT",nullable=true)
 	private Integer logType;
 
+	@Column(name="api_path",comment="接口请求路径",length=255L,type=java.sql.Types.VARCHAR,nullable=true)
+	private String apiPath;
+
 	@Column(name="create_time",comment="创建时间",length=19L,type=java.sql.Types.DATE,nativeType="DATETIME",nullable=false)
 	private LocalDateTime createTime;
 	/** default constructor */

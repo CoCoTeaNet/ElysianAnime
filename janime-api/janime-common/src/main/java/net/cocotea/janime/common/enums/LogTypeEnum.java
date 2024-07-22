@@ -7,11 +7,9 @@ package net.cocotea.janime.common.enums;
  * @date 2022-4-26 23:20:40
  */
 public enum LogTypeEnum {
-    /**
-     * 0登录日志 1操作日志
-     */
-    LOGIN(0, "登录日志"),
-    OPERATION(1, "操作日志");
+
+    LOGIN(1, "登录日志"),
+    OPERATION(2, "操作日志");
 
     final Integer code;
     final String desc;

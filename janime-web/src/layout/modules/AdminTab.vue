@@ -65,6 +65,8 @@ const refresh = () => {
 .tab-icon {
   margin-left: 1px;
   padding: 1px;
+  /* 过渡效果设置 */
+  transition: all 0.3s ease-in-out;
 }
 
 .tab-icon:hover {
@@ -87,12 +89,12 @@ const refresh = () => {
   box-shadow: var(--el-box-shadow-lighter);
   border-radius: 2px;
   color: var(--el-color-primary);
+  /* 过渡效果设置 */
+  transition: all 0.3s ease-in-out;
 }
 
 .scrollbar-tab-item:hover {
   cursor: pointer;
-  background-color: var(--el-color-primary);
-  color: var(--el-color-white);
 }
 
 .active {

@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 public class SysNotifyServiceImpl implements SysNotifyService {
 
-    private final Logger logger = LoggerFactory.getLogger(SysNotifyServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(SysNotifyServiceImpl.class);
 
     @Resource
     private SqlToyHelperDao sqlToyHelperDao;

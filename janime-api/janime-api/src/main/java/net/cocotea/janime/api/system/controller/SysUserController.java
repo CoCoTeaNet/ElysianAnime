@@ -9,6 +9,7 @@ import net.cocotea.janime.api.system.model.dto.SysUserPageDTO;
 import net.cocotea.janime.api.system.model.dto.SysUserUpdateDTO;
 import net.cocotea.janime.api.system.model.vo.SysUserVO;
 import net.cocotea.janime.api.system.service.SysUserService;
+import net.cocotea.janime.common.annotation.LogPersistence;
 import net.cocotea.janime.common.model.ApiPage;
 import net.cocotea.janime.common.model.ApiResult;
 import net.cocotea.janime.common.model.BusinessException;
@@ -32,6 +33,7 @@ public class SysUserController {
      * @return 返回操作结果，如果添加成功，返回成功的标志；如果添加失败，返回失败的标志。
      * @throws BusinessException 如果添加过程中出现业务逻辑错误，抛出此异常。
      */
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/add")
     public ApiResult<Boolean> add(@Valid @RequestBody SysUserAddDTO dto) throws BusinessException {
@@ -46,6 +48,7 @@ public class SysUserController {
      * @return 返回操作结果，如果更新成功，返回成功的标志；如果更新失败，返回失败的标志。
      * @throws BusinessException 在更新过程中若出现业务逻辑错误，则抛出此异常。
      */
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/update")
     public ApiResult<Boolean> update(@Valid @RequestBody SysUserUpdateDTO param) throws BusinessException {
@@ -60,6 +63,7 @@ public class SysUserController {
      * @return 返回操作结果，如果删除成功，返回包含成功状态的API结果；否则返回失败状态的API结果。
      * @throws BusinessException 在删除过程中，如果遇到业务逻辑错误，将会抛出此异常。
      */
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/delete/{id}")
     public ApiResult<Boolean> delete(@PathVariable BigInteger id) throws BusinessException {
@@ -75,6 +79,7 @@ public class SysUserController {
      * @return 返回操作结果，如果批量删除成功，则返回包含成功状态的API结果；否则返回失败状态的API结果。
      * @throws BusinessException 在执行批量删除过程中，如果遇到业务逻辑错误，将抛出此异常。
      */
+    @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
     @PostMapping("/deleteBatch")
     public ApiResult<Boolean> deleteBatch(@RequestBody List<BigInteger> idList) throws BusinessException {

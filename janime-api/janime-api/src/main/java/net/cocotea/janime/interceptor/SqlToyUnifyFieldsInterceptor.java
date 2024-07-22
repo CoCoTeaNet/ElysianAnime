@@ -20,7 +20,7 @@ import java.util.Map;
  * @author CoCoTea
  */
 public class SqlToyUnifyFieldsInterceptor implements IUnifyFieldsHandler {
-    private final Logger logger = LoggerFactory.getLogger(SqlToyUnifyFieldsInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(SqlToyUnifyFieldsInterceptor.class);
 
     @Override
     public Map<String, Object> createUnifyFields() {
