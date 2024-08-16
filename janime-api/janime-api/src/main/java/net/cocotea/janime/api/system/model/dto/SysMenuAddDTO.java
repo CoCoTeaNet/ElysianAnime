@@ -1,21 +1,24 @@
 package net.cocotea.janime.api.system.model.dto;
 
+
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.noear.solon.validation.annotation.NotBlank;
 
-import javax.validation.constraints.NotBlank;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * @author jwss
+ * @author CoCoTea
  * @project sss-rbac-admin
- * @version 1.0.0
+ * @version 2.0.0
  * @description sys_menu,系统菜单表  
  */
 @Data
 @Accessors(chain = true)
 public class SysMenuAddDTO implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = -4698497422245539378L;
 	
 	/**
@@ -50,6 +53,9 @@ public class SysMenuAddDTO implements Serializable {
 	@NotBlank(message = "是否菜单为空")
 	private String isMenu;
 
+	/**
+	 * 菜单状态
+	 */
 	private String menuStatus;
 
 	/**

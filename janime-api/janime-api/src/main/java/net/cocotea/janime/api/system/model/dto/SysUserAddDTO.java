@@ -1,40 +1,66 @@
 package net.cocotea.janime.api.system.model.dto;
 
+
+import org.noear.solon.validation.annotation.NotBlank;
+import org.noear.solon.validation.annotation.NotNull;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 
 /**
+ * 系统用户新增对象
+ *
  * @author CoCoTea
+ * @version 2.0.0
  * @project sss-rbac-admin
- * @version 1.2.6
- * @description sys_user,系统用户表  
+ * @description sys_user, 系统用户表
  */
 @Data
 @Accessors(chain = true)
 public class SysUserAddDTO implements Serializable {
 
-	private static final long serialVersionUID = -75070990767806255L;
+    @Serial
+    private static final long serialVersionUID = -75070990767806255L;
 
-	@NotBlank(message = "账号名为空")
-	private String username;
+    /**
+     * 用户名称
+     */
+    @NotBlank(message = "账号名为空")
+    private String username;
 
-	private String nickname;
+    /**
+     * 用户昵称
+     */
+    private String nickname;
 
-	private String sex;
+    /**
+     * 用户性别
+     */
+    private String sex;
 
-	private String email;
+    /**
+     * 用户邮箱
+     */
+    private String email;
 
-	private String password;
+    /**
+     * 用户密码
+     */
+    private String password;
 
-	private String accountStatus;
+    /**
+     * 账号状态
+     */
+    private String accountStatus;
 
-	@NotNull(message = "角色ID为空")
-	private List<BigInteger> roleIds;
+    /**
+     * 用户角色
+     */
+    @NotNull(message = "角色ID为空")
+    private List<BigInteger> roleIds;
 
 }

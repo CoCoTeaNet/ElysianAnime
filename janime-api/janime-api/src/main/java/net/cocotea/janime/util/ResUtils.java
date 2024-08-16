@@ -6,74 +6,31 @@ import cn.hutool.core.util.StrUtil;
 import net.cocotea.janime.common.constant.CharConst;
 import net.cocotea.janime.common.model.FileInfo;
 import net.cocotea.janime.properties.FileProp;
+import org.noear.solon.annotation.Component;
+import org.noear.solon.annotation.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 
 @Component
 public class ResUtils {
     private static final Logger logger = LoggerFactory.getLogger(ResUtils.class);
 
-    @Resource
+    @Inject
     private FileProp fileProp;
 
     /**
      * 保存上传动漫资源
      *
-     * @param multipartFile {@link MultipartFile}
-     * @param opusName      作品名称
+     * @param opusName 作品名称
      * @return {@link FileInfo}
      */
-    public FileInfo saveRes(MultipartFile multipartFile, String opusName) {
-        // 文件流
-        OutputStream os = null;
-        InputStream inputStream = null;
-        String originalFilename = multipartFile.getOriginalFilename();
+    public FileInfo saveRes(String opusName, String originalFilename) {
         // 保存目录
         String saveDir = findASS(2) + opusName + CharConst.LEFT_LINE;
         // 文件信息
-        FileInfo fileInfo = new FileInfo()
-                .setFileName(originalFilename).setFileDir(saveDir).setRealPath(saveDir + originalFilename);
-        try {
-            inputStream = multipartFile.getInputStream();
-            // 2K的数据缓冲
-            byte[] bs = new byte[4090];
-            // 读取到的数据长度
-            int len;
-            // 输出的文件流保存到本地文件
-            File outputFile = new File(fileInfo.getFileDir());
-            if (!outputFile.exists()) {
-                boolean mkdirs = outputFile.mkdirs();
-                logger.info("mkdirs={}", mkdirs);
-            }
-            os = Files.newOutputStream(Paths.get(fileInfo.getRealPath()));
-            // 开始读取
-            while ((len = inputStream.read(bs)) != -1) {
-                os.write(bs, 0, len);
-            }
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        } finally {
-            // 完毕，关闭所有链接
-            try {
-                assert os != null;
-                os.close();
-                inputStream.close();
-            } catch (IOException e) {
-                logger.error(e.getMessage());
-            }
-        }
-        return fileInfo;
+        return new FileInfo().setFileName(originalFilename).setFileDir(saveDir).setRealPath(saveDir + originalFilename);
     }
 
     /**

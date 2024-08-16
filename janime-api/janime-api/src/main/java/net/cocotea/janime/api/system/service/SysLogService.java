@@ -7,8 +7,7 @@ import net.cocotea.janime.api.system.model.vo.SysLogVO;
 import net.cocotea.janime.common.model.ApiPage;
 import net.cocotea.janime.common.model.BusinessException;
 import net.cocotea.janime.common.service.BaseService;
-
-import javax.servlet.http.HttpServletRequest;
+import org.noear.solon.core.handle.Context;
 
 /**
  * @author CoCoTea
@@ -22,12 +21,12 @@ public interface SysLogService extends BaseService<ApiPage<SysLogVO>, SysLogPage
      * @param request {@link HttpServletRequest}
      * @throws BusinessException 异常抛出
      */
-    void saveByLogType(Integer logType, HttpServletRequest request) throws BusinessException;
+    void saveByLogType(Integer logType, Context context) throws BusinessException;
 
     /**
      * 错误日志保存
      *
      * @param request {@link HttpServletRequest}
      */
-    void saveErrorLog(HttpServletRequest request);
+    void saveErrorLog(Context context);
 }

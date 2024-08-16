@@ -3,12 +3,13 @@
  */
 package net.cocotea.janime.api.system.model.po;
 
-import java.io.Serializable;
-import org.sagacity.sqltoy.config.annotation.Entity;
-import org.sagacity.sqltoy.config.annotation.Id;
-import org.sagacity.sqltoy.config.annotation.Column;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.sagacity.sqltoy.config.annotation.Column;
+import org.sagacity.sqltoy.config.annotation.Entity;
+import org.sagacity.sqltoy.config.annotation.Id;
+
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
@@ -29,37 +30,37 @@ public class SysFile implements Serializable {
 /*---begin-auto-generate-don't-update-this-area--*/	
 
 	@Id(strategy="generator",generator="org.sagacity.sqltoy.plugins.id.impl.SnowflakeIdGenerator")
-	@Column(name="id",comment="文件id",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=false)
+	@Column(name="id",comment="文件id",length=19L,type=java.sql.Types.BIGINT,nullable=false)
 	private BigInteger id;
 
-	@Column(name="file_name",comment="文件名称",length=200L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=false)
+	@Column(name="file_name",comment="文件名称",length=200L,type=java.sql.Types.VARCHAR,nullable=false)
 	private String fileName;
 
-	@Column(name="file_suffix",comment="文件后缀",length=20L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
+	@Column(name="file_suffix",comment="文件后缀",length=20L,type=java.sql.Types.VARCHAR,nullable=true)
 	private String fileSuffix;
 
-	@Column(name="real_path",comment="文件真实路径",length=500L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=false)
+	@Column(name="real_path",comment="文件真实路径",length=500L,type=java.sql.Types.VARCHAR,nullable=false)
 	private String realPath;
 
-	@Column(name="file_size",comment="文件大小（单位：字节）",length=19L,defaultValue="0",type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=false)
+	@Column(name="file_size",comment="文件大小（单位：字节）",length=19L,defaultValue="0",type=java.sql.Types.BIGINT,nullable=false)
 	private BigInteger fileSize;
 
-	@Column(name="create_by",comment="创建人",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=true)
+	@Column(name="create_by",comment="创建人",length=19L,type=java.sql.Types.BIGINT,nullable=true)
 	private BigInteger createBy;
 
-	@Column(name="create_time",comment="创建时间",length=19L,type=java.sql.Types.DATE,nativeType="DATETIME",nullable=false)
+	@Column(name="create_time",comment="创建时间",length=19L,type=java.sql.Types.DATE,nullable=false)
 	private LocalDateTime createTime;
 
-	@Column(name="update_by",comment="更新人",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=true)
+	@Column(name="update_by",comment="更新人",length=19L,type=java.sql.Types.BIGINT,nullable=true)
 	private BigInteger updateBy;
 
-	@Column(name="update_time",comment="更新时间",length=19L,type=java.sql.Types.DATE,nativeType="DATETIME",nullable=false)
+	@Column(name="update_time",comment="更新时间",length=19L,type=java.sql.Types.DATE,nullable=false)
 	private LocalDateTime updateTime;
 
-	@Column(name="is_share",comment="是否共享",length=3L,defaultValue="0",type=java.sql.Types.TINYINT,nativeType="TINYINT",nullable=true)
+	@Column(name="is_share",comment="是否共享",length=3L,defaultValue="0",type=java.sql.Types.TINYINT,nullable=true)
 	private Integer isShare;
 
-	@Column(name="is_deleted",comment="是否删除",length=3L,defaultValue="0",type=java.sql.Types.TINYINT,nativeType="TINYINT",nullable=false)
+	@Column(name="is_deleted",comment="是否删除",length=3L,defaultValue="0",type=java.sql.Types.TINYINT,nullable=false)
 	private Integer isDeleted;
 	/** default constructor */
 	public SysFile() {

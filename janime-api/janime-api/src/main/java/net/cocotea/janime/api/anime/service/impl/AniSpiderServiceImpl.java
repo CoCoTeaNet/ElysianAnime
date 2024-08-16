@@ -1,11 +1,9 @@
 package net.cocotea.janime.api.anime.service.impl;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import com.dtflys.forest.Forest;
-import com.sagframe.sagacity.sqltoy.plus.conditions.Wrappers;
-import com.sagframe.sagacity.sqltoy.plus.conditions.query.LambdaQueryWrapper;
-import com.sagframe.sagacity.sqltoy.plus.dao.SqlToyHelperDao;
 import net.cocotea.janime.api.anime.model.po.AniOpus;
 import net.cocotea.janime.api.anime.model.po.AniTag;
 import net.cocotea.janime.api.anime.service.AniSpiderService;
@@ -16,36 +14,39 @@ import net.cocotea.janime.common.enums.IsEnum;
 import net.cocotea.janime.common.enums.RssStatusEnum;
 import net.cocotea.janime.common.model.BusinessException;
 import net.cocotea.janime.properties.FileProp;
+import org.noear.solon.annotation.Component;
+import org.noear.solon.annotation.Inject;
+import org.noear.solon.data.annotation.Tran;
+import org.sagacity.sqltoy.dao.LightDao;
+import org.sagacity.sqltoy.solon.annotation.Db;
 import org.seimicrawler.xpath.JXDocument;
 import org.seimicrawler.xpath.JXNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-@Service
+@Component
 public class AniSpiderServiceImpl implements AniSpiderService {
     private static final Logger logger = LoggerFactory.getLogger(AniSpiderServiceImpl.class);
 
-    @Resource
+    @Inject
     private FileProp fileProp;
 
-    @Resource
-    private SqlToyHelperDao sqlToyHelperDao;
+    @Db
+    private LightDao lightDao;
 
-    @Resource
+    @Inject
     private AniTagService aniTagService;
 
     final String treaty = "https:";
 
     final String domain = "https://bgm.tv";
 
-    @Transactional(rollbackFor = BusinessException.class)
+    @Tran
     @Override
     public boolean addAniOpusByBgmUrl(String bgmUrl, Integer isCover) throws BusinessException {
         // 判断校验URL是否正确
@@ -57,10 +58,9 @@ public class AniSpiderServiceImpl implements AniSpiderService {
         String[] split = bgmUrl.split(CharConst.LEFT_LINE);
         String detailUrl = CharConst.LEFT_LINE + split[split.length - 2] + CharConst.LEFT_LINE + split[split.length - 1];
         // 已存在的作品
-        LambdaQueryWrapper<AniOpus> wrapper = Wrappers.lambdaWrapper(AniOpus.class)
-                .eq(AniOpus::getDetailInfoUrl, detailUrl)
-                .eq(AniOpus::getIsDeleted, IsEnum.N.getCode());
-        AniOpus existOpus = sqlToyHelperDao.findOne(wrapper);
+        Map<String, Object> aniOpusMapDTO = MapUtil.newHashMap(1);
+        aniOpusMapDTO.put("detailUrl", detailUrl);
+        AniOpus existOpus = lightDao.findOne("ani_opus_findList", aniOpusMapDTO, AniOpus.class);
         // 解析HTML
         String html = Forest.get(bgmUrl).executeAsString();
         List<AniTag> aniTagList = new ArrayList<>();
@@ -78,7 +78,7 @@ public class AniSpiderServiceImpl implements AniSpiderService {
                 throw new BusinessException("作品不存在");
             }
             aniOpus.setId(existOpus.getId());
-            Long update = sqlToyHelperDao.update(aniOpus);
+            Long update = lightDao.update(aniOpus);
             updateFlag = update > 0;
         } else {
             if (existOpus != null) {
@@ -87,7 +87,7 @@ public class AniSpiderServiceImpl implements AniSpiderService {
             // 新增才默认无资源
             aniOpus.setHasResource(IsEnum.N.getCode());
             // 新增保存
-            Object save = sqlToyHelperDao.save(aniOpus);
+            Object save = lightDao.save(aniOpus);
             updateFlag = save != null;
         }
         // 标签关联

@@ -3,6 +3,7 @@ package net.cocotea.janime.api.system.model.vo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 
@@ -15,7 +16,9 @@ import java.io.Serializable;
 @Data
 @Accessors(chain = true)
 public class SysThemeVO implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	@Serial
+	private static final long serialVersionUID = -967332912336559860L;
 
 	/**
 	 *系统主题ID

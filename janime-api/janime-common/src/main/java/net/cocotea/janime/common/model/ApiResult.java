@@ -2,9 +2,9 @@ package net.cocotea.janime.common.model;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import net.cocotea.janime.common.constant.CharConst;
 import net.cocotea.janime.common.enums.ApiResultEnum;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -12,16 +12,32 @@ import java.time.LocalDateTime;
  * 返回数据模型
  *
  * @author CoCoTea
- * @version 2.0.4
+ * @version 2.0.0
  */
 @Data
 @Accessors(chain = true)
 public class ApiResult<T> implements Serializable {
+    @Serial
     private static final long serialVersionUID = -4073679724104914374L;
 
+    /**
+     * 接口响应编号：{@link ApiResultEnum}
+     */
     private Integer code;
+
+    /**
+     * 接口返回数据
+     */
     private T data;
+
+    /**
+     * 接口提示信息
+     */
     private String message;
+
+    /**
+     * 接口返回时间
+     */
     private LocalDateTime time;
 
     public ApiResult(Integer code, T data, String message) {
@@ -101,7 +117,7 @@ public class ApiResult<T> implements Serializable {
      * @return 成功结果
      */
     public static ApiResult<?> error(String message) {
-        return error(CharConst.EMPTY_STRING, message);
+        return error(ApiResultEnum.ERROR, message);
     }
 
     /**
@@ -125,4 +141,7 @@ public class ApiResult<T> implements Serializable {
         return new ApiResult<>(errorCode, data, ApiResultEnum.SUCCESS.getDesc());
     }
 
+    public static ApiResult<?> error(ApiResultEnum resultEnum) {
+        return error(resultEnum.getCode(), resultEnum.getDesc());
+    }
 }

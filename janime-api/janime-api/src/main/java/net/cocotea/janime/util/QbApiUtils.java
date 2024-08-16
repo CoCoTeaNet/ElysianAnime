@@ -9,11 +9,10 @@ import com.alibaba.fastjson.JSONObject;
 import net.cocotea.janime.common.constant.RedisKeyConst;
 import net.cocotea.janime.common.service.RedisService;
 import net.cocotea.janime.properties.QbittorrentProp;
+import org.noear.solon.annotation.Component;
+import org.noear.solon.annotation.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * qbittorrent 接口工具类
@@ -27,10 +26,10 @@ import javax.annotation.Resource;
 public class QbApiUtils {
     private static final Logger logger = LoggerFactory.getLogger(QbApiUtils.class);
 
-    @Resource
+    @Inject
     private QbittorrentProp qbittorrentProp;
 
-    @Resource
+    @Inject
     private RedisService redisService;
 
     /**
@@ -63,14 +62,14 @@ public class QbApiUtils {
             // 测试是否cookie是否有效
             String url = qbittorrentProp.getDomain().concat("/api/v2/torrents/info?filter=seeding&sort=ratio");
             String body = HttpUtil.createGet(url).header("cookie", cookie).execute().body();
-            logger.debug(baseMsg + "测试是否cookie是否有效,body={}", body);
+            logger.debug("{}测试是否cookie是否有效,body={}", baseMsg, body);
             if (qbittorrentProp.getForbidden().equals(body)) {
-                logger.warn(baseMsg + "票据失效，重新登录");
+                logger.warn("{}票据失效，重新登录", baseMsg);
                 cookie = login();
             }
         }
         String sid = cookie.split(";")[0];
-        logger.info(baseMsg + "sid={}", sid);
+        logger.info("{}sid={}", baseMsg, sid);
         return sid;
     }
 

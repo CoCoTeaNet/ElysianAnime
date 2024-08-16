@@ -3,17 +3,18 @@ package net.cocotea.janime.api.anime.model.dto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.sagacity.sqltoy.model.Page;
+import net.cocotea.janime.common.model.ApiPageDTO;
 
+import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-public class AniOpusHomeDTO extends Page<AniOpusHomeDTO> implements Serializable {
+public class AniOpusHomeDTO extends ApiPageDTO implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 5725962847791361253L;
 
     /**
@@ -44,9 +45,5 @@ public class AniOpusHomeDTO extends Page<AniOpusHomeDTO> implements Serializable
      * 周
      */
     private List<String> deliveryWeeks;
-    /**
-     * 作品id
-     */
-    private List<BigInteger> opusIds;
 
 }

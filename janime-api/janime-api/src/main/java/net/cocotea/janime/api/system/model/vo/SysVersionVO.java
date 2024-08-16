@@ -3,12 +3,17 @@ package net.cocotea.janime.api.system.model.vo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Data
 @Accessors(chain = true)
-public class SysVersionVO {
+public class SysVersionVO implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -2948089307390126788L;
 
     /**
      * 版本ID

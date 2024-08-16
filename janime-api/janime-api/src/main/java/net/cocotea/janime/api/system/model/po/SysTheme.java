@@ -3,12 +3,13 @@
  */
 package net.cocotea.janime.api.system.model.po;
 
-import java.io.Serializable;
-import org.sagacity.sqltoy.config.annotation.Entity;
-import org.sagacity.sqltoy.config.annotation.Id;
-import org.sagacity.sqltoy.config.annotation.Column;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.sagacity.sqltoy.config.annotation.Column;
+import org.sagacity.sqltoy.config.annotation.Entity;
+import org.sagacity.sqltoy.config.annotation.Id;
+
+import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
@@ -28,28 +29,28 @@ public class SysTheme implements Serializable {
 /*---begin-auto-generate-don't-update-this-area--*/	
 
 	@Id(strategy="generator",generator="org.sagacity.sqltoy.plugins.id.impl.SnowflakeIdGenerator")
-	@Column(name="id",comment="系统主题id",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=false)
+	@Column(name="id",comment="系统主题id",length=19L,type=java.sql.Types.BIGINT,nullable=false)
 	private BigInteger id;
 
-	@Column(name="user_id",comment="用户id",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=true)
+	@Column(name="user_id",comment="用户id",length=19L,type=java.sql.Types.BIGINT,nullable=true)
 	private BigInteger userId;
 
-	@Column(name="layout_mode",comment="布局模式：0默认",length=3L,defaultValue="0",type=java.sql.Types.TINYINT,nativeType="TINYINT",nullable=false)
+	@Column(name="layout_mode",comment="布局模式：0默认",length=3L,defaultValue="0",type=java.sql.Types.TINYINT,nullable=false)
 	private Integer layoutMode;
 
-	@Column(name="primary_color",comment="主题颜色",length=8L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
+	@Column(name="primary_color",comment="主题颜色",length=8L,type=java.sql.Types.VARCHAR,nullable=true)
 	private String primaryColor;
 
-	@Column(name="color_2",comment="颜色2",length=8L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
+	@Column(name="color_2",comment="颜色2",length=8L,type=java.sql.Types.VARCHAR,nullable=true)
 	private String color2;
 
-	@Column(name="color_3",comment="颜色3",length=8L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
+	@Column(name="color_3",comment="颜色3",length=8L,type=java.sql.Types.VARCHAR,nullable=true)
 	private String color3;
 
-	@Column(name="color_4",comment="颜色4",length=8L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
+	@Column(name="color_4",comment="颜色4",length=8L,type=java.sql.Types.VARCHAR,nullable=true)
 	private String color4;
 
-	@Column(name="is_dark",comment="是否暗黑模式",length=3L,defaultValue="0",type=java.sql.Types.TINYINT,nativeType="TINYINT",nullable=true)
+	@Column(name="is_dark",comment="是否暗黑模式",length=3L,defaultValue="0",type=java.sql.Types.TINYINT,nullable=true)
 	private Integer isDark;
 	/** default constructor */
 	public SysTheme() {

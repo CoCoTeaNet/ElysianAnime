@@ -8,68 +8,104 @@ import net.cocotea.janime.api.system.model.dto.SysRoleUpdateDTO;
 import net.cocotea.janime.api.system.model.vo.SysRoleMenuVO;
 import net.cocotea.janime.api.system.model.vo.SysRoleVO;
 import net.cocotea.janime.api.system.service.SysRoleService;
-import net.cocotea.janime.common.annotation.LogPersistence;
 import net.cocotea.janime.common.model.ApiPage;
 import net.cocotea.janime.common.model.ApiResult;
 import net.cocotea.janime.common.model.BusinessException;
-import org.sagacity.sqltoy.model.Page;
-import org.springframework.web.bind.annotation.*;
+import org.noear.solon.annotation.*;
+import org.noear.solon.validation.annotation.Validated;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.List;
 
-@RequestMapping("/system/role")
-@RestController
+/**
+ * 系统角色管理接口
+ *
+ * @author CoCoTea
+ * @version 2.0.0
+ */
+@Mapping("/system/role")
+@Controller
 public class SysRoleController {
-    @Resource
+
+    @Inject
     private SysRoleService sysRoleService;
 
-    @LogPersistence
+    /**
+     * 新增角色
+     *
+     * @param addDTO {@link SysRoleAddDTO}
+     * @return 成功返回TRUE
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
-    @PostMapping("/add")
-    public ApiResult<?> add(@Valid @RequestBody SysRoleAddDTO param) throws BusinessException {
-        boolean b = sysRoleService.add(param);
-        return ApiResult.flag(b);
+    @Post
+    @Mapping("/add")
+    public ApiResult<Boolean> add(@Validated @Body SysRoleAddDTO addDTO) throws BusinessException {
+        boolean b = sysRoleService.add(addDTO);
+        return ApiResult.ok(b);
     }
 
-    @LogPersistence
+    /**
+     * 更新角色信息
+     *
+     * @param updateDTO {@link SysRoleUpdateDTO}
+     * @return 成功返回TRUE
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
-    @PostMapping("/update")
-    public ApiResult<?> update(@Valid @RequestBody SysRoleUpdateDTO param) throws BusinessException {
-        boolean b = sysRoleService.update(param);
-        return ApiResult.flag(b);
+    @Post @Mapping("/update")
+    public ApiResult<Boolean> update(@Validated @Body SysRoleUpdateDTO updateDTO) throws BusinessException {
+        boolean b = sysRoleService.update(updateDTO);
+        return ApiResult.ok(b);
     }
 
-    @LogPersistence
+    /**
+     * 删除角色
+     *
+     * @param id 角色ID
+     * @return 成功返回TRUE
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
-    @PostMapping("/delete/{id}")
-    public ApiResult<?> delete(@PathVariable BigInteger id) throws BusinessException {
+    @Post @Mapping("/delete/{id}")
+    public ApiResult<Boolean> delete(@Path BigInteger id) throws BusinessException {
         boolean b = sysRoleService.delete(id);
-        return ApiResult.flag(b);
+        return ApiResult.ok(b);
     }
 
-    @LogPersistence
+    /**
+     * 批量删除角色
+     *
+     * @param idList 角色ID集合
+     * @return 成功返回TRUE
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
-    @PostMapping("/deleteBatch")
-    public ApiResult<?> deleteBatch(@RequestBody List<BigInteger> idList) throws BusinessException {
+    @Post @Mapping("/deleteBatch")
+    public ApiResult<Boolean> deleteBatch(@Body List<BigInteger> idList) throws BusinessException {
         boolean b = sysRoleService.deleteBatch(idList);
-        return ApiResult.flag(b);
+        return ApiResult.ok(b);
     }
 
-    @LogPersistence
+    /**
+     * 给角色赋予权限
+     *
+     * @param updateDTO {@link SysRoleMenuVO}
+     * @return 成功返回TRUE
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
-    @PostMapping("/grantPermissionsByRoleId")
-    public ApiResult<?> grantPermissionsByRoleId(@Valid @RequestBody List<SysRoleMenuVO> param) throws BusinessException {
-        boolean b = sysRoleService.grantPermissionsByRoleId(param);
-        return ApiResult.flag(b);
+    @Post @Mapping("/grantPermissionsByRoleId")
+    public ApiResult<Boolean> grantPermissionsByRoleId(@Validated @Body List<SysRoleMenuVO> updateDTO) throws BusinessException {
+        boolean b = sysRoleService.grantPermissionsByRoleId(updateDTO);
+        return ApiResult.ok(b);
     }
 
+    /**
+     * 分页查询角色
+     *
+     * @param pageDTO {@link SysRolePageDTO}
+     * @return {@link ApiPage<SysRoleVO>}
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
-    @PostMapping("/listByPage")
-    public ApiResult<?> listByPage(@Valid @RequestBody SysRolePageDTO param) throws BusinessException {
-        ApiPage<SysRoleVO> p = sysRoleService.listByPage(param);
+    @Post @Mapping("/listByPage")
+    public ApiResult<ApiPage<SysRoleVO>> listByPage(@Validated @Body SysRolePageDTO pageDTO) throws BusinessException {
+        ApiPage<SysRoleVO> p = sysRoleService.listByPage(pageDTO);
         return ApiResult.ok(p);
     }
 }

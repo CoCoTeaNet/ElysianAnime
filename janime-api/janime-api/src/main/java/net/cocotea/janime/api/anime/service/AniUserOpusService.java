@@ -12,7 +12,6 @@ import net.cocotea.janime.common.service.BaseService;
 
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 用户作品关联表

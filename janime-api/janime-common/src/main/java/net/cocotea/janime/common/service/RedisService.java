@@ -111,4 +111,7 @@ public interface RedisService {
      * @return 键集合
      */
     Set<String> keys(String pattern);
+
+    void set(String redisKey, String s);
+
 }

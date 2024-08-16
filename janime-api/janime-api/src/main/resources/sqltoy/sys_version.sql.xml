@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <sql id="sys_version_findList">
+        <value>
+            <![CDATA[
+            select id, update_no, update_desc, platform_name, download_url, create_by, create_time, update_by, update_time
+            from sys_version
+            where 1=1
+            #[and platform_name = :platformName]
+            #[and update_no = :updateNo]
+            order by id desc
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>

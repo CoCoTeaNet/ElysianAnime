@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import net.cocotea.janime.api.system.model.po.SysUserRole;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -16,6 +17,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class SysUserRoleVO extends SysUserRole implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 4531576278077869409L;
 
     /**

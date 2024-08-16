@@ -7,12 +7,11 @@ import net.cocotea.janime.api.anime.rss.MiKanRss;
 import net.cocotea.janime.common.constant.RedisKeyConst;
 import net.cocotea.janime.common.model.BusinessException;
 import net.cocotea.janime.common.service.RedisService;
+import org.noear.solon.annotation.Component;
+import org.noear.solon.annotation.Inject;
+import org.noear.solon.scheduling.annotation.Scheduled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * rss订阅调度服务
@@ -25,10 +24,10 @@ public class RssJobs {
 
     private static final Logger logger = LoggerFactory.getLogger(RssJobs.class);
 
-    @Resource
+    @Inject
     private RedisService redisService;
 
-    @Resource
+    @Inject
     private MiKanRss miKanRss;
 
     @Scheduled(cron = "0 0/5 * * * ?")
@@ -57,13 +56,9 @@ public class RssJobs {
             worksStatusDTO.setExecMessage("执行完成！！！");
         } catch (Exception ex) {
             worksStatusDTO.setExecMessage("运行异常：" + ex.getMessage());
-            logger.error("scanRss-------->error,msg={}", ex.getMessage());
+            logger.error("scanRss >>>>> error,msg={}", ex.getMessage());
         }
-        try {
-            redisService.save(RedisKeyConst.RSS_WORKS_STATUS, JSONUtil.toJsonStr(worksStatusDTO));
-        } catch (Exception ex) {
-            logger.error("scanRss-------->error,msg={}", ex.getMessage());
-        }
+        redisService.save(RedisKeyConst.RSS_WORKS_STATUS, JSONUtil.toJsonStr(worksStatusDTO));
     }
 
 }

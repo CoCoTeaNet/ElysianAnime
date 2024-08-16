@@ -3,12 +3,13 @@ package net.cocotea.janime.api.system.model.vo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 
 /**
- * @author jwss
+ * @author CoCoTea
  * @version 1.0.0
  * @project sss-rbac-admin
  * @description sys_user, 系统用户表
@@ -17,6 +18,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class SysLoginUserVO implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1641777558644610990L;
 
     private Boolean loginStatus;

@@ -1,14 +1,12 @@
 package net.cocotea.janime.api.system.model.dto;
 
-import cn.hutool.core.convert.Convert;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import net.cocotea.janime.api.system.model.po.SysMenu;
-import net.cocotea.janime.api.system.model.vo.SysMenuVO;
-import org.sagacity.sqltoy.model.Page;
+import net.cocotea.janime.common.model.ApiPageDTO;
+import org.noear.solon.validation.annotation.NotNull;
 
-import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -18,14 +16,40 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-public class SysMenuPageDTO extends Page<SysMenuVO> implements Serializable {
+public class SysMenuPageDTO extends ApiPageDTO implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -772057092053351688L;
 
+    /**
+     * 详细查询条件
+     */
     @NotNull(message = "查询参数为空")
-    private SysMenuVO sysMenu;
+    private Query sysMenu;
 
-    public SysMenu getPO() {
-        return Convert.convert(SysMenu.class, sysMenu);
+    @Data
+    public static class Query {
+        /**
+         * 是否菜单
+         * {@link net.cocotea.janime.common.enums.IsEnum}
+         */
+        private Integer isMenu;
+
+        /**
+         * 权限编号
+         */
+        private String permissionCode;
+
+        /**
+         * 菜单名称
+         */
+        private String menuName;
+
+        /**
+         * 菜单状态
+         * {@link net.cocotea.janime.common.enums.MenuStatusEnum}
+         */
+        private Integer menuStatus;
     }
+
 }

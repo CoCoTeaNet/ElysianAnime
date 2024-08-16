@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <sql id="sys_role_menu_findList">
+        <value>
+            <![CDATA[
+            select id, role_id, menu_id
+            from sys_role_menu
+            where 1=1
+            #[and menu_id = :menuId]
+            #[and role_id = :roleId]
+            #[and role_id in (:roleIds)]
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>

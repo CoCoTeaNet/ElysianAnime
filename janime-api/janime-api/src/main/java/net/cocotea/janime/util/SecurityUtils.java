@@ -2,20 +2,19 @@ package net.cocotea.janime.util;
 
 import cn.hutool.crypto.SmUtil;
 import net.cocotea.janime.properties.DefaultProp;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
+import org.noear.solon.annotation.Component;
+import org.noear.solon.annotation.Inject;
 
 /**
  * 安全工具类
  *
- * @author jwss
+ * @author CoCoTea
  * @date 2022-3-30 16:21:21
  */
 @Component
 public class SecurityUtils {
 
-    @Resource
+    @Inject
     private DefaultProp defaultProp;
 
     /**

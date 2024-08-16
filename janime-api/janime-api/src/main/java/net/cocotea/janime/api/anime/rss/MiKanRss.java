@@ -31,15 +31,15 @@ import net.cocotea.janime.common.util.StrcUtis;
 import net.cocotea.janime.api.anime.rss.model.MkXmlItem;
 import net.cocotea.janime.api.anime.rss.model.QbInfo;
 import net.cocotea.janime.util.RuleUtils;
+import org.noear.solon.annotation.Component;
+import org.noear.solon.annotation.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -57,22 +57,22 @@ import java.util.stream.Collectors;
 public class MiKanRss {
     private static final Logger logger = LoggerFactory.getLogger(MiKanRss.class);
 
-    @Resource
+    @Inject
     private DefaultProp defaultProp;
 
-    @Resource
+    @Inject
     private QbApiUtils qbApiUtils;
 
-    @Resource
+    @Inject
     private AniOpusService aniOpusService;
 
-    @Resource
+    @Inject
     private ResUtils resUtils;
 
-    @Resource
+    @Inject
     private SysNotifyService sysNotifyService;
 
-    @Resource
+    @Inject
     private AniUserOpusService aniUserOpusService;
 
     /**

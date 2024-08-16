@@ -1,6 +1,5 @@
 package net.cocotea.janime.common.util;
 
-import net.cocotea.janime.common.constant.CharConst;
 import net.cocotea.janime.common.model.BusinessException;
 
 /**
@@ -35,7 +34,7 @@ public class PpUtils {
      * @throws BusinessException 业务异常抛出
      */
     public String[] timeRange(String times) throws BusinessException {
-        return timeRange(times, CharConst.WAVE_SIGN);
+        return timeRange(times, "~");
     }
 
 }

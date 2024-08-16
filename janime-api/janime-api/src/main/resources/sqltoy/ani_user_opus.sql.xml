@@ -3,6 +3,18 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
 
+    <sql id="ani_user_opus_findList">
+        <value>
+            <![CDATA[
+                select id, user_id, opus_id, resource_url, reading_num, reading_time, read_status, create_time, is_share
+                from ani_user_opus
+                where 1=1
+                #[and opus_id = :opusId]
+                #[and user_id = :userId]
+            ]]>
+        </value>
+    </sql>
+
     <sql id="ani_user_opus_listByUser">
         <value>
             <![CDATA[

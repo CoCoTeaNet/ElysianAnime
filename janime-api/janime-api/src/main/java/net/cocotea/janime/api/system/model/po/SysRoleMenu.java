@@ -3,12 +3,13 @@
  */
 package net.cocotea.janime.api.system.model.po;
 
-import java.io.Serializable;
-import org.sagacity.sqltoy.config.annotation.Entity;
-import org.sagacity.sqltoy.config.annotation.Id;
-import org.sagacity.sqltoy.config.annotation.Column;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.sagacity.sqltoy.config.annotation.Column;
+import org.sagacity.sqltoy.config.annotation.Entity;
+import org.sagacity.sqltoy.config.annotation.Id;
+
+import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
@@ -28,13 +29,13 @@ public class SysRoleMenu implements Serializable {
 /*---begin-auto-generate-don't-update-this-area--*/	
 
 	@Id(strategy="generator",generator="org.sagacity.sqltoy.plugins.id.impl.SnowflakeIdGenerator")
-	@Column(name="id",comment="角色菜单关联id",length=3L,type=java.sql.Types.TINYINT,nativeType="TINYINT",nullable=false)
+	@Column(name="id",comment="角色菜单关联id",length=3L,type=java.sql.Types.TINYINT,nullable=false)
 	private BigInteger id;
 
-	@Column(name="role_id",comment="角色id",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=false)
+	@Column(name="role_id",comment="角色id",length=19L,type=java.sql.Types.BIGINT,nullable=false)
 	private BigInteger roleId;
 
-	@Column(name="menu_id",comment="菜单id",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=false)
+	@Column(name="menu_id",comment="菜单id",length=19L,type=java.sql.Types.BIGINT,nullable=false)
 	private BigInteger menuId;
 	/** default constructor */
 	public SysRoleMenu() {

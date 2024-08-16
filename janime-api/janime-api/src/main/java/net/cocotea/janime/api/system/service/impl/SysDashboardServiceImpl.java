@@ -1,28 +1,30 @@
 package net.cocotea.janime.api.system.service.impl;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.system.HostInfo;
 import cn.hutool.system.OsInfo;
 import cn.hutool.system.SystemUtil;
 import cn.hutool.system.oshi.CpuInfo;
 import cn.hutool.system.oshi.OshiUtil;
-import com.sagframe.sagacity.sqltoy.plus.conditions.query.LambdaQueryWrapper;
-import com.sagframe.sagacity.sqltoy.plus.dao.SqlToyHelperDao;
 import net.cocotea.janime.api.system.model.po.SysMenu;
 import net.cocotea.janime.api.system.model.po.SysRole;
 import net.cocotea.janime.api.system.model.po.SysUser;
+import net.cocotea.janime.api.system.model.vo.SysOverviewVO;
 import net.cocotea.janime.api.system.model.vo.SystemInfoVO;
 import net.cocotea.janime.api.system.service.SysDashboardService;
-import net.cocotea.janime.common.constant.CharConst;
 import net.cocotea.janime.common.constant.GlobalConst;
 import net.cocotea.janime.common.constant.RedisKeyConst;
 import net.cocotea.janime.common.enums.IsEnum;
 import net.cocotea.janime.common.enums.MenuTypeEnum;
 import net.cocotea.janime.common.service.RedisService;
-import org.springframework.stereotype.Service;
+import org.noear.solon.annotation.Component;
+import org.noear.solon.annotation.Inject;
+import org.sagacity.sqltoy.dao.SqlToyLazyDao;
+import org.sagacity.sqltoy.model.EntityQuery;
+import org.sagacity.sqltoy.solon.annotation.Db;
 import oshi.hardware.GlobalMemory;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -33,53 +35,41 @@ import java.util.Map;
 /**
  * @author CoCoTea
  */
-@Service
+@Component
 public class SysDashboardServiceImpl implements SysDashboardService {
-    @Resource
-    private SqlToyHelperDao sqlToyHelperDao;
-    @Resource
+    
+    @Db("db1")
+    private SqlToyLazyDao sqlToyLazyDao;
+    
+    @Inject
     private RedisService redisService;
 
     @Override
-    public List<Map<String, Object>> getCount() {
-        Map<String, Object> hashMap;
+    public List<SysOverviewVO> getCount() {
+        List<SysOverviewVO> sysOverviewList = new ArrayList<>(4);
 
-        List<Map<String, Object>> mapList = new ArrayList<>(4);
-        LambdaQueryWrapper<SysUser> sysUserWrapper = new LambdaQueryWrapper<>(SysUser.class)
-                .select().eq(SysUser::getIsDeleted, IsEnum.N.getCode());
-        Long countUser = sqlToyHelperDao.count(sysUserWrapper);
-        hashMap = new HashMap<>(2);
-        hashMap.put("title", "用户数量");
-        hashMap.put("count", countUser);
-        mapList.add(hashMap);
+        HashMap<String, Object> paramsMap = MapUtil.newHashMap();
+        paramsMap.put("isDeleted", IsEnum.N.getCode());
+        long countUser = sqlToyLazyDao.getCount("select count(1) from sys_user where is_deleted=:isDeleted", paramsMap);
+        sysOverviewList.add(new SysOverviewVO().setTitle("用户数量").setCount(countUser));
 
-        LambdaQueryWrapper<SysMenu> sysMenuWrapper = new LambdaQueryWrapper<>(SysMenu.class)
-                .select()
-                .eq(SysMenu::getIsDeleted, IsEnum.N.getCode())
-                .eq(SysMenu::getIsMenu, IsEnum.Y.getCode())
-                .eq(SysMenu::getMenuType, MenuTypeEnum.MENU.getCode());
-        Long countMenu = sqlToyHelperDao.count(sysMenuWrapper);
-        hashMap = new HashMap<>(2);
-        hashMap.put("title", "菜单数量");
-        hashMap.put("count", countMenu);
-        mapList.add(hashMap);
+        paramsMap = MapUtil.newHashMap();
+        paramsMap.put("isDeleted", IsEnum.N.getCode());
+        paramsMap.put("isMenu", IsEnum.Y.getCode());
+        paramsMap.put("menuType", MenuTypeEnum.MENU.getCode());
+        long countMenu = sqlToyLazyDao.getCount("select count(1) from sys_menu where is_deleted=:isDeleted and is_menu = :isMenu and menu_type = :menuType", paramsMap);
+        sysOverviewList.add(new SysOverviewVO().setTitle("菜单数量").setCount(countMenu));
 
-        LambdaQueryWrapper<SysRole> sysRoleWrapper = new LambdaQueryWrapper<>(SysRole.class)
-                .select().eq(SysRole::getIsDeleted, IsEnum.N.getCode());
-        long countRole = sqlToyHelperDao.count(sysRoleWrapper);
-        hashMap = new HashMap<>(2);
-        hashMap.put("title", "角色数量");
-        hashMap.put("count", countRole);
-        mapList.add(hashMap);
+        paramsMap = MapUtil.newHashMap();
+        paramsMap.put("isDeleted", IsEnum.N.getCode());
+        long countRole = sqlToyLazyDao.getCount("select count(1) from sys_role where is_deleted=:isDeleted", paramsMap);
+        sysOverviewList.add(new SysOverviewVO().setTitle("角色数量").setCount(countRole));
 
-        Long countOnline = (long) redisService.keys(
-                String.format(RedisKeyConst.ONLINE_USER, CharConst.ASTERISK)
+        long countOnline = redisService.keys(
+                String.format(RedisKeyConst.ONLINE_USER, "*")
         ).size();
-        hashMap = new HashMap<>(2);
-        hashMap.put("title", "在线用户");
-        hashMap.put("count", countOnline);
-        mapList.add(hashMap);
-        return mapList;
+        sysOverviewList.add(new SysOverviewVO().setTitle("在线用户").setCount(countOnline));
+        return sysOverviewList;
     }
 
     @Override

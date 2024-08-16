@@ -1,3 +1,5 @@
 {
-  "outPath": "./src/main/resources/static/doc"
+  "outPath": "./src/main/resources/static/doc",
+  "framework": "solon",
+  "packageFilters": "net.cocotea.janime.api.*.controller.*"
 }

@@ -3,8 +3,8 @@ package net.cocotea.janime.api.system.model.vo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -16,6 +16,9 @@ import java.util.Date;
 @Data
 @Accessors(chain = true)
 public class SysFileVO implements Serializable {
+
+	@Serial
+	private static final long serialVersionUID = 8804619777318495362L;
 
 	/**
 	 *主键ID
@@ -76,8 +79,5 @@ public class SysFileVO implements Serializable {
 	 * 是否共享
 	 */
 	private Integer isShare;
-
-	private LocalDateTime beginTime;
-	private LocalDateTime endTime;
 
 }

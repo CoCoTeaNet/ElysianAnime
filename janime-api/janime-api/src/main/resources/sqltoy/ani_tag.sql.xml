@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <sql id="ani_tag_findList">
+        <value>
+            <![CDATA[
+            select id, tag_name, create_time, create_by, update_time, update_by
+            from ani_tag
+            where is_deleted=0
+            #[and id in :inId]
+            #[and tag_name = :tagName]
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>

@@ -3,6 +3,25 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
 
+    <sql id="ani_opus_findList">
+        <value>
+            <![CDATA[
+            select ao.id, ao.name_original, ao.name_cn, ao.cover_url, ao.detail_info_url, ao.episodes, ao.launch_start,
+                   ao.delivery_week, ao.ani_summary, ao.has_resource, ao.rss_url, ao.rss_status, ao.rss_level_index,
+                   ao.rss_file_type, ao.rss_only_mark, ao.rss_exclude_res
+            from ani_opus ao
+            where ao.is_deleted = 0
+            #[and ao.name_cn = :nameCn]
+            #[and ao.name_cn like :likeNameCn]
+            #[and ao.name_original = :nameOriginal]
+            #[and ao.name_original like :likeNameOriginal]
+            #[and ao.rss_status = :rssStatus]
+            #[and ao.has_resource = :hasResource]
+            #[and ao.detail_info_url = :detailUrl]
+            ]]>
+        </value>
+    </sql>
+
     <sql id="ani_opus_listByUser">
         <value>
             <![CDATA[

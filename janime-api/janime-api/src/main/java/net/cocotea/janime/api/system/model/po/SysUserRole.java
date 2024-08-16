@@ -3,12 +3,13 @@
  */
 package net.cocotea.janime.api.system.model.po;
 
-import java.io.Serializable;
-import org.sagacity.sqltoy.config.annotation.Entity;
-import org.sagacity.sqltoy.config.annotation.Id;
-import org.sagacity.sqltoy.config.annotation.Column;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.sagacity.sqltoy.config.annotation.Column;
+import org.sagacity.sqltoy.config.annotation.Entity;
+import org.sagacity.sqltoy.config.annotation.Id;
+
+import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
@@ -28,13 +29,13 @@ public class SysUserRole implements Serializable {
 /*---begin-auto-generate-don't-update-this-area--*/	
 
 	@Id(strategy="generator",generator="org.sagacity.sqltoy.plugins.id.impl.SnowflakeIdGenerator")
-	@Column(name="id",comment="用户角色关联id",length=3L,type=java.sql.Types.TINYINT,nativeType="TINYINT",nullable=false)
+	@Column(name="id",comment="用户角色关联id",length=3L,type=java.sql.Types.TINYINT,nullable=false)
 	private BigInteger id;
 
-	@Column(name="user_id",comment="用户id",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=false)
+	@Column(name="user_id",comment="用户id",length=19L,type=java.sql.Types.BIGINT,nullable=false)
 	private BigInteger userId;
 
-	@Column(name="role_id",comment="角色id",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=false)
+	@Column(name="role_id",comment="角色id",length=19L,type=java.sql.Types.BIGINT,nullable=false)
 	private BigInteger roleId;
 	/** default constructor */
 	public SysUserRole() {

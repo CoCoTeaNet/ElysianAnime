@@ -2,8 +2,9 @@ package net.cocotea.janime.api.anime.model.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.noear.solon.validation.annotation.NotNull;
 
-import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;
 
@@ -17,6 +18,7 @@ import java.math.BigInteger;
 @Accessors(chain = true)
 public class AniUserOpusUpdateDTO implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = -7252647674007876814L;
 
 	/**

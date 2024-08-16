@@ -3,12 +3,13 @@
  */
 package net.cocotea.janime.api.system.model.po;
 
-import java.io.Serializable;
-import org.sagacity.sqltoy.config.annotation.Entity;
-import org.sagacity.sqltoy.config.annotation.Id;
-import org.sagacity.sqltoy.config.annotation.Column;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.sagacity.sqltoy.config.annotation.Column;
+import org.sagacity.sqltoy.config.annotation.Entity;
+import org.sagacity.sqltoy.config.annotation.Id;
+
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
@@ -29,58 +30,58 @@ public class SysMenu implements Serializable {
 /*---begin-auto-generate-don't-update-this-area--*/	
 
 	@Id(strategy="generator",generator="org.sagacity.sqltoy.plugins.id.impl.SnowflakeIdGenerator")
-	@Column(name="id",comment="菜单id",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=false)
+	@Column(name="id",comment="菜单id",length=19L,type=java.sql.Types.BIGINT,nullable=false)
 	private BigInteger id;
 
-	@Column(name="menu_name",comment="菜单名称",length=30L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=false)
+	@Column(name="menu_name",comment="菜单名称",length=30L,type=java.sql.Types.VARCHAR,nullable=false)
 	private String menuName;
 
-	@Column(name="permission_code",comment="权限编号",length=64L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
+	@Column(name="permission_code",comment="权限编号",length=64L,type=java.sql.Types.VARCHAR,nullable=true)
 	private String permissionCode;
 
-	@Column(name="router_path",comment="路由地址",length=255L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
+	@Column(name="router_path",comment="路由地址",length=255L,type=java.sql.Types.VARCHAR,nullable=true)
 	private String routerPath;
 
-	@Column(name="parent_id",comment="父级id",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=true)
+	@Column(name="parent_id",comment="父级id",length=19L,type=java.sql.Types.BIGINT,nullable=true)
 	private BigInteger parentId;
 
-	@Column(name="menu_type",comment="按钮类型;0目录 1菜单 2按钮",length=3L,type=java.sql.Types.TINYINT,nativeType="TINYINT",nullable=true)
+	@Column(name="menu_type",comment="按钮类型;0目录 1菜单 2按钮",length=3L,type=java.sql.Types.TINYINT,nullable=true)
 	private Integer menuType;
 
-	@Column(name="is_menu",comment="是否菜单",length=3L,type=java.sql.Types.TINYINT,nativeType="TINYINT",nullable=true)
+	@Column(name="is_menu",comment="是否菜单",length=3L,type=java.sql.Types.TINYINT,nullable=true)
 	private Integer isMenu;
 
-	@Column(name="menu_status",comment="菜单状态：0显示 1隐藏",length=3L,defaultValue="0",type=java.sql.Types.TINYINT,nativeType="TINYINT",nullable=true)
+	@Column(name="menu_status",comment="菜单状态：0显示 1隐藏",length=3L,defaultValue="0",type=java.sql.Types.TINYINT,nullable=true)
 	private Integer menuStatus;
 
-	@Column(name="component_path",comment="组件路径",length=64L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
+	@Column(name="component_path",comment="组件路径",length=64L,type=java.sql.Types.VARCHAR,nullable=true)
 	private String componentPath;
 
-	@Column(name="is_external_link",comment="是否外链",length=3L,defaultValue="0",type=java.sql.Types.TINYINT,nativeType="TINYINT",nullable=true)
+	@Column(name="is_external_link",comment="是否外链",length=3L,defaultValue="0",type=java.sql.Types.TINYINT,nullable=true)
 	private Integer isExternalLink;
 
-	@Column(name="icon_path",comment="菜单图标",length=255L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
+	@Column(name="icon_path",comment="菜单图标",length=255L,type=java.sql.Types.VARCHAR,nullable=true)
 	private String iconPath;
 
-	@Column(name="sort",comment="显示顺序",length=10L,type=java.sql.Types.INTEGER,nativeType="INT",nullable=true)
+	@Column(name="sort",comment="显示顺序",length=10L,type=java.sql.Types.INTEGER,nullable=true)
 	private Integer sort;
 
-	@Column(name="create_by",comment="创建人",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=false)
+	@Column(name="create_by",comment="创建人",length=19L,type=java.sql.Types.BIGINT,nullable=false)
 	private BigInteger createBy;
 
-	@Column(name="create_time",comment="创建时间",length=19L,type=java.sql.Types.DATE,nativeType="DATETIME",nullable=false)
+	@Column(name="create_time",comment="创建时间",length=19L,type=java.sql.Types.DATE,nullable=false)
 	private LocalDateTime createTime;
 
-	@Column(name="update_by",comment="更新人",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=true)
+	@Column(name="update_by",comment="更新人",length=19L,type=java.sql.Types.BIGINT,nullable=true)
 	private BigInteger updateBy;
 
-	@Column(name="update_time",comment="更新时间",length=19L,type=java.sql.Types.DATE,nativeType="DATETIME",nullable=true)
+	@Column(name="update_time",comment="更新时间",length=19L,type=java.sql.Types.DATE,nullable=true)
 	private LocalDateTime updateTime;
 
-	@Column(name="is_deleted",comment="是否删除",length=3L,defaultValue="0",type=java.sql.Types.TINYINT,nativeType="TINYINT",nullable=false)
+	@Column(name="is_deleted",comment="是否删除",length=3L,defaultValue="0",type=java.sql.Types.TINYINT,nullable=false)
 	private Integer isDeleted;
 
-	@Column(name="revision",comment="乐观锁",length=10L,type=java.sql.Types.INTEGER,nativeType="INT",nullable=true)
+	@Column(name="revision",comment="乐观锁",length=10L,type=java.sql.Types.INTEGER,nullable=true)
 	private Integer revision;
 	/** default constructor */
 	public SysMenu() {

@@ -4,12 +4,9 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSONObject;
-import com.sagframe.sagacity.sqltoy.plus.conditions.Wrappers;
-import com.sagframe.sagacity.sqltoy.plus.conditions.query.LambdaQueryWrapper;
-import com.sagframe.sagacity.sqltoy.plus.dao.SqlToyHelperDao;
 import net.cocotea.janime.api.anime.model.dto.*;
 import net.cocotea.janime.api.anime.model.po.AniOpus;
 import net.cocotea.janime.api.anime.model.po.AniTag;
@@ -29,28 +26,22 @@ import net.cocotea.janime.common.enums.ReadStatusEnum;
 import net.cocotea.janime.common.model.ApiPage;
 import net.cocotea.janime.common.model.BusinessException;
 import net.cocotea.janime.common.model.FileInfo;
-import net.cocotea.janime.interceptor.NonStaticResourceHttpRequestHandler;
 import net.cocotea.janime.properties.FileProp;
 import net.cocotea.janime.util.LoginUtils;
 import net.cocotea.janime.util.ResUtils;
+import org.noear.solon.annotation.Component;
+import org.noear.solon.annotation.Inject;
+import org.noear.solon.data.annotation.Tran;
+import org.sagacity.sqltoy.dao.LightDao;
 import org.sagacity.sqltoy.model.EntityQuery;
 import org.sagacity.sqltoy.model.Page;
+import org.sagacity.sqltoy.solon.annotation.Db;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -60,34 +51,31 @@ import java.util.stream.Collectors;
  * @author CoCoTea 572315466@qq.com
  * @since 1.2.1 2023-03-07
  */
-@Service
+@Component
 public class AniOpusServiceImpl implements AniOpusService {
     private static final Logger logger = LoggerFactory.getLogger(AniOpusServiceImpl.class);
 
-    @Resource
-    private NonStaticResourceHttpRequestHandler nonStaticResourceHttpRequestHandler;
+    @Db
+    private LightDao lightDao;
 
-    @Resource
-    private SqlToyHelperDao sqlToyHelperDao;
-
-    @Resource
+    @Inject
     private ResUtils resUtils;
 
-    @Resource
+    @Inject
     private SysNotifyService sysNotifyService;
 
-    @Resource
+    @Inject
     private AniUserOpusService aniUserOpusService;
 
-    @Resource
+    @Inject
     private AniTagService aniTagService;
 
-    @Resource
+    @Inject
     private FileProp fileProp;
 
     @Override
     public boolean update(AniOpus aniOpus) {
-        Long count = sqlToyHelperDao.update(aniOpus);
+        Long count = lightDao.update(aniOpus);
         return count > 0;
     }
 
@@ -96,23 +84,7 @@ public class AniOpusServiceImpl implements AniOpusService {
         if (id == null) {
             throw new BusinessException("主键为空");
         }
-        LambdaQueryWrapper<AniOpus> queryWrapper = new LambdaQueryWrapper<>(AniOpus.class)
-                .select()
-                .eq(AniOpus::getId, id)
-                .eq(AniOpus::getIsDeleted, IsEnum.N.getCode());
-        return sqlToyHelperDao.findOne(queryWrapper);
-    }
-
-    @Override
-    public AniOpusVO loadByName(String nameOriginal) throws BusinessException {
-        if (StrUtil.isBlank(nameOriginal)) {
-            throw new BusinessException("名称为空");
-        }
-        LambdaQueryWrapper<AniOpus> wrapper = new LambdaQueryWrapper<>(AniOpus.class)
-                .select()
-                .eq(AniOpus::getNameOriginal, nameOriginal);
-        AniOpus aniOpus = sqlToyHelperDao.findOne(wrapper);
-        return Convert.convert(AniOpusVO.class, aniOpus);
+        return lightDao.load(new AniOpus().setId(id));
     }
 
     @Override
@@ -120,42 +92,29 @@ public class AniOpusServiceImpl implements AniOpusService {
         if (StrUtil.isBlank(nameCn)) {
             throw new BusinessException("名称为空");
         }
-        LambdaQueryWrapper<AniOpus> wrapper = new LambdaQueryWrapper<>(AniOpus.class)
-                .select()
-                .eq(AniOpus::getNameCn, nameCn);
-        AniOpus aniOpus = sqlToyHelperDao.findOne(wrapper);
+        Map<String, Object> map = MapUtil.newHashMap(1);
+        AniOpus aniOpus = lightDao.findOne("ani_opus_findList", map, AniOpus.class);
         return Convert.convert(AniOpus.class, aniOpus);
     }
 
     @Override
     public ApiPage<AniOpusHomeVO> listByUser(AniOpusHomeDTO homeDTO) {
         BigInteger loginId = LoginUtils.loginId();
-        // 标签查询
-        if (!homeDTO.getStates().isEmpty()) {
-            List<BigInteger> opusIdsFromTag = aniTagService.findTagIds(homeDTO.getStates());
-            if (!opusIdsFromTag.isEmpty()) {
-                if (homeDTO.getOpusIds() == null) {
-                    homeDTO.setOpusIds(opusIdsFromTag);
-                } else {
-                    homeDTO.getOpusIds().addAll(opusIdsFromTag);
-                }
-            }
-        }
         // 作品主表查询
         Map<String, Object> mapDTO = BeanUtil.beanToMap(homeDTO);
         mapDTO.put("loginId", loginId);
-        Page<AniOpusHomeVO> page = sqlToyHelperDao.findPageBySql(homeDTO, "ani_opus_listByUser", mapDTO, AniOpusHomeVO.class);
+        Page<AniOpusHomeVO> page = lightDao.findPage(ApiPage.create(homeDTO), "ani_opus_listByUser", mapDTO, AniOpusHomeVO.class);
         return ApiPage.rest(page);
     }
 
     @Override
     public boolean add(AniOpusAddDTO param) {
         AniOpus aniOpus = Convert.convert(AniOpus.class, param);
-        Object save = sqlToyHelperDao.save(aniOpus);
+        Object save = lightDao.save(aniOpus);
         return save != null;
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Tran
     @Override
     public boolean deleteBatch(List<BigInteger> idList) {
         for (BigInteger s : idList) {
@@ -167,32 +126,28 @@ public class AniOpusServiceImpl implements AniOpusService {
     @Override
     public boolean update(AniOpusUpdateDTO updateDTO) {
         AniOpus aniOpus = Convert.convert(AniOpus.class, updateDTO);
-        Long count = sqlToyHelperDao.update(aniOpus);
+        Long count = lightDao.update(aniOpus);
         return count > 0;
     }
 
     @Override
     public ApiPage<AniOpusVO> listByPage(AniOpusPageDTO pageDTO) {
-        LambdaQueryWrapper<AniOpus> wrapper = Wrappers.lambdaWrapper(AniOpus.class)
-                .eq(AniOpus::getIsDeleted, IsEnum.N.getCode())
-                .eq(AniOpus::getRssStatus, pageDTO.getAniOpus().getRssStatus())
-                .eq(AniOpus::getHasResource, pageDTO.getAniOpus().getHasResource())
-                .like(AniOpus::getNameOriginal, pageDTO.getAniOpus().getNameOriginal())
-                .like(AniOpus::getNameCn, pageDTO.getAniOpus().getNameCn())
-                .orderByDesc(AniOpus::getId);
-        Page<AniOpus> page = sqlToyHelperDao.findPage(wrapper, pageDTO);
-        return ApiPage.rest(page, AniOpusVO.class);
+        Map<String, Object> beanDTO = BeanUtil.beanToMap(pageDTO);
+        beanDTO.put("likeNameOriginal", pageDTO.getAniOpus().getNameOriginal());
+        beanDTO.put("likeNameCn", pageDTO.getAniOpus().getNameCn());
+        Page<AniOpusVO> page = lightDao.findPage(ApiPage.create(pageDTO), "ani_opus_findList", beanDTO, AniOpusVO.class);
+        return ApiPage.rest(page);
     }
 
     @Override
     public boolean delete(BigInteger id) {
         AniOpus aniOpus = new AniOpus().setId(id).setIsDeleted(IsEnum.N.getCode());
-        return sqlToyHelperDao.update(aniOpus) > 0;
+        return lightDao.update(aniOpus) > 0;
     }
 
     @Override
     public AniVideoVO getOpusMedia(BigInteger opusId) {
-        AniOpus aniOpus = sqlToyHelperDao.loadEntity(AniOpus.class, new EntityQuery().names("ID").values(opusId));
+        AniOpus aniOpus = lightDao.loadEntity(AniOpus.class, new EntityQuery().names("ID").values(opusId));
         AniVideoVO vo = Convert.convert(AniVideoVO.class, aniOpus);
         // 查找关联用户
         AniUserOpus userOpus = aniUserOpusService.getByOpusIdAndUserId(opusId, LoginUtils.loginId());
@@ -260,43 +215,31 @@ public class AniOpusServiceImpl implements AniOpusService {
 
     @Override
     public List<AniOpus> getRssOpus(int rssStatus) {
-        LambdaQueryWrapper<AniOpus> wrapper = new LambdaQueryWrapper<>(AniOpus.class)
-                .select()
-                .eq(AniOpus::getIsDeleted, IsEnum.N.getCode())
-                .eq(AniOpus::getRssStatus, rssStatus);
-        return sqlToyHelperDao.findList(wrapper);
+        Map<String, Object> beanDTO = MapUtil.newHashMap(1);
+        beanDTO.put("rssStatus", rssStatus);
+        return lightDao.find("ani_opus_findList", beanDTO, AniOpus.class);
     }
 
     @Override
-    public String uploadRes(BigInteger opusId, MultipartFile multipartFile) throws BusinessException {
-        if (multipartFile.getOriginalFilename() != null) {
-            String[] split = multipartFile.getOriginalFilename().split("\\.");
-            String fileType = split[split.length - 1];
-            if (fileProp.getMediaFileType().contains(fileType)) {
-                AniOpus opus = sqlToyHelperDao.load(new AniOpus().setId(opusId));
-                FileInfo fileInfo = resUtils.saveRes(multipartFile, opus.getNameCn());
-                // 发送系统通知
-                SysNotifyAddDTO sysNotifyAddDTO = new SysNotifyAddDTO()
-                        .setTitle("【" + opus.getNameCn() + "】更新啦~~~")
-                        .setMemo("资源名：" + fileInfo.getFileName())
-                        .setJumpUrl(String.valueOf(opus.getId()))
-                        .setNotifyTime(DateUtil.date().toTimestamp())
-                        .setLevel(LevelEnum.INFO.getCode())
-                        .setIsGlobal(IsEnum.Y.getCode())
-                        .setNotifyType(NotifyConst.OPUS_UPDATE);
-                sysNotifyService.addNotify(sysNotifyAddDTO);
-                return fileInfo.getFileName();
-            } else {
-                throw new BusinessException("目前只支持格式：" + fileProp.getMediaFileType());
-            }
-        } else {
-            throw new BusinessException("文件名为空.");
-        }
+    public FileInfo uploadRes(BigInteger opusId, String filename) throws BusinessException {
+        AniOpus opus = lightDao.load(new AniOpus().setId(opusId));
+        FileInfo fileInfo = resUtils.saveRes(opus.getNameCn(), filename);
+        // 发送系统通知
+        SysNotifyAddDTO sysNotifyAddDTO = new SysNotifyAddDTO()
+                .setTitle("【" + opus.getNameCn() + "】更新啦~~~")
+                .setMemo("资源名：" + fileInfo.getFileName())
+                .setJumpUrl(String.valueOf(opus.getId()))
+                .setNotifyTime(DateUtil.date().toTimestamp())
+                .setLevel(LevelEnum.INFO.getCode())
+                .setIsGlobal(IsEnum.Y.getCode())
+                .setNotifyType(NotifyConst.OPUS_UPDATE);
+        sysNotifyService.addNotify(sysNotifyAddDTO);
+        return fileInfo;
     }
 
     @Override
-    public void getMedia(BigInteger opusId, String resName, HttpServletRequest request, HttpServletResponse response) throws BusinessException, IOException, ServletException {
-        AniOpus aniOpus = sqlToyHelperDao.load(new AniOpus().setId(opusId));
+    public File getMedia(BigInteger opusId, String resName) throws BusinessException {
+        AniOpus aniOpus = lightDao.load(new AniOpus().setId(opusId));
         if (aniOpus == null) {
             throw new BusinessException("作品不存在");
         }
@@ -307,30 +250,23 @@ public class AniOpusServiceImpl implements AniOpusService {
         }
 
         if (!resource.exists()) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
             throw new BusinessException("文件不存在");
         }
 
-        String mimeType = Files.probeContentType(Paths.get(resource.getPath()));
-        if (StrUtil.isNotEmpty(mimeType)) {
-            response.setContentType(mimeType);
-        }
-        request.setAttribute(NonStaticResourceHttpRequestHandler.ATTR_FILE, resource.toPath());
-        response.setContentType(Files.probeContentType(resource.toPath()));
-        nonStaticResourceHttpRequestHandler.handleRequest(request, response);
+        return resource;
     }
 
     @Override
-    public void getCover(String resName, HttpServletResponse response) throws BusinessException, IOException {
+    public File getCover(String resName) throws BusinessException, IOException {
         if (StrUtil.isBlank(resName)) {
             throw new BusinessException("资源不存在");
         }
         File file = FileUtil.file(fileProp.getAnimationCoverSavePath() + resName);
         if (file.exists()) {
-            FileUtil.writeToStream(file, response.getOutputStream());
+            return file;
         } else {
             throw new BusinessException("文件不存在");
         }
     }
+
 }

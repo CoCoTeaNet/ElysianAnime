@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <sql id="sys_notify_findList">
+        <value>
+            <![CDATA[
+            select id, title, memo, jump_url, notify_type, is_global, receiver, level, notify_time, create_by, create_time
+            from sys_notify
+            where is_deleted=0
+            #[and title = :title]
+            #[and is_global = :isGlobal]
+            #[and receiver = :receiver]
+            #[and notify_time between :betweenNotifyTime[0] and :betweenNotifyTime[1]]
+            order by notify_time desc, id desc
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>
