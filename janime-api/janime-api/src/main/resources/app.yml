@@ -50,8 +50,6 @@ janime:
   auto-reading-time: 180
   # 文件存放配置
   file:
-    # 默认文件存放位置
-    default-path: F:/Files/default/
     # 头像保存位置
     avatar: F:/Files/avatar/
     # 背景存放的地址
@@ -71,7 +69,7 @@ janime:
     # 分类
     category: JAnime
     # qb域名或者IP地址
-    domain: https://live1024.cn
+    domain: http://127.0.0.1:9001
     # 账号
     username: janime
     # 密码

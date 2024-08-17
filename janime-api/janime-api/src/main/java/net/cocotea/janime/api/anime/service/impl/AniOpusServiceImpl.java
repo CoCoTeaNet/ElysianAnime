@@ -93,6 +93,7 @@ public class AniOpusServiceImpl implements AniOpusService {
             throw new BusinessException("名称为空");
         }
         Map<String, Object> map = MapUtil.newHashMap(1);
+        map.put("nameCn", nameCn);
         AniOpus aniOpus = lightDao.findOne("ani_opus_findList", map, AniOpus.class);
         return Convert.convert(AniOpus.class, aniOpus);
     }

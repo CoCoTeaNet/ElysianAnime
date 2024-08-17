@@ -201,9 +201,7 @@ const showDialogMenu = (row: any, t: number) => {
  */
 const getMenus = (t: number, callback: Function) => {
   let param: any = {
-    pageNo: 1,
-    pageSize: 1000,
-    sysMenu: {isMenu: t}
+    isMenu: t
   }
   reqCommonFeedback(listByTreeAsRoleSelection(param), (data: any) => {
     menuOptions.value = data;

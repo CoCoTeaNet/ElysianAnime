@@ -36,13 +36,13 @@ public class RssJobs {
         try {
             miKanRss.doPauseSeedingBt();
         } catch (Exception e) {
-            logger.error("doPauseSeedingBt-------->error,msg={}", e.getMessage());
+            logger.error("doPauseSeedingBt >>>>> error,msg={}", e.getMessage());
         }
         // 定时重命名
         try {
             miKanRss.doRenameBt();
         } catch (BusinessException e) {
-            logger.error("doRenameBt-------->error,msg={}", e.getMessage());
+            logger.error("doRenameBt >>>>> error,msg={}", e.getMessage());
         }
     }
 

@@ -26,7 +26,7 @@ public class SqlToyUnifyFieldsHandler implements IUnifyFieldsHandler {
             loginId  = (String) StpUtil.getLoginId();
         } catch (Exception e) {
             logger.info("warning!func[getLoginId],add this item not login.");
-            loginId = "";
+            loginId = null;
         }
         return loginId;
     }
