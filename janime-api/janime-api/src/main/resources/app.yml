@@ -44,24 +44,16 @@ janime:
   # 前端访问地址
   url:
     web: http://127.0.0.1:8080
-  # 路由放行
-  excludes: /system/file/getBackground,/anime/opus/cover,/system/login,/system/captcha,/,/favicon.ico,/css/**,/js/**,/img/**
   # 观看到某个时长时，自动更新观看状态为'在看' (单位秒)
   auto-reading-time: 180
   # 文件存放配置
   file:
-    # 头像保存位置
-    avatar: F:/Files/avatar/
     # 背景存放的地址
     background: F:/Files/background/
     # 动漫封面保存的位置
     animation-cover-path: F:/Files/animation-cover/
     # 动漫资源保存位置
     animation-path: F:/Files/animation/
-    # 禁止上传的文件
-    not-support-filetype: js,html,htm,shtml,php,css,java,sh,bat,xml
-    # 媒体格式
-    media-filetype: mp4,avi,mpg,mpeg,wmv,flv,swf,mov,mkv
   qb:
     # 这三项一般默认，可以不用配置
     ok: Ok.

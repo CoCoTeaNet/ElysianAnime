@@ -142,7 +142,7 @@ public class AniOpusServiceImpl implements AniOpusService {
 
     @Override
     public boolean delete(BigInteger id) {
-        AniOpus aniOpus = new AniOpus().setId(id).setIsDeleted(IsEnum.N.getCode());
+        AniOpus aniOpus = new AniOpus().setId(id).setIsDeleted(IsEnum.Y.getCode());
         return lightDao.update(aniOpus) > 0;
     }
 

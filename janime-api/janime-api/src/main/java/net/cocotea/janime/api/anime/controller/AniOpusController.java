@@ -2,6 +2,8 @@ package net.cocotea.janime.api.anime.controller;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import net.cocotea.janime.api.anime.model.dto.AniOpusAddDTO;
@@ -24,6 +26,7 @@ import org.noear.solon.core.handle.DownloadedFile;
 import org.noear.solon.core.handle.UploadedFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -156,6 +159,30 @@ public class AniOpusController {
     public DownloadedFile getCover(@Param("resName") String resName) throws BusinessException, IOException {
         File cover = aniOpusService.getCover(resName);
         return new DownloadedFile(cover);
+    }
+
+    @Get
+    @Mapping("/getBackground")
+    public DownloadedFile getBackground(@Param(value = "resName") String resName) throws BusinessException, FileNotFoundException {
+        String fullPath = fileProp.getBackgroundPath();
+        File bgFile = null;
+        if (StrUtil.isNotBlank(resName)) {
+            // 指定背景
+            fullPath += resName;
+            bgFile = FileUtil.file(fullPath);
+            if (!bgFile.exists()) {
+                throw new BusinessException("文件不存在");
+            }
+        } else {
+            // 随机背景
+            File file = FileUtil.file(fullPath);
+            if (file.exists() && file.isDirectory()) {
+                List<File> files = FileUtil.loopFiles(file);
+                bgFile = files.get(RandomUtil.randomInt(0, files.size() - 1));
+            }
+        }
+        assert bgFile != null;
+        return new DownloadedFile(bgFile);
     }
 
 }

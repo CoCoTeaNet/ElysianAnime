@@ -11,7 +11,7 @@ if (userInfo) {
 
 <template>
   <img
-      :src="`api/system/file/getBackground`"
+      :src="`api/anime/opus/getBackground`"
       class="app-background"
       alt="bg"
   >
