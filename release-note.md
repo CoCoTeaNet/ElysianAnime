@@ -4,6 +4,7 @@
 ## v2.1_202408
 - 变更：核心框架从springboot2框架替换为solon2.x
 - 变更：接口名(system/file/getBackground)变成(anime/opus/getBackground)
+- 变更：logo更换
 - 修复：番剧管理中心删除番剧失效问题
 
 
