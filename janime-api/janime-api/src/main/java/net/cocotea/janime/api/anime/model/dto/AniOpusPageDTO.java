@@ -6,12 +6,15 @@ import lombok.experimental.Accessors;
 import net.cocotea.janime.common.model.ApiPageDTO;
 import org.noear.solon.validation.annotation.NotNull;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
 public class AniOpusPageDTO extends ApiPageDTO implements Serializable {
+
+    @Serial
     private static final long serialVersionUID = -1L;
 
     /**

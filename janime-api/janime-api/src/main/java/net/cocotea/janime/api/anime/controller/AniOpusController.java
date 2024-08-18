@@ -81,7 +81,7 @@ public class AniOpusController {
      */
     @Post
     @Mapping("/addAcgOpusByBgmUrl")
-    public ApiResult<?> addAcgOpusByBgmUrl(@Body JSONObject obj) throws BusinessException {
+    public ApiResult<?> addAniOpusByBgmUrl(@Body JSONObject obj) throws BusinessException {
         String bgmUrl = obj.getString("bgmUrl");
         if (StrUtil.isBlank(bgmUrl)) {
             throw new BusinessException("bgmUrl is empty");
