@@ -21,7 +21,7 @@ module.exports = defineConfig({
         port: 8086,
         proxy: {
             '/api': {
-                target: 'http://ani.live1024.cn:5000/api', changeOrigin: true, ws: true, pathRewrite: {
+                target: 'http://127.0.0.1:8088/v2-api', changeOrigin: true, ws: true, pathRewrite: {
                     '^/api': ''
                 }
             }
