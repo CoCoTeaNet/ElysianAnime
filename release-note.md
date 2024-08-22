@@ -1,6 +1,14 @@
 # 变更日志
 
 
+## v2.1_202408
+- 变更：核心框架从springboot2框架替换为solon2.x
+- 变更：接口名(system/file/getBackground)变成(anime/opus/getBackground)
+- 变更：logo更换
+- 变更：项目名最终命名为“ElysianAnime”
+- 修复：番剧管理中心删除番剧失效问题
+
+
 ## v2.0_202407
 - 新增：系统日志添加‘接口路径’字段保存和展示
 - 新增：系统日志添加@LogPersistence注解拦截存储

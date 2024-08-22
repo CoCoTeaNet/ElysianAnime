@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <sql id="sys_user_role_findList">
+        <value>
+            <![CDATA[
+            select id, user_id, role_id
+            from sys_user_role
+            where 1=1
+            #[and user_id = :userId]
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>

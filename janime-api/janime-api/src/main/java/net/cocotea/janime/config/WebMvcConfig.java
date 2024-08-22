@@ -1,91 +1,53 @@
 package net.cocotea.janime.config;
 
 import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.filter.SaServletFilter;
-import cn.dev33.satoken.interceptor.SaInterceptor;
+import cn.dev33.satoken.dao.SaTokenDao;
+import cn.dev33.satoken.router.SaRouter;
+import cn.dev33.satoken.solon.dao.SaTokenDaoOfRedisJson;
+import cn.dev33.satoken.solon.integration.SaTokenInterceptor;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DatePattern;
-import com.alibaba.fastjson.serializer.SerializeConfig;
+import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.serializer.ToStringSerializer;
-import com.alibaba.fastjson.support.config.FastJsonConfig;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import net.cocotea.janime.interceptor.WebApiInterceptor;
-import net.cocotea.janime.properties.DefaultProp;
+import org.noear.solon.annotation.Bean;
+import org.noear.solon.annotation.Configuration;
+import org.noear.solon.annotation.Inject;
+import org.noear.solon.serialization.fastjson.FastjsonActionExecutor;
+import org.noear.solon.serialization.fastjson.FastjsonRenderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.annotation.Resource;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
- * @author CoCoTea
- * @version 2.0.0
+ * @author jwss
+ * @date 2022-1-17 16:12:05
  */
 @Configuration
-public class WebMvcConfig implements WebMvcConfigurer {
+public class WebMvcConfig {
     private static final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
 
-    @Resource
-    private DefaultProp defaultProp;
+    @Bean(index = -100)  //-100，是顺序位（低值优先）
+    public SaTokenInterceptor saTokenInterceptor(@Inject("${sra-admin.excludes}") String excludesStr) {
+        SaTokenInterceptor interceptor = new SaTokenInterceptor();
 
-    @Resource
-    private WebApiInterceptor webApiInterceptor;
+        String[] excludes = excludesStr.split(",");
 
-    @Bean
-    public FastJsonHttpMessageConverter fastJsonHttpMessageConverter() {
-        FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
-        FastJsonConfig fastJsonConfig = new FastJsonConfig();
-        fastJsonConfig.setDateFormat(DatePattern.NORM_DATETIME_PATTERN);
-        fastJsonConfig.setSerializerFeatures(
-                SerializerFeature.PrettyFormat,
-                SerializerFeature.WriteMapNullValue,
-                SerializerFeature.WriteNullNumberAsZero,
-                SerializerFeature.WriteNullStringAsEmpty
-        );
-        // 解决BigInteger转json精度丢失的问题
-        SerializeConfig serializeConfig = SerializeConfig.globalInstance;
-        serializeConfig.put(BigInteger.class, ToStringSerializer.instance);
-        fastJsonConfig.setSerializeConfig(serializeConfig);
-        // 处理中文乱码问题
-        List<MediaType> fastMediaTypes = new ArrayList<>();
-        fastMediaTypes.add(MediaType.APPLICATION_JSON);
-        fastMediaTypes.add(MediaType.valueOf("video/mp4"));
-        fastConverter.setSupportedMediaTypes(fastMediaTypes);
-        fastConverter.setFastJsonConfig(fastJsonConfig);
-        return fastConverter;
-    }
+        // 指定 [拦截路由] 与 [放行路由]
+        interceptor.addInclude("/**");
+        for (String url : excludes) {
+            logger.info("[saTokenInterceptor]放行接口：{}", url);
+            interceptor.addExclude(url);
+        }
 
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(fastJsonHttpMessageConverter());
-    }
+        // 认证函数: 每次请求执行
+        interceptor.setAuth(req -> SaRouter.match("/**", StpUtil::checkLogin));
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        // 注册注解拦截器，并排除不需要注解鉴权的接口地址 (与登录拦截器无关)
-        registry.addInterceptor(new SaInterceptor(handle -> StpUtil.checkLogin()))
-                .addPathPatterns("/**")
-                .excludePathPatterns(getExcludeList());
-        // 自定义拦截器
-        registry.addInterceptor(webApiInterceptor);
-    }
-
-    /**
-     * 注册 [Sa-Token全局过滤器]
-     */
-    @Bean
-    public SaServletFilter getSaServletFilter() {
-        return new SaServletFilter().setBeforeAuth(r -> {
+        // 前置函数：在每次认证函数之前执行
+        interceptor.setBeforeAuth(req -> {
+            // ---------- 设置一些安全响应头 ----------
             SaHolder.getResponse()
                     // 服务器名称
                     .setServer("sa-server")
@@ -96,22 +58,34 @@ public class WebMvcConfig implements WebMvcConfigurer {
                     // 禁用浏览器内容嗅探
                     .setHeader("X-Content-Type-Options", "nosniff");
         });
+
+        return interceptor;
+    }
+
+    @Bean
+    public void jsonInit(@Inject FastjsonRenderFactory factory, @Inject FastjsonActionExecutor executor){
+        // 解决前端精度问题
+        factory.addConvertor(BigInteger.class, String::valueOf);
+
+        // 日期转换
+        factory.addConvertor(Date.class, s -> DateUtil.format(s, DatePattern.NORM_DATETIME_PATTERN));
+        factory.addConvertor(LocalDateTime.class, s -> DateUtil.format(s, DatePattern.NORM_DATETIME_PATTERN));
+
+        factory.addFeatures(
+                SerializerFeature.PrettyFormat,
+                SerializerFeature.WriteMapNullValue,
+                SerializerFeature.WriteNullNumberAsZero,
+                SerializerFeature.WriteNullStringAsEmpty
+        );
+
     }
 
     /**
-     * 获取放行路由列表
-     *
-     * @return 路由集合
+     * 使用Redis缓存token
      */
-    public List<String> getExcludeList() {
-        List<String> excludes = new ArrayList<>();
-        Collections.addAll(excludes, defaultProp.getExcludes().split(","));
-        if (excludes.isEmpty()) {
-            return Collections.emptyList();
-        }
-        logger.info("~~~~~~~~~~~ 放行路由 ~~~~~~~~~~~");
-        excludes.forEach(logger::info);
-        logger.info("~~~~~~~~~~~");
-        return excludes;
+    @Bean
+    public SaTokenDao saTokenDaoInit(@Inject("${myapp.rd1}") SaTokenDaoOfRedisJson saTokenDao) {
+        return saTokenDao;
     }
+
 }

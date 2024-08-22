@@ -3,6 +3,12 @@ package net.cocotea.janime.common.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * 等级信息枚举值
+ *
+ * @author CoCoTea
+ * @version v2.0.0
+ */
 @Getter
 @AllArgsConstructor
 public enum LevelEnum {

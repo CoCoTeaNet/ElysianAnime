@@ -1,7 +1,7 @@
 package net.cocotea.janime.api.system.model.dto;
 
 /**
- * @author jwss
+ * @author CoCoTea
  */
 public class SysLogUpdateDTO {
 }

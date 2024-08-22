@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
+ * 性别枚举值
+ *
  * @author CoCoTea
  * @version 2.0.0
  */

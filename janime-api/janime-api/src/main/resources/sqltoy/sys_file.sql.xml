@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <sql id="sys_file_JOIN_findList">
+        <value>
+            <![CDATA[
+            select
+                a.id, a.file_suffix, a.create_time, a.is_share, a.file_name, a.file_size, a.update_time,
+                b.username, b.nickname
+            from sys_file a
+                left join sys_user b on (a.create_by = b.id)
+            where a.is_deleted = 0
+            #[and a.file_suffix = :fileSuffix]
+            #[and a.file_name like :fileName]
+            #[and a.create_by = :userId]
+            #[and a.create_time between :beginTime and :endTime]
+            order by a.id desc
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>

@@ -3,21 +3,25 @@ package net.cocotea.janime.api.anime.model.dto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import net.cocotea.janime.api.anime.model.vo.AniOpusVO;
-import net.cocotea.janime.api.anime.model.vo.AniUserOpusVO;
-import org.sagacity.sqltoy.model.Page;
+import net.cocotea.janime.common.model.ApiPageDTO;
+import org.noear.solon.validation.annotation.NotNull;
 
-import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-public class AniOpusPageDTO extends Page<AniOpusVO> implements Serializable {
+public class AniOpusPageDTO extends ApiPageDTO implements Serializable {
+
+    @Serial
     private static final long serialVersionUID = -1L;
 
-    @NotNull(message = "传参有误")
-    private AniOpusVO aniOpus;
+    /**
+     * 查询参数
+     */
+    @NotNull(message = "查询参数为空")
+    private Query aniOpus;
 
     /**
      * 搜索字符串
@@ -28,5 +32,25 @@ public class AniOpusPageDTO extends Page<AniOpusVO> implements Serializable {
      * 季度
      */
     private String quarter;
+
+    @Data
+    public static class Query {
+        /**
+         * 订阅状态: 0未订阅 1订阅中 2订阅完成
+         */
+        private Integer rssStatus;
+        /**
+         * 是否有资源
+         */
+        private Integer hasResource;
+        /**
+         *原名
+         */
+        private String nameOriginal;
+        /**
+         *中文名
+         */
+        private String nameCn;
+    }
 
 }

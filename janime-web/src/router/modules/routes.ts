@@ -25,7 +25,7 @@ export const routes = [
     {
         path: "/anime",
         name: "AnimeLayout",
-        meta: {title: 'JAnime'},
+        meta: {title: 'ElysianAnime'},
         component: AnimeLayout,
         redirect: {name: 'AnimeHome'},
         children: [
@@ -37,7 +37,7 @@ export const routes = [
     {
         path: "/login",
         name: "Login",
-        meta: {title: '登录JAnime追番系统~~~'},
+        meta: {title: '登录ElysianAnime追番系统~~~'},
         component: Login
     },
     {

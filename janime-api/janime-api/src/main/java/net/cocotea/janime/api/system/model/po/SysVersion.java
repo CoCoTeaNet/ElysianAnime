@@ -3,12 +3,13 @@
  */
 package net.cocotea.janime.api.system.model.po;
 
-import java.io.Serializable;
-import org.sagacity.sqltoy.config.annotation.Entity;
-import org.sagacity.sqltoy.config.annotation.Id;
-import org.sagacity.sqltoy.config.annotation.Column;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.sagacity.sqltoy.config.annotation.Column;
+import org.sagacity.sqltoy.config.annotation.Entity;
+import org.sagacity.sqltoy.config.annotation.Id;
+
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
@@ -29,31 +30,31 @@ public class SysVersion implements Serializable {
 /*---begin-auto-generate-don't-update-this-area--*/	
 
 	@Id(strategy="generator",generator="org.sagacity.sqltoy.plugins.id.impl.SnowflakeIdGenerator")
-	@Column(name="id",comment="版本id",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=false)
+	@Column(name="id",comment="版本id",length=19L,type=java.sql.Types.BIGINT,nullable=false)
 	private BigInteger id;
 
-	@Column(name="update_no",comment="更新版本号",length=20L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
+	@Column(name="update_no",comment="更新版本号",length=20L,type=java.sql.Types.VARCHAR,nullable=true)
 	private String updateNo;
 
-	@Column(name="update_desc",comment="版本更新描述",length=900L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
+	@Column(name="update_desc",comment="版本更新描述",length=900L,type=java.sql.Types.VARCHAR,nullable=true)
 	private String updateDesc;
 
-	@Column(name="platform_name",comment="系统平台名称",length=10L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
+	@Column(name="platform_name",comment="系统平台名称",length=10L,type=java.sql.Types.VARCHAR,nullable=true)
 	private String platformName;
 
-	@Column(name="download_url",comment="下载地址",length=200L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
+	@Column(name="download_url",comment="下载地址",length=200L,type=java.sql.Types.VARCHAR,nullable=true)
 	private String downloadUrl;
 
-	@Column(name="create_by",comment="创建人",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=false)
+	@Column(name="create_by",comment="创建人",length=19L,type=java.sql.Types.BIGINT,nullable=false)
 	private BigInteger createBy;
 
-	@Column(name="create_time",comment="创建时间",length=19L,type=java.sql.Types.DATE,nativeType="DATETIME",nullable=false)
+	@Column(name="create_time",comment="创建时间",length=19L,type=java.sql.Types.DATE,nullable=false)
 	private LocalDateTime createTime;
 
-	@Column(name="update_by",comment="更新人",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=true)
+	@Column(name="update_by",comment="更新人",length=19L,type=java.sql.Types.BIGINT,nullable=true)
 	private BigInteger updateBy;
 
-	@Column(name="update_time",comment="更新时间",length=19L,type=java.sql.Types.DATE,nativeType="DATETIME",nullable=true)
+	@Column(name="update_time",comment="更新时间",length=19L,type=java.sql.Types.DATE,nullable=true)
 	private LocalDateTime updateTime;
 	/** default constructor */
 	public SysVersion() {

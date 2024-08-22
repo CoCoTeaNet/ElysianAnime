@@ -3,6 +3,7 @@ package net.cocotea.janime.common.model;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -14,6 +15,7 @@ import java.io.Serializable;
 @Data
 @Accessors(chain = true)
 public class FileInfo implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

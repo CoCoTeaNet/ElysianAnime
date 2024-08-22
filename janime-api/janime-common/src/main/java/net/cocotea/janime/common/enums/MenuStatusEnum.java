@@ -1,11 +1,16 @@
 package net.cocotea.janime.common.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 菜单状态 枚举值
  *
  * @author CoCoTea
- * @date 2022-4-2 14:16:05
+ * @version 2.0.0
  */
+@Getter
+@AllArgsConstructor
 public enum MenuStatusEnum {
     /**
      * 显示&启用
@@ -18,17 +23,4 @@ public enum MenuStatusEnum {
 
     final Integer code;
     final String desc;
-
-    MenuStatusEnum(Integer code, String desc) {
-        this.code = code;
-        this.desc = desc;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
 }

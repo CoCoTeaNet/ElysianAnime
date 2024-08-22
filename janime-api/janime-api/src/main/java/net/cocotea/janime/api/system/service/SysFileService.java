@@ -3,13 +3,11 @@ package net.cocotea.janime.api.system.service;
 import net.cocotea.janime.api.system.model.dto.SysFileAddDTO;
 import net.cocotea.janime.api.system.model.dto.SysFilePageDTO;
 import net.cocotea.janime.api.system.model.dto.SysFileUpdateDTO;
-import net.cocotea.janime.api.system.model.po.SysFile;
 import net.cocotea.janime.api.system.model.vo.SysFileVO;
 import net.cocotea.janime.common.model.ApiPage;
 import net.cocotea.janime.common.model.BusinessException;
 import net.cocotea.janime.common.service.BaseService;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
@@ -45,13 +43,13 @@ public interface SysFileService extends BaseService<ApiPage<SysFileVO>, SysFileP
      */
     boolean recoveryBatch(List<BigInteger> param);
 
-    /**
-     * 下载文件
-     *
-     * @param fileId 文件ID
-     * @param response {@link HttpServletResponse}
-     */
-    void download(BigInteger fileId, HttpServletResponse response) throws BusinessException, IOException;
+    // /**
+    //  * 下载文件
+    //  *
+    //  * @param fileId 文件ID
+    //  * @param response {@link HttpServletResponse}
+    //  */
+    // void download(BigInteger fileId, HttpServletResponse response) throws BusinessException, IOException;
 
     /**
      * 获取文件信息

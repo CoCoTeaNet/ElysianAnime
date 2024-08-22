@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 角色服务类
  * @date 2022-1-17 17:14:06
- * @author jwss
+ * @author CoCoTea
  */
 public interface SysRoleService extends BaseService<ApiPage<SysRoleVO>, SysRolePageDTO, SysRoleAddDTO, SysRoleUpdateDTO> {
     /**

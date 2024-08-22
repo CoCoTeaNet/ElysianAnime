@@ -2,11 +2,7 @@ package net.cocotea.janime.api.anime.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
-import com.alibaba.fastjson.JSONObject;
-import com.sagframe.sagacity.sqltoy.plus.conditions.Wrappers;
-import com.sagframe.sagacity.sqltoy.plus.conditions.query.LambdaQueryWrapper;
-import com.sagframe.sagacity.sqltoy.plus.conditions.update.LambdaUpdateWrapper;
-import com.sagframe.sagacity.sqltoy.plus.dao.SqlToyHelperDao;
+import cn.hutool.core.map.MapUtil;
 import net.cocotea.janime.api.anime.model.dto.AniUserOpusAddDTO;
 import net.cocotea.janime.api.anime.model.dto.AniUserOpusPageDTO;
 import net.cocotea.janime.api.anime.model.dto.AniUserOpusUpdateDTO;
@@ -15,6 +11,7 @@ import net.cocotea.janime.api.anime.model.po.AniTag;
 import net.cocotea.janime.api.anime.model.po.AniUserOpus;
 import net.cocotea.janime.api.anime.model.vo.AniUserOpusSharesVO;
 import net.cocotea.janime.api.anime.model.vo.AniUserOpusVO;
+import net.cocotea.janime.api.anime.service.AniOpusService;
 import net.cocotea.janime.api.anime.service.AniTagService;
 import net.cocotea.janime.api.anime.service.AniUserOpusService;
 import net.cocotea.janime.api.system.model.po.SysUser;
@@ -24,11 +21,14 @@ import net.cocotea.janime.common.model.ApiPage;
 import net.cocotea.janime.common.model.BusinessException;
 import net.cocotea.janime.properties.DefaultProp;
 import net.cocotea.janime.util.LoginUtils;
+import org.noear.solon.annotation.Component;
+import org.noear.solon.annotation.Inject;
+import org.noear.solon.data.annotation.Tran;
+import org.sagacity.sqltoy.dao.LightDao;
+import org.sagacity.sqltoy.model.EntityUpdate;
 import org.sagacity.sqltoy.model.Page;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.sagacity.sqltoy.solon.annotation.Db;
 
-import javax.annotation.Resource;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,26 +44,29 @@ import static java.util.stream.Collectors.groupingBy;
  * @author CoCoTea 572315466@qq.com
  * @version 2.0.0
  */
-@Service
+@Component
 public class AniUserOpusServiceImpl implements AniUserOpusService {
 
-    @Resource
+    @Inject
     private DefaultProp defaultProp;
 
-    @Resource
-    private SqlToyHelperDao sqlToyHelperDao;
+    @Db
+    private LightDao lightDao;
 
-    @Resource
+    @Inject
     private AniTagService aniTagService;
+
+    @Inject
+    private AniOpusService aniOpusService;
 
     @Override
     public boolean add(AniUserOpusAddDTO param) {
         AniUserOpus aniUserOpus = Convert.convert(AniUserOpus.class, param);
-        Object save = sqlToyHelperDao.save(aniUserOpus);
+        Object save = lightDao.save(aniUserOpus);
         return save != null;
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Tran
     @Override
     public boolean deleteBatch(List<BigInteger> idList) {
         for (BigInteger s : idList) {
@@ -75,35 +78,36 @@ public class AniUserOpusServiceImpl implements AniUserOpusService {
     @Override
     public boolean update(AniUserOpusUpdateDTO updateDTO) {
         AniUserOpus aniUserOpus = BeanUtil.copyProperties(updateDTO, AniUserOpus.class);
-        long count = sqlToyHelperDao.update(aniUserOpus);
+        long count = lightDao.update(aniUserOpus);
         return count > 0;
     }
 
     @Override
     public ApiPage<AniUserOpusVO> listByPage(AniUserOpusPageDTO pageDTO) {
-        LambdaQueryWrapper<AniUserOpus> queryWrapper = Wrappers.lambdaWrapper(AniUserOpus.class);
-        Page<AniUserOpus> page = sqlToyHelperDao.findPage(queryWrapper, pageDTO);
-        List<AniUserOpusVO> list = Convert.toList(AniUserOpusVO.class, page);
-        return ApiPage.rest(page, list);
+        return null;
     }
 
     @Override
     public boolean delete(BigInteger id) {
-        return sqlToyHelperDao.delete(new AniUserOpus().setOpusId(id)) > 0;
+        return lightDao.delete(new AniUserOpus().setOpusId(id)) > 0;
     }
 
-    @Transactional(rollbackFor = BusinessException.class)
+    @Tran
     @Override
     public boolean follow(BigInteger opusId) throws BusinessException {
         BigInteger loginId = LoginUtils.loginId();
-        LambdaQueryWrapper<AniOpus> aniOpusLambdaQueryWrapper = new LambdaQueryWrapper<>(AniOpus.class).eq(AniOpus::getId, opusId);
-        long count = sqlToyHelperDao.count(aniOpusLambdaQueryWrapper);
-        if (count == 0) {
+
+        AniOpus aniOpus = aniOpusService.loadById(opusId);
+        if (aniOpus == null) {
             throw new BusinessException("作品不存在");
         }
-        LambdaQueryWrapper<AniUserOpus> aniUserOpusLambdaQueryWrapper = new LambdaQueryWrapper<>(AniUserOpus.class).eq(AniUserOpus::getUserId, loginId).eq(AniUserOpus::getOpusId, opusId);
-        count = sqlToyHelperDao.count(aniUserOpusLambdaQueryWrapper);
-        if (count == 0) {
+
+        Map<String, Object> mapDTO = MapUtil.newHashMap(2);
+        mapDTO.put("opusId", opusId);
+        mapDTO.put("userId", loginId);
+        AniUserOpus userOpusExist = lightDao.findOne("ani_user_opus_findList", mapDTO, AniUserOpus.class);
+
+        if (userOpusExist == null) {
             // 关注番剧
             AniUserOpus userOpus = new AniUserOpus()
                     .setUserId(loginId)
@@ -112,20 +116,20 @@ public class AniUserOpusServiceImpl implements AniUserOpusService {
                     .setIsShare(IsEnum.N.getCode())
                     .setReadingNum(1)
                     .setReadingTime(BigInteger.valueOf(0L));
-            sqlToyHelperDao.save(userOpus);
+            lightDao.save(userOpus);
             return true;
         } else {
             // 取消关注
-            return sqlToyHelperDao.delete(aniUserOpusLambdaQueryWrapper) > 0;
+            return delete(userOpusExist.getId());
         }
     }
 
     @Override
     public ApiPage<AniUserOpusVO> listByUser(AniUserOpusPageDTO pageDTO) {
         BigInteger loginId = LoginUtils.loginIdEx();
-        JSONObject mapDTO = Convert.convert(JSONObject.class, pageDTO);
+        Map<String, Object> mapDTO = BeanUtil.beanToMap(pageDTO);
         mapDTO.put("loginId", loginId);
-        Page<AniUserOpusVO> page = sqlToyHelperDao.findPageBySql(pageDTO, "ani_user_opus_listByUser", mapDTO, AniUserOpusVO.class);
+        Page<AniUserOpusVO> page = lightDao.findPage(ApiPage.create(pageDTO), "ani_user_opus_listByUser", mapDTO, AniUserOpusVO.class);
         return ApiPage.rest(page);
     }
 
@@ -137,7 +141,7 @@ public class AniUserOpusServiceImpl implements AniUserOpusService {
         if (readingTime != null && autoReadingTime != null) {
             if (readingTime >= autoReadingTime) {
                 BigInteger id = updateDTO.getId();
-                AniUserOpus userOpus = sqlToyHelperDao.load(new AniUserOpus().setId(id));
+                AniUserOpus userOpus = lightDao.load(new AniUserOpus().setId(id));
                 Integer readStatus = userOpus.getReadStatus();
                 if (readStatus == ReadStatusEnum.NOT_READ.getCode().intValue()) {
                     updateDTO.setReadStatus(ReadStatusEnum.READING.getCode());
@@ -149,45 +153,48 @@ public class AniUserOpusServiceImpl implements AniUserOpusService {
 
     @Override
     public List<String> findFollowsEmail(BigInteger opusId) {
-        JSONObject dto = Convert.convert(JSONObject.class, new AniUserOpus().setOpusId(opusId));
-        List<SysUser> list = sqlToyHelperDao.findBySql("ani_user_opus_findFollowsEmail", dto, SysUser.class);
+        Map<String, Object> dtoMap = new HashMap<>(1);
+        dtoMap.put("opusId", opusId);
+        List<SysUser> list = lightDao.find("ani_user_opus_findFollowsEmail", dtoMap, SysUser.class);
         return list.stream().map(SysUser::getEmail).collect(Collectors.toList());
     }
 
     @Override
     public AniUserOpus getByOpusIdAndUserId(BigInteger opusId, BigInteger userId) {
-        LambdaQueryWrapper<AniUserOpus> queryWrapper = Wrappers.lambdaWrapper(AniUserOpus.class)
-                .eq(AniUserOpus::getOpusId, opusId)
-                .eq(AniUserOpus::getUserId, userId);
-        return sqlToyHelperDao.findOne(queryWrapper);
+        Map<String, Object> mapDTO = MapUtil.newHashMap(2);
+        mapDTO.put("opusId", opusId);
+        mapDTO.put("userId", userId);
+        return lightDao.findOne("ani_user_opus_findList", mapDTO, AniUserOpus.class);
     }
 
     @Override
     public boolean share(BigInteger opusId) throws BusinessException {
-        AniOpus aniOpus = sqlToyHelperDao.load(new AniOpus().setId(opusId));
+        AniOpus aniOpus = lightDao.load(new AniOpus().setId(opusId));
         if (aniOpus == null) {
             throw new BusinessException(String.format("ID[%s]作品不存在", opusId));
         }
         BigInteger loginId = LoginUtils.loginId();
-        LambdaQueryWrapper<AniUserOpus> queryWrapper = Wrappers.lambdaWrapper(AniUserOpus.class)
-                .eq(AniUserOpus::getOpusId, opusId)
-                .eq(AniUserOpus::getUserId, loginId);
-        AniUserOpus userOpus = sqlToyHelperDao.findOne(queryWrapper);
+
+        Map<String, Object> mapDTO = MapUtil.newHashMap(2);
+        mapDTO.put("opusId", opusId);
+        mapDTO.put("userId", loginId);
+        AniUserOpus userOpus = lightDao.findOne("ani_user_opus_findList", mapDTO, AniUserOpus.class);
+
         if (userOpus == null) {
             return false;
         }
-        AniUserOpus aniUserOpus = new AniUserOpus();
+
+        EntityUpdate entityUpdate = EntityUpdate.create();
         if (userOpus.getIsShare() == IsEnum.Y.getCode().intValue()) {
-            // 不分享
-            aniUserOpus.setIsShare(IsEnum.N.getCode());
+            // 不推荐
+            entityUpdate.set("is_share", IsEnum.N.getCode());
         } else {
             // 推荐
-            aniUserOpus.setIsShare(IsEnum.Y.getCode());
+            entityUpdate.set("is_share", IsEnum.Y.getCode());
         }
-        LambdaUpdateWrapper<AniUserOpus> updateWrapper = Wrappers.lambdaUpdateWrapper(AniUserOpus.class)
-                .eq(AniUserOpus::getOpusId, opusId)
-                .eq(AniUserOpus::getUserId, loginId);
-        long update = sqlToyHelperDao.update(aniUserOpus, updateWrapper);
+        entityUpdate.where("opus_id = :opusId and user_id = :userId")
+                .values(new AniUserOpus().setOpusId(opusId).setUserId(loginId));
+        long update = lightDao.updateByQuery(AniUserOpus.class, entityUpdate);
         return update > 0;
     }
 
@@ -196,7 +203,7 @@ public class AniUserOpusServiceImpl implements AniUserOpusService {
         Map<String, Object> params = new HashMap<>(2);
         params.put("limits", limits);
         params.put("isShare", IsEnum.Y.getCode());
-        List<AniUserOpusSharesVO> shares = sqlToyHelperDao.findBySql("ani_user_opus_findByShares", params, AniUserOpusSharesVO.class);
+        List<AniUserOpusSharesVO> shares = lightDao.find("ani_user_opus_findByShares", params, AniUserOpusSharesVO.class);
         Map<BigInteger, List<AniUserOpusSharesVO>> opusIdMap = shares.stream().collect(groupingBy(AniUserOpusSharesVO::getOpusId));
         shares = new ArrayList<>(opusIdMap.size());
         for (List<AniUserOpusSharesVO> sharesItem : opusIdMap.values()) {

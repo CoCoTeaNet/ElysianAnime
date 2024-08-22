@@ -1,42 +1,31 @@
 package net.cocotea.janime.common.service.impl;
 
-import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSONObject;
 import net.cocotea.janime.common.service.RedisService;
+import org.noear.redisx.RedisClient;
+import org.noear.solon.annotation.Component;
+import org.noear.solon.annotation.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author CoCoTea
  * @since v1
  */
-@Service
+@Component
 public class RedisServiceImpl implements RedisService {
 
-    private final static Logger logger = LoggerFactory.getLogger(RedisServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(RedisServiceImpl.class);
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    @Inject
+    private RedisClient redisClient;
 
     @Override
     public void save(String key, String value, Long seconds){
-        String baseMsg = "service[save]";
-        if (StrUtil.isBlank(key)) {
-            logger.warn(baseMsg + "保存失败，原因是key值为空");
-            return;
-        }
-        if (StrUtil.isBlank(value)) {
-            logger.warn(baseMsg + "键[{}]保存失败，原因是值为空", key);
-            return;
-        }
-        stringRedisTemplate.opsForValue().set(key, value, seconds, TimeUnit.SECONDS);
+        redisClient.open(session -> session.key(key).expire(Math.toIntExact(seconds)).set(value));
     }
 
     @Override
@@ -51,83 +40,51 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public void save(String key, String value) {
-        String baseMsg = "service[save]";
-        if (StrUtil.isBlank(key)) {
-            logger.warn(baseMsg + "保存失败，原因是key值为空");
-            return;
-        }
-        if (StrUtil.isBlank(value)) {
-            logger.warn(baseMsg + "键[{}]保存失败，原因是值为空", key);
-            return;
-        }
-        stringRedisTemplate.opsForValue().set(key, value);
+        redisClient.open(session -> session.key(key).set(value));
     }
 
     @Override
     public void delete(String key) {
-        String baseMsg ="service[delete]";
-        if (StrUtil.isBlank(key)) {
-            logger.warn(baseMsg + "删除失败，原因是key值为空");
-            return;
-        }
-        stringRedisTemplate.delete(key);
+        redisClient.open(session -> session.deleteKeys(Collections.singleton(key)));
     }
 
     @Override
     public String get(String key) {
-        if (key.trim().isEmpty()) {
-            return key;
-        } else {
-            return stringRedisTemplate.opsForValue().get(key);
-        }
+        return redisClient.openAndGet(session -> session.key(key).get());
     }
 
     @Override
     public void hashPut(String key, String hashKey, String value) {
-        if ( StrUtil.isBlank(key) ) {
-            logger.warn("service[hashPut]key is empty");
-            return;
-        }
-        stringRedisTemplate.opsForHash().put(key, hashKey, value);
+        redisClient.open(session -> session.key(key).hashSet(hashKey, value));
     }
 
     @Override
     public void hashPut(String key, String hashKey, Object value) {
-        if ( StrUtil.isBlank(key) ) {
-            logger.warn("service[hashPut]key is empty");
-            return;
-        }
-        stringRedisTemplate.opsForHash().put(key, hashKey, JSONObject.toJSONString(value));
+
     }
 
     @Override
     public Object hashGet(String key, String hashKey) {
-        if ( StrUtil.isBlank(key) ) {
-            logger.warn("service[hashGet]key is empty");
-            return null;
-        }
-        return stringRedisTemplate.opsForHash().get(key, hashKey);
+        return null;
     }
 
     @Override
     public Map<Object, Object> hashGetEntries(String key) {
-        if ( StrUtil.isBlank(key) ) {
-            logger.warn("service[hashGet]key is empty");
-            return null;
-        }
-        return stringRedisTemplate.opsForHash().entries(key);
+        return Map.of();
     }
 
     @Override
     public void hashRemove(String key, Object... hashKeys) {
-        if ( StrUtil.isBlank(key) ) {
-            logger.warn("service[hashRemove]key is empty");
-        }
-        stringRedisTemplate.opsForHash().delete(key, hashKeys);
+
     }
 
     @Override
     public Set<String> keys(String pattern) {
-        return stringRedisTemplate.keys(pattern);
+        return redisClient.openAndGet(session -> session.keys(pattern));
+    }
+
+    @Override
+    public void set(String key, String value) {
+        redisClient.open(session -> session.key(key).expire(0).set(value));
     }
 }

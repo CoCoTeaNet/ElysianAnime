@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <sql id="ani_opus_tag_findList">
+        <value>
+            <![CDATA[
+            select id, tag_id, opus_id, create_time
+            from ani_opus_tag
+            where 1=1
+            #[and tag_id = :tagId]
+            #[and opus_id = :opusId]
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>

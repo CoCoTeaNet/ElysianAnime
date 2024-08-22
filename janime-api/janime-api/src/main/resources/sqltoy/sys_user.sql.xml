@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <sql id="sys_user_findList">
+        <value>
+            <![CDATA[
+            select id, username, nickname, password, sex, email, mobile_phone, account_status, avatar, last_login_ip, last_login_time, create_by, create_time, update_by, update_time, is_deleted, revision
+            from sys_user
+            where is_deleted=0
+            #[and username like :username]
+            #[and nickname like :nickname]
+            #[and email like :email]
+            #[and sex = :sex]
+            #[and mobile_phone = :mobilePhone]
+            #[and account_status = :accountStatus]
+            #[and id in (:ids)]
+            order by id desc
+            ]]>
+        </value>
+    </sql>
+
+    <sql id="sys_user_getOne">
+        <value>
+            <![CDATA[
+            select id, username, nickname, password, sex, email, mobile_phone, account_status, avatar, last_login_ip, last_login_time, create_by, create_time, update_by, update_time, is_deleted, revision
+            from sys_user
+            where is_deleted=0
+            #[and id = :id]
+            #[and username = :username]
+            #[and nickname = :nickname]
+            #[and password = :password]
+            #[and sex = :sex]
+            #[and mobile_phone = :mobilePhone]
+            #[and account_status = :accountStatus]
+            order by id desc
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>

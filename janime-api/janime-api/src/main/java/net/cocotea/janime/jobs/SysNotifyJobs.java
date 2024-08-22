@@ -3,9 +3,7 @@ package net.cocotea.janime.jobs;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
-import com.sagframe.sagacity.sqltoy.plus.conditions.Wrappers;
-import com.sagframe.sagacity.sqltoy.plus.conditions.query.LambdaQueryWrapper;
-import com.sagframe.sagacity.sqltoy.plus.dao.SqlToyHelperDao;
+import cn.hutool.core.map.MapUtil;
 import net.cocotea.janime.api.system.model.dto.SysNotifyAddDTO;
 import net.cocotea.janime.api.system.model.po.SysNotify;
 import net.cocotea.janime.api.system.model.po.SysUser;
@@ -13,38 +11,39 @@ import net.cocotea.janime.api.system.service.SysNotifyService;
 import net.cocotea.janime.common.enums.AccountStatusEnum;
 import net.cocotea.janime.common.enums.IsEnum;
 import net.cocotea.janime.common.model.BusinessException;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.noear.solon.annotation.Component;
+import org.noear.solon.annotation.Inject;
+import org.noear.solon.scheduling.annotation.Scheduled;
+import org.sagacity.sqltoy.dao.LightDao;
+import org.sagacity.sqltoy.solon.annotation.Db;
 
-import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
 
 @Component
 public class SysNotifyJobs {
 
-    @Resource
-    private SqlToyHelperDao sqlToyHelperDao;
+    @Db
+    private LightDao lightDao;
 
-    @Resource
+    @Inject
     private SysNotifyService sysNotifyService;
 
-    @Scheduled(initialDelay = 1L, fixedDelay = 60L, timeUnit = TimeUnit.SECONDS)
+    @Scheduled(initialDelay = 1L, fixedDelay = 60L * 1000)
     void scan() throws BusinessException {
         // 将全局消息转换成每个接收人
         DateTime now = DateUtil.date();
         DateTime start = DateUtil.offsetDay(now, -30);
         // 查询全局消息
-        LambdaQueryWrapper<SysNotify> sysNotifyWrapper = Wrappers.lambdaWrapper(SysNotify.class)
-                .between(SysNotify::getNotifyTime, start, now)
-                .eq(SysNotify::getIsDeleted, IsEnum.N.getCode())
-                .eq(SysNotify::getIsGlobal, IsEnum.Y.getCode());
-        List<SysNotify> sysNotifyList = sqlToyHelperDao.findList(sysNotifyWrapper);
+        Map<String, Object> sysNotifyMapDTO = MapUtil.newHashMap(2);
+        sysNotifyMapDTO.put("betweenNotifyTime", Arrays.asList(start, now));
+        sysNotifyMapDTO.put("isGlobal", IsEnum.Y.getCode());
+        List<SysNotify> sysNotifyList = lightDao.find("sys_notify_findList", sysNotifyMapDTO, SysNotify.class);
         // 查询所有用户
-        LambdaQueryWrapper<SysUser> sysUserWrapper = Wrappers.lambdaWrapper(SysUser.class)
-                .eq(SysUser::getIsDeleted, IsEnum.N.getCode())
-                .eq(SysUser::getAccountStatus, AccountStatusEnum.NORMAL.getCode());
-        List<SysUser> sysUserList = sqlToyHelperDao.findList(sysUserWrapper);
+        Map<String, Object> sysUserMapDTO = MapUtil.newHashMap(1);
+        sysUserMapDTO.put("accountStatus", AccountStatusEnum.NORMAL.getCode());
+        List<SysUser> sysUserList = lightDao.find("sys_user_findList", sysUserMapDTO, SysUser.class);
         // 转换通知
         for (SysNotify sysNotify : sysNotifyList) {
             for (SysUser sysUser : sysUserList) {
@@ -55,7 +54,7 @@ public class SysNotifyJobs {
             }
             // 转发完成后删除
             sysNotify.setIsDeleted(IsEnum.Y.getCode());
-            sqlToyHelperDao.update(sysNotify);
+            lightDao.update(sysNotify);
         }
     }
 

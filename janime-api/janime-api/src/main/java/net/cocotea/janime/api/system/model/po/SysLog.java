@@ -3,12 +3,13 @@
  */
 package net.cocotea.janime.api.system.model.po;
 
-import java.io.Serializable;
-import org.sagacity.sqltoy.config.annotation.Entity;
-import org.sagacity.sqltoy.config.annotation.Id;
-import org.sagacity.sqltoy.config.annotation.Column;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.sagacity.sqltoy.config.annotation.Column;
+import org.sagacity.sqltoy.config.annotation.Entity;
+import org.sagacity.sqltoy.config.annotation.Id;
+
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
@@ -29,28 +30,28 @@ public class SysLog implements Serializable {
 /*---begin-auto-generate-don't-update-this-area--*/	
 
 	@Id(strategy="generator",generator="org.sagacity.sqltoy.plugins.id.impl.SnowflakeIdGenerator")
-	@Column(name="id",comment="日志编号",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=false)
+	@Column(name="id",comment="日志编号",length=19L,type=java.sql.Types.BIGINT,nullable=false)
 	private BigInteger id;
 
-	@Column(name="ip_address",comment="请求ip地址",length=128L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=false)
+	@Column(name="ip_address",comment="请求ip地址",length=128L,type=java.sql.Types.VARCHAR,nullable=false)
 	private String ipAddress;
 
-	@Column(name="operator",comment="操作人员",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=true)
+	@Column(name="operator",comment="操作人员",length=19L,type=java.sql.Types.BIGINT,nullable=true)
 	private BigInteger operator;
 
-	@Column(name="request_way",comment="请求方式",length=10L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=false)
+	@Column(name="request_way",comment="请求方式",length=10L,type=java.sql.Types.VARCHAR,nullable=false)
 	private String requestWay;
 
-	@Column(name="log_status",comment="日志状态;0异常 1成功",length=3L,type=java.sql.Types.TINYINT,nativeType="TINYINT",nullable=true)
+	@Column(name="log_status",comment="日志状态;0异常 1成功",length=3L,type=java.sql.Types.TINYINT,nullable=true)
 	private Integer logStatus;
 
-	@Column(name="log_type",comment="日志类型：1登录 2操作 ",length=3L,type=java.sql.Types.TINYINT,nativeType="TINYINT",nullable=true)
+	@Column(name="log_type",comment="日志类型：1登录 2操作 ",length=3L,type=java.sql.Types.TINYINT,nullable=true)
 	private Integer logType;
 
 	@Column(name="api_path",comment="接口请求路径",length=255L,type=java.sql.Types.VARCHAR,nullable=true)
 	private String apiPath;
 
-	@Column(name="create_time",comment="创建时间",length=19L,type=java.sql.Types.DATE,nativeType="DATETIME",nullable=false)
+	@Column(name="create_time",comment="创建时间",length=19L,type=java.sql.Types.DATE,nullable=false)
 	private LocalDateTime createTime;
 	/** default constructor */
 	public SysLog() {

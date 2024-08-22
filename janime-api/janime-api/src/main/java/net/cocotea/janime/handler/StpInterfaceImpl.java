@@ -1,4 +1,4 @@
-package net.cocotea.janime.interceptor;
+package net.cocotea.janime.handler;
 
 import cn.dev33.satoken.stp.StpInterface;
 import cn.dev33.satoken.stp.StpUtil;
@@ -9,9 +9,9 @@ import net.cocotea.janime.api.system.service.SysRoleService;
 import net.cocotea.janime.common.enums.IsEnum;
 import net.cocotea.janime.properties.DefaultProp;
 import net.cocotea.janime.util.LoginUtils;
-import org.springframework.stereotype.Component;
+import org.noear.solon.annotation.Component;
+import org.noear.solon.annotation.Inject;
 
-import javax.annotation.Resource;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,30 +20,29 @@ import java.util.List;
  * 获取用户权限集合
  *
  * @author CoCoTea
- * @version 2.0.0
+ * @date 2022-1-17 16:06:44
  */
 @Component
-public class StpInterfaceInterceptor implements StpInterface {
-    @Resource
-    private SysMenuService sysMenuService;
-    @Resource
-    private SysRoleService sysRoleService;
-    @Resource
+public class StpInterfaceImpl implements StpInterface {
+    @Inject
+    private SysMenuService menuService;
+    @Inject
+    private SysRoleService roleService;
+    @Inject
     private DefaultProp defaultProp;
 
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
         StpUtil.checkLogin();
-        BigInteger myLoginId = LoginUtils.parse(loginId);
-        List<SysMenuVO> cachePermissionList = sysMenuService.getCachePermission(myLoginId);
+        List<SysMenuVO> cachePermissionList = menuService.getCachePermission((BigInteger) loginId);
         List<String> list;
         // 1关闭了缓存 2缓存失效了 3有缓存
         if (!defaultProp.getPermissionCache()) {
-            List<SysMenuVO> menuList = sysMenuService.listByUserId(IsEnum.N.getCode());
+            List<SysMenuVO> menuList = menuService.listByUserId(IsEnum.N.getCode());
             list = new ArrayList<>(menuList.size());
             menuList.forEach(item -> list.add(item.getPermissionCode()));
         } else if (cachePermissionList == null) {
-            List<SysMenuVO> permission = sysMenuService.cachePermission(myLoginId);
+            List<SysMenuVO> permission = menuService.cachePermission((BigInteger) loginId);
             list = new ArrayList<>(permission.size());
             permission.forEach(i -> list.add(i.getPermissionCode()));
         } else {
@@ -56,7 +55,7 @@ public class StpInterfaceInterceptor implements StpInterface {
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
         StpUtil.checkLogin();
-        List<SysRoleVO> roles = sysRoleService.loadByUserId(LoginUtils.parse(loginId));
+        List<SysRoleVO> roles = roleService.loadByUserId(LoginUtils.parse(loginId));
         List<String> roleKeys = new ArrayList<>(roles.size());
         for (SysRoleVO role : roles) {
             roleKeys.add(role.getRoleKey());

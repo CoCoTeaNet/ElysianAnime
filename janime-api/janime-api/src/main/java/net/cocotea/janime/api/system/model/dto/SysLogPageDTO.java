@@ -3,11 +3,10 @@ package net.cocotea.janime.api.system.model.dto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import net.cocotea.janime.api.system.model.po.SysLog;
-import net.cocotea.janime.api.system.model.vo.SysLogVO;
-import org.sagacity.sqltoy.model.Page;
+import net.cocotea.janime.common.model.ApiPageDTO;
+import org.noear.solon.validation.annotation.NotNull;
 
-import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -19,9 +18,35 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-public class SysLogPageDTO extends Page<SysLog> implements Serializable {
+public class SysLogPageDTO extends ApiPageDTO implements Serializable {
+    @Serial
     private static final long serialVersionUID = -2889574415371661414L;
 
+    /**
+     * 查询参数
+     */
     @NotNull(message = "查询参数为空")
-    private SysLogVO sysLog;
+    private Query sysLog;
+
+    @Data
+    @Accessors(chain = true)
+    public static class Query {
+        /**
+         * 日志编号
+         */
+        private String id;
+        /**
+         * 操作人
+         */
+        private String operator;
+        /**
+         * 请求方法
+         */
+        private String requestWay;
+        /**
+         * 接口路径
+         */
+        private String apiPath;
+    }
+
 }

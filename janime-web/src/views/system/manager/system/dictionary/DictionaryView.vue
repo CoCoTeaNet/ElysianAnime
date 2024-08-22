@@ -162,7 +162,7 @@ const onRemove = (row: DictionaryModel): void => {
 
 const loadTableData = (): void => {
   if (!loading.value) loading.value = true;
-  let param = {sysDictionary: searchObj.value}
+  const param = searchObj.value;
   reqCommonFeedback(listByTree(param), (data: any) => {
     records.value = data;
     loading.value = false;

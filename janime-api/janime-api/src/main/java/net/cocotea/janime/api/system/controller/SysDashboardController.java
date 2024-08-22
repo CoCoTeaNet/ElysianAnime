@@ -1,55 +1,58 @@
 package net.cocotea.janime.api.system.controller;
 
-import cn.hutool.json.JSONUtil;
+import net.cocotea.janime.api.system.model.vo.SysOverviewVO;
 import net.cocotea.janime.api.system.model.vo.SystemInfoVO;
 import net.cocotea.janime.api.system.service.SysDashboardService;
-import net.cocotea.janime.common.constant.RedisKeyConst;
 import net.cocotea.janime.common.model.ApiResult;
-import net.cocotea.janime.common.service.RedisService;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.noear.solon.annotation.Controller;
+import org.noear.solon.annotation.Inject;
+import org.noear.solon.annotation.Mapping;
+import org.noear.solon.core.handle.MethodType;
 
-import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 /**
- * @date 2022-1-26 11:36:32
- * @author jwss
+ * 系统仪表盘接口
+ *
+ * @author CoCoTea
+ * @version 2.0.0
  */
-@Validated
-@RestController
-@RequestMapping("/system/dashboard")
+@Controller
+@Mapping("/system/dashboard")
 public class SysDashboardController {
-    @Resource
+    @Inject
     private SysDashboardService sysDashboardService;
 
-    @Resource
-    private RedisService redisService;
-
-    @GetMapping("index")
+    /**
+     * 测试服务是否运行成功
+     *
+     * @return 字符串
+     */
+    @Mapping(value = "index", method = MethodType.GET)
     public ApiResult<String> index() {
-        return ApiResult.ok("Hello sss-rbac-admin.");
+        return ApiResult.ok("Hello SRA-ADMIN.");
     }
 
-    @GetMapping("getCount")
-    public ApiResult<List<Map<String, Object>>> getCount() {
-        List<Map<String, Object>> count = sysDashboardService.getCount();
-        return ApiResult.ok(count);
+    /**
+     * 获取系统数据概览
+     *
+     * @return {@link SysOverviewVO}
+     */
+    @Mapping(value = "getCount", method = MethodType.GET)
+    public ApiResult<List<SysOverviewVO>> getCount() {
+        List<SysOverviewVO> voList = sysDashboardService.getCount();
+        return ApiResult.ok(voList);
     }
 
-    @GetMapping("getSystemInfo")
+    /**
+     * 获取服务器运行信息
+     *
+     * @return {@link SystemInfoVO}
+     */
+    @Mapping(value = "getSystemInfo", method = MethodType.GET)
     public ApiResult<SystemInfoVO> getSystemInfo() {
         SystemInfoVO vo = sysDashboardService.getSystemInfo();
         return ApiResult.ok(vo);
-    }
-
-    @GetMapping("getRssWorkStatus")
-    public ApiResult<?> getRssWorkStatus() {
-        String message = redisService.get(RedisKeyConst.RSS_WORKS_STATUS);
-        return ApiResult.ok(JSONUtil.parse(message));
     }
 
 }

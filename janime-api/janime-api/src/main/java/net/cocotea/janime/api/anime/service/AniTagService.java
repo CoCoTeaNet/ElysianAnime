@@ -15,14 +15,6 @@ import java.util.List;
 public interface AniTagService {
 
     /**
-     * 查找标签关联的作品ID
-     *
-     * @param tagNames 标签名称集合
-     * @return 作品ID
-     */
-    List<BigInteger> findTagIds(List<String> tagNames);
-
-    /**
      * 通关作品查找关联的标签
      *
      * @param id 作品ID

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <sql id="sys_dictionary_findList">
+        <value>
+            <![CDATA[
+            select id, parent_id, dictionary_name, remark, sort, enable_status, create_by, create_time, update_by, update_time, is_deleted, revision
+            from sys_dictionary
+            where is_deleted=0
+            #[and enable_status = :enableStatus]
+            #[and dictionary_name like :dictionaryName]
+            #[and parent_id = :parentId]
+            order by sort desc, id desc
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>

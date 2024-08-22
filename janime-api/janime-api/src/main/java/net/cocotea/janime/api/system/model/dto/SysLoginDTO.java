@@ -2,43 +2,57 @@ package net.cocotea.janime.api.system.model.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.noear.solon.validation.annotation.NotBlank;
 
-import javax.validation.constraints.NotBlank;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
+ * 系统登录接口
+ *
  * @author CoCoTea
- * @project sss-rbac-admin
- * @version 1.0.0
- * @description sys_user,系统用户表  
+ * @version 2.0.0
  */
 @Data
 @Accessors(chain = true)
 public class SysLoginDTO implements Serializable {
 
-	private static final long serialVersionUID = -75070990767806255L;
+    @Serial
+    private static final long serialVersionUID = -75070990767806255L;
 
-	@NotBlank(message = "账号名不能为空")
-	private String username;
-	
-	@NotBlank(message = "密码不能为空")
-	private String password;
+    /**
+     * 用户账号
+     */
+    @NotBlank(message = "账号名不能为空")
+    private String username;
 
-	@NotBlank(message = "验证码不能为空")
-	private String captcha;
+    /**
+     * 用户密码
+     */
+    @NotBlank(message = "密码不能为空")
+    private String password;
 
-	/**
-	 * 验证码ID
-	 */
-	@NotBlank(message = "验证码ID不能为空")
-	private String captchaId;
+    /**
+     * 登录验证码
+     */
+    @NotBlank(message = "验证码不能为空")
+    private String captcha;
 
-	/**
-	 * 公钥
-	 */
-	@NotBlank(message = "公钥不能为空")
-	private String publicKey;
+    /**
+     * 验证码ID
+     */
+    @NotBlank(message = "验证码ID不能为空")
+    private String captchaId;
 
-	private Boolean rememberMe;
+    /**
+     * 公钥
+     */
+    @NotBlank(message = "公钥不能为空")
+    private String publicKey;
+
+    /**
+     * 是否记住我
+     */
+    private Boolean rememberMe;
 
 }

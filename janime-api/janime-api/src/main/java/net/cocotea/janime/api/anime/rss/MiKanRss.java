@@ -31,15 +31,15 @@ import net.cocotea.janime.common.util.StrcUtis;
 import net.cocotea.janime.api.anime.rss.model.MkXmlItem;
 import net.cocotea.janime.api.anime.rss.model.QbInfo;
 import net.cocotea.janime.util.RuleUtils;
+import org.noear.solon.annotation.Component;
+import org.noear.solon.annotation.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -57,22 +57,22 @@ import java.util.stream.Collectors;
 public class MiKanRss {
     private static final Logger logger = LoggerFactory.getLogger(MiKanRss.class);
 
-    @Resource
+    @Inject
     private DefaultProp defaultProp;
 
-    @Resource
+    @Inject
     private QbApiUtils qbApiUtils;
 
-    @Resource
+    @Inject
     private AniOpusService aniOpusService;
 
-    @Resource
+    @Inject
     private ResUtils resUtils;
 
-    @Resource
+    @Inject
     private SysNotifyService sysNotifyService;
 
-    @Resource
+    @Inject
     private AniUserOpusService aniUserOpusService;
 
     /**
@@ -223,8 +223,8 @@ public class MiKanRss {
                     // 作品资源根目录
                     String path = parentFile.getParentFile().getPath();
                     // 目标移动路径
-                    String targetPath = path + CharConst.LEFT_LINE + file.getName();
-                    File targetFile = new File(targetPath);
+                    String targetPath = path + File.separator + file.getName();
+                    File targetFile = FileUtil.file(targetPath);
                     // 1、将文件移动到父级目录
                     FileUtil.move(file, targetFile, true);
                     // 2、删除父级目录
@@ -233,33 +233,40 @@ public class MiKanRss {
                     FileUtil.rename(targetFile, parentFile.getPath(), true);
                     // 4、删除下载记录
                     qbApiUtils.delete(info.getHash());
-                    // 系统通知
-                    SysNotifyAddDTO sysNotifyAddDTO = new SysNotifyAddDTO()
-                            .setTitle("【" + opus.getNameCn() + "】更新啦~~~")
-                            .setMemo("资源名：" + targetFile.getName())
-                            .setJumpUrl(String.valueOf(opus.getId()))
-                            .setNotifyTime(DateUtil.date().toTimestamp())
-                            .setLevel(LevelEnum.INFO.getCode())
-                            .setIsGlobal(IsEnum.Y.getCode())
-                            .setNotifyType(NotifyConst.OPUS_UPDATE);
-                    sysNotifyService.addNotify(sysNotifyAddDTO);
-                    // 5、发送下载完成邮件
-                    List<String> emails = aniUserOpusService.findFollowsEmail(opus.getId());
-                    String emailHtml = String.format(
-                            "    <div>" +
-                            "        <p>中文名：" + opus.getNameCn() + "</p>" +
-                            "        <p>原名：" + opus.getNameOriginal() + "</p>" +
-                            "        <p>资源名称：" + targetFile.getName() + "</p>" +
-                            "        <a href=\"%s/#/anime/video/" + opus.getId() + "/1/1\">点我前往JAnime追番~~~</a>\n" +
-                            "    </div>", defaultProp.getWebUrl()
-                    );
-                    String emailTitle = "JAnime：你追的番剧更新了~~~【" + opus.getNameCn() + "】";
-                    ThreadUtil.execAsync(() -> MailUtil.send(emails, emailTitle, emailHtml, true));
+
+                    ThreadUtil.execAsync(() -> {
+                        // 系统通知
+                        SysNotifyAddDTO sysNotifyAddDTO = new SysNotifyAddDTO()
+                                .setTitle("【" + opus.getNameCn() + "】更新啦~~~")
+                                .setMemo("资源名：" + targetFile.getName())
+                                .setJumpUrl(String.valueOf(opus.getId()))
+                                .setNotifyTime(DateUtil.date().toTimestamp())
+                                .setLevel(LevelEnum.INFO.getCode())
+                                .setIsGlobal(IsEnum.Y.getCode())
+                                .setNotifyType(NotifyConst.OPUS_UPDATE);
+                        try {
+                            sysNotifyService.addNotify(sysNotifyAddDTO);
+                        } catch (BusinessException ex) {
+                            logger.error("addNotify >>>>> 通知异常", ex);
+                        }
+                        // 5、发送下载完成邮件
+                        List<String> emails = aniUserOpusService.findFollowsEmail(opus.getId());
+                        String emailHtml = String.format(
+                                "    <div>" +
+                                        "        <p>中文名：" + opus.getNameCn() + "</p>" +
+                                        "        <p>原名：" + opus.getNameOriginal() + "</p>" +
+                                        "        <p>资源名称：" + targetFile.getName() + "</p>" +
+                                        "        <a href=\"%s/#/anime/video/" + opus.getId() + "/1/1\">点我前往ElysianAnime追番~~~</a>\n" +
+                                        "    </div>", defaultProp.getWebUrl()
+                        );
+                        String emailTitle = "ElysianAnime：你追的番剧更新了~~~【" + opus.getNameCn() + "】";
+                        MailUtil.send(emails, emailTitle, emailHtml, true);
+                    });
                 } else {
                     logger.warn("{}文件未找到,info={}", baseMsg, info);
                 }
             } catch (Exception ex) {
-                logger.error(baseMsg.concat("重命名失败，作品：{}，errorMsg：{}"), info.getName(), ex.getMessage());
+                logger.error(baseMsg.concat("重命名失败，作品：{}，errorMsg：{}"), info.getName(), ex.getMessage(), ex);
             }
         }
     }

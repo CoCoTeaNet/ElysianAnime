@@ -15,10 +15,29 @@ import java.math.BigInteger;
 @Accessors(chain = true)
 public class SysFileAddDTO {
 
+    /**
+     * 文件ID
+     */
     private BigInteger id;
+
+    /**
+     * 文件名称
+     */
     private String fileName;
+
+    /**
+     * 文件后缀
+     */
     private String fileSuffix;
+
+    /**
+     * 真实路径
+     */
     private String realPath;
+
+    /**
+     * 文件大小
+     */
     private BigInteger fileSize;
 
 }

@@ -7,16 +7,13 @@ import net.cocotea.janime.api.anime.model.dto.AniOpusUpdateDTO;
 import net.cocotea.janime.api.anime.model.po.AniOpus;
 import net.cocotea.janime.api.anime.model.vo.AniOpusHomeVO;
 import net.cocotea.janime.api.anime.model.vo.AniOpusVO;
-import net.cocotea.janime.api.anime.model.vo.AniUserOpusVO;
 import net.cocotea.janime.api.anime.model.vo.AniVideoVO;
 import net.cocotea.janime.common.model.ApiPage;
 import net.cocotea.janime.common.model.BusinessException;
+import net.cocotea.janime.common.model.FileInfo;
 import net.cocotea.janime.common.service.BaseService;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
@@ -31,8 +28,6 @@ public interface AniOpusService extends BaseService<ApiPage<AniOpusVO>, AniOpusP
     boolean update(AniOpus aniOpus);
 
     AniOpus loadById(BigInteger id) throws BusinessException;
-
-    AniOpusVO loadByName(String nameOriginal) throws BusinessException;
 
     AniOpus loadByNameCn(String nameCn) throws BusinessException;
 
@@ -61,10 +56,9 @@ public interface AniOpusService extends BaseService<ApiPage<AniOpusVO>, AniOpusP
      * 上传作品资源
      *
      * @param opusId        作品ID
-     * @param multipartFile 文件
      * @return 资源浏览路径
      */
-    String uploadRes(BigInteger opusId, MultipartFile multipartFile) throws BusinessException;
+    FileInfo uploadRes(BigInteger opusId, String filename) throws BusinessException;
 
     /**
      * 响应二进制媒体流
@@ -74,13 +68,12 @@ public interface AniOpusService extends BaseService<ApiPage<AniOpusVO>, AniOpusP
      * @param request  {@link HttpServletRequest}
      * @param response {@link HttpServletResponse}
      */
-    void getMedia(BigInteger opusId, String resName, HttpServletRequest request, HttpServletResponse response) throws BusinessException, IOException, ServletException;
+    File getMedia(BigInteger opusId, String resName) throws BusinessException, IOException;
 
     /**
      * 获取封面
      *
      * @param resName  资源名称
-     * @param response {@link HttpServletResponse}
      */
-    void getCover(String resName, HttpServletResponse response) throws BusinessException, IOException;
+    File getCover(String resName) throws BusinessException, IOException;
 }

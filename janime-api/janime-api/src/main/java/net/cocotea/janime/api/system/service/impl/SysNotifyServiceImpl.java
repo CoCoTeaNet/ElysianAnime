@@ -1,11 +1,10 @@
 package net.cocotea.janime.api.system.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
-import com.sagframe.sagacity.sqltoy.plus.conditions.Wrappers;
-import com.sagframe.sagacity.sqltoy.plus.conditions.query.LambdaQueryWrapper;
-import com.sagframe.sagacity.sqltoy.plus.dao.SqlToyHelperDao;
+import cn.hutool.core.map.MapUtil;
 import net.cocotea.janime.api.system.model.dto.SysNotifyAddDTO;
 import net.cocotea.janime.api.system.model.po.SysNotify;
 import net.cocotea.janime.api.system.model.vo.SysNotifyVO;
@@ -13,45 +12,48 @@ import net.cocotea.janime.api.system.service.SysNotifyService;
 import net.cocotea.janime.common.enums.IsEnum;
 import net.cocotea.janime.common.model.BusinessException;
 import net.cocotea.janime.util.LoginUtils;
+import org.noear.solon.annotation.Component;
+import org.sagacity.sqltoy.dao.LightDao;
+import org.sagacity.sqltoy.solon.annotation.Db;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
-@Service
+@Component
 public class SysNotifyServiceImpl implements SysNotifyService {
 
-    private static final Logger logger = LoggerFactory.getLogger(SysNotifyServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(SysNotifyServiceImpl.class);
 
-    @Resource
-    private SqlToyHelperDao sqlToyHelperDao;
+    @Db
+    private LightDao lightDao;
 
     @Override
     public void addNotify(SysNotifyAddDTO addDTO) throws BusinessException {
         boolean isGlobal = addDTO.getIsGlobal() == IsEnum.Y.getCode().intValue();
-        LambdaQueryWrapper<SysNotify> lambdaWrapper = Wrappers.lambdaWrapper(SysNotify.class)
-                .eq(SysNotify::getTitle, addDTO.getTitle())
-                .eq(SysNotify::getIsDeleted, IsEnum.N.getCode());
+
+        Map<String, Object> sysNotifyMapDTO = MapUtil.newHashMap();
         if (isGlobal) {
-            lambdaWrapper.eq(SysNotify::getIsGlobal, IsEnum.Y.getCode());
+            sysNotifyMapDTO.put("isGlobal", IsEnum.Y.getCode());
         } else {
             if (addDTO.getReceiver() == null) {
                 throw new BusinessException("非全局消息时，接收人必填");
             }
-            lambdaWrapper
-                    .eq(SysNotify::getIsGlobal, IsEnum.N.getCode())
-                    .eq(SysNotify::getReceiver, addDTO.getReceiver());
+            sysNotifyMapDTO.put("isGlobal", IsEnum.N.getCode());
+            sysNotifyMapDTO.put("receiver", addDTO.getReceiver());
         }
-        SysNotify sysNotify = Convert.convert(SysNotify.class, addDTO);
-        SysNotify sysNotifyExist = sqlToyHelperDao.findOne(lambdaWrapper);
+
+        SysNotify sysNotify = BeanUtil.toBean(addDTO, SysNotify.class);
+        SysNotify sysNotifyExist = lightDao.findOne("sys_notify_findList", sysNotifyMapDTO, SysNotify.class);
+
         if (sysNotifyExist == null) {
-            sqlToyHelperDao.save(sysNotify);
+            lightDao.save(sysNotify);
         } else {
             sysNotifyExist.setNotifyTime(DateUtil.date().toTimestamp());
-            sqlToyHelperDao.update(sysNotifyExist);
+            lightDao.update(sysNotifyExist);
         }
     }
 
@@ -60,19 +62,18 @@ public class SysNotifyServiceImpl implements SysNotifyService {
         BigInteger loginId = LoginUtils.loginId();
         DateTime now = DateUtil.date();
         DateTime start = DateUtil.offsetDay(now, -30);
-        LambdaQueryWrapper<SysNotify> lambdaWrapper = Wrappers.lambdaWrapper(SysNotify.class)
-                .between(SysNotify::getNotifyTime, start, now)
-                .eq(SysNotify::getReceiver, loginId)
-                .eq(SysNotify::getIsDeleted, IsEnum.N.getCode())
-                .orderByDesc(SysNotify::getNotifyTime)
-                .orderByDesc(SysNotify::getId);
-        List<SysNotify> list = sqlToyHelperDao.findList(lambdaWrapper);
+
+        Map<String, Object> sysNotifyMapDTO = MapUtil.newHashMap(2);
+        sysNotifyMapDTO.put("betweenNotifyTime", Arrays.asList(start, now));
+        sysNotifyMapDTO.put("receiver", loginId);
+
+        List<SysNotify> list = lightDao.find("sys_notify_findList", sysNotifyMapDTO, SysNotify.class);
         return Convert.toList(SysNotifyVO.class, list);
     }
 
     @Override
     public void read(BigInteger id) {
-        sqlToyHelperDao.update(new SysNotify().setId(id).setIsDeleted(IsEnum.Y.getCode()));
+        lightDao.update(new SysNotify().setId(id).setIsDeleted(IsEnum.Y.getCode()));
     }
 
 }

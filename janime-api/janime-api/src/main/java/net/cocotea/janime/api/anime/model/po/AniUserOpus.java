@@ -3,6 +3,7 @@
  */
 package net.cocotea.janime.api.anime.model.po;
 
+import java.io.Serial;
 import java.io.Serializable;
 import org.sagacity.sqltoy.config.annotation.Entity;
 import org.sagacity.sqltoy.config.annotation.Id;

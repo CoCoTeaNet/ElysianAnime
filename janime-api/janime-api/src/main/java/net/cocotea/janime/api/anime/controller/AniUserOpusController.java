@@ -8,39 +8,39 @@ import net.cocotea.janime.api.anime.service.AniUserOpusService;
 import net.cocotea.janime.common.model.ApiPage;
 import net.cocotea.janime.common.model.ApiResult;
 import net.cocotea.janime.common.model.BusinessException;
-import org.springframework.web.bind.annotation.*;
+import org.noear.solon.annotation.*;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.List;
 
-@RequestMapping("/anime/userOpus")
-@RestController
+@Mapping("/anime/userOpus")
+@Controller
 public class AniUserOpusController {
-    @Resource
+
+    @Inject
     private AniUserOpusService aniUserOpusService;
 
-    @PostMapping("/{opusId}/follow")
-    public ApiResult<?> follow(@Valid @PathVariable("opusId") BigInteger opusId) throws BusinessException {
+    @Post
+    @Mapping("/{opusId}/follow")
+    public ApiResult<?> follow(@Path("opusId") BigInteger opusId) throws BusinessException {
         boolean b = aniUserOpusService.follow(opusId);
         return ApiResult.flag(b);
     }
 
-    @PostMapping("/listByUser")
-    public ApiResult<?> listByUser(@Valid @RequestBody AniUserOpusPageDTO param) throws BusinessException {
+    @Post @Mapping("/listByUser")
+    public ApiResult<?> listByUser(@Body AniUserOpusPageDTO param) throws BusinessException {
         ApiPage<AniUserOpusVO> r = aniUserOpusService.listByUser(param);
         return ApiResult.ok(r);
     }
 
-    @PostMapping("/update")
-    public ApiResult<?> update(@Valid @RequestBody AniUserOpusUpdateDTO updateDTO) throws BusinessException {
+    @Post @Mapping("/update")
+    public ApiResult<?> update(@Body AniUserOpusUpdateDTO updateDTO) throws BusinessException {
         boolean r = aniUserOpusService.update(updateDTO);
         return ApiResult.ok(r);
     }
 
-    @PostMapping("/updateProgress")
-    public ApiResult<?> updateProgress(@Valid @RequestBody AniUserOpusUpdateDTO updateDTO) {
+    @Post @Mapping("/updateProgress")
+    public ApiResult<?> updateProgress(@Body AniUserOpusUpdateDTO updateDTO) {
         boolean r = aniUserOpusService.updateProgress(updateDTO);
         return ApiResult.ok(r);
     }
@@ -48,11 +48,10 @@ public class AniUserOpusController {
     /**
      * 分享自己追番的作品
      *
-     * @param shareDTO {@link AniUserOpusShareDTO}
      * @return 成功true
      */
-    @PostMapping("/share/{opusId}")
-    public ApiResult<Boolean> share(@PathVariable BigInteger opusId) throws BusinessException {
+    @Post @Mapping("/share/{opusId}")
+    public ApiResult<Boolean> share(@Path BigInteger opusId) throws BusinessException {
         boolean r = aniUserOpusService.share(opusId);
         return ApiResult.ok(r);
     }
@@ -63,8 +62,8 @@ public class AniUserOpusController {
      * @param limits 限制条数
      * @return {@link AniUserOpusSharesVO}
      */
-    @GetMapping("/shares/list")
-    public ApiResult<List<AniUserOpusSharesVO>> listFromShares(@RequestParam int limits) {
+    @Get @Mapping("/shares/list")
+    public ApiResult<List<AniUserOpusSharesVO>> listFromShares(@Param int limits) {
         if (limits <= 0 || limits > 1000) {
             limits = 100;
         }

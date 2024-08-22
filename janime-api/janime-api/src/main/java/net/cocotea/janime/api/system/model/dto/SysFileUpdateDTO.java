@@ -1,11 +1,11 @@
 package net.cocotea.janime.api.system.model.dto;
 
+import org.noear.solon.validation.annotation.NotNull;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
 * 系统文件信息修改参数
@@ -16,6 +16,7 @@ import java.util.Date;
 @Data
 @Accessors(chain = true)
 public class SysFileUpdateDTO implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -12,47 +12,52 @@ import cn.hutool.crypto.asymmetric.SM2;
 import net.cocotea.janime.api.system.model.dto.SysLoginDTO;
 import net.cocotea.janime.api.system.model.vo.SysCaptchaVO;
 import net.cocotea.janime.api.system.model.vo.SysLoginUserVO;
+import net.cocotea.janime.api.system.service.SysLogService;
 import net.cocotea.janime.api.system.service.SysUserService;
 import net.cocotea.janime.common.constant.RedisKeyConst;
+import net.cocotea.janime.common.enums.LogTypeEnum;
 import net.cocotea.janime.common.model.ApiResult;
 import net.cocotea.janime.common.model.BusinessException;
 import net.cocotea.janime.common.service.RedisService;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
+import org.noear.solon.annotation.*;
+import org.noear.solon.core.handle.Context;
+import org.noear.solon.validation.annotation.Validated;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.Locale;
 
 /**
+ * 系统登录相关接口
+ *
  * @author CoCoTea
  */
-@Validated
-@RestController
-@RequestMapping("/system")
+@Controller
+@Mapping("/system")
 public class SysLoginController {
 
     private static final Logger log = LoggerFactory.getLogger(SysLoginController.class);
 
-    @Resource
+    @Inject
     private SysUserService userService;
 
-    @Resource
+    @Inject
     private RedisService redisService;
+
+    @Inject
+    private SysLogService sysLogService;
 
     /**
      * 后台系统用户登录
      *
      * @param loginDTO {@link SysLoginDTO}
-     * @param request  {@link HttpServletRequest}
+     * @param context  {@link Context}
      * @return token
      */
-    @PostMapping("/login")
-    public ApiResult<?> login(@Valid @RequestBody SysLoginDTO loginDTO, HttpServletRequest request) throws BusinessException {
+    @Post
+    @Mapping("/login")
+    public ApiResult<String> login(@Validated @Body SysLoginDTO loginDTO, Context context) throws BusinessException {
         // 获取缓存密钥对
         String key = String.format(RedisKeyConst.SM2_KEY_LOGIN, loginDTO.getPublicKey());
         String privateKey = redisService.get(key);
@@ -64,13 +69,21 @@ public class SysLoginController {
         String decryptPassword = StrUtil.utf8Str(sm2.decrypt(loginDTO.getPassword(), KeyType.PrivateKey));
         loginDTO.setPassword(decryptPassword);
         // 开始登录逻辑
-        String token = userService.login(loginDTO, request);
+        String token = userService.login(loginDTO, context);
         // 删除缓存
         redisService.delete(key);
+        // 保存登录日志
+        sysLogService.saveByLogType(LogTypeEnum.LOGIN.getCode(), context);
         return ApiResult.ok(token);
     }
 
-    @PostMapping("/logout")
+    /**
+     * 后台系统用户退出登录
+     *
+     * @return {@link ApiResult}
+     */
+    @Post
+    @Mapping("/logout")
     public ApiResult<?> logout() {
         // 删除权限缓存
         redisService.delete(String.format(RedisKeyConst.USER_PERMISSION, StpUtil.getLoginId()));
@@ -79,8 +92,14 @@ public class SysLoginController {
         return ApiResult.ok();
     }
 
-    @GetMapping("/loginInfo")
-    public ApiResult<?> loginInfo() {
+    /**
+     * 获取用户登录信息
+     *
+     * @return {@link SysLoginUserVO}
+     */
+    @Get
+    @Mapping("/loginInfo")
+    public ApiResult<SysLoginUserVO> loginInfo() {
         SysLoginUserVO r = userService.loginUser();
         return ApiResult.ok(r);
     }
@@ -91,8 +110,9 @@ public class SysLoginController {
      * @param timestamp 时间戳
      * @return {@link SysCaptchaVO}
      */
-    @GetMapping("/captcha")
-    public ApiResult<SysCaptchaVO> captcha(@RequestParam("timestamp") String timestamp) {
+    @Get
+    @Mapping("/captcha")
+    public ApiResult<SysCaptchaVO> captcha(@Param("timestamp") String timestamp, Context context) {
         log.info("captcha >>>>> timestamp: {}", timestamp);
         long cacheSeconds = 300L;
         // 生成验证码ID

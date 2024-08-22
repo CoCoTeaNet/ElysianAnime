@@ -6,7 +6,7 @@ import java.lang.annotation.*;
  * 在Controller层使用该注解可以让操作日志持久化
  *
  * @author CoCoTea
- * @version 2.0.5
+ * @version 1.0.4
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
@@ -24,3 +24,4 @@ public @interface LogPersistence {
     String desc() default "";
 
 }
+
