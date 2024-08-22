@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="show"
+  <el-dialog :model-value="show"
              :title="editType === 'update' ? '更新用户' : '新增用户'"
              width="50%"
              @close="onCancel">

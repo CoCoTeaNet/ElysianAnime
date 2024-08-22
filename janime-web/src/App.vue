@@ -10,11 +10,6 @@ if (userInfo) {
 </script>
 
 <template>
-  <img
-      :src="`api/anime/opus/getBackground`"
-      class="app-background"
-      alt="bg"
-  >
   <div class="base-layout">
     <el-scrollbar>
       <base-layout/>
