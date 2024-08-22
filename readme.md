@@ -4,8 +4,8 @@
 
 这是一个番剧管理系统，主要用于部署在个人NAS服务器上，订阅和下载RSS内容，然后自动追番~~~
 
-- version: v2.0_202407
-- [changed-log](https://github.com/CoCoTeaNet/janime/blob/main/release-note.md)
+- version: v2.1_202408
+- [Changed Log](release-note.md)
 
 
 ## 图片演示
