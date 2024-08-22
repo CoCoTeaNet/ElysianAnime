@@ -4,7 +4,7 @@ server:
 
 
 solon.app:
-  name: 'janime-web'
+  name: 'ElysianAnimeWeb'
 
 
 sqltoy:
@@ -59,7 +59,7 @@ janime:
     ok: Ok.
     forbidden: Forbidden
     # 分类
-    category: JAnime
+    category: ElysianAnime
     # qb域名或者IP地址
     domain: http://127.0.0.1:9001
     # 账号

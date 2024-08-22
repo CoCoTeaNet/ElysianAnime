@@ -256,10 +256,10 @@ public class MiKanRss {
                                         "        <p>中文名：" + opus.getNameCn() + "</p>" +
                                         "        <p>原名：" + opus.getNameOriginal() + "</p>" +
                                         "        <p>资源名称：" + targetFile.getName() + "</p>" +
-                                        "        <a href=\"%s/#/anime/video/" + opus.getId() + "/1/1\">点我前往JAnime追番~~~</a>\n" +
+                                        "        <a href=\"%s/#/anime/video/" + opus.getId() + "/1/1\">点我前往ElysianAnime追番~~~</a>\n" +
                                         "    </div>", defaultProp.getWebUrl()
                         );
-                        String emailTitle = "JAnime：你追的番剧更新了~~~【" + opus.getNameCn() + "】";
+                        String emailTitle = "ElysianAnime：你追的番剧更新了~~~【" + opus.getNameCn() + "】";
                         MailUtil.send(emails, emailTitle, emailHtml, true);
                     });
                 } else {

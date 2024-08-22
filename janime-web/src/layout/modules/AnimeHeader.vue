@@ -3,7 +3,7 @@
     <el-menu :ellipsis="isMobile" :default-active="navMenuActive" mode="horizontal">
       <!--logo-->
       <el-menu-item index="0" @click="goHome">
-        JAnime追番系统~
+        ElysianAnime
       </el-menu-item>
       <div class="flex-grow" />
       <!--功能菜单-->

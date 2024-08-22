@@ -7,7 +7,7 @@
     <!-- LOGO -->
     <div v-if="!store.state.isCollapseMenu" class="logo">
       <img :src="require('@/assets/svg-source/logo.png')" style="width: 36px;margin-right: 3px" alt="login-logo">
-      <h3>JAnime</h3>
+      <h3>ElysianAnime</h3>
     </div>
     <div v-else style="width: 100%;cursor: pointer;display: flex;justify-content: center;margin-top: 1em">
       <img :src="require('@/assets/svg-source/logo.png')" style="width: 36px" alt="logo">

@@ -1,6 +1,6 @@
 #!/bin/bash
 #这里可替换为你自己的执行程序，其他代码无需更改
-APP_NAME=JAnime.jar
+APP_NAME=ElysianAnime.jar
 
 #使用说明，用来提示输入参数
 usage() {

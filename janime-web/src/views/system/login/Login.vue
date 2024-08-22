@@ -3,7 +3,7 @@
     <div class="a-login-inner">
       <div class="a-login-left">
         <h2 style="text-align: center; color: #fff; ">
-          ~欢迎登录追番JAnime~
+          ~欢迎登录ElysianAnime追番~
         </h2>
       </div>
       <el-card class="a-login-right" shadow="always">

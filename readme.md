@@ -1,4 +1,4 @@
-﻿# JAnime
+﻿# ElysianAnime
 
 ## 项目简介
 

@@ -18,7 +18,7 @@ public class QbittorrentProp {
     private String forbidden = "Forbidden";
 
     @Inject("${janime.qb.category}")
-    private String category = "JAnime";
+    private String category = "ElysianAnime";
 
     @Inject("${janime.qb.domain}")
     private String domain;

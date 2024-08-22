@@ -29,7 +29,7 @@
         <janime.version>2.1_202408</janime.version>
         <!-- 插件版本 -->
         <lombok.version>1.18.28</lombok.version>
-        <!-- JAnime框架所需依赖 -->
+        <!-- ElysianAnime框架所需依赖 -->
         <xpath.version>2.5.3</xpath.version>
         <mail.version>1.6.2</mail.version>
         <forest.version>1.5.33</forest.version>
@@ -71,7 +71,7 @@
                 <version>${lombok.version}</version>
             </dependency>
 
-            <!-- JAnime框架所需依赖 -->
+            <!-- ElysianAnime框架所需依赖 -->
             <!-- JsoupXpath -->
             <dependency>
                 <groupId>cn.wanghaomiao</groupId>

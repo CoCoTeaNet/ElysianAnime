@@ -69,7 +69,7 @@
     </dependencies>
 
     <build>
-        <finalName>JAnime</finalName>
+        <finalName>ElysianAnime</finalName>
 
         <plugins>
             <plugin>
@@ -92,7 +92,7 @@
                 <version>${smart-doc.version}</version>
                 <configuration>
                     <configFile>./src/main/resources/smart-doc.json</configFile>
-                    <projectName>JAnime</projectName>
+                    <projectName>ElysianAnime</projectName>
                     <includes>
                         <!-- 使用了mybatis-plus的Page分页需要include所使用的源码包 -->
                         <!--<include>com.baomidou:mybatis-plus-extension</include>-->
