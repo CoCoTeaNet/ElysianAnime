@@ -122,7 +122,7 @@ export function setFullScreen() {
 
 function getFullScreen(): boolean {
     let value = localStorage.getItem("isFullScreen");
-    let flag: boolean = false;
+    let flag: boolean = true;
     if (value) {
         flag = ('false' !== value);
     }

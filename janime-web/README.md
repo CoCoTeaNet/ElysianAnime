@@ -1,4 +1,4 @@
-# janime-ui
+# ElysianAnime
 
 ## Project setup
 ```

@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="value" filterable reserve-keyword placeholder="请输入关键词" :loading="loading">
+  <el-select :model-value="value" filterable reserve-keyword placeholder="请输入关键词" :loading="loading">
     <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
       <div style="display: flex;align-items: center;">
         <el-space>
