@@ -55,7 +55,7 @@ import java.util.stream.Collectors;
  */
 @Component
 public class MiKanRss {
-    private static final Logger logger = LoggerFactory.getLogger(MiKanRss.class);
+    private static final Logger log = LoggerFactory.getLogger(MiKanRss.class);
 
     @Inject
     private DefaultProp defaultProp;
@@ -80,25 +80,25 @@ public class MiKanRss {
      */
     public void requestRss(String rssUrl, AniOpus opus) {
         String result = Forest.get(rssUrl).executeAsString();
-        logger.debug("订阅地址返回结果，result：{}", result);
+        log.debug("订阅地址返回结果，result：{}", result);
         List<MkXmlItem> mkXmlItemList = doParseXmlItems(result);
         for (MkXmlItem mkXmlItem : mkXmlItemList) {
             String title = mkXmlItem.getTitle();
             // 是标识的资源
             boolean remarkRes = RuleUtils.isRemarkRes(title, opus.getRssOnlyMark());
             if (!remarkRes) {
-                logger.warn("解析完成-------->不是标识资源，不进行下载, title={}, mark={}", title, opus.getRssOnlyMark());
+                log.warn("解析完成-------->不是标识资源，不进行下载, title={}, mark={}", title, opus.getRssOnlyMark());
                 continue;
             }
             if (!resUtils.existDir(opus.getNameCn())) {
-                logger.warn("解析完成-------->目录不存在,opus={}", opus.getNameCn());
+                log.warn("解析完成-------->目录不存在,opus={}", opus.getNameCn());
                 continue;
             }
             // 排除的资源
             if (StrUtil.isNotBlank(opus.getRssExcludeRes())) {
                 boolean excludeRes = RuleUtils.isExcludeRes(title, opus.getRssExcludeRes());
                 if (excludeRes) {
-                    logger.warn("解析结果-------->标识为排除的资源，不进行下载, title={}, mark={}", title, opus.getRssExcludeRes());
+                    log.warn("解析结果-------->标识为排除的资源，不进行下载, title={}, mark={}", title, opus.getRssExcludeRes());
                     continue;
                 }
             }
@@ -107,13 +107,13 @@ public class MiKanRss {
             boolean existRes = resUtils.exist(opus.getNameCn(), rename);
             if (!existRes) {
                 // 资源不存在
-                logger.info("校验结果-------->资源不存在，作品名称为：{}，开始请求qbittorrent下载资源...", opus.getNameCn());
+                log.info("校验结果-------->资源不存在，作品名称为：{}，开始请求qbittorrent下载资源...", opus.getNameCn());
                 String dir = resUtils.findASS(2) + opus.getNameCn() + CharConst.LEFT_LINE + rename;
-                logger.debug("dir={}", dir);
+                log.debug("dir={}", dir);
                 String added = qbApiUtils.addNewTorrent(mkXmlItem.getEnclosureUrl(), dir);
-                logger.info("{}下载请求完成，响应消息：{}", opus.getNameCn(), added);
+                log.info("{}下载请求完成，响应消息：{}", opus.getNameCn(), added);
             } else {
-                logger.warn("校验结果-------->《{}》资源已存在,rename={},title={}", opus.getNameCn(), rename, title);
+                log.warn("校验结果-------->《{}》资源已存在,rename={},title={}", opus.getNameCn(), rename, title);
             }
         }
     }
@@ -200,26 +200,26 @@ public class MiKanRss {
         for (Object o : ls) {
             QbInfo info = Convert.convert(QbInfo.class, o);
             try {
-                logger.debug(baseMsg.concat("o={}"), o);
-                logger.info(baseMsg.concat("info={}"), info);
+                log.debug(baseMsg.concat("o={}"), o);
+                log.info(baseMsg.concat("info={}"), info);
                 String contentPath = info.getContentPath();
                 File file = new File(contentPath);
                 if (!file.exists()) {
-                    logger.warn("{}文件未找到,info={}", baseMsg, info);
+                    log.warn("{}文件未找到,info={}", baseMsg, info);
                 }
                 // 父级文件对象
                 File parentFile = file.getParentFile();
                 AniOpus opus = aniOpusService.loadByNameCn(parentFile.getParentFile().getName());
                 if (opus == null) {
-                    logger.warn(baseMsg.concat("找不到作品, 路径={}"), parentFile.getParent());
+                    log.warn(baseMsg.concat("找不到作品, 路径={}"), parentFile.getParent());
                     continue;
                 }
                 if (opus.getRssStatus() != RssStatusEnum.SUBSCRIBING.getCode().intValue()) {
-                    logger.warn("《{}》作品不处于订阅状态", opus.getNameCn());
+                    log.warn("《{}》作品不处于订阅状态", opus.getNameCn());
                     continue;
                 }
                 if (opus.getRssLevelIndex() == null) {
-                    logger.warn(baseMsg.concat("没有配置重命名规则: rssLevelIndex，opus={}"), opus);
+                    log.warn(baseMsg.concat("没有配置重命名规则: rssLevelIndex，opus={}"), opus);
                     continue;
                 }
                 // 作品资源根目录
@@ -227,6 +227,11 @@ public class MiKanRss {
                 // 目标移动路径
                 String targetPath = path + File.separator + file.getName();
                 File targetFile = FileUtil.file(targetPath);
+                if (!targetFile.exists()) {
+                    log.warn("{} >>>>> 目标重命名文件不存在，删除下载记录，path: {}, hash: {}", baseMsg, targetPath, info.getHash());
+                    qbApiUtils.delete(info.getHash());
+                    continue;
+                }
                 // 1、将文件移动到父级目录
                 FileUtil.move(file, targetFile, true);
                 // 2、删除父级目录
@@ -238,7 +243,7 @@ public class MiKanRss {
                 // 系统通知
                 doNotify(opus, targetFile);
             } catch (Exception ex) {
-                logger.error(baseMsg.concat("重命名失败，作品：{}，errorMsg：{}"), info.getName(), ex.getMessage(), ex);
+                log.error(baseMsg.concat("重命名失败，作品：{}，errorMsg：{}"), info.getName(), ex.getMessage(), ex);
             }
         }
     }
@@ -259,9 +264,9 @@ public class MiKanRss {
         if (!hashes.isEmpty()) {
             String hash = StrcUtis.addChar(hashes, CharConst.VERTICAL);
             String pause = qbApiUtils.pause(hash);
-            logger.info(baseMsg.concat("body={}"), pause);
+            log.info(baseMsg.concat("body={}"), pause);
         } else {
-            logger.info(baseMsg.concat("没有做种信息"));
+            log.info(baseMsg.concat("没有做种信息"));
         }
     }
 
@@ -270,21 +275,21 @@ public class MiKanRss {
      */
     public void doFindRssOpusAndDownload() throws InterruptedException {
         List<AniOpus> aniOpusList = aniOpusService.getRssOpus(RssStatusEnum.SUBSCRIBING.getCode());
-        logger.info("doFindRssOpusAndDownload------->start...opusSize={}", aniOpusList.size());
+        log.info("doFindRssOpusAndDownload------->start...opusSize={}", aniOpusList.size());
         for (AniOpus opus : aniOpusList) {
-            logger.info("{}-------->开始下载", opus.getNameCn());
+            log.info("{}-------->开始下载", opus.getNameCn());
             String rssUrl = opus.getRssUrl();
             if (StrUtil.isNotBlank(rssUrl)) {
                 try {
-                    logger.info("存在订阅地址-------->rssUrl: {}", rssUrl);
+                    log.info("存在订阅地址-------->rssUrl: {}", rssUrl);
                     requestRss(rssUrl, opus);
                 } catch (Exception e) {
-                    logger.error("下载出现异常，作品是:{}, 堆栈信息:{}", opus.getNameCn(), e.getMessage());
+                    log.error("下载出现异常，作品是:{}, 堆栈信息:{}", opus.getNameCn(), e.getMessage());
                 } finally {
                     Thread.sleep(3000L);
                 }
             } else {
-                logger.warn("没有订阅地址, opus={}", opus);
+                log.warn("没有订阅地址, opus={}", opus);
             }
         }
     }
@@ -297,7 +302,7 @@ public class MiKanRss {
      */
     public boolean subscribe(AniRssDTO aniRssDTO) throws BusinessException {
         String baseMsg = "rss[subscribe]";
-        logger.info(baseMsg.concat("param={}"), aniRssDTO);
+        log.info(baseMsg.concat("param={}"), aniRssDTO);
         AniOpus opus = aniOpusService.loadById(aniRssDTO.getId());
         opus.setHasResource(IsEnum.Y.getCode());
         opus.setRssStatus(RssStatusEnum.SUBSCRIBING.getCode());
@@ -311,7 +316,7 @@ public class MiKanRss {
         }
         // 创建订阅资源目录
         String path = resUtils.findASS(2) + opus.getNameCn();
-        logger.info(baseMsg.concat("path={}"), path);
+        log.info(baseMsg.concat("path={}"), path);
         FileUtil.mkdir(path);
         // 重新刷新一下rss订阅
         if (StrUtil.isNotBlank(opus.getRssUrl())) {

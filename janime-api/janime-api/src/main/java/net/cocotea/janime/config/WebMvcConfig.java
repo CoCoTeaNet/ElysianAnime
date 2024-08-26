@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -70,6 +71,7 @@ public class WebMvcConfig {
         // 日期转换
         factory.addConvertor(Date.class, s -> DateUtil.format(s, DatePattern.NORM_DATETIME_PATTERN));
         factory.addConvertor(LocalDateTime.class, s -> DateUtil.format(s, DatePattern.NORM_DATETIME_PATTERN));
+        factory.addConvertor(Timestamp.class, s -> DateUtil.format(s, DatePattern.NORM_DATETIME_PATTERN));
 
         factory.addFeatures(
                 SerializerFeature.PrettyFormat,
