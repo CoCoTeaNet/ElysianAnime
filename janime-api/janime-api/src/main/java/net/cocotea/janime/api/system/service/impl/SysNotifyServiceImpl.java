@@ -33,18 +33,7 @@ public class SysNotifyServiceImpl implements SysNotifyService {
 
     @Override
     public void addNotify(SysNotifyAddDTO addDTO) throws BusinessException {
-        boolean isGlobal = addDTO.getIsGlobal() == IsEnum.Y.getCode().intValue();
-
-        Map<String, Object> sysNotifyMapDTO = MapUtil.newHashMap();
-        if (isGlobal) {
-            sysNotifyMapDTO.put("isGlobal", IsEnum.Y.getCode());
-        } else {
-            if (addDTO.getReceiver() == null) {
-                throw new BusinessException("非全局消息时，接收人必填");
-            }
-            sysNotifyMapDTO.put("isGlobal", IsEnum.N.getCode());
-            sysNotifyMapDTO.put("receiver", addDTO.getReceiver());
-        }
+        Map<String, Object> sysNotifyMapDTO = getNotifyMapDTO(addDTO);
 
         SysNotify sysNotify = BeanUtil.toBean(addDTO, SysNotify.class);
         SysNotify sysNotifyExist = lightDao.findOne("sys_notify_findList", sysNotifyMapDTO, SysNotify.class);
@@ -55,6 +44,19 @@ public class SysNotifyServiceImpl implements SysNotifyService {
             sysNotifyExist.setNotifyTime(DateUtil.date().toTimestamp());
             lightDao.update(sysNotifyExist);
         }
+    }
+
+    private static Map<String, Object> getNotifyMapDTO(SysNotifyAddDTO addDTO) throws BusinessException {
+        Map<String, Object> sysNotifyMapDTO = MapUtil.newHashMap();
+        if (addDTO.getIsGlobal() == IsEnum.N.getCode().intValue()) {
+            if (addDTO.getReceiver() == null) {
+                throw new BusinessException("非全局消息时，接收人必填");
+            }
+            sysNotifyMapDTO.put("receiver", addDTO.getReceiver());
+        }
+        sysNotifyMapDTO.put("isGlobal", addDTO.getIsGlobal());
+        sysNotifyMapDTO.put("title", addDTO.getTitle());
+        return sysNotifyMapDTO;
     }
 
     @Override

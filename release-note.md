@@ -1,6 +1,11 @@
 # 变更日志
 
 
+## v2.1_202409
+- 修复：rss订阅完成后系统通知失效问题
+- 修复：系统通知消息时间未格式化问题
+
+
 ## v2.1_202408
 - 变更：核心框架从springboot2框架替换为solon2.x
 - 变更：接口名(system/file/getBackground)变成(anime/opus/getBackground)

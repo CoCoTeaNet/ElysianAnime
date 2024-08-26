@@ -3,6 +3,7 @@ package net.cocotea.janime.api.anime.model.vo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -16,6 +17,8 @@ import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 public class AniUserOpusVO implements Serializable {
+
+	@Serial
 	private static final long serialVersionUID = -4540187768497495045L;
 
 	/**

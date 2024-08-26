@@ -33,7 +33,7 @@ public class AppFilter implements Filter {
     private static final Logger logger = LoggerFactory.getLogger(AppFilter.class);
 
     @Inject("${sra-admin.once-visits}")
-    Integer visits;
+    private Integer visits;
 
     @Inject
     private DefaultProp defaultProp;
@@ -97,7 +97,7 @@ public class AppFilter implements Filter {
         }
         //5.获得接口响应时长
         long times = System.currentTimeMillis() - start;
-        logger.info("用时：{}ms", times);
+        logger.info("用时：{}ms, once-visits: {}", times, visits);
         saveSystemLog(ctx, LogStatusEnum.SUCCESS.getCode());
     }
 
@@ -159,7 +159,6 @@ public class AppFilter implements Filter {
      */
     private void apiLimitAccessTimes(String ip) throws BusinessException {
         if (visits <= 0) {
-            logger.warn("apiLimitAccessTimes >>>>> 不启用访问次数限制");
             return;
         }
         if (StpUtil.isLogin()) {

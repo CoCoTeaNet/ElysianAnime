@@ -204,67 +204,39 @@ public class MiKanRss {
                 logger.info(baseMsg.concat("info={}"), info);
                 String contentPath = info.getContentPath();
                 File file = new File(contentPath);
-                if (file.exists()) {
-                    // 父级文件对象
-                    File parentFile = file.getParentFile();
-                    AniOpus opus = aniOpusService.loadByNameCn(parentFile.getParentFile().getName());
-                    if (opus == null) {
-                        logger.warn(baseMsg.concat("找不到作品, 路径={}"), parentFile.getParent());
-                        continue;
-                    }
-                    if (opus.getRssStatus() != RssStatusEnum.SUBSCRIBING.getCode().intValue()) {
-                        logger.warn("《{}》作品不处于订阅状态", opus.getNameCn());
-                        continue;
-                    }
-                    if (opus.getRssLevelIndex() == null) {
-                        logger.warn(baseMsg.concat("没有配置重命名规则: rssLevelIndex，opus={}"), opus);
-                        continue;
-                    }
-                    // 作品资源根目录
-                    String path = parentFile.getParentFile().getPath();
-                    // 目标移动路径
-                    String targetPath = path + File.separator + file.getName();
-                    File targetFile = FileUtil.file(targetPath);
-                    // 1、将文件移动到父级目录
-                    FileUtil.move(file, targetFile, true);
-                    // 2、删除父级目录
-                    FileUtil.del(parentFile);
-                    // 3、改名资源
-                    FileUtil.rename(targetFile, parentFile.getPath(), true);
-                    // 4、删除下载记录
-                    qbApiUtils.delete(info.getHash());
-
-                    ThreadUtil.execAsync(() -> {
-                        // 系统通知
-                        SysNotifyAddDTO sysNotifyAddDTO = new SysNotifyAddDTO()
-                                .setTitle("【" + opus.getNameCn() + "】更新啦~~~")
-                                .setMemo("资源名：" + targetFile.getName())
-                                .setJumpUrl(String.valueOf(opus.getId()))
-                                .setNotifyTime(DateUtil.date().toTimestamp())
-                                .setLevel(LevelEnum.INFO.getCode())
-                                .setIsGlobal(IsEnum.Y.getCode())
-                                .setNotifyType(NotifyConst.OPUS_UPDATE);
-                        try {
-                            sysNotifyService.addNotify(sysNotifyAddDTO);
-                        } catch (BusinessException ex) {
-                            logger.error("addNotify >>>>> 通知异常", ex);
-                        }
-                        // 5、发送下载完成邮件
-                        List<String> emails = aniUserOpusService.findFollowsEmail(opus.getId());
-                        String emailHtml = String.format(
-                                "    <div>" +
-                                        "        <p>中文名：" + opus.getNameCn() + "</p>" +
-                                        "        <p>原名：" + opus.getNameOriginal() + "</p>" +
-                                        "        <p>资源名称：" + targetFile.getName() + "</p>" +
-                                        "        <a href=\"%s/#/anime/video/" + opus.getId() + "/1/1\">点我前往ElysianAnime追番~~~</a>\n" +
-                                        "    </div>", defaultProp.getWebUrl()
-                        );
-                        String emailTitle = "ElysianAnime：你追的番剧更新了~~~【" + opus.getNameCn() + "】";
-                        MailUtil.send(emails, emailTitle, emailHtml, true);
-                    });
-                } else {
+                if (!file.exists()) {
                     logger.warn("{}文件未找到,info={}", baseMsg, info);
                 }
+                // 父级文件对象
+                File parentFile = file.getParentFile();
+                AniOpus opus = aniOpusService.loadByNameCn(parentFile.getParentFile().getName());
+                if (opus == null) {
+                    logger.warn(baseMsg.concat("找不到作品, 路径={}"), parentFile.getParent());
+                    continue;
+                }
+                if (opus.getRssStatus() != RssStatusEnum.SUBSCRIBING.getCode().intValue()) {
+                    logger.warn("《{}》作品不处于订阅状态", opus.getNameCn());
+                    continue;
+                }
+                if (opus.getRssLevelIndex() == null) {
+                    logger.warn(baseMsg.concat("没有配置重命名规则: rssLevelIndex，opus={}"), opus);
+                    continue;
+                }
+                // 作品资源根目录
+                String path = parentFile.getParentFile().getPath();
+                // 目标移动路径
+                String targetPath = path + File.separator + file.getName();
+                File targetFile = FileUtil.file(targetPath);
+                // 1、将文件移动到父级目录
+                FileUtil.move(file, targetFile, true);
+                // 2、删除父级目录
+                FileUtil.del(parentFile);
+                // 3、改名资源
+                FileUtil.rename(targetFile, parentFile.getPath(), true);
+                // 4、删除下载记录
+                qbApiUtils.delete(info.getHash());
+                // 系统通知
+                doNotify(opus, targetFile);
             } catch (Exception ex) {
                 logger.error(baseMsg.concat("重命名失败，作品：{}，errorMsg：{}"), info.getName(), ex.getMessage(), ex);
             }
@@ -391,4 +363,29 @@ public class MiKanRss {
                 .setTitleFragmentList(titleFragmentList)
                 .setEpisodeIndexList(episodeIndexList);
     }
+
+    private void doNotify(AniOpus opus, File targetFile) throws BusinessException {
+        SysNotifyAddDTO sysNotifyAddDTO = new SysNotifyAddDTO()
+                .setTitle("【" + opus.getNameCn() + "】更新啦~~~")
+                .setMemo("资源名：" + targetFile.getName())
+                .setJumpUrl(String.valueOf(opus.getId()))
+                .setNotifyTime(DateUtil.date().toTimestamp())
+                .setLevel(LevelEnum.INFO.getCode())
+                .setIsGlobal(IsEnum.Y.getCode())
+                .setNotifyType(NotifyConst.OPUS_UPDATE);
+        sysNotifyService.addNotify(sysNotifyAddDTO);
+        // 5、发送下载完成邮件
+        List<String> emails = aniUserOpusService.findFollowsEmail(opus.getId());
+        String emailHtml = String.format(
+                "    <div>" +
+                "        <p>中文名：" + opus.getNameCn() + "</p>" +
+                "        <p>原名：" + opus.getNameOriginal() + "</p>" +
+                "        <p>资源名称：" + targetFile.getName() + "</p>" +
+                "        <a href=\"%s/#/anime/video/" + opus.getId() + "/1/1\">点我前往ElysianAnime追番~~~</a>\n" +
+                "    </div>", defaultProp.getWebUrl()
+        );
+        String emailTitle = "ElysianAnime：你追的番剧更新了~~~【" + opus.getNameCn() + "】";
+        MailUtil.send(emails, emailTitle, emailHtml, true);
+    }
+
 }

@@ -3,6 +3,8 @@ package net.cocotea.janime.api.system.model.vo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 
@@ -14,7 +16,10 @@ import java.sql.Timestamp;
  */
 @Data
 @Accessors(chain = true)
-public class SysNotifyVO {
+public class SysNotifyVO implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -906643316847685516L;
 
     /**
      * 消息ID

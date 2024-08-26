@@ -16,6 +16,8 @@ import org.noear.solon.annotation.Inject;
 import org.noear.solon.scheduling.annotation.Scheduled;
 import org.sagacity.sqltoy.dao.LightDao;
 import org.sagacity.sqltoy.solon.annotation.Db;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +26,8 @@ import java.util.Map;
 @Component
 public class SysNotifyJobs {
 
+    private static final Logger log = LoggerFactory.getLogger(SysNotifyJobs.class);
+
     @Db
     private LightDao lightDao;
 
@@ -31,7 +35,7 @@ public class SysNotifyJobs {
     private SysNotifyService sysNotifyService;
 
     @Scheduled(initialDelay = 1L, fixedDelay = 60L * 1000)
-    void scan() throws BusinessException {
+    public void scan() throws BusinessException {
         // 将全局消息转换成每个接收人
         DateTime now = DateUtil.date();
         DateTime start = DateUtil.offsetDay(now, -30);
@@ -40,6 +44,7 @@ public class SysNotifyJobs {
         sysNotifyMapDTO.put("betweenNotifyTime", Arrays.asList(start, now));
         sysNotifyMapDTO.put("isGlobal", IsEnum.Y.getCode());
         List<SysNotify> sysNotifyList = lightDao.find("sys_notify_findList", sysNotifyMapDTO, SysNotify.class);
+        log.info("scan >>>>> Number to be notified: {}", sysNotifyList.size());
         // 查询所有用户
         Map<String, Object> sysUserMapDTO = MapUtil.newHashMap(1);
         sysUserMapDTO.put("accountStatus", AccountStatusEnum.NORMAL.getCode());
@@ -55,6 +60,7 @@ public class SysNotifyJobs {
             // 转发完成后删除
             sysNotify.setIsDeleted(IsEnum.Y.getCode());
             lightDao.update(sysNotify);
+            log.info("scan >>>>> send finish, title is {}", sysNotify.getTitle());
         }
     }
 

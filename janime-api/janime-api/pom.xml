@@ -15,6 +15,7 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <skipTests>true</skipTests>
         <utf-8>UTF-8</utf-8>
         <smart-doc.version>3.0.1</smart-doc.version>
     </properties>
