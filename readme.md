@@ -41,13 +41,12 @@
 
 
 ## 环境要求
-- JDK：1.8+
-- Nodejs：14 ~ 19
+- JDK：17+
+- Nodejs：14+
 - MySQL：8.0+
 - Redis
 - qBittorrent 
 
 
 ## 拓展项目
-- janime-desktop: https://github.com/momofoolish/janime-desktop
-- janime-android: https://github.com/momofoolish/janime-android
+- [ElysianAnime-Viewer](https://github.com/CoCoTeaNet/ElysianAnime-Viewer) 桌面端应用（嵌入Mpv,播放体验更好）
