@@ -92,6 +92,7 @@ const rules = reactive({
 
 onMounted(() => {
   getVerifyCodeImage();
+  console.log(route.query.redirect)
 });
 
 /**
@@ -128,9 +129,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         login(loginParams).then((res: any) => {
           if (res.code === ApiResultEnum.SUCCESS) {
             if (route.query.redirect) {
-              if (route.query.redirect) {
-                router.push({name: route.query.redirect + ''});
-              }
+              router.push({name: route.query.redirect + ''});
             } else {
               router.push({name: 'AnimeHome'});
             }

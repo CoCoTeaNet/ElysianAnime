@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header><anime-header/></el-header>
-    <el-main :class="`a-layout ${store.state.isFullScreen ? '' : 'a-layout-full'}`">
+    <el-main :class="`a-layout ${store.state.isFullScreen ? 'a-layout-full' : 'a-layout-full-close'}`">
       <router-view v-slot="{Component}">
         <keep-alive>
           <transition :name="`slide-fade`" :mode="`out-in`">
@@ -32,8 +32,12 @@ onMounted(() => {
   margin: 0 auto;
 }
 
-.a-layout-full {
+.a-layout-full-close {
   width: 86%;
+}
+
+.a-layout-full {
+  width: 100%;
 }
 
 /* 可以设置不同的进入和离开动画 */

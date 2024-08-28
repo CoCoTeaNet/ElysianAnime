@@ -287,7 +287,7 @@ const onModifyPassword = (mpFormRef: any) => {
         newPassword: mpFormObj.value.newPassword
       };
       reqSuccessFeedback(doModifyPassword(param), '更新成功，即将重新登录', () => {
-        logout().then(res => {
+        logout().then(() => {
           setTimeout(() => {
             window.location.reload();
           }, 2000);

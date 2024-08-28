@@ -155,7 +155,7 @@ const clickToGo = (routeName: string) => {
 const doLogout = () => {
   reqCommonFeedback(logout(), () => {
     setUserInfo({id: '', username: '', nickname: ''});
-    router.push({path: '/login', query: {redirect: encodeURIComponent(route.path)}});
+    router.push({name: 'Login', query: {redirect: route.name ? route.name.toString() : ''}});
   });
 }
 
