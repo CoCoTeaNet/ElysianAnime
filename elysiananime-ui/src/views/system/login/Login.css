@@ -1,0 +1,57 @@
+.a-login {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.a-login-inner {
+    margin: 0 auto;
+    display: flex;
+    width: 60%;
+    height: 60%;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.66);
+    padding: 72px;
+    border-radius: 8px;
+}
+
+.a-login-left {
+    flex: 1;
+}
+.a-login-right {
+    width: 366px;
+}
+
+@media screen and (max-width: 1439px) {
+    .a-login-inner {
+      width: 100%;
+      border-radius: 0;
+      height: 70%;
+    }
+}
+@media screen and (max-width: 1023px) {
+    .a-login-inner {
+        background: none;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        justify-content: center;
+    }
+    .a-login-left {
+        display: none;
+    }
+    .a-login-right {
+        width: 366px;
+    }
+}
+@media screen and (max-width: 767px) {
+    .a-login-right {
+        width: 90%;
+    }
+}

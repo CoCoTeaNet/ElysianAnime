@@ -1,0 +1,35 @@
+{
+  "name": "elysiananime-ui",
+  "private": true,
+  "version": "2.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^0.2.7",
+    "@types/file-saver": "^2.0.5",
+    "@types/node": "^17.0.19",
+    "@vueuse/core": "^9.13.0",
+    "axios": "^0.26.0",
+    "core-js": "^3.8.3",
+    "dplayer": "^1.27.1",
+    "element-plus": "^2.6.3",
+    "file-saver": "^2.0.5",
+    "js-md5": "^0.7.3",
+    "sm-crypto": "^0.3.13",
+    "vue": "^3.4.37",
+    "vue-axios": "^3.4.1",
+    "vue-class-component": "^8.0.0-0",
+    "vue-router": "^4.0.12",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.2",
+    "typescript": "^5.5.3",
+    "vite": "^5.4.1",
+    "vue-tsc": "^2.0.29"
+  }
+}
