@@ -8,7 +8,7 @@
 	<property name="project.name" value="sqltoy-quickstart" />
 
 	<!-- 定义项目的默认包路径 -->
-	<property name="project.package" value="net.cocotea.janime.api.anime.model.po" />
+	<property name="project.package" value="net.cocotea.elysiananime.api.anime.model.po" />
 	<property name="include.schema" value="false" />
 	<!-- set method 是否支持返回对象自身(默认是true),即: public VO setName(String name){this.name=name;return this;} -->
 	<property name="field.support.linked.set" value="true" />
@@ -33,7 +33,7 @@
 		catalog="${db.schema}" username="${db.username}" password="${db.password}" />
 
 	<!-- dist 定义生成的java代码存放路径 -->
-	<tasks dist="../web-api/janime-api/src/main/java" encoding="UTF-8" api-doc="swagger-v3">
+	<tasks dist="../elysiananime-server/elysiananime-api/src/main/java" encoding="UTF-8" api-doc="swagger-v3">
 		<!-- active 表示任务开关 include是表名匹配的表达式, exclude 表示在include基础上排除哪些表(也是表达式) 
 			datasource 指定上面的数据库定义名称, swagger-model:v3或v2 生成swagger的注解 fields-rid-prefix剔除字段中统一前缀,如:fields-rid-prefix="F_" -->
 		<task active="true" author="CoCoTea" include="^sys_notify"	datasource="quickstart">

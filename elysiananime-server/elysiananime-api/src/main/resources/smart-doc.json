@@ -1,0 +1,5 @@
+{
+  "outPath": "./src/main/resources/static/doc",
+  "framework": "solon",
+  "packageFilters": "net.cocotea.elysiananime.api.*.controller.*"
+}

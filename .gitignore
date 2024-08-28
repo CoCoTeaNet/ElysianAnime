@@ -27,7 +27,7 @@ hs_err_pid*
 
 *.iml
 
-/janime-api/src/main/resources/static/doc/
+/elysiananime-api/src/main/resources/static/doc/
 *.smart-doc-dependency.json
 
 components.d.ts

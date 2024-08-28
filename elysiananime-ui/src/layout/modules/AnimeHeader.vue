@@ -171,7 +171,7 @@ const onBackup = () => {
 
 // 提意见
 const clickToIssues = () => {
-  window.open("https://github.com/CoCoTeaNet/janime/issues", "_blank");
+  window.open("https://github.com/CoCoTeaNet/ElysianAnime/issues", "_blank");
 }
 
 // 获取通知列表
