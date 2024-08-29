@@ -19,4 +19,9 @@ public class RssJobsTest {
         rssJobs.scanBt();
     }
 
+    @Test
+    public void scanRss() {
+        rssJobs.scanRss();
+    }
+
 }

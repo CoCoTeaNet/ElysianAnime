@@ -1,5 +1,5 @@
 const AdminLayout = () => import("@/layout/AdminLayout.vue");
-const Home = () => import("@/views/system/dashboard/home/Home.vue");
+const Home = () => import("@/views/system/dashboard/Home.vue");
 const UserView = () => import("@/views/system/manager/system/user/UserView.vue");
 const MenuView = () => import("@/views/system/manager/system/menu/MenuView.vue");
 const DictionaryView = () => import("@/views/system/manager/system/dictionary/DictionaryView.vue");

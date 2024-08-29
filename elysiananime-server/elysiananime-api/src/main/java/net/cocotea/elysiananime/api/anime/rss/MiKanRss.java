@@ -8,6 +8,8 @@ import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
 import cn.hutool.extra.mail.MailUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.dtflys.forest.Forest;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
@@ -19,10 +21,12 @@ import net.cocotea.elysiananime.api.anime.service.AniOpusService;
 import net.cocotea.elysiananime.api.anime.service.AniUserOpusService;
 import net.cocotea.elysiananime.common.constant.CharConst;
 import net.cocotea.elysiananime.common.constant.NotifyConst;
+import net.cocotea.elysiananime.common.constant.RedisKeyConst;
 import net.cocotea.elysiananime.common.enums.IsEnum;
 import net.cocotea.elysiananime.common.enums.LevelEnum;
 import net.cocotea.elysiananime.common.enums.RssStatusEnum;
 import net.cocotea.elysiananime.common.model.BusinessException;
+import net.cocotea.elysiananime.common.service.RedisService;
 import net.cocotea.elysiananime.properties.DefaultProp;
 import net.cocotea.elysiananime.util.QbApiUtils;
 import net.cocotea.elysiananime.util.ResUtils;
@@ -44,6 +48,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -73,6 +78,9 @@ public class MiKanRss {
 
     @Inject
     private AniUserOpusService aniUserOpusService;
+
+    @Inject
+    private RedisService redisService;
 
     /**
      * 保存并订阅rss
@@ -392,4 +400,10 @@ public class MiKanRss {
         MailUtil.send(emails, emailTitle, emailHtml, true);
     }
 
+    public JSONObject getRssWorkStatus() {
+        return Optional
+                .of(redisService.get(RedisKeyConst.RSS_WORKS_STATUS))
+                .map(JSONUtil::parseObj)
+                .orElse(JSONUtil.createObj());
+    }
 }

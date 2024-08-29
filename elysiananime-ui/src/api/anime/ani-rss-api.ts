@@ -11,3 +11,10 @@ export function closeSubscribe(data: any) {
 export function getMkXmlDetail(rssUrl: string) {
 	return request(`anime/rss/getMkXmlDetail?rssUrl=${rssUrl}`, {}, get);
 }
+
+/**
+ * 获取RSS运行状态
+ */
+export function getRssWorkStatus() {
+	return request('anime/rss/getRssWorkStatus', {}, get);
+}

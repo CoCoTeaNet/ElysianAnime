@@ -7,9 +7,11 @@
 - 优化：在重命名时发现qb下载记录中路径不存在则删除下载记录
 - 优化：增加初始化数据SQL执行脚本
 - 优化：日志文件名称小调整
+- 优化：RSS执行情况UI调整
 - 重构：前端项目webpack迁移到vite
 - 变更：包名及相关配置项从janime改成elysiananime
 - 变更：版本包控制最终使用x.y.z
+- 变更：接口system/dashboard/getRssWorkStatus => anime/rss/getRssWorkStatus
 - 升级：Solon框架升级到2.9.1
 
 ## v2.1_202408

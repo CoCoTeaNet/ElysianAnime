@@ -12,6 +12,22 @@
       </el-col>
     </el-row>
 
+    <!-- RSS情况 -->
+    <el-row style="margin-top: 1em">
+      <el-col>
+        <el-card shadow="never">
+          <el-descriptions title="RSS情况" direction="vertical" :column="2" border>
+            <el-descriptions-item label="最后执行完成时间">
+              {{ rssWork.lastExecTime }}
+            </el-descriptions-item>
+            <el-descriptions-item label="执行消息">
+              {{ rssWork.execMessage }}
+            </el-descriptions-item>
+          </el-descriptions>
+        </el-card>
+      </el-col>
+    </el-row>
+
     <!-- cpu使用情况 -->
     <el-row style="margin-top: 1em">
       <el-col>
@@ -85,6 +101,7 @@ import {onMounted, reactive, ref} from "vue";
 import {getSystemInfo, getCount} from "@/api/system/sys-dashboard-api";
 import {reqCommonFeedback} from "@/api/ApiFeedback";
 import unitUtil from "@/utils/unit-util";
+import {getRssWorkStatus} from "@/api/anime/ani-rss-api.ts";
 
 // 系统信息
 const systemInfo = reactive<any>({data: {cpuCount:0, cpuSystemUsed:0, cpuUserUsed:0, cpuFree:0}});
@@ -92,9 +109,12 @@ const systemInfo = reactive<any>({data: {cpuCount:0, cpuSystemUsed:0, cpuUserUse
 // 表单统计
 const countList = ref<any[]>([]);
 
+const rssWork = ref<string>('');
+
 onMounted(() => {
   initCount();
   initSystemInfo();
+  loadRssWorkStatus();
 })
 
 /**
@@ -112,6 +132,12 @@ const initSystemInfo = () => {
 const initCount = () => {
   reqCommonFeedback(getCount(), (data: any) => {
     countList.value = data;
+  });
+}
+
+const loadRssWorkStatus = () => {
+  reqCommonFeedback(getRssWorkStatus(), (data: any) => {
+    rssWork.value = data;
   });
 }
 </script>

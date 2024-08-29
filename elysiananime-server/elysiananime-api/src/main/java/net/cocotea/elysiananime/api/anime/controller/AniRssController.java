@@ -2,6 +2,7 @@ package net.cocotea.elysiananime.api.anime.controller;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
+import cn.hutool.json.JSONObject;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
 import net.cocotea.elysiananime.api.anime.rss.model.MkXmlDetail;
 import net.cocotea.elysiananime.common.annotation.LogPersistence;
@@ -47,6 +48,12 @@ public class AniRssController {
     public ApiResult<MkXmlDetail> getMkXmlDetail(@Param String rssUrl) {
         MkXmlDetail detail = miKanRss.doParseMkXmlDetail(rssUrl);
         return ApiResult.ok(detail);
+    }
+
+    @Get @Mapping("/getRssWorkStatus")
+    public ApiResult<JSONObject> getRssWorkStatus() {
+        JSONObject msg = miKanRss.getRssWorkStatus();
+        return ApiResult.ok(msg);
     }
 
 }
