@@ -13,6 +13,7 @@
 - 变更：版本包控制最终使用x.y.z
 - 变更：接口system/dashboard/getRssWorkStatus => anime/rss/getRssWorkStatus
 - 升级：Solon框架升级到2.9.1
+- 升级：mysql-connector升级到8.3.0
 
 ## v2.1_202408
 

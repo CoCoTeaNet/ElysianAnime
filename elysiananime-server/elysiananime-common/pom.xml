@@ -69,12 +69,6 @@
             <groupId>org.noear</groupId>
             <artifactId>sa-token-solon-plugin</artifactId>
         </dependency>
-        <!-- mysql连接器 -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
         <!-- 连接池 -->
         <dependency>
             <groupId>com.zaxxer</groupId>

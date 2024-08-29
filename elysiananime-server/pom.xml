@@ -36,7 +36,7 @@
         <forest-jaxb.veraion>1.5.33</forest-jaxb.veraion>
         <!-- SRA-ADMIN-SOLON必备依赖 -->
         <sqltoy.version>5.6.10</sqltoy.version>
-        <mysql-connector.version>8.0.30</mysql-connector.version>
+        <mysql-connector.version>8.3.0</mysql-connector.version>
         <satoken.version>1.33.0</satoken.version>
         <fastjson.version>1.2.83</fastjson.version>
         <hutool.version>5.8.20</hutool.version>
@@ -123,8 +123,8 @@
             </dependency>
             <!-- mysql连接器 -->
             <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
                 <version>${mysql-connector.version}</version>
                 <scope>runtime</scope>
             </dependency>
