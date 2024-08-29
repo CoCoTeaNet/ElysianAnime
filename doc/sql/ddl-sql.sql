@@ -1,4 +1,4 @@
-create table ani_opus
+create table if not exists ani_opus
 (
     id              bigint            not null comment '作品id'
         primary key,
@@ -23,9 +23,8 @@ create table ani_opus
     update_by       bigint            null comment '更新人',
     is_deleted      tinyint default 0 not null comment '是否删除'
 )
-    comment '作品主表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
+    comment '作品主表' collate = utf8_unicode_ci
+                       row_format = DYNAMIC;
 
 create index ani_opus_idx_1
     on ani_opus (name_cn, name_original);
@@ -33,7 +32,7 @@ create index ani_opus_idx_1
 create index ani_opus_idx_2
     on ani_opus (launch_start, delivery_week);
 
-create table ani_opus_group
+create table if not exists ani_opus_group
 (
     id           bigint            not null comment '作品分组id'
         primary key,
@@ -45,11 +44,10 @@ create table ani_opus_group
     update_time  datetime          not null comment '更新时间',
     is_deleted   tinyint default 0 not null comment '是否删除'
 )
-    comment '作品分组表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
+    comment '作品分组表' collate = utf8_unicode_ci
+                         row_format = DYNAMIC;
 
-create table ani_opus_tag
+create table if not exists ani_opus_tag
 (
     id          bigint   not null comment '作品标签关联id'
         primary key,
@@ -57,11 +55,10 @@ create table ani_opus_tag
     opus_id     bigint   not null comment '作品id',
     create_time datetime null comment '关联时间'
 )
-    comment '作品标签关联表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
+    comment '作品标签关联表' collate = utf8_unicode_ci
+                             row_format = DYNAMIC;
 
-create table ani_tag
+create table if not exists ani_tag
 (
     id          bigint            not null comment '标签id'
         primary key,
@@ -72,11 +69,10 @@ create table ani_tag
     update_by   bigint            null comment '更新人',
     is_deleted  tinyint default 0 not null comment '是否删除'
 )
-    comment 'acg标签表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
+    comment 'acg标签表' collate = utf8_unicode_ci
+                        row_format = DYNAMIC;
 
-create table ani_user_opus
+create table if not exists ani_user_opus
 (
     id           bigint            not null comment '用户作品关联id'
         primary key,
@@ -89,61 +85,13 @@ create table ani_user_opus
     create_time  datetime          not null comment '关联时间',
     is_share     tinyint default 0 not null comment '是否分享：0否 1是'
 )
-    comment '用户作品关联表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
+    comment '用户作品关联表' collate = utf8_unicode_ci
+                             row_format = DYNAMIC;
 
 create index ani_user_opus_idx_1
     on ani_user_opus (user_id, opus_id);
 
-create table sche_job
-(
-    id              bigint            not null comment '计划任务id'
-        primary key,
-    name            varchar(90)       not null comment '任务名称',
-    type            tinyint default 0 not null comment '配置类型;0类模式 1函数模式',
-    class_name      varchar(500)      null comment '任务对应类名',
-    method_name     varchar(200)      null comment '方法名',
-    parameters      varchar(900)      null comment '参数json对象',
-    corn_expression varchar(64)       not null comment 'cron表达式',
-    description     varchar(900)      null comment '任务描述',
-    active          tinyint default 0 not null comment '是否启用;0未启用 1启用',
-    next_exe_time   datetime          null comment '下一次执行时间',
-    sort            int               null comment '排序',
-    create_time     datetime          not null comment '创建时间',
-    create_by       bigint            not null comment '创建人',
-    update_time     datetime          null comment '更新时间',
-    update_by       bigint            null comment '更新人',
-    is_deleted      tinyint default 0 not null comment '是否删除',
-    revision        int               null comment '乐观锁'
-)
-    comment '计划任务表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
-
-create table sche_job_log
-(
-    id                bigint            not null comment '计划任务执行日志id'
-        primary key,
-    job_id            bigint            not null comment '计划任务id',
-    trigger_time      datetime          null comment '任务触发时间',
-    trigger_by        bigint            null comment '任务触发人',
-    exe_result        tinyint           null comment '任务执行结果;0失败 1成功',
-    spend_time_millis bigint            null comment '任务执行耗时ms',
-    finish_time       datetime          null comment '任务完成时间',
-    sort              int               null comment '排序',
-    create_time       datetime          null comment '创建时间',
-    create_by         bigint            null comment '创建人',
-    update_time       datetime          null comment '更新时间',
-    update_by         bigint            null comment '更新人',
-    is_deleted        tinyint default 0 not null comment '是否删除',
-    revision          int               null comment '乐观锁'
-)
-    comment '计划任务执行日志表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
-
-create table sys_dictionary
+create table if not exists sys_dictionary
 (
     id              bigint            not null comment '字典id'
         primary key,
@@ -159,11 +107,10 @@ create table sys_dictionary
     is_deleted      tinyint default 0 not null comment '是否删除',
     revision        int               null comment '乐观锁'
 )
-    comment '系统字典表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
+    comment '系统字典表' collate = utf8_unicode_ci
+                         row_format = DYNAMIC;
 
-create table sys_file
+create table if not exists sys_file
 (
     id          bigint            not null comment '文件id'
         primary key,
@@ -178,11 +125,10 @@ create table sys_file
     is_share    tinyint default 0 null comment '是否共享',
     is_deleted  tinyint default 0 not null comment '是否删除'
 )
-    comment '系统文件表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
+    comment '系统文件表' collate = utf8_unicode_ci
+                         row_format = DYNAMIC;
 
-create table sys_log
+create table if not exists sys_log
 (
     id          bigint       not null comment '日志编号'
         primary key,
@@ -193,14 +139,13 @@ create table sys_log
     log_type    tinyint      null comment '日志类型：1登录 2操作 ',
     create_time datetime     not null comment '创建时间'
 )
-    comment '系统操作日志表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
+    comment '系统操作日志表' collate = utf8_unicode_ci
+                             row_format = DYNAMIC;
 
 create index sys_log_request_way_index
     on sys_log (request_way);
 
-create table sys_menu
+create table if not exists sys_menu
 (
     id               bigint            not null comment '菜单id'
         primary key,
@@ -222,25 +167,24 @@ create table sys_menu
     is_deleted       tinyint default 0 not null comment '是否删除',
     revision         int               null comment '乐观锁'
 )
-    comment '系统菜单表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
+    comment '系统菜单表' collate = utf8_unicode_ci
+                         row_format = DYNAMIC;
 
-create table sys_notify
+create table if not exists sys_notify
 (
-    id          bigint            not null comment '通知ID'
+    id          bigint                                  not null comment '通知ID'
         primary key,
-    title       varchar(200)      not null comment '通知标题',
-    memo        varchar(900)      null comment '消息内容',
-    jump_url    varchar(200)      null comment '跳转链接、ID、等等',
-    notify_type varchar(20)       not null comment '通知类型',
-    is_global   tinyint default 0 not null comment '是否全局',
-    receiver    bigint            null comment '接收人',
-    level       tinyint default 1 not null comment '通知等级',
-    notify_time timestamp         not null comment '通知时间',
-    create_by   bigint            null comment '创建人',
-    create_time timestamp         not null comment '创建时间',
-    is_deleted  tinyint default 0 not null comment '是否删除'
+    title       varchar(200)                            not null comment '通知标题',
+    memo        varchar(900)                            null comment '消息内容',
+    jump_url    varchar(200)                            null comment '跳转链接、ID、等等',
+    notify_type varchar(20)                             not null comment '通知类型',
+    is_global   tinyint   default 0                     not null comment '是否全局',
+    receiver    bigint                                  null comment '接收人',
+    level       tinyint   default 1                     not null comment '通知等级',
+    notify_time timestamp default CURRENT_TIMESTAMP     not null on update CURRENT_TIMESTAMP comment '通知时间',
+    create_by   bigint                                  null comment '创建人',
+    create_time timestamp default '0000-00-00 00:00:00' not null comment '创建时间',
+    is_deleted  tinyint   default 0                     not null comment '是否删除'
 )
     comment '系统通知表' collate = utf8_unicode_ci;
 
@@ -250,7 +194,7 @@ create index sys_notify_idx1
 create index sys_notify_idx2
     on sys_notify (receiver);
 
-create table sys_role
+create table if not exists sys_role
 (
     id          bigint            not null comment '角色id'
         primary key,
@@ -265,22 +209,20 @@ create table sys_role
     is_deleted  tinyint default 0 not null comment '是否删除',
     revision    int               null comment '乐观锁'
 )
-    comment '系统角色表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
+    comment '系统角色表' collate = utf8_unicode_ci
+                         row_format = DYNAMIC;
 
-create table sys_role_menu
+create table if not exists sys_role_menu
 (
     id      bigint not null comment '角色菜单关联id'
         primary key,
     role_id bigint not null comment '角色id',
     menu_id bigint not null comment '菜单id'
 )
-    comment '角色菜单关联表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
+    comment '角色菜单关联表' collate = utf8_unicode_ci
+                             row_format = DYNAMIC;
 
-create table sys_theme
+create table if not exists sys_theme
 (
     id            bigint            not null comment '系统主题id'
         primary key,
@@ -292,11 +234,10 @@ create table sys_theme
     color_4       varchar(8)        null comment '颜色4',
     is_dark       tinyint default 0 null comment '是否暗黑模式'
 )
-    comment '系统主题表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
+    comment '系统主题表' collate = utf8_unicode_ci
+                         row_format = DYNAMIC;
 
-create table sys_user
+create table if not exists sys_user
 (
     id              bigint            not null comment '用户id'
         primary key,
@@ -317,22 +258,20 @@ create table sys_user
     is_deleted      tinyint default 0 not null comment '是否删除',
     revision        int               null comment '乐观锁'
 )
-    comment '系统用户表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
+    comment '系统用户表' collate = utf8_unicode_ci
+                         row_format = DYNAMIC;
 
-create table sys_user_role
+create table if not exists sys_user_role
 (
     id      bigint not null comment '用户角色关联id'
         primary key,
     user_id bigint not null comment '用户id',
     role_id bigint not null comment '角色id'
 )
-    comment '用户角色关联表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
+    comment '用户角色关联表' collate = utf8_unicode_ci
+                             row_format = DYNAMIC;
 
-create table sys_version
+create table if not exists sys_version
 (
     id            bigint       not null comment '版本id'
         primary key,
@@ -345,7 +284,6 @@ create table sys_version
     update_by     bigint       null comment '更新人',
     update_time   datetime     null comment '更新时间'
 )
-    comment '系统版本更新记录表'
-    collate = utf8_unicode_ci
-    row_format = DYNAMIC;
+    comment '系统版本更新记录表' collate = utf8_unicode_ci
+                                 row_format = DYNAMIC;
 

@@ -4,7 +4,7 @@
 
 这是一个番剧管理系统，主要用于部署在个人NAS服务器上，订阅和下载RSS内容，然后自动追番~~~
 
-- version: v2.1_202408
+- version: v2.2.0
 - [Changed Log](release-note.md)
 
 
@@ -36,8 +36,9 @@
 2. 启动本地Redis并运行后端服务
 3. 安装前端依赖并运行前端项目
 
-* 访问地址
-* http://localhost:8086
+### 访问
+* 地址：http://localhost:8086
+* 账号：admin admin123456
 
 
 ## 环境要求
