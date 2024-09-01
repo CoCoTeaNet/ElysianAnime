@@ -212,12 +212,13 @@ public class MiKanRss {
         for (Object o : ls) {
             QbInfo info = Convert.convert(QbInfo.class, o);
             try {
-                log.debug(baseMsg.concat("o={}"), o);
-                log.info(baseMsg.concat("info={}"), info);
+                log.info("{} >>>>> info={}", baseMsg, info);
                 String contentPath = info.getContentPath();
                 File file = new File(contentPath);
                 if (!file.exists()) {
-                    log.warn("{}文件未找到,info={}", baseMsg, info);
+                    log.warn("{} >>>>> 文件未找到，删除下载记录，info: {}", baseMsg, info);
+                    qbApiUtils.delete(info.getHash());
+                    continue;
                 }
                 // 父级文件对象
                 File parentFile = file.getParentFile();
@@ -239,11 +240,6 @@ public class MiKanRss {
                 // 目标移动路径
                 String targetPath = path + File.separator + file.getName();
                 File targetFile = FileUtil.file(targetPath);
-                if (!targetFile.exists()) {
-                    log.warn("{} >>>>> 目标重命名文件不存在，删除下载记录，path: {}, hash: {}", baseMsg, targetPath, info.getHash());
-                    qbApiUtils.delete(info.getHash());
-                    continue;
-                }
                 // 1、将文件移动到父级目录
                 FileUtil.move(file, targetFile, true);
                 // 2、删除父级目录
