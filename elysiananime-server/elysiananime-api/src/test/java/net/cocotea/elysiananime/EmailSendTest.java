@@ -1,9 +1,24 @@
 package net.cocotea.elysiananime;
 
+import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
+import net.cocotea.elysiananime.properties.EmailSenderProp;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.noear.solon.annotation.Import;
+import org.noear.solon.annotation.Inject;
+import org.noear.solon.test.SolonJUnit4ClassRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+@Import(scanPackages = {"net.cocotea.elysiananime"})
+@RunWith(SolonJUnit4ClassRunner.class)
 public class EmailSendTest {
+
+    private static final Logger log = LoggerFactory.getLogger(EmailSendTest.class);
+
+    @Inject
+    private EmailSenderProp emailSenderProp;
 
     @Test
     public void send() {
@@ -13,7 +28,14 @@ public class EmailSendTest {
                 "        <p>资源名称：none</p>" +
                 "    </div>";
         String emailTitle = "ElysianAnime：你追的番剧更新了~~~【测试】";
-        MailUtil.send("572315466@qq.com", emailTitle, emailHtml, true);
+        MailAccount mailAccount = new MailAccount()
+                .setUser(emailSenderProp.getUser())
+                .setFrom(emailSenderProp.getFrom())
+                .setPass(emailSenderProp.getPass())
+                .setHost(emailSenderProp.getHost())
+                .setPort(emailSenderProp.getPort());
+        log.info(mailAccount.toString());
+        MailUtil.send(mailAccount, "test@qq.com", emailTitle, emailHtml, true);
     }
 
 }

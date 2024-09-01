@@ -7,6 +7,7 @@ import cn.hutool.core.lang.RegexPool;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
+import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -28,6 +29,7 @@ import net.cocotea.elysiananime.common.enums.RssStatusEnum;
 import net.cocotea.elysiananime.common.model.BusinessException;
 import net.cocotea.elysiananime.common.service.RedisService;
 import net.cocotea.elysiananime.properties.DefaultProp;
+import net.cocotea.elysiananime.properties.EmailSenderProp;
 import net.cocotea.elysiananime.util.QbApiUtils;
 import net.cocotea.elysiananime.util.ResUtils;
 import net.cocotea.elysiananime.common.util.StrcUtis;
@@ -60,6 +62,9 @@ import java.util.stream.Collectors;
 @Component
 public class MiKanRss {
     private static final Logger log = LoggerFactory.getLogger(MiKanRss.class);
+
+    @Inject
+    private EmailSenderProp emailSenderProp;
 
     @Inject
     private DefaultProp defaultProp;
@@ -397,7 +402,13 @@ public class MiKanRss {
                 "    </div>", defaultProp.getWebUrl()
         );
         String emailTitle = "ElysianAnime：你追的番剧更新了~~~【" + opus.getNameCn() + "】";
-        MailUtil.send(emails, emailTitle, emailHtml, true);
+        MailAccount mailAccount = new MailAccount()
+                .setUser(emailSenderProp.getUser())
+                .setFrom(emailSenderProp.getFrom())
+                .setPass(emailSenderProp.getPass())
+                .setHost(emailSenderProp.getHost())
+                .setPort(emailSenderProp.getPort());
+        MailUtil.send(mailAccount, emails, emailTitle, emailHtml, true);
     }
 
     public JSONObject getRssWorkStatus() {
