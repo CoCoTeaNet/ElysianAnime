@@ -23,4 +23,7 @@ public class EmailSenderProp {
     @Inject("${elysiananime.emailsender.port}")
     private Integer port;
 
+    @Inject("${elysiananime.emailsender.sslEnable}")
+    private Boolean sslEnable;
+
 }

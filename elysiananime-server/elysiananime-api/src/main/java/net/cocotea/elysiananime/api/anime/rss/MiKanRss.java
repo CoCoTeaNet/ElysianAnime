@@ -403,7 +403,8 @@ public class MiKanRss {
                 .setFrom(emailSenderProp.getFrom())
                 .setPass(emailSenderProp.getPass())
                 .setHost(emailSenderProp.getHost())
-                .setPort(emailSenderProp.getPort());
+                .setPort(emailSenderProp.getPort())
+                .setSslEnable(emailSenderProp.getSslEnable());
         MailUtil.send(mailAccount, emails, emailTitle, emailHtml, true);
     }
 
