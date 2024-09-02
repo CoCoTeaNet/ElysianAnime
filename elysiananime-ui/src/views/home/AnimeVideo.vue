@@ -150,6 +150,9 @@
                 @click="onShareOpus(videoInfo.id)"
             />
           </el-form-item>
+          <el-form-item label="番剧链接：">
+            <el-input type="textarea" :model-value="shareUrl" autosize></el-input>
+          </el-form-item>
         </el-form>
       </el-card>
     </div>
@@ -178,6 +181,7 @@ const player = ref<Dplayer>(null);
 const currentNum = ref<any>('0');
 const editForm = ref<AcgUserOpusModel>({});
 const epListNewStyle = ref<boolean>(true);
+const shareUrl = ref<string>('');
 
 const init = () => {
   if (route.params) {
@@ -241,6 +245,7 @@ const onOrientationchange = (): void => {
 const loadData = (): void => {
   if (!loading.value) loading.value = true;
   reqCommonFeedback(getOpusMedia(route.params.id), (data: any) => {
+    shareUrl.value = window.location.href + '?nameCn=' + data.nameCn;
     loading.value = false;
     videoInfo.value = data;
     mediaList.value = data.mediaList;
