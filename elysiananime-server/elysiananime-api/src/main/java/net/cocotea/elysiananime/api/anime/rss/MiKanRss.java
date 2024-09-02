@@ -367,7 +367,7 @@ public class MiKanRss {
             String title = item.getTitle();
             List<String> list = ReUtil.findAllGroup0(RegexPool.NUMBERS, title);
             for (String episodeStr : list) {
-                title = title.replaceAll(episodeStr, "<span style=\"color:yellow\">" + episodeStr + "</span>");
+                title = title.replaceAll(episodeStr, "<span style=\"color:#f38181\">" + episodeStr + "</span>");
             }
             item.setTitleHtml(title);
         }

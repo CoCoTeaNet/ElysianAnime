@@ -9,6 +9,7 @@
 - 优化：日志文件名称小调整
 - 优化：RSS执行情况UI调整
 - 优化：RSS执行完毕Email通知的账号配置从properties集成到Solon
+- 优化：RSS资源解析高亮颜色改成“#f38181”
 - 重构：前端项目webpack迁移到vite
 - 变更：包名及相关配置项从janime改成elysiananime
 - 变更：版本包控制最终使用x.y.z
