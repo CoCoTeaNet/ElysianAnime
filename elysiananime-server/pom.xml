@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.noear</groupId>
+        <artifactId>solon-parent</artifactId>
+        <version>2.9.1</version>
+    </parent>
+
+    <groupId>net.cocotea</groupId>
+    <artifactId>elysiananime</artifactId>
+    <packaging>pom</packaging>
+    <version>2.2.0</version>
+
+    <modules>
+        <module>elysiananime-api</module>
+        <module>elysiananime-common</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <utf-8>UTF-8</utf-8>
+
+        <!-- 内部模块版本 -->
+        <elysiananime.version>2.2.0</elysiananime.version>
+        <!-- 插件版本 -->
+        <lombok.version>1.18.28</lombok.version>
+        <!-- ElysianAnime框架所需依赖 -->
+        <xpath.version>2.5.3</xpath.version>
+        <mail.version>1.6.2</mail.version>
+        <forest.version>1.5.33</forest.version>
+        <forest-jaxb.veraion>1.5.33</forest-jaxb.veraion>
+        <!-- SRA-ADMIN-SOLON必备依赖 -->
+        <sqltoy.version>5.6.10</sqltoy.version>
+        <mysql-connector.version>8.3.0</mysql-connector.version>
+        <satoken.version>1.33.0</satoken.version>
+        <fastjson.version>1.2.83</fastjson.version>
+        <hutool.version>5.8.20</hutool.version>
+        <hutool-oshi.version>5.6.1</hutool-oshi.version>
+        <bcprov.version>1.69</bcprov.version>
+        <commons-pool2.version>2.11.1</commons-pool2.version>
+        <redisx.version>1.4.7</redisx.version>
+        <logback-classic.version>1.4.12</logback-classic.version>
+    </properties>
+
+    <!-- 依赖声明 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- 内部模块 -->
+            <!-- 接口 -->
+            <dependency>
+                <groupId>net.cocotea</groupId>
+                <artifactId>elysiananime-api</artifactId>
+                <version>${elysiananime.version}</version>
+            </dependency>
+            <!-- 通用 -->
+            <dependency>
+                <groupId>net.cocotea</groupId>
+                <artifactId>elysiananime-common</artifactId>
+                <version>${elysiananime.version}</version>
+            </dependency>
+
+            <!-- 插件使用 -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!-- ElysianAnime框架所需依赖 -->
+            <!-- JsoupXpath -->
+            <dependency>
+                <groupId>cn.wanghaomiao</groupId>
+                <artifactId>JsoupXpath</artifactId>
+                <version>${xpath.version}</version>
+            </dependency>
+            <!--邮件框架-->
+            <dependency>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+                <version>${mail.version}</version>
+            </dependency>
+            <!--声明试http请求框架-->
+            <dependency>
+                <groupId>com.dtflys.forest</groupId>
+                <artifactId>forest-spring-boot-starter</artifactId>
+                <version>${forest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dtflys.forest</groupId>
+                <artifactId>forest-jaxb</artifactId>
+                <version>${forest-jaxb.veraion}</version>
+            </dependency>
+
+            <!--SRA-ADMIN-SOLON必备依赖-->
+            <!-- solon -->
+            <dependency>
+                <groupId>org.noear</groupId>
+                <artifactId>solon-api</artifactId>
+                <version>${solon.version}</version>
+            </dependency>
+            <!--sqltoy-solon-->
+            <dependency>
+                <groupId>com.sagframe</groupId>
+                <artifactId>sagacity-sqltoy-solon-plugin</artifactId>
+                <version>${sqltoy.version}</version>
+            </dependency>
+            <!-- Sa-Token 权限认证 -->
+            <dependency>
+                <groupId>org.noear</groupId>
+                <artifactId>sa-token-solon-plugin</artifactId>
+                <version>${solon.version}</version>
+            </dependency>
+            <!-- sa-token整合redis (使用jdk默认序列化方式) -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-redisx</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+            <!-- mysql连接器 -->
+            <dependency>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
+                <version>${mysql-connector.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <!-- 连接池 -->
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>${hikaricp.version}</version>
+            </dependency>
+            <!-- fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <!-- hutool工具 -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>${hutool-oshi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15to18</artifactId>
+                <version>${bcprov.version}</version>
+            </dependency>
+            <!-- redis -->
+            <dependency>
+                <groupId>org.noear</groupId>
+                <artifactId>redisx</artifactId>
+                <version>${redisx.version}</version>
+            </dependency>
+            <!-- 日志 -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback-classic.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

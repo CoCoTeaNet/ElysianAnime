@@ -4,7 +4,7 @@
 
 这是一个番剧管理系统，主要用于部署在个人NAS服务器上，订阅和下载RSS内容，然后自动追番~~~
 
-- version: v2.1_202408
+- version: v2.2.0
 - [Changed Log](release-note.md)
 
 
@@ -36,18 +36,18 @@
 2. 启动本地Redis并运行后端服务
 3. 安装前端依赖并运行前端项目
 
-* 访问地址
-* http://localhost:8086
+### 访问
+* 地址：http://localhost:8086
+* 账号：admin admin123456
 
 
 ## 环境要求
-- JDK：1.8+
-- Nodejs：14 ~ 19
+- JDK：17+
+- Nodejs：14+
 - MySQL：8.0+
 - Redis
 - qBittorrent 
 
 
 ## 拓展项目
-- janime-desktop: https://github.com/momofoolish/janime-desktop
-- janime-android: https://github.com/momofoolish/janime-android
+- [ElysianAnime-Viewer](https://github.com/CoCoTeaNet/ElysianAnime-Viewer) 桌面端应用（嵌入Mpv,播放体验更好）
