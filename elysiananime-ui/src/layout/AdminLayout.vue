@@ -1,7 +1,7 @@
 <template>
   <el-container style="height: 100vh;">
-    <el-aside width="300" style="border-right: solid 1px var(--el-menu-border-color);" class="layout-box-shadow">
-      <NavMenu/>
+    <el-aside width="300">
+      <NavMenu style="height: 100%;overflow: auto"/>
     </el-aside>
 
     <el-container>

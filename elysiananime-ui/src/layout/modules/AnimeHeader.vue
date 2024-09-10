@@ -89,24 +89,12 @@
           </template>
           <template #default>
             <div class="acg-header-userinfo">
-              <el-avatar
-                  v-if="store.state.userInfo.avatar"
-                  :size="60"
-                  :src="`api/system/file/getAvatar?avatar=${store.state.userInfo.avatar}`"
-                  style="margin-bottom: 8px"
-              />
-              <el-avatar
-                  v-else
-                  :size="60"
-                  src="@/assets/svg-source/default-avatar.svg"
-                  style="margin-bottom: 8px"
-              />
+              <el-avatar :size="60" :src="avatar" style="margin-bottom: 8px"/>
               <span style="margin: 0; font-size: 14px; color: var(--el-color-info)">
                 {{ store.state.userInfo.nickname }} @ {{ store.state.userInfo.username }}
               </span>
               <p style="margin: 0">
-                Element Plus, a Vue 3 based component library for developers,
-                designers and product managers
+                生活就像海洋，只有意志坚强的人，才能到达彼岸
               </p>
               <el-button class="a-h-u-btn" text @click="clickToGo('UserCenterView')">个人中心</el-button>
               <el-button class="a-h-u-btn" text @click="clickToGo('SysFileView')">NAS个人云盘</el-button>
@@ -135,6 +123,7 @@ import {
   ChatDotRound, VideoCamera, Star, Reading, Collection, MoreFilled, Share
 } from "@element-plus/icons-vue";
 import {onMounted, ref} from "vue";
+import default_avatar from '@/assets/svg-source/default-avatar.svg';
 
 const store = useStore();
 const route = useRoute();
@@ -142,10 +131,15 @@ const isMobile = !!navigator.userAgent.match(/AppleWebKit.*Mobile.*/);
 
 const notifyList = ref<any>([]);
 const navMenuActive = ref('1');
+const avatar = ref<any>(default_avatar);
 
 onMounted(() => {
   reqCommonFeedback(loginInfo(), (data:any) => setUserInfo(data));
   getNotifyList();
+
+  if (store.state.userInfo.avatar) {
+    avatar.value = `api/system/file/getAvatar?avatar=${store.state.userInfo.avatar}`;
+  }
 });
 
 const clickToGo = (routeName: string) => {

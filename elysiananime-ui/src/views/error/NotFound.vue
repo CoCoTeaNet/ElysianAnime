@@ -1,9 +1,6 @@
 <template>
   <div style="text-align: center;padding-top: 6em">
-    <el-image
-        style="width: 600px"
-        :src="SVG_404">
-    </el-image>
+    <img src="@/assets/svg-source/404.svg" alt="404page" />
     <div>
       <p>很抱歉！你访问的资源不存在......</p>
       <el-button type="primary" :icon="Back" @click="goHistory">返回上一步</el-button>
@@ -14,8 +11,6 @@
 <script setup lang="ts">
 import {router} from "@/router";
 import {Back} from "@element-plus/icons-vue";
-
-const SVG_404 = '@/assets/svg-source/404.svg';
 
 /**
  * 返回上一页

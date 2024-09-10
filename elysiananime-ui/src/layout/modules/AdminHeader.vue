@@ -22,8 +22,7 @@
         </el-icon>
         <el-dropdown>
           <span class="mouse-over">
-            <el-avatar v-if="store.state.userInfo.avatar" shape="square" :src="`api/system/file/getAvatar?avatar=${url}`"/>
-            <el-avatar v-else shape="square" src="@/assets/svg-source/default-avatar.svg"/>
+            <el-avatar shape="square" :src="avatar"/>
           </span>
           <template #dropdown>
             <el-dropdown-menu>
@@ -46,14 +45,20 @@ import {setUserInfo, useStore, setCollapseMenu} from "@/store";
 import AdminTab from "@/layout/modules/AdminTab.vue";
 import {Expand, Fold, FullScreen, House} from "@element-plus/icons-vue";
 import {onMounted, ref} from 'vue';
+import default_avatar from '@/assets/svg-source/default-avatar.svg';
 
 const store = useStore();
 const route = useRoute();
 
 const iconSize = ref<number>(24);
+const avatar = ref<any>(default_avatar);
 
 onMounted(() => {
   reqCommonFeedback(loginInfo(), (data:any) => setUserInfo(data));
+
+  if (store.state.userInfo.avatar) {
+    avatar.value = `api/system/file/getAvatar?avatar=${store.state.userInfo.avatar}`;
+  }
 });
 
 /**
