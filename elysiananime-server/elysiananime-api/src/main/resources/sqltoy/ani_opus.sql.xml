@@ -19,6 +19,7 @@
             #[and ao.rss_status = :rssStatus]
             #[and ao.has_resource = :hasResource]
             #[and ao.detail_info_url = :detailUrl]
+            order by ao.id desc
             ]]>
         </value>
     </sql>
@@ -43,6 +44,7 @@
             #[and ao.rss_status = :rssStatus]
             #[and ao.has_resource = :hasResource]
             #[and ao.detail_info_url = :detailUrl]
+            order by ao.id desc
             ]]>
         </value>
     </sql>
