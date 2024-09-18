@@ -1,11 +1,11 @@
 <template>
   <el-container style="height: 100vh;">
-    <el-aside width="300">
-      <NavMenu style="height: 100%;overflow: auto"/>
-    </el-aside>
+    <el-header class="layout-box-shadow"><admin-header/></el-header>
 
-    <el-container>
-      <el-header class="layout-box-shadow"><admin-header/></el-header>
+    <el-container class="main-container">
+      <el-aside width="300" class="aside">
+        <NavMenu style="height: 100%;overflow: auto"/>
+      </el-aside>
 
       <el-main>
         <router-view v-slot="{Component}">
@@ -16,8 +16,8 @@
           </keep-alive>
         </router-view>
       </el-main>
-
     </el-container>
+
   </el-container>
 </template>
 
@@ -51,5 +51,15 @@ const store = useStore();
 .layout-box-shadow {
   box-shadow: var(--el-box-shadow-lighter);
   background-color: var(--el-menu-bg-color);
+}
+
+.main-container {
+  height: 100%;
+  overflow: auto;
+}
+
+.aside{
+  margin-top: 1em;
+  box-shadow: var(--el-box-shadow-lighter);
 }
 </style>

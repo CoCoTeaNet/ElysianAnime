@@ -15,25 +15,12 @@ const SysRecycleView = () => import("@/views/system/manager/system/file/SysRecyc
 const Login = () => import("@/views/system/login/Login.vue");
 const AnimeOpusView = () => import("@/views/system/manager/anime/AnimeOpusView.vue");
 const AnimeUserOpusView = () => import("@/views/system/manager/anime/AnimeUserOpusView.vue");
-const AnimeLayout = () => import("@/layout/AnimeLayout.vue");
 const AnimeHome = () => import("@/views/home/AnimeHome.vue");
 const AnimeVideo = () => import("@/views/home/AnimeVideo.vue");
 const AnimeShare = () => import("@/views/home/AnimeShare.vue");
 
 
 export const routes = [
-    {
-        path: "/anime",
-        name: "AnimeLayout",
-        meta: {title: 'ElysianAnime'},
-        component: AnimeLayout,
-        redirect: {name: 'AnimeHome'},
-        children: [
-            {path: 'home', meta: {title: '追番管理系统~'}, name: 'AnimeHome', component: AnimeHome},
-            {path: 'video/:id/:num/:time', meta: {title: '番剧资源'}, name: 'AnimeVideo', component: AnimeVideo},
-            {path: 'shares', meta: {title: '番剧推荐'}, name: 'AnimeShare', component: AnimeShare},
-        ]
-    },
     {
         path: "/login",
         name: "Login",
@@ -61,9 +48,13 @@ export const routes = [
             {path: 'sys-version-manager', meta: {title: '版本管理'}, name: 'VersionView', component: VersionView},
             {path: 'sys-file-manager', meta: {title: '文件管理'}, name: 'SysFileView', component: SysFileView},
             {path: 'sys-recycle-manager', meta: {title: '文件回收站'}, name: 'RecycleBinView', component: SysRecycleView},
-            // 动漫模块
+            // 番剧管理模块
             {path: 'ani-opus-manager', meta: {title: '番剧管理'}, name: 'AnimeOpusView', component: AnimeOpusView},
             {path: 'ani-user-opus-manager', meta: {title: '我的追番'}, name: 'AnimeUserOpusView', component: AnimeUserOpusView},
+            // 番剧使用模块
+            {path: 'ani-home', meta: {title: '追番首页'}, name: 'AnimeHome', component: AnimeHome},
+            {path: 'ani-video/:id/:num/:time', meta: {title: '番剧资源'}, name: 'AnimeVideo', component: AnimeVideo},
+            {path: 'ani-shares', meta: {title: '番剧推荐'}, name: 'AnimeShare', component: AnimeShare},
         ]
     },
     {

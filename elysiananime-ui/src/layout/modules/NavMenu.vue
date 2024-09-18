@@ -4,14 +4,6 @@
            :default-openeds="menuState.defaultOpened"
            :collapse="store.state.isCollapseMenu"
            :unique-opened="true">
-    <!-- LOGO -->
-    <div v-if="!store.state.isCollapseMenu" class="logo">
-      <img src="@/assets/svg-source/logo.png" style="width: 36px;margin-right: 3px" alt="login-logo">
-      <h3>ElysianAnime</h3>
-    </div>
-    <div v-else style="width: 100%;cursor: pointer;display: flex;justify-content: center;margin-top: 1em">
-      <img src="@/assets/svg-source/logo.png" style="width: 36px" alt="logo">
-    </div>
     <!-- 菜单渲染 -->
     <child-menu :menu-list="store.state.userInfo.menuList"/>
   </el-menu>

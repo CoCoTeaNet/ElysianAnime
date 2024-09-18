@@ -20,6 +20,8 @@
     display: flex;
     flex-wrap: wrap;
     flex-grow: 0;
+    height: 100%;
+    overflow: auto;
 }
 
 .a-h-card {

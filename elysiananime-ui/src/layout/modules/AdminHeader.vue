@@ -1,16 +1,25 @@
 <template>
   <el-row align="middle" class="header-row">
-    <el-col :span="20" style="display: flex">
-      <el-button link @click="setCollapseMenu">
-        <template #icon>
-          <el-icon class="mouse-over right-item" :size="iconSize">
-            <expand v-if="store.state.isCollapseMenu"/>
-            <fold v-else/>
-          </el-icon>
-        </template>
-      </el-button>
-      <admin-tab/>
+    <el-col :span="20">
+      <el-space>
+        <!-- LOGO -->
+        <el-space class="logo">
+          <img src="@/assets/svg-source/logo.png" style="width: 36px;margin-right: 3px" alt="login-logo">
+          <h3>ElysianAnime</h3>
+        </el-space>
+
+        <el-button link @click="setCollapseMenu">
+          <template #icon>
+            <el-icon class="mouse-over right-item" :size="iconSize">
+              <expand v-if="store.state.isCollapseMenu"/>
+              <fold v-else/>
+            </el-icon>
+          </template>
+        </el-button>
+        <admin-tab/>
+      </el-space>
     </el-col>
+
     <!-- 用户信息 -->
     <el-col :span="4">
       <el-row :gutter="10" justify="end" align="middle">
@@ -22,7 +31,10 @@
         </el-icon>
         <el-dropdown>
           <span class="mouse-over">
-            <el-avatar shape="square" :src="avatar"/>
+            <el-space>
+              <el-avatar shape="square" :src="avatar"/>
+              <el-text>{{store.state.userInfo.nickname}}</el-text>
+            </el-space>
           </span>
           <template #dropdown>
             <el-dropdown-menu>
