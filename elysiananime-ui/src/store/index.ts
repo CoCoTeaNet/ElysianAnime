@@ -76,6 +76,17 @@ export function addTabItem(tab: TabItem) {
     }
 }
 
+export function updateTabItem(newUrl: string, newTitle: string) {
+    let newId = md5(newUrl);
+    store.state.tabItems.forEach((item: TabItem) => {
+        if (item.id == newId) {
+            item.name = newTitle;
+            console.log('item=', item)
+            return true;
+        }
+    });
+}
+
 export function initTabItems() {
     store.state.tabItems = [];
     let url: string = '/admin/home';

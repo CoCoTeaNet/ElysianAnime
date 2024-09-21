@@ -171,6 +171,7 @@ import acgUserOpusTypes from "@/types/acg-user-opus-types";
 import userOpusApi, {updateProgress} from "@/api/anime/ani-user-opus-api";
 import {Star} from "@element-plus/icons-vue";
 import formatUtil from "@/utils/format-util";
+import {addTabItem, updateTabItem} from "@/store";
 
 const route = useRoute();
 
@@ -179,15 +180,22 @@ const videoInfo = ref<any>({readingTime: 0, isFollow: 0});
 const mediaList = ref<any[]>([]);
 const player = ref<Dplayer>(null);
 const currentNum = ref<any>('0');
-const editForm = ref<AcgUserOpusModel>({});
+const editForm = ref<any>({});
 const epListNewStyle = ref<boolean>(true);
 const shareUrl = ref<string>('');
 
-const init = () => {
-  if (route.params) {
-    videoInfo.value.id = route.params.id;
-    currentNum.value = route.params.num;
-    videoInfo.value.readingTime = route.params.time;
+const init = (toParams: any) => {
+  let params;
+  if (toParams) {
+    params = toParams;
+  } else {
+    params = route.params;
+  }
+
+  if (params) {
+    videoInfo.value.id = params.id;
+    currentNum.value = params.num;
+    videoInfo.value.readingTime = params.time;
   }
 
   // 创建h5播放器
@@ -204,18 +212,19 @@ const init = () => {
     });
     player.value = dplayer;
   }
+
+  nextTick(() => loadData());
 }
 
 watch(
     () => route.params,
     (toParams, previousParams) => {
-      init();
+      init(toParams);
     }
 )
 
 onMounted(() => {
-  init();
-  nextTick(() => loadData());
+  init(null);
 
   // 定时更新当前播放进度
   setInterval(() => {
@@ -245,6 +254,14 @@ const onOrientationchange = (): void => {
 const loadData = (): void => {
   if (!loading.value) loading.value = true;
   reqCommonFeedback(getOpusMedia(route.params.id), (data: any) => {
+    // 添加导航标签
+    addTabItem({
+      name: data.nameCn,
+      url: window.location.hash.substring(1),
+      isActive: true
+    });
+    updateTabItem(window.location.hash.substring(1), data.nameCn);
+
     shareUrl.value = window.location.href + '?nameCn=' + data.nameCn;
     loading.value = false;
     videoInfo.value = data;
