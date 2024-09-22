@@ -184,9 +184,9 @@ const editForm = ref<any>({});
 const epListNewStyle = ref<boolean>(true);
 const shareUrl = ref<string>('');
 
-const init = (toParams: any) => {
+const init = (toParams?: any, previousParams?: any) => {
   let params;
-  if (toParams) {
+  if (toParams && toParams.id === previousParams.id) {
     params = toParams;
   } else {
     params = route.params;
@@ -219,12 +219,12 @@ const init = (toParams: any) => {
 watch(
     () => route.params,
     (toParams, previousParams) => {
-      init(toParams);
+      init(toParams, previousParams);
     }
 )
 
 onMounted(() => {
-  init(null);
+  init();
 
   // 定时更新当前播放进度
   setInterval(() => {
