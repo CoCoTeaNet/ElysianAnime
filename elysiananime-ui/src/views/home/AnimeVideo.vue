@@ -79,7 +79,7 @@
     <div class="a-video-wrap-right">
       <h2 class="a-layout a-video-title">剧集列表
         <el-icon :size="'1.5rem'" class="switch-eplist-view" @click="epListNewStyle = !epListNewStyle">
-          <Grid/>
+          <grid/>
         </el-icon>
       </h2>
       <el-card class="a-video-ep-card no-border-card" shadow="hover">
@@ -169,7 +169,7 @@ import {router} from "@/router";
 import {ElForm} from "element-plus";
 import acgUserOpusTypes from "@/types/acg-user-opus-types";
 import userOpusApi, {updateProgress} from "@/api/anime/ani-user-opus-api";
-import {Star} from "@element-plus/icons-vue";
+import {Grid, Star} from "@element-plus/icons-vue";
 import formatUtil from "@/utils/format-util";
 import {addTabItem, updateTabItem} from "@/store";
 
@@ -185,9 +185,12 @@ const epListNewStyle = ref<boolean>(true);
 const shareUrl = ref<string>('');
 
 const init = (toParams?: any, previousParams?: any) => {
+  let isOpusChanged:boolean = true;
+
   let params;
   if (toParams && toParams.id === previousParams.id) {
     params = toParams;
+    isOpusChanged = false;
   } else {
     params = route.params;
   }
@@ -213,7 +216,11 @@ const init = (toParams?: any, previousParams?: any) => {
     player.value = dplayer;
   }
 
-  nextTick(() => loadData());
+  if (isOpusChanged) {
+    nextTick(() => {
+      loadData();
+    });
+  }
 }
 
 watch(
@@ -245,6 +252,20 @@ onUnmounted(() => {
   window.removeEventListener("onorientationchange" in window ? "orientationchange" : "resize", onOrientationchange, false)
 });
 
+/**
+ * 创建一个标签
+ *
+ * @param title 标题
+ */
+const createTabItem = (title:string) => {
+  addTabItem({
+    name: title,
+    url: window.location.hash.substring(1),
+    isActive: true
+  });
+  updateTabItem(window.location.hash.substring(1), title);
+}
+
 const onOrientationchange = (): void => {
   if (window.orientation === 90 || window.orientation === -90) {
     player.value.fullScreen.request('browser')
@@ -252,15 +273,12 @@ const onOrientationchange = (): void => {
 }
 
 const loadData = (): void => {
-  if (!loading.value) loading.value = true;
+  if (!loading.value) {
+    loading.value = true;
+  }
+
   reqCommonFeedback(getOpusMedia(route.params.id), (data: any) => {
-    // 添加导航标签
-    addTabItem({
-      name: data.nameCn,
-      url: window.location.hash.substring(1),
-      isActive: true
-    });
-    updateTabItem(window.location.hash.substring(1), data.nameCn);
+    createTabItem(data.nameCn);
 
     shareUrl.value = window.location.href + '?nameCn=' + data.nameCn;
     loading.value = false;
