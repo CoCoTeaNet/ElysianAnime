@@ -55,7 +55,7 @@
 }
 
 .tm-footer {
-  padding-top: 1em;
+  padding: 1em 0 0 0;
   background-color: var(--el-fill-color-blank);
 }
 

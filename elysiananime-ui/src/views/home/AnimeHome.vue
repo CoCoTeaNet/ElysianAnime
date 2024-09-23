@@ -1,123 +1,109 @@
 <template>
-  <el-row :gutter="24" v-loading="loading">
-    <!--回到顶部-->
-    <el-backtop :bottom="100">
-      <div
-          style="
-        height: 100%;
-        width: 100%;
-        background-color: var(--el-bg-color-overlay);
-        box-shadow: var(--el-box-shadow-lighter);
-        text-align: center;
-        line-height: 40px;
-        color: #1989fa;
-      ">UP
-      </div>
-    </el-backtop>
-
-    <!--左侧-->
-    <el-col :span="19">
-      <h2 class="a-home-title">
-        {{ route.query.hasResource ? '资源库' : '最近更新' }}
-      </h2>
-      <el-row class="a-home-container">
-        <div v-for="anime in pageVo.records" :key="anime.id" class="a-h-card" :class="{ 'downloaded': anime.hasResource }">
-          <div class="a-h-card-top" @click="toPlayerView(anime)">
-            <!--封面-->
-            <div class="a-h-card-lazy-load"
-                 :style="`background-image: url('api/anime/opus/cover?resName=${anime.coverUrl}');`"
-            >
-            </div>
-            <div class="a-h-card-top-upper">
-              <div class="a-h-card-top-upper-hover">
-                <div style="width: 100%; height: 100%; position: relative;">
-                  <el-icon class="playbtn" v-show="anime.hasResource && !isMobile" :size="48" color="#eee">
+  <card-box>
+    <el-row :gutter="24" v-loading="loading" style="height: 100%;margin-left: 0;margin-right: 0;">
+      <!--左侧-->
+      <el-col :span="19" style="height: 100%">
+        <!-- 卡片列表 -->
+        <div class="a-home-container">
+          <div v-for="anime in pageVo.records" :key="anime.id" class="a-h-card" :class="{ 'downloaded': anime.hasResource }">
+            <div class="a-h-card-top" @click="toPlayerView(anime)">
+              <!--封面-->
+              <div class="a-h-card-lazy-load"
+                   :style="`background-image: url('api/anime/opus/cover?resName=${anime.coverUrl}');`"
+              ></div>
+              <div class="a-h-card-top-upper">
+                <div class="a-h-card-top-upper-hover">
+                  <div style="width: 100%; height: 100%; position: relative;">
+                    <el-icon class="playbtn" v-show="anime.hasResource && !isMobile" :size="48" color="#eee">
+                      <VideoPlay/>
+                    </el-icon>
+                    <el-button class="likebtn" style="width: 100%;" :alt="'开始追番'"
+                               :type="anime.userId ? 'danger' : 'primary'" size='small' :disabled="!!anime.userId"
+                               @click="onFollowOpus(anime.id)">
+                      {{ anime.userId ? '已追番' : '追番' }}
+                    </el-button>
+                  </div>
+                </div>
+                <div class="a-h-card-top-upper-info">
+                  <el-icon v-show="anime.hasResource" :size="16" style="padding-right: 4px; color: #67C23A;">
                     <VideoPlay/>
                   </el-icon>
-                  <el-button class="likebtn" style="width: 100%;" :alt="'开始追番'"
-                             :type="anime.userId ? 'danger' : 'primary'" size='small' :disabled="!!anime.userId"
-                             @click="onFollowOpus(anime.id)">
-                    {{ anime.userId ? '已追番' : '追番' }}
-                  </el-button>
+                  <div class='playinfo' style="font-size: 0.7rem; flex-grow:4;">
+                    {{ `全 ${anime.name || anime.episodes} 话` }}
+                  </div>
                 </div>
+                <div class="tags" style="flex-grow: 1; display: flex;  justify-content: end;"></div>
               </div>
-              <div class="a-h-card-top-upper-info">
-                <el-icon v-show="anime.hasResource" :size="16" style="padding-right: 4px; color: #67C23A;">
-                  <VideoPlay/>
-                </el-icon>
-                <div class='playinfo' style="font-size: 0.7rem; flex-grow:4;">
-                  {{ `全 ${anime.name || anime.episodes} 话` }}
-                </div>
-              </div>
-              <div class="tags" style="flex-grow: 1; display: flex;  justify-content: end;"></div>
             </div>
+            <el-row :gutter="8" style="margin: 4px 0;" class="a-h-card-bottom">
+              <el-col :span="24" class="a-tcb-infogroup" @click="onOpenDetail(anime.detailInfoUrl)">
+                <p class="a-tcb-info-name"
+                   :style="anime.hasResource ? 'color: #F56C6C' : ''"
+                   :title="anime.nameCn">
+                  {{ anime.nameCn }}
+                </p>
+                <p style="font-size: 0.6rem; padding-top: 2px; color: #999;" @click="onOpenDetail(anime.detailInfoUrl)">
+                  {{ anime.launchStart }}
+                </p>
+              </el-col>
+            </el-row>
           </div>
-          <el-row :gutter="8" style="margin: 4px 0;" class="a-h-card-bottom">
-            <el-col :span="24" class="a-tcb-infogroup" @click="onOpenDetail(anime.detailInfoUrl)">
-              <p class="a-tcb-info-name"
-                 :style="anime.hasResource ? 'color: #F56C6C' : ''"
-                 :title="anime.nameCn">
-                {{ anime.nameCn }}
-              </p>
-              <p style="font-size: 0.6rem; padding-top: 2px; color: #999;" @click="onOpenDetail(anime.detailInfoUrl)">
-                {{ anime.launchStart }}
-              </p>
-            </el-col>
-          </el-row>
         </div>
-      </el-row>
-      <el-row type="flex" justify="center">
-        <el-pagination background layout="total, sizes, prev, pager, next, jumper"
-                       :total="pageVo.total"
-                       :page-size="pageVo.pageSize"
-                       :page-sizes="[20, 30, 40]"
-                       @current-change="onPageChange"
-                       @size-change="onSizeChange"/>
-      </el-row>
-    </el-col>
+      </el-col>
 
-    <el-col :span="5">
-      <h2 class="a-home-title">番剧检索</h2>
-      <el-form>
-        <!--关键词搜索-->
-        <el-form-item>
-          <el-input placeholder="番剧名搜索~"
-                    size="large"
-                    v-model="pageParam.searchKey"
-                    clearable
-                    @keyup.enter="onSearch"
-          >
-            <template #append>
-              <el-button type="primary" :icon="Search" @click="onSearch"/>
-            </template>
-          </el-input>
-        </el-form-item>
-        <!--筛选-->
-        <el-form-item>
-          <MultSelection @on-multiple-conditions-change="onMultipleConditionsChange"/>
-        </el-form-item>
-      </el-form>
-      <!--通过URL抓取作品信息-->
-      <el-row type="flex" justify="start" style="margin: 1em 0 0 0">
-        <el-button link type="primary" @click="addAcgOpusDialog = true">没找到番剧？点我提交</el-button>
-      </el-row>
-      <el-dialog v-model="addAcgOpusDialog">
+      <el-col :span="5">
+        <h2 class="a-home-title">番剧检索</h2>
         <el-form>
-          <el-form-item label="bgm链接：">
-            <el-input v-model="bgmUrl" placeholder="https://bgm.tv/subject/389772"/>
-            <el-link type="primary" href="https://bgm.tv">BGM搜索，GO GO GO~</el-link>
+          <!--关键词搜索-->
+          <el-form-item>
+            <el-input placeholder="番剧名搜索~"
+                      size="large"
+                      v-model="pageParam.searchKey"
+                      clearable
+                      @keyup.enter="onSearch"
+            >
+              <template #append>
+                <el-button type="primary" :icon="Search" @click="onSearch"/>
+              </template>
+            </el-input>
+          </el-form-item>
+          <!--筛选-->
+          <el-form-item>
+            <MultSelection @on-multiple-conditions-change="onMultipleConditionsChange"/>
           </el-form-item>
         </el-form>
-        <template #footer>
+        <!--通过URL抓取作品信息-->
+        <el-row type="flex" justify="start" style="margin: 1em 0 0 0">
+          <el-button link type="primary" @click="addAcgOpusDialog = true">没找到番剧？点我提交</el-button>
+        </el-row>
+        <el-dialog v-model="addAcgOpusDialog">
+          <el-form>
+            <el-form-item label="bgm链接：">
+              <el-input v-model="bgmUrl" placeholder="https://bgm.tv/subject/389772"/>
+              <el-link type="primary" href="https://bgm.tv">BGM搜索，GO GO GO~</el-link>
+            </el-form-item>
+          </el-form>
+          <template #footer>
             <span class="dialog-footer">
               <el-button @click="closeAddAcgOpusDialog">取 消</el-button>
               <el-button :loading="addAcgOpusLoading" type="warning" @click="onAddAcgOpus(1)">重 刷</el-button>
               <el-button :loading="addAcgOpusLoading" type="primary" @click="onAddAcgOpus(0)">新 增</el-button>
             </span>
-        </template>
-      </el-dialog>
-    </el-col>
-  </el-row>
+          </template>
+        </el-dialog>
+      </el-col>
+    </el-row>
+
+    <template #page>
+      <!-- 分页 -->
+      <el-pagination background layout="total, sizes, prev, pager, next, jumper"
+                     :total="pageVo.total"
+                     :page-size="pageVo.pageSize"
+                     :page-sizes="[20, 30, 40]"
+                     @current-change="onPageChange"
+                     @size-change="onSizeChange"/>
+    </template>
+  </card-box>
 </template>
 
 <script lang="ts" setup>
@@ -129,6 +115,8 @@ import {Search, VideoPlay} from "@element-plus/icons-vue";
 import {useRoute, useRouter} from "vue-router";
 import {ElMessage} from 'element-plus'
 import MultSelection from "@/views/home/modules/MultipleConditionsSearch.vue";
+import TableManage from "@/components/container/TableManage.vue";
+import CardBox from "@/components/container/CardBox.vue";
 
 const route = useRoute();
 const router = useRouter();

@@ -79,7 +79,7 @@
     <div class="a-video-wrap-right">
       <h2 class="a-layout a-video-title">剧集列表
         <el-icon :size="'1.5rem'" class="switch-eplist-view" @click="epListNewStyle = !epListNewStyle">
-          <Grid/>
+          <grid/>
         </el-icon>
       </h2>
       <el-card class="a-video-ep-card no-border-card" shadow="hover">
@@ -169,8 +169,9 @@ import {router} from "@/router";
 import {ElForm} from "element-plus";
 import acgUserOpusTypes from "@/types/acg-user-opus-types";
 import userOpusApi, {updateProgress} from "@/api/anime/ani-user-opus-api";
-import {Star} from "@element-plus/icons-vue";
+import {Grid, Star} from "@element-plus/icons-vue";
 import formatUtil from "@/utils/format-util";
+import {addTabItem, updateTabItem} from "@/store";
 
 const route = useRoute();
 
@@ -179,15 +180,25 @@ const videoInfo = ref<any>({readingTime: 0, isFollow: 0});
 const mediaList = ref<any[]>([]);
 const player = ref<Dplayer>(null);
 const currentNum = ref<any>('0');
-const editForm = ref<AcgUserOpusModel>({});
+const editForm = ref<any>({});
 const epListNewStyle = ref<boolean>(true);
 const shareUrl = ref<string>('');
 
-const init = () => {
-  if (route.params) {
-    videoInfo.value.id = route.params.id;
-    currentNum.value = route.params.num;
-    videoInfo.value.readingTime = route.params.time;
+const init = (toParams?: any, previousParams?: any) => {
+  let isOpusChanged:boolean = true;
+
+  let params;
+  if (toParams && toParams.id === previousParams.id) {
+    params = toParams;
+    isOpusChanged = false;
+  } else {
+    params = route.params;
+  }
+
+  if (params) {
+    videoInfo.value.id = params.id;
+    currentNum.value = params.num;
+    videoInfo.value.readingTime = params.time;
   }
 
   // 创建h5播放器
@@ -204,18 +215,23 @@ const init = () => {
     });
     player.value = dplayer;
   }
+
+  if (isOpusChanged) {
+    nextTick(() => {
+      loadData();
+    });
+  }
 }
 
 watch(
     () => route.params,
     (toParams, previousParams) => {
-      init();
+      init(toParams, previousParams);
     }
 )
 
 onMounted(() => {
   init();
-  nextTick(() => loadData());
 
   // 定时更新当前播放进度
   setInterval(() => {
@@ -236,6 +252,20 @@ onUnmounted(() => {
   window.removeEventListener("onorientationchange" in window ? "orientationchange" : "resize", onOrientationchange, false)
 });
 
+/**
+ * 创建一个标签
+ *
+ * @param title 标题
+ */
+const createTabItem = (title:string) => {
+  addTabItem({
+    name: title,
+    url: window.location.hash.substring(1),
+    isActive: true
+  });
+  updateTabItem(window.location.hash.substring(1), title);
+}
+
 const onOrientationchange = (): void => {
   if (window.orientation === 90 || window.orientation === -90) {
     player.value.fullScreen.request('browser')
@@ -243,8 +273,13 @@ const onOrientationchange = (): void => {
 }
 
 const loadData = (): void => {
-  if (!loading.value) loading.value = true;
+  if (!loading.value) {
+    loading.value = true;
+  }
+
   reqCommonFeedback(getOpusMedia(route.params.id), (data: any) => {
+    createTabItem(data.nameCn);
+
     shareUrl.value = window.location.href + '?nameCn=' + data.nameCn;
     loading.value = false;
     videoInfo.value = data;

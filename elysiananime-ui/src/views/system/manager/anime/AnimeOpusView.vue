@@ -65,9 +65,9 @@
             </template>
           </el-table-column>
           <el-table-column width="200" prop="createTime" label="创建时间"/>
-          <el-table-column prop="createBy" label="创建人"/>
+          <el-table-column prop="createByName" label="创建人"/>
           <el-table-column width="200" prop="updateTime" label="更新时间"/>
-          <el-table-column prop="updateBy" label="更新人"/>
+          <el-table-column prop="updateByName" label="更新人"/>
           <!-- 单行操作 -->
           <el-table-column fixed="right" width="400" label="操作">
             <template #default="scope">

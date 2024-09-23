@@ -77,13 +77,14 @@ public class SysLogServiceImpl implements SysLogService {
 
     @Override
     public void saveByLogType(Integer logType, Context context) {
+        BigInteger loginId = LoginUtils.loginId();
         ThreadUtil.execAsync(() -> {
             if (defaultProp.getSaveLog()) {
                 SysLogAddDTO sysLogAddDTO = new SysLogAddDTO();
                 sysLogAddDTO.setIpAddress(context.realIp());
                 sysLogAddDTO.setLogType(logType);
                 sysLogAddDTO.setRequestWay(context.method());
-                sysLogAddDTO.setOperator(LoginUtils.loginId());
+                sysLogAddDTO.setOperator(loginId);
                 sysLogAddDTO.setLogStatus(LogStatusEnum.SUCCESS.getCode());
                 try {
                     add(sysLogAddDTO);

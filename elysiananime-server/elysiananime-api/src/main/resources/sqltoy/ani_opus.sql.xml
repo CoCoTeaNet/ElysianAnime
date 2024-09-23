@@ -8,7 +8,8 @@
             <![CDATA[
             select ao.id, ao.name_original, ao.name_cn, ao.cover_url, ao.detail_info_url, ao.episodes, ao.launch_start,
                    ao.delivery_week, ao.ani_summary, ao.has_resource, ao.rss_url, ao.rss_status, ao.rss_level_index,
-                   ao.rss_file_type, ao.rss_only_mark, ao.rss_exclude_res
+                   ao.rss_file_type, ao.rss_only_mark, ao.rss_exclude_res, ao.create_by, ao.create_time,
+                   ao.update_time, ao.update_by
             from ani_opus ao
             where ao.is_deleted = 0
             #[and ao.name_cn = :nameCn]
@@ -18,6 +19,32 @@
             #[and ao.rss_status = :rssStatus]
             #[and ao.has_resource = :hasResource]
             #[and ao.detail_info_url = :detailUrl]
+            order by ao.id desc
+            ]]>
+        </value>
+    </sql>
+
+    <sql id="ani_opus_JOIN_findList">
+        <value>
+            <![CDATA[
+            select ao.id, ao.name_original, ao.name_cn, ao.cover_url, ao.detail_info_url, ao.episodes, ao.launch_start,
+                   ao.delivery_week, ao.ani_summary, ao.has_resource, ao.rss_url, ao.rss_status, ao.rss_level_index,
+                   ao.rss_file_type, ao.rss_only_mark, ao.rss_exclude_res, ao.create_by, ao.create_time,
+                   ao.update_time, ao.update_by,
+                   concat(bb.username, '@', bb.nickname) as create_by_name,
+                   concat(cc.username, '@', cc.nickname) as update_by_name
+            from ani_opus ao
+                left join sys_user bb on (bb.id = ao.create_by)
+                left join sys_user cc on (cc.id = ao.update_by)
+            where ao.is_deleted = 0
+            #[and ao.name_cn = :nameCn]
+            #[and ao.name_cn like :likeNameCn]
+            #[and ao.name_original = :nameOriginal]
+            #[and ao.name_original like :likeNameOriginal]
+            #[and ao.rss_status = :rssStatus]
+            #[and ao.has_resource = :hasResource]
+            #[and ao.detail_info_url = :detailUrl]
+            order by ao.id desc
             ]]>
         </value>
     </sql>

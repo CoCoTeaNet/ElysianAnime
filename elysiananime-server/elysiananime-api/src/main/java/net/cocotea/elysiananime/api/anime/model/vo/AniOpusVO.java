@@ -3,9 +3,12 @@ package net.cocotea.elysiananime.api.anime.model.vo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import net.cocotea.elysiananime.api.anime.model.po.AniTag;
+import org.sagacity.sqltoy.config.annotation.Column;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -17,6 +20,8 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 public class AniOpusVO implements Serializable {
+
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private String id;
@@ -109,5 +114,25 @@ public class AniOpusVO implements Serializable {
 	 * 简介
 	 */
 	private String aniSummary;
+
+	/**
+	 * 创建时间
+	 */
+	private LocalDateTime createTime;
+
+	/**
+	 * 创建人
+	 */
+	private String createByName;
+
+	/**
+	 * 更新时间
+	 */
+	private LocalDateTime updateTime;
+
+	/**
+	 * 更新人
+	 */
+	private String updateByName;
 
 }
