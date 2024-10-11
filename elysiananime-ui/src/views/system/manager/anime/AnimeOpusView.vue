@@ -360,8 +360,8 @@ const loadTableData = (): void => {
     pageNo: pageParam.value.pageNo,
     pageSize: pageParam.value.pageSize,
     aniOpus: {
-      nameOriginal: pageParam.value.searchObject.nameOriginal,
-      nameCn: pageParam.value.searchObject.nameCn,
+      likeNameOriginal: pageParam.value.searchObject.nameOriginal,
+      likeNameCn: pageParam.value.searchObject.nameCn,
       rssStatus: pageParam.value.searchObject.rssStatus,
       hasResource: pageParam.value.searchObject.hasResource,
     }

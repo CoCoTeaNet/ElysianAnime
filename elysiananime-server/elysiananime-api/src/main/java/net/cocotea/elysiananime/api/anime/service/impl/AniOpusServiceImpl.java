@@ -134,8 +134,6 @@ public class AniOpusServiceImpl implements AniOpusService {
     @Override
     public ApiPage<AniOpusVO> listByPage(AniOpusPageDTO pageDTO) {
         Map<String, Object> beanDTO = BeanUtil.beanToMap(pageDTO.getAniOpus());
-        beanDTO.put("likeNameOriginal", pageDTO.getAniOpus().getNameOriginal());
-        beanDTO.put("likeNameCn", pageDTO.getAniOpus().getNameCn());
         Page<AniOpusVO> page = lightDao.findPage(ApiPage.create(pageDTO), "ani_opus_JOIN_findList", beanDTO, AniOpusVO.class);
         return ApiPage.rest(page);
     }
