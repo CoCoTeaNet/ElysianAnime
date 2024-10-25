@@ -78,9 +78,9 @@
         </el-row>
         <el-dialog v-model="addAcgOpusDialog">
           <el-form>
-            <el-form-item label="bgm链接：">
+            <el-form-item label="Bangumi详细链接：">
               <el-input v-model="bgmUrl" placeholder="https://bgm.tv/subject/389772"/>
-              <el-link type="primary" href="https://bgm.tv">BGM搜索，GO GO GO~</el-link>
+              <el-link type="primary" href="https://bgm.tv">去Bangumi查找番剧信息~~~</el-link>
             </el-form-item>
           </el-form>
           <template #footer>
@@ -260,6 +260,9 @@ const onMultipleConditionsChange = (searchObj: any) => {
   }
   if (searchObj.year) {
     pageParam.value.years = searchObj.year;
+  }
+  if (searchObj.hasResource) {
+    pageParam.value.hasResource = searchObj.hasResource;
   }
   loadTableData();
 }
