@@ -27,6 +27,11 @@ public class AniUserOpusVO implements Serializable {
 	private BigInteger id;
 
 	/**
+	 * 作品ID
+	 */
+	private BigInteger opusId;
+
+	/**
 	 * 作品名称
 	 */
 	private String nameCn;

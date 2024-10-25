@@ -89,7 +89,7 @@ public class AniUserOpusServiceImpl implements AniUserOpusService {
 
     @Override
     public boolean delete(BigInteger id) {
-        return lightDao.delete(new AniUserOpus().setOpusId(id)) > 0;
+        return lightDao.delete(new AniUserOpus().setId(id)) > 0;
     }
 
     @Tran
