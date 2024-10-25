@@ -50,8 +50,8 @@
         <el-switch
             active-text="是"
             inactive-text="否"
-            :active-value="true"
-            :inactive-value="false"
+            :active-value="1"
+            :inactive-value="-1"
             inline-prompt
             v-model="hasResource" @change="hasResourceChange"
         />
@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from 'vue'
+import {ref} from 'vue';
 
 const emit = defineEmits(['onMultipleConditionsChange']);
 
@@ -84,7 +84,7 @@ const isIndeterminateMonth = ref(true);
 const isIndeterminateState = ref(true);
 const isIndeterminateYear = ref(true);
 const years: string[] = [];
-const hasResource = ref(true);
+const hasResource = ref(1);
 for (let i = 0, c = new Date().getFullYear(); i < c - 2010; i++) {
   years.push('' + (c - i));
 }

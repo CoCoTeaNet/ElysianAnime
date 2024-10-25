@@ -115,7 +115,6 @@ import {Search, VideoPlay} from "@element-plus/icons-vue";
 import {useRoute, useRouter} from "vue-router";
 import {ElMessage} from 'element-plus'
 import MultSelection from "@/views/home/modules/MultipleConditionsSearch.vue";
-import TableManage from "@/components/container/TableManage.vue";
 import CardBox from "@/components/container/CardBox.vue";
 
 const route = useRoute();
@@ -131,6 +130,7 @@ const pageParam = ref<any>({
   months: [],
   status: [],
   searchKey: "",
+  hasResource: 1,
 });
 const pageVo = ref<PageVO>({pageNo: 1, pageSize: 0, total: 0, records: []});
 const loading = ref<boolean>(true);
