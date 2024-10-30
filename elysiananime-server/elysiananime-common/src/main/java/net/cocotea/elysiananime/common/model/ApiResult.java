@@ -117,7 +117,7 @@ public class ApiResult<T> implements Serializable {
      * @return 成功结果
      */
     public static ApiResult<?> error(String message) {
-        return error(ApiResultEnum.ERROR, message);
+        return error(ApiResultEnum.ERROR.getCode(), message);
     }
 
     /**
