@@ -74,16 +74,16 @@ create table if not exists ani_tag
 
 create table if not exists ani_user_opus
 (
-    id           bigint            not null comment '用户作品关联id'
+    id           bigint                  not null comment '用户作品关联id'
         primary key,
-    user_id      bigint            not null comment '用户id',
-    opus_id      bigint            not null comment '作品id',
-    resource_url varchar(200)      null comment '资源地址',
-    reading_num  int     default 0 not null comment '正在的播放集数',
-    reading_time bigint  default 0 not null comment '正在播放的时长',
-    read_status  tinyint default 0 not null comment '观看状态：0未看 1已看 2在看',
-    create_time  datetime          not null comment '关联时间',
-    is_share     tinyint default 0 not null comment '是否分享：0否 1是'
+    user_id      bigint                  not null comment '用户id',
+    opus_id      bigint                  not null comment '作品id',
+    resource_url varchar(200)            null comment '资源地址',
+    reading_num  varchar(20) default '0' not null comment '正在的播放集数',
+    reading_time bigint      default 0   not null comment '正在播放的时长',
+    read_status  tinyint     default 0   not null comment '观看状态：0未看 1已看 2在看',
+    create_time  datetime                not null comment '关联时间',
+    is_share     tinyint     default 0   not null comment '是否分享：0否 1是'
 )
     comment '用户作品关联表' collate = utf8_unicode_ci
                              row_format = DYNAMIC;

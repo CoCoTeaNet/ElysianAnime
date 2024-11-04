@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.map.MapBuilder;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
@@ -162,7 +163,7 @@ public class AniOpusServiceImpl implements AniOpusService {
             // 未点追番
             userOpus = new AniUserOpus();
             vo.setReadStatus(ReadStatusEnum.NOT_READ.getCode());
-            vo.setReadingNum(1);
+            vo.setReadingNum("1");
             vo.setReadingTime(BigInteger.valueOf(0));
             vo.setIsFollow(IsEnum.N.getCode());
             vo.setIsShare(IsEnum.N.getCode());
@@ -171,14 +172,23 @@ public class AniOpusServiceImpl implements AniOpusService {
         // 浏览本地资源
         String folder = resUtils.findMediaDir(aniOpus.getNameCn());
         List<AniVideoVO.Media> medias = Collections.emptyList();
+
+        Map<String, List<AniVideoVO.Media>> mediasMap = null;
         if (folder != null) {
             File[] files = FileUtil.ls(folder);
-            medias = getMedias(files);
+            mediasMap = getMedias(files);
+            medias = mediasMap.get("mediaList");
         }
         List<AniVideoVO.Media> mediaList = medias
                 .stream()
-                .sorted(Comparator.comparing(i -> Integer.parseInt(i.getEpisodes())))
+                .sorted(Comparator.comparing(i -> Double.parseDouble(i.getEpisodes())))
                 .collect(Collectors.toList());
+
+        // 合并集数
+        if (mediasMap != null) {
+            medias.addAll(mediasMap.get("noSortMediaList"));
+        }
+
         vo.setMediaList(mediaList);
         // 查找标签
         List<AniTag> tagList = aniTagService.findByOpusId(aniOpus.getId());
@@ -186,8 +196,10 @@ public class AniOpusServiceImpl implements AniOpusService {
         return vo;
     }
 
-    private List<AniVideoVO.Media> getMedias(File[] files) {
+    private Map<String, List<AniVideoVO.Media>> getMedias(File[] files) {
         List<AniVideoVO.Media> mediaList = new ArrayList<>(files.length);
+        // 非数字集数，一般是SP或者OVA
+        List<AniVideoVO.Media> noSortMediaList = new ArrayList<>();
         for (File file : files) {
             if (!file.isDirectory()) {
                 String[] split = file.getName().split("\\.");
@@ -195,21 +207,30 @@ public class AniOpusServiceImpl implements AniOpusService {
                 if (!fileProp.getMediaFileType().contains(suffix)) {
                     continue;
                 }
+
                 StringBuilder nameBuilder = new StringBuilder();
                 for (int i = 0; i < split.length - 1; i++) {
-                    nameBuilder.append(split[i]);
+                    if (i >= split.length - 2) {
+                        nameBuilder.append(split[i]);
+                    } else {
+                        nameBuilder.append(split[i]).append(".");
+                    }
                 }
+
+                AniVideoVO.Media media = new AniVideoVO
+                        .Media()
+                        .setEpisodes(nameBuilder.toString()).setMediaType(suffix);
                 if (NumberUtil.isNumber(nameBuilder.toString())) {
-                    AniVideoVO.Media media = new AniVideoVO
-                            .Media()
-                            .setEpisodes(nameBuilder.toString()).setMediaType(suffix);
                     mediaList.add(media);
                 } else {
-                    logger.warn("getMedias >>>>> [{}] is not number", nameBuilder);
+                    noSortMediaList.add(media);
                 }
             }
         }
-        return mediaList;
+        return MapBuilder.create(new HashMap<String,List<AniVideoVO.Media>>())
+                .put("mediaList", mediaList)
+                .put("noSortMediaList", noSortMediaList)
+                .build();
     }
 
     @Override

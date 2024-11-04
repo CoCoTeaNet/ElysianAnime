@@ -114,7 +114,7 @@ public class AniUserOpusServiceImpl implements AniUserOpusService {
                     .setOpusId(opusId)
                     .setReadStatus(ReadStatusEnum.NOT_READ.getCode())
                     .setIsShare(IsEnum.N.getCode())
-                    .setReadingNum(1)
+                    .setReadingNum("1")
                     .setReadingTime(BigInteger.valueOf(0L));
             lightDao.save(userOpus);
             return true;

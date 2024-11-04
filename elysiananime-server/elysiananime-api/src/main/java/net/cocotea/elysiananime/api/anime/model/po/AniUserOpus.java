@@ -3,6 +3,7 @@
  */
 package net.cocotea.elysiananime.api.anime.model.po;
 
+import java.io.Serial;
 import java.io.Serializable;
 import org.sagacity.sqltoy.config.annotation.Entity;
 import org.sagacity.sqltoy.config.annotation.Id;
@@ -22,9 +23,7 @@ import java.time.LocalDateTime;
 @Entity(tableName="ani_user_opus",comment="用户作品关联表",pk_constraint="PRIMARY")
 public class AniUserOpus implements Serializable {
 	
-	/**
-	 * 
-	 */
+	@Serial
 	private static final long serialVersionUID = 1503897870078379389L;
 /*---begin-auto-generate-don't-update-this-area--*/	
 
@@ -41,8 +40,8 @@ public class AniUserOpus implements Serializable {
 	@Column(name="resource_url",comment="资源地址",length=200L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
 	private String resourceUrl;
 
-	@Column(name="reading_num",comment="正在的播放集数",length=10L,defaultValue="0",type=java.sql.Types.INTEGER,nativeType="INT",nullable=false)
-	private Integer readingNum;
+	@Column(name="reading_num",comment="正在的播放集数",length=20L,defaultValue="0",type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=false)
+	private String readingNum;
 
 	@Column(name="reading_time",comment="正在播放的时长",length=19L,defaultValue="0",type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=false)
 	private BigInteger readingTime;

@@ -27,7 +27,7 @@ public class AniVideoVO extends AniOpusVO {
     /**
      * 正在观看集数
      */
-    private Integer readingNum;
+    private String readingNum;
     /**
      * 正在观看的进度
      */
