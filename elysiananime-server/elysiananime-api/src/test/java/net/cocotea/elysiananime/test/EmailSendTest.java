@@ -1,7 +1,6 @@
-package net.cocotea.elysiananime;
+package net.cocotea.elysiananime.test;
 
 import cn.hutool.extra.mail.MailAccount;
-import cn.hutool.extra.mail.MailUtil;
 import cn.hutool.json.JSONUtil;
 import net.cocotea.elysiananime.properties.EmailSenderProp;
 import org.junit.Test;
@@ -19,7 +18,7 @@ public class EmailSendTest {
     private static final Logger log = LoggerFactory.getLogger(EmailSendTest.class);
 
     @Inject
-    private EmailSenderProp emailSenderProp;
+    EmailSenderProp emailSenderProp;
 
     @Test
     public void send() {

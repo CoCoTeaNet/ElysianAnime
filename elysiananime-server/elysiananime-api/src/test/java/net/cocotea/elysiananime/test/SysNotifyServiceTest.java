@@ -1,4 +1,4 @@
-package net.cocotea.elysiananime;
+package net.cocotea.elysiananime.test;
 
 import cn.hutool.core.date.DateUtil;
 import net.cocotea.elysiananime.api.system.model.dto.SysNotifyAddDTO;
@@ -19,10 +19,10 @@ import org.noear.solon.test.SolonJUnit4ClassRunner;
 public class SysNotifyServiceTest {
 
     @Inject
-    private SysNotifyService sysNotifyService;
+    SysNotifyService sysNotifyService;
 
     @Inject
-    private SysNotifyJobs sysNotifyJobs;
+    SysNotifyJobs sysNotifyJobs;
 
     @Test
     public void addNotify() throws Exception {
