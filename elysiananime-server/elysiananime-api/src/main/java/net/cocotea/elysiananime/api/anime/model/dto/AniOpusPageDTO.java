@@ -51,6 +51,14 @@ public class AniOpusPageDTO extends ApiPageDTO implements Serializable {
          *中文名
          */
         private String nameCn;
+        /**
+         * 全模糊查询原名
+         */
+        private String likeNameOriginal;
+        /**
+         * 全模糊查询中文名
+         */
+        private String likeNameCn;
     }
 
 }

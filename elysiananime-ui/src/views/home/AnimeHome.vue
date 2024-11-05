@@ -78,9 +78,9 @@
         </el-row>
         <el-dialog v-model="addAcgOpusDialog">
           <el-form>
-            <el-form-item label="bgm链接：">
+            <el-form-item label="Bangumi详细链接：">
               <el-input v-model="bgmUrl" placeholder="https://bgm.tv/subject/389772"/>
-              <el-link type="primary" href="https://bgm.tv">BGM搜索，GO GO GO~</el-link>
+              <el-link type="primary" href="https://bgm.tv">去Bangumi查找番剧信息~~~</el-link>
             </el-form-item>
           </el-form>
           <template #footer>
@@ -115,7 +115,6 @@ import {Search, VideoPlay} from "@element-plus/icons-vue";
 import {useRoute, useRouter} from "vue-router";
 import {ElMessage} from 'element-plus'
 import MultSelection from "@/views/home/modules/MultipleConditionsSearch.vue";
-import TableManage from "@/components/container/TableManage.vue";
 import CardBox from "@/components/container/CardBox.vue";
 
 const route = useRoute();
@@ -131,6 +130,7 @@ const pageParam = ref<any>({
   months: [],
   status: [],
   searchKey: "",
+  hasResource: 1,
 });
 const pageVo = ref<PageVO>({pageNo: 1, pageSize: 0, total: 0, records: []});
 const loading = ref<boolean>(true);
@@ -260,6 +260,9 @@ const onMultipleConditionsChange = (searchObj: any) => {
   }
   if (searchObj.year) {
     pageParam.value.years = searchObj.year;
+  }
+  if (searchObj.hasResource) {
+    pageParam.value.hasResource = searchObj.hasResource;
   }
   loadTableData();
 }

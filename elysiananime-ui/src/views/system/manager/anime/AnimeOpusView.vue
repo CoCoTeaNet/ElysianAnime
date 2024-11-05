@@ -26,7 +26,7 @@
       </template>
 
       <template #operate>
-        <el-button type="primary" @click="addAcgOpusDialog = true">URL添加</el-button>
+        <el-button type="primary" @click="addAcgOpusDialog = true">通过URL自动添加</el-button>
         <el-button type="primary" :icon="Plus" @click="onAdd">添加作品</el-button>
       </template>
 
@@ -205,9 +205,9 @@
     <!--bangumi抓取番剧信息-->
     <el-dialog v-model="addAcgOpusDialog">
       <el-form>
-        <el-form-item label="bgm链接：">
+        <el-form-item label="Bangumi番剧详细链接：">
           <el-input v-model="bgmUrl" placeholder="https://bgm.tv/subject/389772"/>
-          <el-link type="primary" href="https://bgm.tv">BGM搜索，GO GO GO~</el-link>
+          <el-link type="primary" href="https://bgm.tv">在Bangumi检索</el-link>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -360,8 +360,8 @@ const loadTableData = (): void => {
     pageNo: pageParam.value.pageNo,
     pageSize: pageParam.value.pageSize,
     aniOpus: {
-      nameOriginal: pageParam.value.searchObject.nameOriginal,
-      nameCn: pageParam.value.searchObject.nameCn,
+      likeNameOriginal: pageParam.value.searchObject.nameOriginal,
+      likeNameCn: pageParam.value.searchObject.nameCn,
       rssStatus: pageParam.value.searchObject.rssStatus,
       hasResource: pageParam.value.searchObject.hasResource,
     }

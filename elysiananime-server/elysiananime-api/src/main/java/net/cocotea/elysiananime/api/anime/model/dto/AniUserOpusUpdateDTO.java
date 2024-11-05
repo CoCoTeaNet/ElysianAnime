@@ -35,7 +35,7 @@ public class AniUserOpusUpdateDTO implements Serializable {
 	/**
 	 *正在的播放集数
 	 */
-	private Integer readingNum;
+	private String readingNum;
 
 	/**
 	 *正在播放的时长

@@ -45,11 +45,24 @@
       </el-checkbox-group>
     </el-collapse-item>
 
+    <el-collapse-item title="资源库" name="5">
+      <el-form-item label="只显示有资源">
+        <el-switch
+            active-text="是"
+            inactive-text="否"
+            :active-value="1"
+            :inactive-value="-1"
+            inline-prompt
+            v-model="hasResource" @change="hasResourceChange"
+        />
+      </el-form-item>
+    </el-collapse-item>
+
   </el-collapse>
 </template>
 
 <script lang="ts" setup>
-import {ref} from 'vue'
+import {ref} from 'vue';
 
 const emit = defineEmits(['onMultipleConditionsChange']);
 
@@ -71,6 +84,7 @@ const isIndeterminateMonth = ref(true);
 const isIndeterminateState = ref(true);
 const isIndeterminateYear = ref(true);
 const years: string[] = [];
+const hasResource = ref(1);
 for (let i = 0, c = new Date().getFullYear(); i < c - 2010; i++) {
   years.push('' + (c - i));
 }
@@ -136,5 +150,9 @@ const yearChange = (value: string[]) => {
   readStatusCheckAll.value = checkedCount === timelineList.year.length;
   isIndeterminateYear.value = checkedCount > 0 && checkedCount < timelineList.year.length;
   emit('onMultipleConditionsChange', {'year': value});
+}
+
+const hasResourceChange = (value: string[]) => {
+  emit('onMultipleConditionsChange', {'hasResource': value});
 }
 </script>

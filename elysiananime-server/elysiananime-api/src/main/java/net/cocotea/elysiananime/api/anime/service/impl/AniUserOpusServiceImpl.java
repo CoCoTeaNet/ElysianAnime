@@ -89,7 +89,7 @@ public class AniUserOpusServiceImpl implements AniUserOpusService {
 
     @Override
     public boolean delete(BigInteger id) {
-        return lightDao.delete(new AniUserOpus().setOpusId(id)) > 0;
+        return lightDao.delete(new AniUserOpus().setId(id)) > 0;
     }
 
     @Tran
@@ -114,7 +114,7 @@ public class AniUserOpusServiceImpl implements AniUserOpusService {
                     .setOpusId(opusId)
                     .setReadStatus(ReadStatusEnum.NOT_READ.getCode())
                     .setIsShare(IsEnum.N.getCode())
-                    .setReadingNum(1)
+                    .setReadingNum("1")
                     .setReadingTime(BigInteger.valueOf(0L));
             lightDao.save(userOpus);
             return true;

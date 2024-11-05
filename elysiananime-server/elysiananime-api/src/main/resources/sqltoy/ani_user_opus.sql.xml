@@ -18,7 +18,8 @@
     <sql id="ani_user_opus_listByUser">
         <value>
             <![CDATA[
-            select ao.cover_url,
+            select ao.id as opus_id,
+                   ao.cover_url,
                    ao.name_cn,
                    ao.name_original,
                    auo.id,

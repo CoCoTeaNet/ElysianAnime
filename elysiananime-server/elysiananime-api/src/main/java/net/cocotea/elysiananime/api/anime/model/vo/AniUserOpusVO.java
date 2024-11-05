@@ -27,6 +27,11 @@ public class AniUserOpusVO implements Serializable {
 	private BigInteger id;
 
 	/**
+	 * 作品ID
+	 */
+	private BigInteger opusId;
+
+	/**
 	 * 作品名称
 	 */
 	private String nameCn;
@@ -49,7 +54,7 @@ public class AniUserOpusVO implements Serializable {
 	/**
 	 *正在的播放集数
 	 */
-	private Integer readingNum;
+	private String readingNum;
 
 	/**
 	 *正在播放的时长
