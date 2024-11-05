@@ -4,7 +4,7 @@
 
 这是一个专注动漫番剧管理服务，主要用于部署在私人服务器上，订阅并下载RSS内容，然后自动追番~~~
 
-- version: v2.2.1
+- version: v2.2.2
 - [Changed Log](release-note.md)
 
 ## 图片演示
