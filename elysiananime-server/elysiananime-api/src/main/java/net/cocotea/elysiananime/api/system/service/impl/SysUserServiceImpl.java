@@ -174,7 +174,7 @@ public class SysUserServiceImpl implements SysUserService {
         // 更新用户登录时间和ip
         SysUser loginSysUser = new SysUser();
         loginSysUser.setId(sysUser.getId());
-        loginSysUser.setLastLoginIp(context.ip());
+        loginSysUser.setLastLoginIp(context.realIp());
         loginSysUser.setLastLoginTime(LocalDateTime.now());
         sqlToyLazyDao.update(loginSysUser);
         // 删除缓存
