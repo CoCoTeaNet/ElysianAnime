@@ -1,242 +1,241 @@
 <template>
-  <div>
-    <table-manage>
-      <!-- 表格操作 -->
-      <template #search>
-        <el-form-item label="原名:">
-          <el-input v-model="pageParam.searchObject.nameOriginal" placeholder="けいおん！"></el-input>
-        </el-form-item>
-        <el-form-item label="中文名:">
-          <el-input v-model="pageParam.searchObject.nameCn" placeholder="轻音少女"></el-input>
-        </el-form-item>
-        <el-form-item label="订阅状态:">
-          <el-select placeholder="选择状态" style="width: 200px" v-model="pageParam.searchObject.rssStatus">
-            <el-option v-for="i in rssStatusList" :label="i.label" :value="i.value"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="是否有资源:">
-          <el-select placeholder="选择状态" style="width: 200px" v-model="pageParam.searchObject.hasResource">
-            <el-option v-for="i in hasResourceList" :label="i.label" :value="i.value"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button :icon="Search" type="primary" @click="loadTableData">搜索</el-button>
-          <el-button :icon="RefreshRight" @click="resetSearchForm">重置</el-button>
-        </el-form-item>
-      </template>
+  <table-manage>
+    <!-- 表格操作 -->
+    <template #search>
+      <el-form-item label="原名:">
+        <el-input v-model="pageParam.searchObject.nameOriginal" placeholder="けいおん！"></el-input>
+      </el-form-item>
+      <el-form-item label="中文名:">
+        <el-input v-model="pageParam.searchObject.nameCn" placeholder="轻音少女"></el-input>
+      </el-form-item>
+      <el-form-item label="订阅状态:">
+        <el-select placeholder="选择状态" style="width: 200px" v-model="pageParam.searchObject.rssStatus">
+          <el-option v-for="i in rssStatusList" :label="i.label" :value="i.value"/>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="是否有资源:">
+        <el-select placeholder="选择状态" style="width: 200px" v-model="pageParam.searchObject.hasResource">
+          <el-option v-for="i in hasResourceList" :label="i.label" :value="i.value"/>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button :icon="Search" type="primary" @click="loadTableData">搜索</el-button>
+        <el-button :icon="RefreshRight" @click="resetSearchForm">重置</el-button>
+      </el-form-item>
+    </template>
 
-      <template #operate>
-        <el-button type="primary" @click="addAcgOpusDialog = true">通过URL自动添加</el-button>
-        <el-button type="primary" :icon="Plus" @click="onAdd">添加作品</el-button>
-      </template>
+    <template #operate>
+      <el-button type="primary" @click="addAcgOpusDialog = true">通过URL自动添加</el-button>
+      <el-button type="primary" :icon="Plus" @click="onAdd">添加作品</el-button>
+    </template>
 
-      <!-- 表格视图 -->
-      <template #default>
-        <el-table stripe row-key="id" :data="pageVo.records" v-loading="loading">
-          <el-table-column prop="coverUrl" width="155" label="封面地址">
-            <template #default="scope">
-              <el-image style="width: 100px; height: 144px"
-                        :src="`api/anime/opus/cover?resName=${scope.row.coverUrl}`"
-                        fit="fill"/>
-            </template>
-          </el-table-column>
-          <el-table-column width="300" prop="nameOriginal" label="原名"/>
-          <el-table-column width="300" prop="nameCn" label="中文名"/>
-          <el-table-column prop="detailInfoUrl" label="详细链接"/>
-          <el-table-column width="100" prop="hasResource" label="是否有资源">
-            <template #default="scope">
-              <el-switch :model-value="scope.row.hasResource"
-                         :active-value="1"
-                         :inactive-value="0"
-                         @change="updateHasResource(scope.row.id, scope.row.hasResource)"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column width="100" prop="rssStatus" label="RSS状态">
-            <template #default="scope">
-              <div>
-                <el-button v-if="scope.row.rssStatus === 1" @click="onCloseSubscribe(scope.row.id)" size="small">
-                  关闭订阅
-                </el-button>
-                <el-tag v-else>
-                  {{ scope.row.rssStatus === 0 ? '未订阅' : '完成订阅' }}
-                </el-tag>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column width="200" prop="createTime" label="创建时间"/>
-          <el-table-column prop="createByName" label="创建人"/>
-          <el-table-column width="200" prop="updateTime" label="更新时间"/>
-          <el-table-column prop="updateByName" label="更新人"/>
-          <!-- 单行操作 -->
-          <el-table-column fixed="right" width="400" label="操作">
-            <template #default="scope">
-              <el-button size="small" :icon="Upload" @click="onUploadRes(scope.row)">上传资源</el-button>
-              <el-button size="small" :icon="Edit" @click="onEdit(scope.row)">编辑</el-button>
-              <el-button size="small" type="primary" :icon="VideoCamera" @click="onRssEdit(scope.row)">
-                RSS订阅
+    <!-- 表格视图 -->
+    <template #default>
+      <el-table stripe row-key="id" :data="pageVo.records" v-loading="loading">
+        <el-table-column prop="coverUrl" width="155" label="封面地址">
+          <template #default="scope">
+            <el-image style="width: 100px; height: 144px"
+                      :src="`api/anime/opus/cover?resName=${scope.row.coverUrl}`"
+                      fit="fill"/>
+          </template>
+        </el-table-column>
+        <el-table-column width="300" prop="nameOriginal" label="原名"/>
+        <el-table-column width="300" prop="nameCn" label="中文名"/>
+        <el-table-column prop="detailInfoUrl" label="详细链接"/>
+        <el-table-column width="100" prop="hasResource" label="是否有资源">
+          <template #default="scope">
+            <el-switch :model-value="scope.row.hasResource"
+                       :active-value="1"
+                       :inactive-value="0"
+                       @change="updateHasResource(scope.row.id, scope.row.hasResource)"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column width="100" prop="rssStatus" label="RSS状态">
+          <template #default="scope">
+            <div>
+              <el-button v-if="scope.row.rssStatus === 1" @click="onCloseSubscribe(scope.row.id)" size="small">
+                关闭订阅
               </el-button>
-              <el-button size="small" plain type="danger" :icon="DeleteFilled" @click="onRemove(scope.row)">
-                删除
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </template>
+              <el-tag v-else>
+                {{ scope.row.rssStatus === 0 ? '未订阅' : '完成订阅' }}
+              </el-tag>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column width="200" prop="createTime" label="创建时间"/>
+        <el-table-column prop="createByName" label="创建人"/>
+        <el-table-column width="200" prop="updateTime" label="更新时间"/>
+        <el-table-column prop="updateByName" label="更新人"/>
+        <!-- 单行操作 -->
+        <el-table-column fixed="right" width="400" label="操作">
+          <template #default="scope">
+            <el-button size="small" :icon="Upload" @click="onUploadRes(scope.row)">上传资源</el-button>
+            <el-button size="small" :icon="Edit" @click="onEdit(scope.row)">编辑</el-button>
+            <el-button size="small" type="primary" :icon="VideoCamera" @click="onRssEdit(scope.row)">
+              RSS订阅
+            </el-button>
+            <el-button size="small" plain type="danger" :icon="DeleteFilled" @click="onRemove(scope.row)">
+              删除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </template>
 
-      <template #page>
-        <el-pagination background layout="total, sizes, prev, pager, next, jumper"
-                       :total="pageVo.total" :page-size="pageVo.pageSize" :page-sizes=[5,10,15]
-                       @current-change="onPageChange" @size-change="onSizeChange"/>
-      </template>
+    <template #page>
+      <el-pagination background layout="total, sizes, prev, pager, next, jumper"
+                     :total="pageVo.total" :page-size="pageVo.pageSize" :page-sizes=[5,10,15]
+                     @current-change="onPageChange" @size-change="onSizeChange"/>
+    </template>
 
-      <!-- 编辑对话框 -->
-      <template #form>
-        <el-dialog v-model="dialogFormVisible" :title="editForm.id? '编辑' : '添加'">
-          <el-form ref="sttFormRef" label-width="150px" :model="editForm" :rules="rules">
-            <!-- 普通属性 -->
-            <el-form-item prop="nameCn" label="中文名">
-              <el-input v-model="editForm.nameCn"></el-input>
-            </el-form-item>
-            <el-form-item prop="nameOriginal" label="原名">
-              <el-input v-model="editForm.nameOriginal"></el-input>
-            </el-form-item>
-            <el-form-item prop="detailInfoUrl" label="详细链接">
-              <el-input v-model="editForm.detailInfoUrl"></el-input>
-            </el-form-item>
-            <el-form-item prop="coverUrl" label="封面地址">
-              <el-input v-model="editForm.coverUrl"></el-input>
-            </el-form-item>
-          </el-form>
-          <template #footer>
+    <!-- 编辑对话框 -->
+    <template #form>
+      <el-dialog v-model="dialogFormVisible" :title="editForm.id? '编辑' : '添加'">
+        <el-form ref="sttFormRef" label-width="150px" :model="editForm" :rules="rules">
+          <!-- 普通属性 -->
+          <el-form-item prop="nameCn" label="中文名">
+            <el-input v-model="editForm.nameCn"></el-input>
+          </el-form-item>
+          <el-form-item prop="nameOriginal" label="原名">
+            <el-input v-model="editForm.nameOriginal"></el-input>
+          </el-form-item>
+          <el-form-item prop="detailInfoUrl" label="详细链接">
+            <el-input v-model="editForm.detailInfoUrl"></el-input>
+          </el-form-item>
+          <el-form-item prop="coverUrl" label="封面地址">
+            <el-input v-model="editForm.coverUrl"></el-input>
+          </el-form-item>
+        </el-form>
+        <template #footer>
           <span class="dialog-footer">
             <el-button @click="dialogFormVisible = false">取消</el-button>
             <el-button type="primary" @click="doUpdate(sttFormRef)">确认</el-button>
           </span>
-          </template>
-        </el-dialog>
-      </template>
-    </table-manage>
+        </template>
+      </el-dialog>
 
-    <!-- 订阅配置 -->
-    <el-dialog v-model="enableRss" :title="`RSS订阅配置 —— ${rssForm.nameCn}`" :fullscreen="mkXmlParsed">
-      <!--快速链接-->
-      <el-row justify="end">
-        <el-link :href="`https://mikanime.tv/Home/Search?searchstr=${rssForm.nameCn}`"
-                 :icon="Right"
-                 type="warning"
-                 target="_blank">
-          前往蜜柑获取RSS链接
-        </el-link>
-      </el-row>
-      <el-divider/>
-      <el-row :gutter="10">
-        <!--参考-->
-        <el-col :span="mkXmlParsed ? 12 : 0">
-          <el-scrollbar>
-            <el-radio-group v-model="mkXmlItemSelectedIndex">
-              <el-space direction="vertical" alignment="normal">
-                <el-radio v-for="(item,index) in mkXmlDetail.itemList" :value="index" border>
-                  <el-text v-html="item.titleHtml"></el-text>
-                </el-radio>
-              </el-space>
-            </el-radio-group>
-          </el-scrollbar>
-        </el-col>
-        <!--配置-->
-        <el-col :span="mkXmlParsed ? 12 : 24">
-          <el-form ref="sttRssFormRef" label-width="150px" label-position="left" :model="rssForm" :rules="rssRules">
-            <el-form-item prop="rssUrl" label="订阅链接">
-              <el-input v-model="rssForm.rssUrl"></el-input>
-            </el-form-item>
-            <el-form-item prop="rssLevelIndex" label="集数出现的位置">
-              <el-space>
-                <el-input-number :min="0" v-model="rssForm.rssLevelIndex"></el-input-number>
-                <el-select v-model="rssForm.rssLevelIndex" placeholder="选择位置" style="width: 240px">
-                  <el-option
-                      v-for="(item,index) in mkXmlDetail.episodeIndexList?.[mkXmlItemSelectedIndex]"
-                      :key="index"
-                      :label="`位置：${index}，  索引：${item}`"
-                      :value="index"
-                  />
-                </el-select>
-              </el-space>
-            </el-form-item>
-            <el-form-item prop="rssFileType" label="资源格式">
-              <el-input v-model="rssForm.rssFileType"></el-input>
-            </el-form-item>
-            <el-form-item prop="rssOnlyMark" label="匹配的唯一标识">
-              <el-space>
-                <el-input v-model="rssForm.rssOnlyMark"></el-input>
-                <el-select v-model="rssForm.rssOnlyMark" placeholder="选择唯一标识" style="width: 160px">
-                  <el-option
-                      v-for="(item,index) in mkXmlDetail.titleFragmentList?.[mkXmlItemSelectedIndex]"
-                      :key="index"
-                      :label="item"
-                      :value="item"
-                  />
-                </el-select>
-              </el-space>
-            </el-form-item>
-            <el-form-item prop="rssExcludeRes" label="排除的资源标识">
-              <el-space>
-                <el-select v-model="rssExcludeResArr" placeholder="选择排除的标识" allow-create filterable clearable multiple style="width: 160px">
-                  <el-option
-                      v-for="(item,index) in mkXmlDetail.titleFragmentList?.[mkXmlItemSelectedIndex]"
-                      :key="index"
-                      :label="item"
-                      :value="item"
-                  />
-                </el-select>
-              </el-space>
-            </el-form-item>
-          </el-form>
-        </el-col>
-      </el-row>
-      <template #footer>
+      <!-- 订阅配置 -->
+      <el-dialog v-model="enableRss" :title="`RSS订阅配置 —— ${rssForm.nameCn}`" :fullscreen="mkXmlParsed">
+        <!--快速链接-->
+        <el-row justify="end">
+          <el-link :href="`https://mikanime.tv/Home/Search?searchstr=${rssForm.nameCn}`"
+                   :icon="Right"
+                   type="warning"
+                   target="_blank">
+            前往蜜柑获取RSS链接
+          </el-link>
+        </el-row>
+        <el-divider/>
+        <el-row :gutter="10">
+          <!--参考-->
+          <el-col :span="mkXmlParsed ? 12 : 0">
+            <el-scrollbar>
+              <el-radio-group v-model="mkXmlItemSelectedIndex">
+                <el-space direction="vertical" alignment="normal">
+                  <el-radio v-for="(item,index) in mkXmlDetail.itemList" :value="index" border>
+                    <el-text v-html="item.titleHtml"></el-text>
+                  </el-radio>
+                </el-space>
+              </el-radio-group>
+            </el-scrollbar>
+          </el-col>
+          <!--配置-->
+          <el-col :span="mkXmlParsed ? 12 : 24">
+            <el-form ref="sttRssFormRef" label-width="150px" label-position="left" :model="rssForm" :rules="rssRules">
+              <el-form-item prop="rssUrl" label="订阅链接">
+                <el-input v-model="rssForm.rssUrl"></el-input>
+              </el-form-item>
+              <el-form-item prop="rssLevelIndex" label="集数出现的位置">
+                <el-space>
+                  <el-input-number :min="0" v-model="rssForm.rssLevelIndex"></el-input-number>
+                  <el-select v-model="rssForm.rssLevelIndex" placeholder="选择位置" style="width: 240px">
+                    <el-option
+                        v-for="(item,index) in mkXmlDetail.episodeIndexList?.[mkXmlItemSelectedIndex]"
+                        :key="index"
+                        :label="`位置：${index}，  索引：${item}`"
+                        :value="index"
+                    />
+                  </el-select>
+                </el-space>
+              </el-form-item>
+              <el-form-item prop="rssFileType" label="资源格式">
+                <el-input v-model="rssForm.rssFileType"></el-input>
+              </el-form-item>
+              <el-form-item prop="rssOnlyMark" label="匹配的唯一标识">
+                <el-space>
+                  <el-input v-model="rssForm.rssOnlyMark"></el-input>
+                  <el-select v-model="rssForm.rssOnlyMark" placeholder="选择唯一标识" style="width: 160px">
+                    <el-option
+                        v-for="(item,index) in mkXmlDetail.titleFragmentList?.[mkXmlItemSelectedIndex]"
+                        :key="index"
+                        :label="item"
+                        :value="item"
+                    />
+                  </el-select>
+                </el-space>
+              </el-form-item>
+              <el-form-item prop="rssExcludeRes" label="排除的资源标识">
+                <el-space>
+                  <el-select v-model="rssExcludeResArr" placeholder="选择排除的标识" allow-create filterable clearable
+                             multiple style="width: 160px">
+                    <el-option
+                        v-for="(item,index) in mkXmlDetail.titleFragmentList?.[mkXmlItemSelectedIndex]"
+                        :key="index"
+                        :label="item"
+                        :value="item"
+                    />
+                  </el-select>
+                </el-space>
+              </el-form-item>
+            </el-form>
+          </el-col>
+        </el-row>
+        <template #footer>
           <span class="dialog-footer">
             <el-button @click="doParseMkXml" :loading="mkXmlParseLoading">资源解析</el-button>
             <el-button @click="enableRss = false">取消</el-button>
             <el-button type="primary" @click="doRssUpdate(sttRssFormRef)">确认</el-button>
           </span>
-      </template>
-    </el-dialog>
+        </template>
+      </el-dialog>
 
-    <!--bangumi抓取番剧信息-->
-    <el-dialog v-model="addAcgOpusDialog">
-      <el-form>
-        <el-form-item label="Bangumi番剧详细链接：">
-          <el-input v-model="bgmUrl" placeholder="https://bgm.tv/subject/389772"/>
-          <el-link type="primary" href="https://bgm.tv">在Bangumi检索</el-link>
-        </el-form-item>
-      </el-form>
-      <template #footer>
+      <!--bangumi抓取番剧信息-->
+      <el-dialog v-model="addAcgOpusDialog">
+        <el-form>
+          <el-form-item label="Bangumi番剧详细链接：">
+            <el-input v-model="bgmUrl" placeholder="https://bgm.tv/subject/389772"/>
+            <el-link type="primary" href="https://bgm.tv" target="_blank">在Bangumi检索</el-link>
+          </el-form-item>
+        </el-form>
+        <template #footer>
             <span class="dialog-footer">
               <el-button @click="closeAddAcgOpusDialog">取 消</el-button>
               <el-button :loading="addAcgOpusLoading" type="warning" @click="onAddAcgOpus(1)">重 刷</el-button>
               <el-button :loading="addAcgOpusLoading" type="primary" @click="onAddAcgOpus(0)">新 增</el-button>
             </span>
-      </template>
-    </el-dialog>
-
-    <!--上传资源-->
-    <el-dialog v-model="uploadResDialog" :title="`${currentRow.nameCn} - 资源上传`">
-      <el-upload
-          v-model:file-list="fileList"
-          :action="uploadUrl"
-          multiple
-          :limit="24"
-          :on-exceed="handleExceed"
-      >
-        <el-button type="primary">点击上传</el-button>
-        <template #tip>
-          <div class="el-upload__tip">
-            建议mp4格式和内嵌字幕
-          </div>
         </template>
-      </el-upload>
-    </el-dialog>
-  </div>
+      </el-dialog>
+
+      <!--上传资源-->
+      <el-dialog v-model="uploadResDialog" :title="`${currentRow.nameCn} - 资源上传`">
+        <el-upload
+            v-model:file-list="fileList"
+            :action="uploadUrl"
+            multiple
+            :limit="24"
+            :on-exceed="handleExceed"
+        >
+          <el-button type="primary">点击上传</el-button>
+          <template #tip>
+            <div class="el-upload__tip">
+              建议mp4格式和内嵌字幕
+            </div>
+          </template>
+        </el-upload>
+      </el-dialog>
+    </template>
+  </table-manage>
 </template>
 
 <script setup lang="ts">
