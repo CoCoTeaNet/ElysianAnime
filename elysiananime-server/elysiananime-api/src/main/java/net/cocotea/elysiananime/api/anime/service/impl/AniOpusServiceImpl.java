@@ -3,6 +3,7 @@ package net.cocotea.elysiananime.api.anime.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.map.MapBuilder;
 import cn.hutool.core.map.MapUtil;
@@ -54,7 +55,7 @@ import java.util.stream.Collectors;
  */
 @Component
 public class AniOpusServiceImpl implements AniOpusService {
-    private static final Logger logger = LoggerFactory.getLogger(AniOpusServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(AniOpusServiceImpl.class);
 
     @Db
     private LightDao lightDao;
@@ -277,16 +278,38 @@ public class AniOpusServiceImpl implements AniOpusService {
     }
 
     @Override
-    public File getCover(String resName) throws BusinessException, IOException {
+    public File getCover(String resName, Integer w, Integer h) throws BusinessException, IOException {
         if (StrUtil.isBlank(resName)) {
             throw new BusinessException("资源不存在");
         }
-        File file = FileUtil.file(fileProp.getAnimationCoverSavePath() + resName);
-        if (file.exists()) {
-            return file;
-        } else {
+
+        File cover = FileUtil.file(fileProp.getAnimationCoverSavePath() + resName);
+        if (!cover.exists()) {
             throw new BusinessException("文件不存在");
         }
+
+        File outputDir = FileUtil.file(cover.getParent() + FileUtil.FILE_SEPARATOR + "scale_cache");
+
+        if (!outputDir.exists()) {
+            boolean mkdir = outputDir.mkdirs();
+            if (mkdir) {
+                log.info("getCover >>>>> mkdir success, outputDir: {}", outputDir.getPath());
+            }
+        }
+
+        if (w == null || h == null || w <= 0 || h <= 0) {
+            return cover;
+        }
+
+        String scaleFilename = StrUtil.format("{}_{}_{}", w, h, cover.getName());
+        File scaleFile = FileUtil.file(outputDir.getPath() + FileUtil.FILE_SEPARATOR + scaleFilename);
+
+        if (scaleFile.exists()) {
+            return scaleFile;
+        }
+
+        ImgUtil.scale(cover, scaleFile, w, h, null);
+        return scaleFile;
     }
 
 }

@@ -156,8 +156,10 @@ public class AniOpusController {
 
     @Get
     @Mapping("/cover")
-    public DownloadedFile getCover(@Param("resName") String resName) throws BusinessException, IOException {
-        File cover = aniOpusService.getCover(resName);
+    public DownloadedFile getCover(@Param("resName") String resName,
+                                   @Param(required = false) Integer w,
+                                   @Param(required = false) Integer h) throws BusinessException, IOException {
+        File cover = aniOpusService.getCover(resName, w, h);
         return new DownloadedFile(cover);
     }
 
