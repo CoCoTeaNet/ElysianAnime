@@ -183,7 +183,7 @@ create table if not exists sys_notify
     level       tinyint   default 1                     not null comment '通知等级',
     notify_time timestamp default CURRENT_TIMESTAMP     not null on update CURRENT_TIMESTAMP comment '通知时间',
     create_by   bigint                                  null comment '创建人',
-    create_time timestamp default '0000-00-00 00:00:00' not null comment '创建时间',
+    create_time timestamp default CURRENT_TIMESTAMP not null comment '创建时间',
     is_deleted  tinyint   default 0                     not null comment '是否删除'
 )
     comment '系统通知表' collate = utf8_unicode_ci;
