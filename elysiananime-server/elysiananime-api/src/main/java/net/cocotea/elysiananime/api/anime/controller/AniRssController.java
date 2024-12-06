@@ -5,6 +5,7 @@ import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.json.JSONObject;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
 import net.cocotea.elysiananime.api.anime.rss.model.MkXmlDetail;
+import net.cocotea.elysiananime.api.anime.rss.model.RenameInfo;
 import net.cocotea.elysiananime.common.annotation.LogPersistence;
 import net.cocotea.elysiananime.common.model.ApiResult;
 import net.cocotea.elysiananime.common.model.BusinessException;
@@ -12,6 +13,7 @@ import net.cocotea.elysiananime.api.anime.rss.MiKanRss;
 import org.noear.solon.annotation.*;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @Mapping("/anime/rss")
 @Controller
@@ -54,6 +56,19 @@ public class AniRssController {
     public ApiResult<JSONObject> getRssWorkStatus() {
         JSONObject msg = miKanRss.getRssWorkStatus();
         return ApiResult.ok(msg);
+    }
+
+    /**
+     * 根据配置的规则获取重命名结果
+     *
+     * @param rssDTO {@link AniRssDTO}
+     * @return {@link List<RenameInfo>}
+     */
+    @Get
+    @Mapping("/getRenames")
+    public ApiResult<List<RenameInfo>> getRenames(@Body AniRssDTO rssDTO) throws BusinessException {
+        List<RenameInfo> list = miKanRss.getRenames(rssDTO);
+        return ApiResult.ok(list);
     }
 
 }

@@ -16,6 +16,7 @@ import com.dtflys.forest.Forest;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
 import net.cocotea.elysiananime.api.anime.model.po.AniOpus;
 import net.cocotea.elysiananime.api.anime.rss.model.MkXmlDetail;
+import net.cocotea.elysiananime.api.anime.rss.model.RenameInfo;
 import net.cocotea.elysiananime.api.system.model.dto.SysNotifyAddDTO;
 import net.cocotea.elysiananime.api.system.service.SysNotifyService;
 import net.cocotea.elysiananime.api.anime.service.AniOpusService;
@@ -52,6 +53,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static net.cocotea.elysiananime.common.constant.RedisKeyConst.RSS_RESULT_CACHE;
 
 /**
  * 蜜柑rss订阅服务
@@ -91,43 +94,84 @@ public class MiKanRss {
      * 保存并订阅rss
      */
     public void requestRss(String rssUrl, AniOpus opus) {
-        String result = Forest.get(rssUrl).executeAsString();
+        List<RenameInfo> list = getRenames(rssUrl, opus);
+
+        for (RenameInfo renameInfo : list) {
+            boolean existRes = resUtils.exist(opus.getNameCn(), renameInfo.getRename());
+            if (!existRes) {
+                // 资源不存在
+                log.info("校验结果 >>>>> 资源不存在，作品名称为：{}，开始请求qbittorrent下载资源...", opus.getNameCn());
+                String dir = resUtils.findASS(2) + opus.getNameCn() + CharConst.LEFT_LINE + renameInfo.getRename();
+                log.debug("dir={}", dir);
+                String added = qbApiUtils.addNewTorrent(renameInfo.getEnclosureUrl(), dir);
+                log.info("{}下载请求完成，响应消息：{}", opus.getNameCn(), added);
+            } else {
+                log.warn(
+                        "校验结果 >>>>> 《{}》资源已存在,rename：{},title：{}",
+                        opus.getNameCn(), renameInfo.getRename(), renameInfo.getTitle()
+                );
+            }
+        }
+    }
+
+    public List<RenameInfo> getRenames(AniRssDTO aniRssDTO) throws BusinessException {
+        AniOpus opus = aniOpusService.loadById(aniRssDTO.getId());
+        // rss订阅配置参数
+        opus.setRssUrl(aniRssDTO.getRssUrl());
+        opus.setRssLevelIndex(aniRssDTO.getRssLevelIndex());
+        opus.setRssFileType(aniRssDTO.getRssFileType());
+        opus.setRssOnlyMark(aniRssDTO.getRssOnlyMark());
+        if (StrUtil.isNotBlank(aniRssDTO.getRssExcludeRes())) {
+            opus.setRssExcludeRes(aniRssDTO.getRssExcludeRes());
+        }
+        return getRenames(aniRssDTO.getRssUrl(), opus);
+    }
+
+    public List<RenameInfo> getRenames(String rssUrl, AniOpus opus) {
+        String result;
+
+        String cacheKey = StrUtil.format(RSS_RESULT_CACHE, rssUrl);
+        String cacheContent = redisService.get(cacheKey);
+        if (StrUtil.isBlank(cacheContent)) {
+            result = Forest.get(rssUrl).executeAsString();
+            redisService.saveByHours(cacheKey, result, 2);
+        } else {
+            result = cacheContent;
+        }
+
         log.debug("订阅地址返回结果，result：{}", result);
         List<MkXmlItem> mkXmlItemList = doParseXmlItems(result);
+        List<RenameInfo> renameInfoList = new ArrayList<>();
+
         for (MkXmlItem mkXmlItem : mkXmlItemList) {
             String title = mkXmlItem.getTitle();
             // 是标识的资源
             boolean remarkRes = RuleUtils.isRemarkRes(title, opus.getRssOnlyMark());
             if (!remarkRes) {
-                log.warn("解析完成-------->不是标识资源，不进行下载, title={}, mark={}", title, opus.getRssOnlyMark());
+                log.warn("解析完成 >>>>> 不是标识资源，不进行下载, title={}, mark={}", title, opus.getRssOnlyMark());
                 continue;
             }
             if (!resUtils.existDir(opus.getNameCn())) {
-                log.warn("解析完成-------->目录不存在,opus={}", opus.getNameCn());
+                log.warn("解析完成 >>>>> 目录不存在,opus：{}", opus.getNameCn());
                 continue;
             }
             // 排除的资源
             if (StrUtil.isNotBlank(opus.getRssExcludeRes())) {
                 boolean excludeRes = RuleUtils.isExcludeRes(title, opus.getRssExcludeRes());
                 if (excludeRes) {
-                    log.warn("解析结果-------->标识为排除的资源，不进行下载, title={}, mark={}", title, opus.getRssExcludeRes());
+                    log.warn("解析结果 >>>>> 标识为排除的资源，不进行下载, title：{}, mark：{}", title, opus.getRssExcludeRes());
                     continue;
                 }
             }
             // 资源是否存在
             String rename = RuleUtils.rename(title, opus.getRssLevelIndex(), opus.getRssFileType());
-            boolean existRes = resUtils.exist(opus.getNameCn(), rename);
-            if (!existRes) {
-                // 资源不存在
-                log.info("校验结果-------->资源不存在，作品名称为：{}，开始请求qbittorrent下载资源...", opus.getNameCn());
-                String dir = resUtils.findASS(2) + opus.getNameCn() + CharConst.LEFT_LINE + rename;
-                log.debug("dir={}", dir);
-                String added = qbApiUtils.addNewTorrent(mkXmlItem.getEnclosureUrl(), dir);
-                log.info("{}下载请求完成，响应消息：{}", opus.getNameCn(), added);
-            } else {
-                log.warn("校验结果-------->《{}》资源已存在,rename={},title={}", opus.getNameCn(), rename, title);
-            }
+
+            RenameInfo renameInfo = new RenameInfo()
+                    .setRename(rename).setTitle(title).setEnclosureUrl(mkXmlItem.getEnclosureUrl());
+            renameInfoList.add(renameInfo);
         }
+
+        return renameInfoList;
     }
 
     /**
