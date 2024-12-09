@@ -55,3 +55,7 @@ values  (1111, '菜单管理', '', '/admin/sys-menu-manager', 127866663689139404
         (1278670205073887232, '番剧模块', ':system:ani', '/system/ani', 0, 0, 1, 0, null, 0, 'Apple', 7, 2233, '2024-08-29 10:58:53', 2233, '2024-08-29 10:58:53', 0, null);
 
 
+INSERT INTO sys_dictionary (id, parent_id, dictionary_name, remark, sort, enable_status, create_by,
+                            create_time, update_by, update_time, is_deleted, revision)
+VALUES (19999, 0, 'RSS排除方案', '配置一些常见的排除规则，如：01-12,V2,繁体内封', 0, 1, 2233, '2024-10-30 11:36:24', 2233,
+        '2024-10-30 11:36:24', 0, null);
