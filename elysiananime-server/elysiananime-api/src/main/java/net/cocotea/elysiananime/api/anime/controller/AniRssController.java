@@ -6,7 +6,10 @@ import cn.hutool.json.JSONObject;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
 import net.cocotea.elysiananime.api.anime.rss.model.MkXmlDetail;
 import net.cocotea.elysiananime.api.anime.rss.model.RenameInfo;
+import net.cocotea.elysiananime.api.system.model.vo.SysDictionaryVO;
+import net.cocotea.elysiananime.api.system.service.SysDictionaryService;
 import net.cocotea.elysiananime.common.annotation.LogPersistence;
+import net.cocotea.elysiananime.common.constant.CommonConst;
 import net.cocotea.elysiananime.common.model.ApiResult;
 import net.cocotea.elysiananime.common.model.BusinessException;
 import net.cocotea.elysiananime.api.anime.rss.MiKanRss;
@@ -14,6 +17,7 @@ import org.noear.solon.annotation.*;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapping("/anime/rss")
 @Controller
@@ -21,6 +25,9 @@ public class AniRssController {
 
     @Inject
     private MiKanRss miKanRss;
+
+    @Inject
+    private SysDictionaryService sysDictionaryService;
 
     /**
      * 提交番剧订阅
@@ -84,6 +91,19 @@ public class AniRssController {
     public ApiResult<List<RenameInfo>> getRenames(@Body AniRssDTO rssDTO) throws BusinessException {
         List<RenameInfo> list = miKanRss.getRenames(rssDTO);
         return ApiResult.ok(list);
+    }
+
+    /**
+     * 获取默认排除的选项
+     *
+     * @return 默认排除选项列表
+     */
+    @Get
+    @Mapping("/defaultExclusions")
+    public ApiResult<List<String>> getDefaultExclusions() {
+        List<SysDictionaryVO> list = sysDictionaryService.listByParentId(CommonConst.RSS_EXCLUSION);
+        List<String> vos = list.stream().map(SysDictionaryVO::getDictionaryName).collect(Collectors.toList());
+        return ApiResult.ok(vos);
     }
 
 }
