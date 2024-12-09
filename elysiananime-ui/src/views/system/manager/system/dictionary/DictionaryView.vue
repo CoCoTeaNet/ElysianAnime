@@ -35,7 +35,7 @@
         <el-table-column type="selection" width="80"/>
         <el-table-column prop="dictionaryName" label="名称" sortable show-overflow-tooltip/>
         <el-table-column prop="remark" label="备注" show-overflow-tooltip/>
-        <el-table-column prop="enableStatus" label="是否启用">
+        <el-table-column prop="enableStatus" label="启用状态">
           <template #default="scope">
             <el-tag :type="getConfirm(scope.row.enableStatus, 0)">{{ getConfirm(scope.row.enableStatus, 1) }}</el-tag>
           </template>
@@ -63,10 +63,10 @@
           <el-form-item prop="remark" label="备注">
             <el-input v-model="editForm.remark"></el-input>
           </el-form-item>
-          <el-form-item prop="enableStatus" label="是否启用">
+          <el-form-item prop="enableStatus" label="启用状态">
             <el-radio-group v-model="editForm.enableStatus">
-              <el-radio :label="0">是</el-radio>
-              <el-radio :label="1">否</el-radio>
+              <el-radio :label="0">停用</el-radio>
+              <el-radio :label="1">启用</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item prop="sort" label="显示顺序">
@@ -128,8 +128,8 @@ const dialogFormVisible = ref<boolean>(false);
 const isShowTable = ref<boolean>(true);
 const multipleSelection = ref<any[]>([]);
 const enableStatusList = ref<any>([
-  {label: '启用', value: 0},
-  {label: '关闭', value: 1}
+  {label: '停用', value: 0},
+  {label: '启用', value: 1}
 ]);
 
 // 初始化数据
@@ -231,10 +231,10 @@ const getConfirm: any = (status: number, type: number) => {
   let obj = {color: '', text: ''};
   switch (status) {
     case 0:
-      obj = {color: 'success', text: '是'};
+      obj = {color: 'info', text: '停用'};
       break;
     case 1:
-      obj = {color: 'info', text: '否'};
+      obj = {color: 'success', text: '启用'};
       break;
   }
   if (type === 0) {
