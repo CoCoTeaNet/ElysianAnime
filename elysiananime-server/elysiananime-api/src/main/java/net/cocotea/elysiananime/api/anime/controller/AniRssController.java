@@ -22,19 +22,31 @@ public class AniRssController {
     @Inject
     private MiKanRss miKanRss;
 
+    /**
+     * 提交番剧订阅
+     *
+     * @param rssDTO {@link AniRssDTO}
+     * @return 成功true
+     */
     @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin", "bangumi:rss:subscriber"}, mode = SaMode.OR)
     @Post
     @Mapping("/subscribe")
-    public ApiResult<?> subscribe(@Body AniRssDTO rssDTO) throws BusinessException {
+    public ApiResult<Boolean> subscribe(@Body AniRssDTO rssDTO) throws BusinessException {
         boolean r = miKanRss.subscribe(rssDTO);
         return ApiResult.ok(r);
     }
 
+    /**
+     * 关闭番剧订阅
+     *
+     * @param opusId 作品id
+     * @return 成功true
+     */
     @LogPersistence
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin", "bangumi:rss:subscriber"}, mode = SaMode.OR)
     @Post @Mapping("/{opusId}/closeSubscribe")
-    public ApiResult<?> closeSubscribe(@Path("opusId") BigInteger opusId) {
+    public ApiResult<Boolean> closeSubscribe(@Path("opusId") BigInteger opusId) {
         boolean r = miKanRss.closeSubscribe(opusId);
         return ApiResult.ok(r);
     }
@@ -52,6 +64,9 @@ public class AniRssController {
         return ApiResult.ok(detail);
     }
 
+    /**
+     * 获取RSS执行状态
+     */
     @Get @Mapping("/getRssWorkStatus")
     public ApiResult<JSONObject> getRssWorkStatus() {
         JSONObject msg = miKanRss.getRssWorkStatus();
@@ -64,7 +79,7 @@ public class AniRssController {
      * @param rssDTO {@link AniRssDTO}
      * @return {@link List<RenameInfo>}
      */
-    @Get
+    @Post
     @Mapping("/getRenames")
     public ApiResult<List<RenameInfo>> getRenames(@Body AniRssDTO rssDTO) throws BusinessException {
         List<RenameInfo> list = miKanRss.getRenames(rssDTO);

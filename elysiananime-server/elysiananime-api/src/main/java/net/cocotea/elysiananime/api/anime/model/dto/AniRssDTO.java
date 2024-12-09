@@ -17,6 +17,9 @@ import java.math.BigInteger;
 @Accessors(chain = true)
 public class AniRssDTO {
 
+    /**
+     * 作品id
+     */
     @NotNull(message = "作品id为空")
     private BigInteger id;
 
