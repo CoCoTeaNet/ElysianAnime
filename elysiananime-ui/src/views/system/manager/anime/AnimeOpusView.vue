@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <table-manage>
     <!-- 表格操作 -->
     <template #search>
@@ -117,21 +117,11 @@
 
       <!-- 订阅配置 -->
       <el-dialog v-model="enableRss" :title="`RSS订阅配置 —— ${rssForm.nameCn}`" :fullscreen="mkXmlParsed">
-        <!--快速链接-->
-        <el-row justify="end">
-          <el-link :href="`https://mikanime.tv/Home/Search?searchstr=${rssForm.nameCn}`"
-                   :icon="Right"
-                   type="warning"
-                   target="_blank">
-            前往蜜柑获取RSS链接
-          </el-link>
-        </el-row>
-        <el-divider/>
         <el-row :gutter="10">
           <!--参考-->
           <el-col :span="mkXmlParsed ? 12 : 0">
-            <el-scrollbar>
-              <el-radio-group v-model="mkXmlItemSelectedIndex">
+            <el-scrollbar max-height="640px">
+              <el-radio-group v-model="mkXmlItemSelectedIndex" @change="onMkXmlItemSelectedIndexChange">
                 <el-space direction="vertical" alignment="normal">
                   <el-radio v-for="(item,index) in mkXmlDetail.itemList" :value="index" border>
                     <el-text v-html="item.titleHtml"></el-text>
@@ -140,60 +130,87 @@
               </el-radio-group>
             </el-scrollbar>
           </el-col>
+
           <!--配置-->
           <el-col :span="mkXmlParsed ? 12 : 24">
-            <el-form ref="sttRssFormRef" label-width="150px" label-position="left" :model="rssForm" :rules="rssRules">
-              <el-form-item prop="rssUrl" label="订阅链接">
-                <el-input v-model="rssForm.rssUrl"></el-input>
-              </el-form-item>
-              <el-form-item prop="rssLevelIndex" label="集数出现的位置">
-                <el-space>
-                  <el-input-number :min="0" v-model="rssForm.rssLevelIndex"></el-input-number>
-                  <el-select v-model="rssForm.rssLevelIndex" placeholder="选择位置" style="width: 240px">
-                    <el-option
-                        v-for="(item,index) in mkXmlDetail.episodeIndexList?.[mkXmlItemSelectedIndex]"
-                        :key="index"
-                        :label="`位置：${index}，  索引：${item}`"
-                        :value="index"
-                    />
-                  </el-select>
-                </el-space>
-              </el-form-item>
-              <el-form-item prop="rssFileType" label="资源格式">
-                <el-input v-model="rssForm.rssFileType"></el-input>
-              </el-form-item>
-              <el-form-item prop="rssOnlyMark" label="匹配的唯一标识">
-                <el-space>
-                  <el-input v-model="rssForm.rssOnlyMark"></el-input>
-                  <el-select v-model="rssForm.rssOnlyMark" placeholder="选择唯一标识" style="width: 160px">
-                    <el-option
-                        v-for="(item,index) in mkXmlDetail.titleFragmentList?.[mkXmlItemSelectedIndex]"
-                        :key="index"
-                        :label="item"
-                        :value="item"
-                    />
-                  </el-select>
-                </el-space>
-              </el-form-item>
-              <el-form-item prop="rssExcludeRes" label="排除的资源标识">
-                <el-space>
-                  <el-select v-model="rssExcludeResArr" placeholder="选择排除的标识" allow-create filterable clearable
-                             multiple style="width: 160px">
-                    <el-option
-                        v-for="(item,index) in mkXmlDetail.titleFragmentList?.[mkXmlItemSelectedIndex]"
-                        :key="index"
-                        :label="item"
-                        :value="item"
-                    />
-                  </el-select>
-                </el-space>
-              </el-form-item>
-            </el-form>
+            <el-card :shadow="mkXmlParsed ? 'always' : 'never'">
+              <el-form ref="sttRssFormRef" label-width="150px" label-position="left" :model="rssForm" :rules="rssRules">
+                <el-form-item prop="rssUrl" label="订阅链接">
+                  <el-input v-model="rssForm.rssUrl"></el-input>
+                </el-form-item>
+                <el-form-item prop="rssLevelIndex" label="集数出现的位置">
+                  <el-space>
+                    <el-input-number :min="0" v-model="rssForm.rssLevelIndex"></el-input-number>
+                    <el-select v-model="rssForm.rssLevelIndex" placeholder="选择位置" style="width: 240px">
+                      <el-option
+                          v-for="(item,index) in mkXmlDetail.episodeIndexList?.[mkXmlItemSelectedIndex]"
+                          :key="index"
+                          :label="`位置：${index}，  索引：${item}`"
+                          :value="index"
+                      />
+                    </el-select>
+                  </el-space>
+                </el-form-item>
+                <el-form-item prop="rssFileType" label="资源格式">
+                  <el-input v-model="rssForm.rssFileType"></el-input>
+                </el-form-item>
+                <el-form-item prop="rssOnlyMark" label="匹配的唯一标识">
+                  <el-space>
+                    <el-input v-model="rssForm.rssOnlyMark"></el-input>
+                    <el-select v-model="rssForm.rssOnlyMark" placeholder="选择唯一标识" style="width: 160px">
+                      <el-option
+                          v-for="(item,index) in mkXmlDetail.titleFragmentList?.[mkXmlItemSelectedIndex]"
+                          :key="index"
+                          :label="item"
+                          :value="item"
+                      />
+                    </el-select>
+                  </el-space>
+                </el-form-item>
+                <el-form-item label="排除的资源标识">
+                  <el-space>
+                    <el-select v-model="rssExcludeResArr" placeholder="选择排除的标识" allow-create filterable clearable
+                               multiple style="width: 160px">
+                      <el-option
+                          v-for="(item,index) in myExclusions"
+                          :key="index"
+                          :label="item"
+                          :value="item"
+                      />
+                    </el-select>
+                  </el-space>
+                </el-form-item>
+                <el-form-item label="是否覆盖原有资源">
+                  <el-radio-group v-model="rssOverride">
+                    <el-radio :value="1" size="large" border>是</el-radio>
+                    <el-radio :value="0" size="large" border>否</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-form>
+            </el-card>
+
+            <el-card v-if="mkXmlParsed" shadow="never" style="margin-top: 1em;">
+              <el-scrollbar max-height="240px">
+                <el-text line-clamp="1" :truncated="false" v-for="item in filenamesPreview">
+                  {{item.rename}} --> {{item.title}}<br>
+                </el-text>
+              </el-scrollbar>
+            </el-card>
           </el-col>
+        </el-row>
+
+        <!--快速链接-->
+        <el-row justify="center">
+          <el-link :href="`https://mikanime.tv/Home/Search?searchstr=${rssForm.nameCn}`"
+                   :icon="Right"
+                   type="warning"
+                   target="_blank">
+            前往蜜柑获取RSS链接
+          </el-link>
         </el-row>
         <template #footer>
           <span class="dialog-footer">
-            <el-button @click="doParseMkXml" :loading="mkXmlParseLoading">资源解析</el-button>
+            <el-button @click="doParseMkXml(sttRssFormRef)" :loading="mkXmlParseLoading">资源解析</el-button>
             <el-button @click="enableRss = false">取消</el-button>
             <el-button type="primary" @click="doRssUpdate(sttRssFormRef)">确认</el-button>
           </span>
@@ -246,7 +263,7 @@ import TableManage from "@/components/container/TableManage.vue";
 import {ElForm} from "element-plus/es";
 import {ElMessage, ElMessageBox, UploadProps, UploadUserFile} from "element-plus";
 import {DeleteFilled, Edit, Plus, Search, RefreshRight, VideoCamera, Upload, Right} from "@element-plus/icons-vue";
-import {rssSubscribe, closeSubscribe, getMkXmlDetail} from "@/api/anime/ani-rss-api";
+import {rssSubscribe, closeSubscribe, getMkXmlDetail, getRenames, defaultExclusions} from "@/api/anime/ani-rss-api";
 import {ApiResultEnum} from "@/api/ApiResultEnum";
 
 type FormInstance = InstanceType<typeof ElForm>
@@ -307,6 +324,11 @@ const mkXmlParsed = ref<boolean>(false);
 const mkXmlItemSelectedIndex = ref<number>(0);
 // 选择的排除项
 const rssExcludeResArr = ref<string[]>([]);
+const myExclusions = ref<string[]>([]);
+// 是否覆盖已下载的rss资源
+const rssOverride = ref<number>(0);
+// 重命名结果集预览
+const filenamesPreview = ref<any>([]);
 
 // 初始化数据
 onMounted(() => {
@@ -332,6 +354,10 @@ const onRssEdit = (row: AniOpusModel): void => {
     rssExcludeResArr.value = split;
   } else {
     rssExcludeResArr.value = [];
+  }
+  // 获取默认排除选项
+  if (row.rssStatus === 0) {
+    loadDefaultExclusions();
   }
 }
 
@@ -441,7 +467,9 @@ const doRssUpdate = (formEl: any): void => {
         rssFileType: rssForm.value.rssFileType,
         rssOnlyMark: rssForm.value.rssOnlyMark,
         rssExcludeRes: rssExcludeResArr.value.join(','),
+        rssOverride: rssOverride.value,
       }
+      console.log(rssSubscribeDTO);
       reqSuccessFeedback(rssSubscribe(rssSubscribeDTO), '修改成功', () => {
         loadTableData();
         enableRss.value = false;
@@ -491,7 +519,7 @@ const onUploadRes = (row: AniOpusModel) => {
   }
 }
 
-const doParseMkXml = () => {
+const doParseMkXml = (formEl: any) => {
   let rssUrl = rssForm.value.rssUrl;
   let prefix = 'https://mikanime.tv/RSS/';
   if (rssUrl && rssUrl.startsWith(prefix)) {
@@ -514,11 +542,41 @@ const doParseMkXml = () => {
       console.log(err);
       mkXmlParseLoading.value = false;
     });
+    // 获取解析结果
+    formEl.validate((valid: any) => {
+      if (valid) {
+        loadRenames();
+      }
+    });
   } else {
     ElMessage.warning('RSS链接格式有误');
   }
 }
 
+const loadRenames = () => {
+  let rssSubscribeDTO = {
+    id: rssForm.value.id,
+    rssUrl: rssForm.value.rssUrl,
+    rssLevelIndex: rssForm.value.rssLevelIndex,
+    rssFileType: rssForm.value.rssFileType,
+    rssOnlyMark: rssForm.value.rssOnlyMark,
+    rssExcludeRes: rssExcludeResArr.value.join(','),
+  }
+  reqCommonFeedback(getRenames(rssSubscribeDTO), res => {
+    filenamesPreview.value = res;
+  });
+}
+
+const onMkXmlItemSelectedIndexChange = () => {
+  loadRenames();
+}
+
+const loadDefaultExclusions = () => {
+  reqCommonFeedback(defaultExclusions(), (res:any) => {
+    myExclusions.value = res;
+    rssExcludeResArr.value = res;
+  });
+}
 </script>
 
 <style scoped></style>
