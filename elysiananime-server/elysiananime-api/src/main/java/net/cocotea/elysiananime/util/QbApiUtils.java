@@ -145,11 +145,22 @@ public class QbApiUtils {
      * @return 响应信息
      */
     public String delete(String hashes) {
+        return delete(hashes, false);
+    }
+
+    /**
+     * 删除下载记录
+     *
+     * @param hashes      哈希列表，多个用 | 隔离
+     * @param deleteFiles true表示删除文件
+     * @return 响应信息
+     */
+    public String delete(String hashes, boolean deleteFiles) {
         String url = qbittorrentProp.getDomain().concat("/api/v2/torrents/delete");
         return HttpUtil
                 .createPost(url)
                 .header("cookie", getCookie())
-                .form(new JSONObject().fluentPut("hashes", hashes).fluentPut("deleteFiles", false))
+                .form(new JSONObject().fluentPut("hashes", hashes).fluentPut("deleteFiles", deleteFiles))
                 .execute()
                 .body();
     }
@@ -181,6 +192,9 @@ public class QbApiUtils {
      */
     public String renameFile(String hash, String newPath, String oldPath) {
         String url = qbittorrentProp.getDomain().concat("/api/v2/torrents/renameFile");
+
+        logger.info("renameFile >>>>> hash={}, newPath={}, oldPath={}", hash, newPath, oldPath);
+
         return HttpUtil
                 .createPost(url)
                 .header("cookie", getCookie())

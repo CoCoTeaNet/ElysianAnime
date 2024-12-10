@@ -47,6 +47,16 @@ public class AniRssDTO {
     @NotBlank(message = "匹配的唯一标识为空")
     private String rssOnlyMark;
 
+    /**
+     * 排除的资源标识
+     */
     private String rssExcludeRes;
+
+    /**
+     * 是否覆盖已有资源
+     *
+     * @see net.cocotea.elysiananime.common.enums.IsEnum
+     */
+    private Integer rssOverride;
 
 }
