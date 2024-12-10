@@ -56,6 +56,10 @@ public class AniVideoVO extends AniOpusVO {
          * 资源格式
          */
         private String mediaType;
+        /**
+         * 是否文件夹
+         */
+        private Integer isFolder;
     }
 
 }

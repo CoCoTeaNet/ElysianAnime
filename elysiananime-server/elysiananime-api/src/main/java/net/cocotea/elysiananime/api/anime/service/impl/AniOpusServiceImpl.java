@@ -202,30 +202,33 @@ public class AniOpusServiceImpl implements AniOpusService {
         // 非数字集数，一般是SP或者OVA
         List<AniVideoVO.Media> noSortMediaList = new ArrayList<>();
         for (File file : files) {
-            if (!file.isDirectory()) {
-                String[] split = file.getName().split("\\.");
-                String suffix = split[split.length - 1];
-                if (!fileProp.getMediaFileType().contains(suffix)) {
-                    continue;
-                }
+            // 校验支持的媒体格式
+            String[] split = file.getName().split("\\.");
+            String suffix = split[split.length - 1];
+            if (!fileProp.getMediaFileType().contains(suffix)) {
+                continue;
+            }
 
-                StringBuilder nameBuilder = new StringBuilder();
-                for (int i = 0; i < split.length - 1; i++) {
-                    if (i >= split.length - 2) {
-                        nameBuilder.append(split[i]);
-                    } else {
-                        nameBuilder.append(split[i]).append(".");
-                    }
-                }
-
-                AniVideoVO.Media media = new AniVideoVO
-                        .Media()
-                        .setEpisodes(nameBuilder.toString()).setMediaType(suffix);
-                if (NumberUtil.isNumber(nameBuilder.toString())) {
-                    mediaList.add(media);
+            // 重新拼接资源名称
+            StringBuilder nameBuilder = new StringBuilder();
+            for (int i = 0; i < split.length - 1; i++) {
+                if (i >= split.length - 2) {
+                    nameBuilder.append(split[i]);
                 } else {
-                    noSortMediaList.add(media);
+                    nameBuilder.append(split[i]).append(".");
                 }
+            }
+
+            AniVideoVO.Media media = new AniVideoVO.Media()
+                    .setEpisodes(nameBuilder.toString())
+                    .setMediaType(suffix)
+                    .setIsFolder(file.isDirectory() ? IsEnum.Y.getCode() : IsEnum.N.getCode());
+
+            // 如果是集数那就排序，否则扔到最后面
+            if (NumberUtil.isNumber(nameBuilder.toString())) {
+                mediaList.add(media);
+            } else {
+                noSortMediaList.add(media);
             }
         }
         return MapBuilder.create(new HashMap<String,List<AniVideoVO.Media>>())
@@ -274,7 +277,15 @@ public class AniOpusServiceImpl implements AniOpusService {
             throw new BusinessException("文件不存在");
         }
 
-        return resource;
+        if (resource.isDirectory()) {
+            File[] files = FileUtil.ls(resource.getPath());
+            if (files.length == 0) {
+                throw new BusinessException("文件不存在");
+            }
+            return files[0];
+        } else {
+            return resource;
+        }
     }
 
     @Override

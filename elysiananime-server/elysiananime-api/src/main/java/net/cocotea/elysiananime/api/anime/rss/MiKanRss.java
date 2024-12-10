@@ -100,15 +100,16 @@ public class MiKanRss {
             boolean existRes = resUtils.exist(opus.getNameCn(), renameInfo.getRename());
             if (!existRes) {
                 // 资源不存在
-                log.info("校验结果 >>>>> 资源不存在，作品名称为：{}，开始请求qbittorrent下载资源...", opus.getNameCn());
+                log.info("requestRss >>>>> 校验结果>>资源不存在，作品名称为：{}，开始请求qbittorrent下载资源...", opus.getNameCn());
                 String dir = resUtils.findASS(2) + opus.getNameCn() + CharConst.LEFT_LINE + renameInfo.getRename();
-                log.debug("dir={}", dir);
+                log.debug("requestRss >>>>> dir={}", dir);
                 String added = qbApiUtils.addNewTorrent(renameInfo.getEnclosureUrl(), dir);
-                log.info("{}下载请求完成，响应消息：{}", opus.getNameCn(), added);
+                log.info("requestRss >>>>> {}下载请求完成，响应消息：{}", opus.getNameCn(), added);
             } else {
-                log.warn(
-                        "校验结果 >>>>> 《{}》资源已存在,rename：{},title：{}",
-                        opus.getNameCn(), renameInfo.getRename(), renameInfo.getTitle()
+                log.warn("requestRss >>>>> 《{}》资源已存在,rename：{},title：{}",
+                        opus.getNameCn(),
+                        renameInfo.getRename(),
+                        renameInfo.getTitle()
                 );
             }
         }
@@ -248,6 +249,7 @@ public class MiKanRss {
     /**
      * 重命名bt种子下载完成的名称
      */
+    @Deprecated
     public void doRenameBt() throws BusinessException {
         String baseMsg = "rss[doRenameBt]";
         // 查找已完成的种子
@@ -303,6 +305,7 @@ public class MiKanRss {
     /**
      * 暂停正在做种的
      */
+    @Deprecated
     public void doPauseSeedingBt() {
         String baseMsg = "rss[doPauseSeedingBt]";
         // 查找已完成的种子

@@ -19,6 +19,11 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 番剧RSS接口
+ *
+ * @author CoCoTea
+ */
 @Mapping("/anime/rss")
 @Controller
 public class AniRssController {

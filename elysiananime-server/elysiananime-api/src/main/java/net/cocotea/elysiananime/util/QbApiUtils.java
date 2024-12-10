@@ -171,4 +171,22 @@ public class QbApiUtils {
                 .body();
     }
 
+    /**
+     * 重命名文件
+     *
+     * @param hash    种子哈希
+     * @param newPath 新路径
+     * @param oldPath 旧路径
+     * @return 响应信息
+     */
+    public String renameFile(String hash, String newPath, String oldPath) {
+        String url = qbittorrentProp.getDomain().concat("/api/v2/torrents/renameFile");
+        return HttpUtil
+                .createPost(url)
+                .header("cookie", getCookie())
+                .form(new JSONObject().fluentPut("hash", hash).fluentPut("newPath", newPath).fluentPut("oldPath", oldPath))
+                .execute()
+                .body();
+    }
+
 }

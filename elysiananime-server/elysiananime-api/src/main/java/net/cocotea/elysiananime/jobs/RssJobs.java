@@ -5,7 +5,6 @@ import cn.hutool.json.JSONUtil;
 import net.cocotea.elysiananime.api.anime.model.dto.RssWorksStatusDTO;
 import net.cocotea.elysiananime.api.anime.rss.MiKanRss;
 import net.cocotea.elysiananime.common.constant.RedisKeyConst;
-import net.cocotea.elysiananime.common.model.BusinessException;
 import net.cocotea.elysiananime.common.service.RedisService;
 import org.noear.solon.annotation.Component;
 import org.noear.solon.annotation.Inject;
@@ -30,7 +29,8 @@ public class RssJobs {
     @Inject
     private MiKanRss miKanRss;
 
-    @Scheduled(cron = "0 0/5 * * * ?")
+    /**
+    // @Scheduled(cron = "0 0/5 * * * ?")
     public void scanBt() {
         // 定时暂停正在做种的
         try {
@@ -45,6 +45,7 @@ public class RssJobs {
             logger.error("doRenameBt >>>>> error,msg={}", e.getMessage());
         }
     }
+     */
 
     @Scheduled(cron = "0 0 0/6 * * ?")
     public void scanRss() {

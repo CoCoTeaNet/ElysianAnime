@@ -12,6 +12,7 @@ import net.cocotea.elysiananime.api.anime.model.dto.AniOpusPageDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusUpdateDTO;
 import net.cocotea.elysiananime.api.anime.model.vo.AniOpusHomeVO;
 import net.cocotea.elysiananime.api.anime.model.vo.AniOpusVO;
+import net.cocotea.elysiananime.api.anime.model.vo.AniVideoVO;
 import net.cocotea.elysiananime.api.anime.service.AniOpusService;
 import net.cocotea.elysiananime.api.anime.service.AniSpiderService;
 import net.cocotea.elysiananime.common.annotation.LogPersistence;
@@ -33,7 +34,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 动漫作品接口
+ * 番剧作品接口
+ *
+ * @author CoCoTea
  */
 @Mapping("/anime/opus")
 @Controller
@@ -138,15 +141,27 @@ public class AniOpusController {
         return ApiResult.ok(r);
     }
 
+    /**
+     * 获取作品详情
+     *
+     * @param opusId 作品ID
+     * @return {@link AniVideoVO}
+     */
     @Get
     @Mapping("/getOpusMedia/{opusId}")
-    public ApiResult<?> getOpusMedia(@Path("opusId") BigInteger opusId) throws BusinessException {
+    public ApiResult<AniVideoVO> getOpusMedia(@Path("opusId") BigInteger opusId) throws BusinessException {
         return ApiResult.ok(aniOpusService.getOpusMedia(opusId));
     }
 
+    /**
+     * 获取资源媒体流
+     *
+     * @param opusId   作品ID
+     * @param resName  资源名称
+     */
     @Get
     @Mapping("/media/{opusId}")
-    public DownloadedFile getMedia(@Path("opusId") BigInteger opusId, @Param("resName") String resName) throws BusinessException, IOException {
+    public DownloadedFile getMedia(@Path("opusId") BigInteger opusId, @Param(value = "resName", required = true) String resName) throws BusinessException, IOException {
         File file = aniOpusService.getMedia(opusId, resName);
         DownloadedFile downloadedFile = new DownloadedFile(file);
         //不做为附件下载（按需配置）
