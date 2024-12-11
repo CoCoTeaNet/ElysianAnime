@@ -21,7 +21,7 @@
 
 
 ## 启动
-1. 确保mysql已启动
+1. 确保mysql已启动并且导入数据（./sql/ddl-sql.sql  data-sql.sql）
 2. 确保redis已启动
 3. 确保qb已启动
 4. 执行启动脚本
