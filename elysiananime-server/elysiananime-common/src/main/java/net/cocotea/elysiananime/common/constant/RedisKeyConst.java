@@ -41,4 +41,10 @@ public class RedisKeyConst {
      * rss工作状态
      */
     public final static String RSS_WORKS_STATUS = "RSS_WORKS_STATUS";
+
+    /**
+     * RSS内容缓存，例子：RSS_RESULT_CACHE_https://rssUrl.xyz
+     */
+    public final static String RSS_RESULT_CACHE = "RSS_RESULT_CACHE_{}";
+
 }

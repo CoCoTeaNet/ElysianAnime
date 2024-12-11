@@ -8,6 +8,7 @@ import net.cocotea.elysiananime.api.system.model.vo.SysDictionaryVO;
 import net.cocotea.elysiananime.common.model.ApiPage;
 import net.cocotea.elysiananime.common.service.BaseService;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -23,4 +24,13 @@ public interface SysDictionaryService extends BaseService<ApiPage<SysDictionaryV
      * @return 分页对象
      */
     List<SysDictionaryVO> listByTree(SysDictionaryTreeDTO param);
+
+    /**
+     * 通过父节点ID获取子集列表
+     *
+     * @param pid 父节点ID
+     * @return {@link SysDictionaryVO}
+     */
+    List<SysDictionaryVO> listByParentId(BigInteger pid);
+
 }

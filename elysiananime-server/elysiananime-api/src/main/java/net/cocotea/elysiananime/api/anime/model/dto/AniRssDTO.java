@@ -17,6 +17,9 @@ import java.math.BigInteger;
 @Accessors(chain = true)
 public class AniRssDTO {
 
+    /**
+     * 作品id
+     */
     @NotNull(message = "作品id为空")
     private BigInteger id;
 
@@ -44,6 +47,16 @@ public class AniRssDTO {
     @NotBlank(message = "匹配的唯一标识为空")
     private String rssOnlyMark;
 
+    /**
+     * 排除的资源标识
+     */
     private String rssExcludeRes;
+
+    /**
+     * 是否覆盖已有资源
+     *
+     * @see net.cocotea.elysiananime.common.enums.IsEnum
+     */
+    private Integer rssOverride;
 
 }

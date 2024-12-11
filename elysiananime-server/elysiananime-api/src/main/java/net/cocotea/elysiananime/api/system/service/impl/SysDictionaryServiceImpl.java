@@ -11,11 +11,13 @@ import net.cocotea.elysiananime.api.system.model.po.SysDictionary;
 import net.cocotea.elysiananime.api.system.model.po.SysUser;
 import net.cocotea.elysiananime.api.system.model.vo.SysDictionaryVO;
 import net.cocotea.elysiananime.api.system.service.SysDictionaryService;
+import net.cocotea.elysiananime.common.enums.EnableStatusEnum;
 import net.cocotea.elysiananime.common.enums.IsEnum;
 import net.cocotea.elysiananime.common.model.ApiPage;
 import net.cocotea.elysiananime.common.util.TreeBuilder;
 import org.noear.solon.annotation.Component;
 import org.noear.solon.data.annotation.Tran;
+import org.sagacity.sqltoy.dao.LightDao;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.solon.annotation.Db;
 
@@ -30,6 +32,9 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
 
     @Db("db1")
     private SqlToyLazyDao sqlToyLazyDao;
+
+    @Db("db1")
+    private LightDao lightDao;
 
     @Override
     public boolean add(SysDictionaryAddDTO addDTO) {
@@ -70,6 +75,13 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
                 .setEnableStatus(dictionaryTreeDTO.getEnableStatus());
         List<SysDictionaryVO> list = findList(dictionaryVO);
         return new TreeBuilder<SysDictionaryVO>().get(list);
+    }
+
+    @Override
+    public List<SysDictionaryVO> listByParentId(BigInteger pid) {
+        SysDictionary dictionary = new SysDictionary().setParentId(pid).setEnableStatus(EnableStatusEnum.ON.getCode());
+        List<SysDictionary> list = lightDao.find("sys_dictionary_findList", dictionary, SysDictionary.class);
+        return BeanUtil.copyToList(list, SysDictionaryVO.class);
     }
 
     private List<SysDictionaryVO> findList(SysDictionaryVO sysDictionaryVO) {

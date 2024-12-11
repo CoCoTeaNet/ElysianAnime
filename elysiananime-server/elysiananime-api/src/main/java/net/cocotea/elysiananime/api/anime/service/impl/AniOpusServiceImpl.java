@@ -3,6 +3,7 @@ package net.cocotea.elysiananime.api.anime.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.map.MapBuilder;
 import cn.hutool.core.map.MapUtil;
@@ -54,7 +55,7 @@ import java.util.stream.Collectors;
  */
 @Component
 public class AniOpusServiceImpl implements AniOpusService {
-    private static final Logger logger = LoggerFactory.getLogger(AniOpusServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(AniOpusServiceImpl.class);
 
     @Db
     private LightDao lightDao;
@@ -201,30 +202,33 @@ public class AniOpusServiceImpl implements AniOpusService {
         // 非数字集数，一般是SP或者OVA
         List<AniVideoVO.Media> noSortMediaList = new ArrayList<>();
         for (File file : files) {
-            if (!file.isDirectory()) {
-                String[] split = file.getName().split("\\.");
-                String suffix = split[split.length - 1];
-                if (!fileProp.getMediaFileType().contains(suffix)) {
-                    continue;
-                }
+            // 校验支持的媒体格式
+            String[] split = file.getName().split("\\.");
+            String suffix = split[split.length - 1];
+            if (!fileProp.getMediaFileType().contains(suffix)) {
+                continue;
+            }
 
-                StringBuilder nameBuilder = new StringBuilder();
-                for (int i = 0; i < split.length - 1; i++) {
-                    if (i >= split.length - 2) {
-                        nameBuilder.append(split[i]);
-                    } else {
-                        nameBuilder.append(split[i]).append(".");
-                    }
-                }
-
-                AniVideoVO.Media media = new AniVideoVO
-                        .Media()
-                        .setEpisodes(nameBuilder.toString()).setMediaType(suffix);
-                if (NumberUtil.isNumber(nameBuilder.toString())) {
-                    mediaList.add(media);
+            // 重新拼接资源名称
+            StringBuilder nameBuilder = new StringBuilder();
+            for (int i = 0; i < split.length - 1; i++) {
+                if (i >= split.length - 2) {
+                    nameBuilder.append(split[i]);
                 } else {
-                    noSortMediaList.add(media);
+                    nameBuilder.append(split[i]).append(".");
                 }
+            }
+
+            AniVideoVO.Media media = new AniVideoVO.Media()
+                    .setEpisodes(nameBuilder.toString())
+                    .setMediaType(suffix)
+                    .setIsFolder(file.isDirectory() ? IsEnum.Y.getCode() : IsEnum.N.getCode());
+
+            // 如果是集数那就排序，否则扔到最后面
+            if (NumberUtil.isNumber(nameBuilder.toString())) {
+                mediaList.add(media);
+            } else {
+                noSortMediaList.add(media);
             }
         }
         return MapBuilder.create(new HashMap<String,List<AniVideoVO.Media>>())
@@ -273,20 +277,50 @@ public class AniOpusServiceImpl implements AniOpusService {
             throw new BusinessException("文件不存在");
         }
 
-        return resource;
+        if (resource.isDirectory()) {
+            File[] files = FileUtil.ls(resource.getPath());
+            if (files.length == 0) {
+                throw new BusinessException("文件不存在");
+            }
+            return files[0];
+        } else {
+            return resource;
+        }
     }
 
     @Override
-    public File getCover(String resName) throws BusinessException, IOException {
+    public File getCover(String resName, Integer w, Integer h) throws BusinessException, IOException {
         if (StrUtil.isBlank(resName)) {
             throw new BusinessException("资源不存在");
         }
-        File file = FileUtil.file(fileProp.getAnimationCoverSavePath() + resName);
-        if (file.exists()) {
-            return file;
-        } else {
+
+        File cover = FileUtil.file(fileProp.getAnimationCoverSavePath() + resName);
+        if (!cover.exists()) {
             throw new BusinessException("文件不存在");
         }
+
+        File outputDir = FileUtil.file(cover.getParent() + FileUtil.FILE_SEPARATOR + "scale_cache");
+
+        if (!outputDir.exists()) {
+            boolean mkdir = outputDir.mkdirs();
+            if (mkdir) {
+                log.info("getCover >>>>> mkdir success, outputDir: {}", outputDir.getPath());
+            }
+        }
+
+        if (w == null || h == null || w <= 0 || h <= 0) {
+            return cover;
+        }
+
+        String scaleFilename = StrUtil.format("{}_{}_{}", w, h, cover.getName());
+        File scaleFile = FileUtil.file(outputDir.getPath() + FileUtil.FILE_SEPARATOR + scaleFilename);
+
+        if (scaleFile.exists()) {
+            return scaleFile;
+        }
+
+        ImgUtil.scale(cover, scaleFile, w, h, null);
+        return scaleFile;
     }
 
 }

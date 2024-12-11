@@ -18,3 +18,11 @@ export function getMkXmlDetail(rssUrl: string) {
 export function getRssWorkStatus() {
 	return request('anime/rss/getRssWorkStatus', {}, get);
 }
+
+export function getRenames(data: any) {
+	return request('anime/rss/getRenames', data, post);
+}
+
+export function defaultExclusions() {
+	return request('anime/rss/defaultExclusions', {}, get);
+}

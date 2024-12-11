@@ -4,21 +4,22 @@
 
 这是一个专注动漫番剧管理服务，主要用于部署在私人服务器上，订阅并下载RSS内容，然后自动追番~~~
 
-- version: v2.2.2
-- [Changed Log](release-note.md)
+- [变更日志](release-note.md)
+- [使用文档](readme-help.md)
 
 ## 图片演示
 
 <table>
     <tr>
-        <td><img src="https://i.postimg.cc/k6K1L5xW/11.png" alt="ys_1"/></td>
-        <td><img src="https://i.postimg.cc/tYBjBrRp/22.png" alt="ys_2"/></td>
+        <td><img src="https://s2.loli.net/2024/11/28/pFYerHvohikbKsB.png" alt="ys_1"/></td>
+        <td><img src="https://s2.loli.net/2024/11/28/OT3JaUspN14PYxE.png" alt="ys_2"/></td>
     </tr>
     <tr>
-        <td><img src="https://i.postimg.cc/5XjMTwjv/44.png" alt="ys_4"/></td>
-        <td><img src="https://i.postimg.cc/tYqbt0jB/33.png" alt="ys_3"/></td>
+        <td><img src="https://s2.loli.net/2024/11/28/Ct4dJWZcwufG3gL.png" alt="ys_4"/></td>
+        <td><img src="https://s2.loli.net/2024/11/28/zovg5e2t1OpiLqB.png" alt="ys_3"/></td>
     </tr>
 </table>
+
 
 ## 启动说明
 

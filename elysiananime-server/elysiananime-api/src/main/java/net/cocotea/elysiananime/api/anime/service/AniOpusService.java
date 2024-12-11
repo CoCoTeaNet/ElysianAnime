@@ -65,8 +65,6 @@ public interface AniOpusService extends BaseService<ApiPage<AniOpusVO>, AniOpusP
      *
      * @param opusId   作品ID
      * @param resName  资源名称
-     * @param request  {@link HttpServletRequest}
-     * @param response {@link HttpServletResponse}
      */
     File getMedia(BigInteger opusId, String resName) throws BusinessException, IOException;
 
@@ -75,5 +73,5 @@ public interface AniOpusService extends BaseService<ApiPage<AniOpusVO>, AniOpusP
      *
      * @param resName  资源名称
      */
-    File getCover(String resName) throws BusinessException, IOException;
+    File getCover(String resName, Integer w, Integer h) throws BusinessException, IOException;
 }

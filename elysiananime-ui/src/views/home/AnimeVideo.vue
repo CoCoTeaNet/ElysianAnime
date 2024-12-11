@@ -291,15 +291,22 @@ const loadData = (): void => {
       currentNum.value = data.mediaList[0].episodes;
       player.value.switchVideo({url: getMediaUrl(data.id, data.mediaList[0].episodes, data.mediaList[0].mediaType)});
     } else {
-      // 历史播放
-      let currentNumFormat = formatUtil.fillZero(data.readingNum);
+      // 格式化整形集数
+      let currentNumFormat;
+      // 如果前缀为0开头，就没必要补0
+      if (!isNaN(parseFloat(data.readingNum)) && isFinite(data.readingNum) && !data.readingNum.startsWith('0')) {
+        currentNumFormat = formatUtil.fillZero(parseInt(data.readingNum));
+      } else {
+        currentNumFormat = data.readingNum;
+      }
       currentNum.value = currentNumFormat;
+      // 历史播放
       player.value.seek(data.readingTime);
       player.value.switchVideo({
-        url: getMediaUrl(data.id, currentNumFormat, data.mediaList[data.readingNum - 1].mediaType)
+        url: getMediaUrl(data.id, currentNumFormat, findMediaType(data.mediaList, currentNumFormat))
       });
       // 根据集数来自动选择选集风格
-      if (data.mediaList.length > 13) {
+      if (data.mediaList.length >= 13) {
         epListNewStyle.value = false;
       }
     }
@@ -356,8 +363,17 @@ const doUpdateReadStatus = (): void => {
 
 const onOpenDetail = (url: string) => {
   window.open(`https://bgm.tv${url}`, "_blank");
-};
+}
 
+const findMediaType = (mediaList: any, readingNum: string): string => {
+  for (let i = 0; i < mediaList.length; i++) {
+    let item = mediaList[i];
+    if (item.episodes === readingNum) {
+      return item.mediaType;
+    }
+  }
+  return '';
+}
 </script>
 
 <style src="./AdminVideo.css"></style>

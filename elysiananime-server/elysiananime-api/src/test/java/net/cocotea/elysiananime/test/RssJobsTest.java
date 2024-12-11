@@ -14,10 +14,10 @@ public class RssJobsTest {
     @Inject
     RssJobs rssJobs;
 
-    @Test
-    public void scanBt() {
-        rssJobs.scanBt();
-    }
+    // @Test
+    // public void scanBt() {
+    //     rssJobs.scanBt();
+    // }
 
     @Test
     public void scanRss() {
