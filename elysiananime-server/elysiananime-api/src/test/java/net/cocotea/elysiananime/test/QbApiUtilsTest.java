@@ -11,8 +11,6 @@ import org.noear.solon.annotation.Import;
 import org.noear.solon.annotation.Inject;
 import org.noear.solon.test.SolonJUnit4ClassRunner;
 
-import java.io.File;
-
 @Import(scanPackages = {"net.cocotea.elysiananime"})
 @RunWith(SolonJUnit4ClassRunner.class)
 public class QbApiUtilsTest {
