@@ -80,7 +80,7 @@ public class QbApiUtils {
      * @param savePath 保存路径
      * @return 响应信息
      */
-    public String addNewTorrent(String btUrl, String savePath) {
+    public String addNewTorrent(String btUrl, String savePath, String rename) {
         String baseMsg = "qbApi[addNewTorrent]";
         String cookie = getCookie();
         String url = qbittorrentProp.getDomain().concat("/api/v2/torrents/add");
@@ -88,13 +88,13 @@ public class QbApiUtils {
         JSONObject params = new JSONObject()
                 .fluentPut("urls", btUrl)
                 .fluentPut("savepath", savePath)
-                .fluentPut("category", qbittorrentProp.getCategory());
+                .fluentPut("category", qbittorrentProp.getCategory())
+                .fluentPut("rename", rename);
 
         logger.info(baseMsg.concat("cookie={}"), cookie);
         logger.info(baseMsg.concat("params={}"), params);
 
-        HttpResponse response = HttpUtil
-                .createPost(url)
+        HttpResponse response = HttpUtil.createPost(url)
                 .header("cookie", cookie)
                 .header("Content-Type", "multipart/form-data; boundary=---------------------------6688794727912")
                 .header("Content-Length", "length")

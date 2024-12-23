@@ -33,9 +33,9 @@ import net.cocotea.elysiananime.common.model.BusinessException;
 import net.cocotea.elysiananime.common.service.RedisService;
 import net.cocotea.elysiananime.properties.DefaultProp;
 import net.cocotea.elysiananime.properties.EmailSenderProp;
+import net.cocotea.elysiananime.properties.QbittorrentProp;
 import net.cocotea.elysiananime.util.QbApiUtils;
 import net.cocotea.elysiananime.util.ResUtils;
-import net.cocotea.elysiananime.common.util.StrcUtis;
 import net.cocotea.elysiananime.api.anime.rss.model.MkXmlItem;
 import net.cocotea.elysiananime.api.anime.rss.model.QbInfo;
 import net.cocotea.elysiananime.util.RuleUtils;
@@ -76,6 +76,9 @@ public class MiKanRss {
     private DefaultProp defaultProp;
 
     @Inject
+    private QbittorrentProp qbittorrentProp;
+
+    @Inject
     private QbApiUtils qbApiUtils;
 
     @Inject
@@ -103,16 +106,8 @@ public class MiKanRss {
         for (RenameInfo renameInfo : list) {
             boolean existRes = resUtils.exist(opus.getNameCn(), renameInfo.getRename());
             if (!existRes) {
-                // 资源不存在
-                log.info("requestRss >>>>> 校验结果>>资源不存在，作品名称为：{}，开始请求qbittorrent下载资源...", opus.getNameCn());
-                String saveDir = dir + renameInfo.getRename();
-                log.info("requestRss >>>>> saveDir={}", saveDir);
-
-                if (!FileUtil.exist(saveDir)) {
-                    FileUtil.mkdir(saveDir);
-                }
-
-                String added = qbApiUtils.addNewTorrent(renameInfo.getEnclosureUrl(), saveDir);
+                log.info("requestRss >>>>> saveDir={}", dir);
+                String added = qbApiUtils.addNewTorrent(renameInfo.getEnclosureUrl(), dir, renameInfo.getRename());
                 log.info("requestRss >>>>> {}下载请求完成，响应消息：{}", opus.getNameCn(), added);
             } else {
                 log.warn("requestRss >>>>> 《{}》资源已存在,rename：{},title：{}",
@@ -281,128 +276,6 @@ public class MiKanRss {
     }
 
     /**
-     * 重命名bt种子下载完成的名称
-     */
-    public void doRenameBt() throws BusinessException {
-        String baseMsg = "rss[doRenameBt]";
-        // 查找已完成的种子
-        JSONArray ls = qbApiUtils.info("completed");
-        // 循环命名
-        for (Object o : ls) {
-            QbInfo info = Convert.convert(QbInfo.class, o);
-            try {
-                log.info("{} >>>>> info={}", baseMsg, info);
-                String contentPath = info.getContentPath();
-                File file = new File(contentPath);
-                if (!file.exists()) {
-                    log.warn("{} >>>>> 文件未找到，删除下载记录，info: {}", baseMsg, info);
-                    qbApiUtils.delete(info.getHash());
-                    continue;
-                }
-                // 父级文件对象
-                File parentFile = file.getParentFile();
-                AniOpus opus = aniOpusService.loadByNameCn(parentFile.getParentFile().getName());
-                if (opus == null) {
-                    log.warn(baseMsg.concat("找不到作品, 路径={}"), parentFile.getParent());
-                    continue;
-                }
-                if (opus.getRssStatus() != RssStatusEnum.SUBSCRIBING.getCode().intValue()) {
-                    log.warn("《{}》作品不处于订阅状态", opus.getNameCn());
-                    continue;
-                }
-                if (opus.getRssLevelIndex() == null) {
-                    log.warn(baseMsg.concat("没有配置重命名规则: rssLevelIndex，opus={}"), opus);
-                    continue;
-                }
-                // 作品资源根目录
-                String path = parentFile.getParentFile().getPath();
-                // 目标移动路径
-                String targetPath = path + File.separator + file.getName();
-                File targetFile = FileUtil.file(targetPath);
-                // 1、将文件移动到父级目录
-                FileUtil.move(file, targetFile, true);
-                // 2、删除父级目录
-                FileUtil.del(parentFile);
-                // 3、改名资源
-                FileUtil.rename(targetFile, parentFile.getPath(), true);
-                // 4、删除下载记录
-                qbApiUtils.delete(info.getHash());
-                // 系统通知
-                doNotify(opus, targetFile);
-            } catch (Exception ex) {
-                log.error(baseMsg.concat("重命名失败，作品：{}，errorMsg：{}"), info.getName(), ex.getMessage(), ex);
-            }
-        }
-    }
-
-/*
-    public void doRenameBtV2() {
-        JSONArray completedArr = qbApiUtils.info("completed");
-        JSONArray seedingArr = qbApiUtils.info("seeding");
-
-        completedArr.fluentAddAll(seedingArr);
-        for (Object obj : completedArr) {
-            QbInfo info = BeanUtil.toBean(obj, QbInfo.class);
-            try {
-                String contentPath = info.getContentPath();
-                File file = new File(contentPath);
-                if (!file.exists()) {
-                    log.warn("doRenameBtV2 >>>>> 文件未找到，删除下载记录，info: {}", info);
-                    qbApiUtils.delete(info.getHash());
-                    continue;
-                }
-
-                // 父级文件对象
-                File parentFile = file.getParentFile();
-                AniOpus opus = aniOpusService.loadByNameCn(parentFile.getParentFile().getName());
-                if (opus == null) {
-                    log.warn("doRenameBtV2 >>>>> 找不到作品, 路径={}", parentFile.getParent());
-                    continue;
-                }
-                if (opus.getRssStatus() != RssStatusEnum.SUBSCRIBING.getCode().intValue()) {
-                    log.warn("doRenameBtV2 >>>>> 《{}》作品不处于订阅状态", opus.getNameCn());
-                    continue;
-                }
-                if (opus.getRssLevelIndex() == null) {
-                    log.warn("doRenameBtV2 >>>>> 没有配置重命名规则: rssLevelIndex，opus={}", opus);
-                    continue;
-                }
-
-                // 重命名操作
-                String sourceTitle = info.getName();
-                String renameTitle = RuleUtils.rename(sourceTitle, opus.getRssLevelIndex(), opus.getRssFileType());
-                log.info("doRenameBtV2 >>>>> sourceTitle:{}, renameTitle:{}", sourceTitle, renameTitle);
-                qbApiUtils.renameFile(info.getHash(), renameTitle, sourceTitle);
-            } catch (Exception ex) {
-                log.error("doRenameBtV2 >>>>> 重命名失败，作品：{}，errorMsg：{}", info.getName(), ex.getMessage(), ex);
-            }
-        }
-    }
-*/
-
-    /**
-     * 暂停正在做种的
-     */
-    public void doPauseSeedingBt() {
-        String baseMsg = "rss[doPauseSeedingBt]";
-        // 查找已完成的种子
-        JSONArray ls = qbApiUtils.info("seeding");
-        // 循环暂停
-        List<String> hashes = new ArrayList<>(ls.size());
-        for (Object o : ls) {
-            QbInfo info = Convert.convert(QbInfo.class, o);
-            hashes.add(info.getHash());
-        }
-        if (!hashes.isEmpty()) {
-            String hash = StrcUtis.addChar(hashes, CharConst.VERTICAL);
-            String pause = qbApiUtils.pause(hash);
-            log.info(baseMsg.concat("body={}"), pause);
-        } else {
-            log.info(baseMsg.concat("没有做种信息"));
-        }
-    }
-
-    /**
      * 获取订阅番剧并下载
      */
     public void doFindRssOpusAndDownload() throws InterruptedException {
@@ -545,5 +418,56 @@ public class MiKanRss {
                 .of(redisService.get(RedisKeyConst.RSS_WORKS_STATUS))
                 .map(JSONUtil::parseObj)
                 .orElse(JSONUtil.createObj());
+    }
+
+    public void doRenameBtV2() {
+        JSONArray completedArr = qbApiUtils.info("completed");
+        JSONArray seedingArr = qbApiUtils.info("seeding");
+        completedArr.fluentAddAll(seedingArr);
+
+        for (Object obj : completedArr) {
+            QbInfo info = BeanUtil.toBean(obj, QbInfo.class);
+            log.info("doRenameBtV2 >>>>> QbInfo: {}", info.toString());
+            try {
+                String contentPath = info.getContentPath();
+                File file = new File(contentPath);
+                if (!file.exists()) {
+                    log.warn("doRenameBtV2 >>>>> 文件未找到，删除下载记录，info: {}", info);
+                    qbApiUtils.delete(info.getHash());
+                    continue;
+                }
+                // 重命名操作
+                String renamed = qbApiUtils.renameFile(info.getHash(), info.getName(), file.getName());
+                log.warn("doRenameBtV2 >>>>> 重命名结束，msg: {}", renamed);
+
+                String opusName = file.getParentFile().getName();
+                AniOpus aniOpus = aniOpusService.loadByNameCn(opusName);
+                doNotify(aniOpus, file);
+            } catch (Exception ex) {
+                log.error("doRenameBtV2 >>>>> 重命名失败，作品：{}，errorMsg：{}", info.getName(), ex.getMessage(), ex);
+            }
+        }
+    }
+
+    /**
+     * 清除历史下载
+     */
+    public void clearHistory() {
+        if (!defaultProp.getSeedFlag()) {
+            JSONArray seeding = qbApiUtils.info("seeding");
+            for (Object obj : seeding) {
+                QbInfo qbInfo = BeanUtil.toBean(obj, QbInfo.class);
+                qbApiUtils.pause(qbInfo.getHash());
+            }
+        }
+
+        ThreadUtil.sleep(30, TimeUnit.SECONDS);
+
+        // 查找已完成的种子
+        JSONArray completed = qbApiUtils.info("completed");
+        for (Object obj : completed) {
+            QbInfo qbInfo = BeanUtil.toBean(obj, QbInfo.class);
+            qbApiUtils.delete(qbInfo.getHash());
+        }
     }
 }
