@@ -1,11 +1,15 @@
 import {request, post, get} from '@/utils/axios-util';
 
+const rssApi = {
+	closeSubscribe: closeSubscribe,
+}
+
 export function rssSubscribe(data: any) {
 	return request('anime/rss/subscribe', data, post);
 }
 
-export function closeSubscribe(data: any) {
-	return request(`anime/rss/${data}/closeSubscribe`, {}, post);
+export function closeSubscribe(opusId: any) {
+	return request(`anime/rss/${opusId}/closeSubscribe`, {}, post);
 }
 
 export function getMkXmlDetail(rssUrl: string) {
@@ -26,3 +30,5 @@ export function getRenames(data: any) {
 export function defaultExclusions() {
 	return request('anime/rss/defaultExclusions', {}, get);
 }
+
+export default rssApi;

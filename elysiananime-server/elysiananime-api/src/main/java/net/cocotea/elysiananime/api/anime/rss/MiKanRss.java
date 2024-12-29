@@ -326,12 +326,14 @@ public class MiKanRss {
         // 重新刷新一下rss订阅
         if (StrUtil.isNotBlank(opus.getRssUrl())) {
             ThreadUtil.execAsync(() -> {
-                String dir = path + CharConst.LEFT_LINE;
-                File[] files = FileUtil.ls(dir);
-                if (files.length > 0) {
-                    doRemoveResourceIfExist(dir);
+                // 覆盖更新
+                if (aniRssDTO.getRssOverride() == IsEnum.Y.getCode().intValue()) {
+                    String dir = path + CharConst.LEFT_LINE;
+                    File[] files = FileUtil.ls(dir);
+                    if (files.length > 0) {
+                        doRemoveResourceIfExist(dir);
+                    }
                 }
-
                 requestRss(opus.getRssUrl(), opus);
             });
         }
