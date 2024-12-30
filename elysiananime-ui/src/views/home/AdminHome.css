@@ -78,11 +78,16 @@
 .a-h-card-top-upper-info {
     display: flex;
     background: #0000009e;
-    border-radius: 1em;
+    border-radius: 1px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: white;
+    padding: 0 3px;
 }
 
 .a-h-card:hover .a-h-card-top-upper-info {
-    opacity: 0%;
+    opacity: 0;
 }
 
 .a-h-card-top-upper-hover {
@@ -154,7 +159,7 @@
 
 @media screen and (max-width: 1600px) {
     .a-h-card {
-        width: calc(100% / 6);
+        width: calc(100% / 7);
     }
 }
 

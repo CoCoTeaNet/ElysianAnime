@@ -9,6 +9,12 @@
             <div class="a-h-card-top" @click="toPlayerView(anime)">
               <!-- 下载资源数量 -->
               <div class="a-h-card-downloads">{{formatUtil.fillZero(anime.downloadNum)}}</div>
+              <!-- 观看到哪集 / 全多少集 -->
+              <div class="a-h-card-top-upper-info">
+                <div class='playinfo' style="font-size: 0.7rem; flex-grow:4;">
+                  {{ `${anime.readingNum} / ${anime.episodes}` }}
+                </div>
+              </div>
               <!--封面-->
               <div class="a-h-card-lazy-load"
                    :style="`background-image: url('api/anime/opus/cover?resName=${anime.coverUrl}');`"
@@ -24,14 +30,6 @@
                                @click="onFollowOpus(anime.id)">
                       {{ anime.userId ? '已追番' : '追番' }}
                     </el-button>
-                  </div>
-                </div>
-                <div class="a-h-card-top-upper-info">
-                  <el-icon v-show="anime.hasResource" :size="16" style="padding-right: 4px; color: #67C23A;">
-                    <VideoPlay/>
-                  </el-icon>
-                  <div class='playinfo' style="font-size: 0.7rem; flex-grow:4;">
-                    {{ `${anime.readingNum} / ${anime.episodes}` }}
                   </div>
                 </div>
                 <div class="tags" style="flex-grow: 1; display: flex;  justify-content: end;"></div>
