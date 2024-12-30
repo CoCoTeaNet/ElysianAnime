@@ -7,6 +7,8 @@
         <div class="a-home-container">
           <div v-for="anime in pageVo.records" :key="anime.id" class="a-h-card" :class="{ 'downloaded': anime.hasResource }">
             <div class="a-h-card-top" @click="toPlayerView(anime)">
+              <!-- 下载资源数量 -->
+              <div class="a-h-card-downloads">{{formatUtil.fillZero(anime.downloadNum)}}</div>
               <!--封面-->
               <div class="a-h-card-lazy-load"
                    :style="`background-image: url('api/anime/opus/cover?resName=${anime.coverUrl}');`"
@@ -29,7 +31,7 @@
                     <VideoPlay/>
                   </el-icon>
                   <div class='playinfo' style="font-size: 0.7rem; flex-grow:4;">
-                    {{ `全 ${anime.name || anime.episodes} 话` }}
+                    {{ `${anime.readingNum} / ${anime.episodes}` }}
                   </div>
                 </div>
                 <div class="tags" style="flex-grow: 1; display: flex;  justify-content: end;"></div>
@@ -116,6 +118,7 @@ import {useRoute, useRouter} from "vue-router";
 import {ElMessage} from 'element-plus'
 import MultSelection from "@/views/home/modules/MultipleConditionsSearch.vue";
 import CardBox from "@/components/container/CardBox.vue";
+import formatUtil from "../../utils/format-util.ts";
 
 const route = useRoute();
 const router = useRouter();
