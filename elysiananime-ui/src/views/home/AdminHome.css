@@ -6,6 +6,17 @@
     box-sizing: border-box;
 }
 
+.a-h-card-downloads {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: var(--el-color-primary);
+    background-color: rgba(18, 17, 17, 0.5);
+    font-size: 13px;
+    padding: 1px;
+    font-weight: bold;
+    border-radius: 16px;
+}
 
 .a-home-title {
     border-left: 5px var(--el-color-primary) solid;
@@ -140,10 +151,17 @@
     width: 5rem;
 }
 
+
+@media screen and (max-width: 1600px) {
+    .a-h-card {
+        width: calc(100% / 6);
+    }
+}
+
 /* 平板横屏，小笔记本屏幕 */
 @media screen and (max-width: 1439px) {
     .a-h-card {
-        width: calc(100% / 7);
+        width: calc(100% / 5);
     }
 }
 
@@ -171,7 +189,7 @@
 /* 手机竖屏 */
 @media screen and (max-width: 767px) {
     .a-h-card {
-        width: calc(100% / 3);
+        width: calc(100% / 2);
     }
 
     .playbtn {
