@@ -150,6 +150,17 @@
                 @click="onShareOpus(videoInfo.id)"
             />
           </el-form-item>
+          <!-- 订阅者角色可以操作 -->
+          <el-form-item label="订阅操作：" v-if="roleKeys.length > 0 && (roleKeys.includes('bangumi:rss:subscriber') || roleKeys.includes('role:super:admin'))">
+            <div>
+              <el-button v-if="videoInfo.rssStatus === 1" @click="onSwitchRSS" size="small">
+                关闭订阅
+              </el-button>
+              <el-tag v-else>
+                {{ videoInfo.rssStatus === 0 ? '未订阅' : '完成订阅' }}
+              </el-tag>
+            </div>
+          </el-form-item>
           <el-form-item label="番剧链接：">
             <el-input type="textarea" :model-value="shareUrl" autosize></el-input>
           </el-form-item>
@@ -169,9 +180,11 @@ import {router} from "@/router";
 import {ElForm} from "element-plus";
 import acgUserOpusTypes from "@/types/acg-user-opus-types";
 import userOpusApi, {updateProgress} from "@/api/anime/ani-user-opus-api";
+import rssApi from "@/api/anime/ani-rss-api";
 import {Grid, Star} from "@element-plus/icons-vue";
 import formatUtil from "@/utils/format-util";
 import {addTabItem, updateTabItem} from "@/store";
+import sysUserApi from "@/api/system/sys-user-api.ts";
 
 const route = useRoute();
 
@@ -183,6 +196,7 @@ const currentNum = ref<any>('0');
 const editForm = ref<any>({});
 const epListNewStyle = ref<boolean>(true);
 const shareUrl = ref<string>('');
+const roleKeys = ref<string>([]);
 
 const init = (toParams?: any, previousParams?: any) => {
   let isOpusChanged:boolean = true;
@@ -232,6 +246,12 @@ watch(
 
 onMounted(() => {
   init();
+
+  reqCommonFeedback(sysUserApi.getDetail(), (data: any) => {
+    data.roleList.forEach(item => {
+      roleKeys.value.push(item.roleKey);
+    })
+  });
 
   // 定时更新当前播放进度
   setInterval(() => {
@@ -302,9 +322,15 @@ const loadData = (): void => {
       currentNum.value = currentNumFormat;
       // 历史播放
       player.value.seek(data.readingTime);
-      player.value.switchVideo({
-        url: getMediaUrl(data.id, currentNumFormat, findMediaType(data.mediaList, currentNumFormat))
-      });
+      let mediaType = findMediaType(data.mediaList, currentNumFormat);
+      if ("UNKNOWN_MEDIA_TYPE" === mediaType) {
+        let mediaName = data.mediaList[0].episodes;
+        let mediaType = data.mediaList[0].mediaType;
+        player.value.switchVideo({url: getMediaUrl(data.id, mediaName, mediaType)});
+        currentNum.value = mediaName;
+      } else {
+        player.value.switchVideo({url: getMediaUrl(data.id, currentNumFormat, mediaType)});
+      }
       // 根据集数来自动选择选集风格
       if (data.mediaList.length >= 13) {
         epListNewStyle.value = false;
@@ -347,6 +373,15 @@ const onShareOpus = (id: string) => {
   reqSuccessFeedback(userOpusApi.share(id), "操作成功", () => {});
 }
 
+const onSwitchRSS = () => {
+  if (!videoInfo.value.id) {
+    return;
+  }
+  reqSuccessFeedback(rssApi.closeSubscribe(videoInfo.value.id), "操作成功", () => {
+    videoInfo.value.rssStatus = 2
+  });
+}
+
 const doUpdateReadStatus = (): void => {
   reqSuccessFeedback(updateProgress({
         readStatus: editForm.value.readStatus,
@@ -372,7 +407,7 @@ const findMediaType = (mediaList: any, readingNum: string): string => {
       return item.mediaType;
     }
   }
-  return '';
+  return 'UNKNOWN_MEDIA_TYPE';
 }
 </script>
 

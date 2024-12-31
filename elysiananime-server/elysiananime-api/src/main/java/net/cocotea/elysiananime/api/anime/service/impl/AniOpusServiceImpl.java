@@ -107,6 +107,15 @@ public class AniOpusServiceImpl implements AniOpusService {
         Map<String, Object> mapDTO = BeanUtil.beanToMap(homeDTO);
         mapDTO.put("loginId", loginId);
         Page<AniOpusHomeVO> page = lightDao.findPage(ApiPage.create(homeDTO), "ani_opus_listByUser", mapDTO, AniOpusHomeVO.class);
+        for (AniOpusHomeVO row : page.getRows()) {
+            String folder = resUtils.findMediaDir(row.getNameCn());
+            try {
+                File[] files = FileUtil.ls(folder);
+                row.setDownloadNum(files.length);
+            } catch (Exception ex) {
+                row.setDownloadNum(0);
+            }
+        }
         return ApiPage.rest(page);
     }
 

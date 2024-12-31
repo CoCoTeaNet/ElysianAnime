@@ -3,6 +3,7 @@ package net.cocotea.elysiananime.api.anime.model.vo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;
 
@@ -15,7 +16,9 @@ import java.math.BigInteger;
 @Data
 @Accessors(chain = true)
 public class AniOpusHomeVO implements Serializable {
+    @Serial
     private static final long serialVersionUID = -5393455671882014691L;
+
     /**
      * 作品ID
      */
@@ -68,5 +71,9 @@ public class AniOpusHomeVO implements Serializable {
      * 观看状态：0未看 1已看 2在看
      */
     private Integer readStatus;
+    /**
+     * 下载资源数量
+     */
+    private Integer downloadNum;
 
 }

@@ -1,5 +1,9 @@
 import {request, post, get} from '@/utils/axios-util';
 
+const opusApi = {
+	update: update,
+}
+
 export function add(data: any) {
 	return request('anime/opus/add', data, post);
 }
@@ -31,3 +35,5 @@ export function addAcgOpusByBgmUrl(data: any) {
 export function getMedia(opus: any) {
 	return request(`anime/opus/media/${opus.id}?resName=${opus.resName}`, {}, get);
 }
+
+export default opusApi;

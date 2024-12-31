@@ -1,5 +1,9 @@
 import {request, post} from '@/utils/axios-util';
 
+const sysUserApi = {
+    getDetail: getDetail,
+}
+
 /**
  * 增加一名用户
  * @param data
@@ -54,3 +58,5 @@ export function updateByUser(data: any) {
 export function doModifyPassword(data: any) {
     return request('system/user/doModifyPassword', data, post);
 }
+
+export default sysUserApi;

@@ -68,4 +68,10 @@ public class DefaultProp {
      */
     @Inject("${elysiananime.auto-reading-time}")
     private Long autoReadingTime;
+
+    /**
+     * 是否做种
+     */
+    @Inject("${elysiananime.seed-flag}")
+    private Boolean seedFlag;
 }
