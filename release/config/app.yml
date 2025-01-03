@@ -1,0 +1,119 @@
+server:
+  port: 8088
+  contextPath: /v2-api
+
+
+solon.app:
+  name: 'ElysianAnimeWeb'
+
+
+sqltoy:
+  sqlResourcesDir: classpath:sqltoy
+  unify-fields-handler: net.cocotea.elysiananime.handler.SqlToyUnifyFieldsHandler
+  debug: false
+
+
+sra-admin:
+  # 默认创建用户的密码
+  password: janime123456
+  # 密码加密的加盐
+  password-salt: janime@salt
+  # 开启缓存
+  permission-cache: true
+  # 是否开启系统日志保存功能
+  save-log: true
+  # 强密码，为空或者为none表示关闭
+  strong-password: none
+  # 1秒内访问服务器接口频率
+  once-visits: 0
+  # 路由放行（用逗号分割）
+  excludes: /system/file/getBackground,/anime/opus/cover,/system/login,/system/captcha,/,/favicon.ico,/css/**,/js/**,/img/**
+  # 文件存放配置
+  file:
+    # 默认文件存放位置
+    default-path: F:/Files/default/
+    # 头像保存位置
+    avatar: F:/Files/avatar/
+    # 禁止上传的文件
+    not-support-filetype: js,html,htm,shtml,php,css,java,sh,bat,xml
+    # 媒体格式
+    media-filetype: mp4,avi,mpg,mpeg,wmv,flv,swf,mov,mkv
+
+
+elysiananime:
+  # 前端访问地址
+  url:
+    web: http://127.0.0.1:8080
+  # 观看到某个时长时，自动更新观看状态为'在看' (单位秒)
+  auto-reading-time: 180
+  # true表示 做种
+  seed-flag: true
+  # true表示 启用邮件通知
+  mail-notify-flag: false
+  # 文件存放配置
+  file:
+    # 背景存放的地址
+    background: F:/Files/background/
+    # 动漫封面保存的位置
+    animation-cover-path: F:/Files/animation-cover/
+    # 动漫资源保存位置
+    animation-path: F:/Files/animation/
+  qb:
+    # 这三项一般默认，可以不用配置
+    ok: Ok.
+    forbidden: Forbidden
+    # 分类
+    category: ElysianAnime
+    # qb域名或者IP地址
+    domain: http://127.0.0.1:9001
+    # 账号
+    username: elysiananime
+    # 密码
+    password: 123456
+  # 邮箱通知账号（mail-notify-flag=true时生效）
+  emailsender:
+    # 用户名（注意：如果使用foxmail邮箱，此处user为qq号）
+    user: xxxxxxxxx@163.com
+    # 发件人（必须正确，否则发送失败）
+    from: tester<xxxxxxxxx@163.com>
+    # 密码（注意，某些邮箱需要为SMTP服务单独设置密码，详情查看相关帮助）
+    pass: your_pwd
+    # 邮件服务器的SMTP地址
+    host: smtp.163.com
+    # 邮件服务器的SMTP端口
+    port: 465
+    # 这个一般默认true就可以了
+    sslEnable: true
+
+
+myapp:
+  # MySQL
+  db1:
+    schema: elysiananime
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/elysiananime?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+  # Redis
+  rd1:
+    server: 127.0.0.1:6379
+    db: 1
+    password:
+
+
+# Sa-Token 配置
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: Authorization
+  # token有效期，单位s 默认30天, -1代表永不过期
+  timeout: 86400
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  activity-timeout: -1
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: true
+  # token风格
+  token-style: random-64
+  # 是否输出操作日志
+  is-log: false
