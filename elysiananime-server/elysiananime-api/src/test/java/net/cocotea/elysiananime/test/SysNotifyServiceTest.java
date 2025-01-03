@@ -8,21 +8,28 @@ import net.cocotea.elysiananime.common.enums.IsEnum;
 import net.cocotea.elysiananime.common.enums.LevelEnum;
 import net.cocotea.elysiananime.common.model.BusinessException;
 import net.cocotea.elysiananime.jobs.SysNotifyJobs;
+import net.cocotea.elysiananime.properties.DefaultProp;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.noear.solon.annotation.Import;
 import org.noear.solon.annotation.Inject;
 import org.noear.solon.test.SolonJUnit4ClassRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Import(scanPackages = {"net.cocotea.elysiananime"})
 @RunWith(SolonJUnit4ClassRunner.class)
 public class SysNotifyServiceTest {
+    private final static Logger log = LoggerFactory.getLogger(SysNotifyServiceTest.class);
 
     @Inject
     SysNotifyService sysNotifyService;
 
     @Inject
     SysNotifyJobs sysNotifyJobs;
+
+    @Inject
+    DefaultProp defaultProp;
 
     @Test
     public void addNotify() throws Exception {
@@ -39,6 +46,10 @@ public class SysNotifyServiceTest {
 
     @Test
     public void sysNotifyJobs() throws BusinessException {
+        if (defaultProp.getMailNotifyFlag() == null || !defaultProp.getMailNotifyFlag()) {
+            log.warn("doNotify >>>>> 不启用邮件通知！！！");
+            return;
+        }
         sysNotifyJobs.scan();
     }
 

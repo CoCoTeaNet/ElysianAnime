@@ -46,8 +46,10 @@ elysiananime:
     web: http://127.0.0.1:8080
   # 观看到某个时长时，自动更新观看状态为'在看' (单位秒)
   auto-reading-time: 180
-  # true表示做种
+  # true表示 做种
   seed-flag: true
+  # true表示 启用邮件通知
+  mail-notify-flag: false
   # 文件存放配置
   file:
     # 背景存放的地址
@@ -68,7 +70,7 @@ elysiananime:
     username: elysiananime
     # 密码
     password: 123456
-  # 邮箱通知账号
+  # 邮箱通知账号（mail-notify-flag=true时生效）
   emailsender:
     # 用户名（注意：如果使用foxmail邮箱，此处user为qq号）
     user: xxxxxxxxx@163.com
