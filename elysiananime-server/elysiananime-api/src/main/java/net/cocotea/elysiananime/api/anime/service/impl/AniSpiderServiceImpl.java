@@ -107,6 +107,9 @@ public class AniSpiderServiceImpl implements AniSpiderService {
         JXNode nameCn = document.selNOne(BgmDetailRuleConst.NAME_CN);
         if (nameCn != null) {
             aniOpus.setNameCn(nameCn.asString());
+        } else if (nameOriginal != null) {
+            // 查不到中文名称就用原名称代替
+            aniOpus.setNameCn(nameOriginal.asString());
         }
         // 话数
         JXNode episodes = document.selNOne(BgmDetailRuleConst.EPISODES);
