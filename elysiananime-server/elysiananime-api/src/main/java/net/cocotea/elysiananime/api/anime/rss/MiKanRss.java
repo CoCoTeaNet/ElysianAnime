@@ -1,7 +1,6 @@
 package net.cocotea.elysiananime.api.anime.rss;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.RegexPool;
@@ -74,9 +73,6 @@ public class MiKanRss {
 
     @Inject
     private DefaultProp defaultProp;
-
-    @Inject
-    private QbittorrentProp qbittorrentProp;
 
     @Inject
     private QbApiUtils qbApiUtils;
@@ -384,6 +380,14 @@ public class MiKanRss {
                 .setEpisodeIndexList(episodeIndexList);
     }
 
+    private void doNotifyCatchEx(AniOpus opus, File targetFile) {
+        try {
+            doNotify(opus, targetFile);
+        } catch (BusinessException ex) {
+            log.warn("doNotifyCatchEx >>>>> RSS通知失败，msg：{}", ex.getMessage());
+        }
+    }
+
     private void doNotify(AniOpus opus, File targetFile) throws BusinessException {
         SysNotifyAddDTO sysNotifyAddDTO = new SysNotifyAddDTO()
                 .setTitle("【" + opus.getNameCn() + "】更新啦~~~")
@@ -394,6 +398,12 @@ public class MiKanRss {
                 .setIsGlobal(IsEnum.Y.getCode())
                 .setNotifyType(NotifyConst.OPUS_UPDATE);
         sysNotifyService.addNotify(sysNotifyAddDTO);
+
+        if (defaultProp.getMailNotifyFlag() == null || !defaultProp.getMailNotifyFlag()) {
+            log.warn("doNotify >>>>> 不启用邮件通知！！！");
+            return;
+        }
+
         // 5、发送下载完成邮件
         List<String> emails = aniUserOpusService.findFollowsEmail(opus.getId());
         String emailHtml = String.format(
@@ -444,7 +454,7 @@ public class MiKanRss {
 
                 String opusName = file.getParentFile().getName();
                 AniOpus aniOpus = aniOpusService.loadByNameCn(opusName);
-                doNotify(aniOpus, file);
+                doNotifyCatchEx(aniOpus, file);
             } catch (Exception ex) {
                 log.error("doRenameBtV2 >>>>> 重命名失败，作品：{}，errorMsg：{}", info.getName(), ex.getMessage(), ex);
             }

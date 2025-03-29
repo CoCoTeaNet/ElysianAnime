@@ -136,12 +136,12 @@
             <el-card :shadow="mkXmlParsed ? 'always' : 'never'">
               <el-form ref="sttRssFormRef" label-width="150px" label-position="left" :model="rssForm" :rules="rssRules">
                 <el-form-item prop="rssUrl" label="订阅链接">
-                  <el-input v-model="rssForm.rssUrl"></el-input>
+                  <el-input v-model="rssForm.rssUrl" @change="loadRenames"></el-input>
                 </el-form-item>
                 <el-form-item prop="rssLevelIndex" label="集数出现的位置">
                   <el-space>
                     <el-input-number :min="0" v-model="rssForm.rssLevelIndex"></el-input-number>
-                    <el-select v-model="rssForm.rssLevelIndex" placeholder="选择位置" style="width: 240px">
+                    <el-select v-model="rssForm.rssLevelIndex" placeholder="选择位置" style="width: 240px" @change="loadRenames">
                       <el-option
                           v-for="(item,index) in mkXmlDetail.episodeIndexList?.[mkXmlItemSelectedIndex]"
                           :key="index"
@@ -156,20 +156,19 @@
                 </el-form-item>
                 <el-form-item prop="rssOnlyMark" label="匹配的唯一标识">
                   <el-space>
-                    <el-input v-model="rssForm.rssOnlyMark"></el-input>
-                    <el-select v-model="rssForm.rssOnlyMark" placeholder="选择唯一标识" style="width: 160px">
+                    <el-input v-model="rssForm.rssOnlyMark" @change="loadRenames"></el-input>
+                    <el-select v-model="rssForm.rssOnlyMark" placeholder="选择唯一标识" style="width: 160px" @change="loadRenames">
                       <el-option
                           v-for="(item,index) in mkXmlDetail.titleFragmentList?.[mkXmlItemSelectedIndex]"
                           :key="index"
                           :label="item"
-                          :value="item"
-                      />
+                          :value="item"/>
                     </el-select>
                   </el-space>
                 </el-form-item>
                 <el-form-item label="排除的资源标识">
                   <el-space>
-                    <el-select v-model="rssExcludeResArr" placeholder="选择排除的标识" allow-create filterable clearable
+                    <el-select v-model="rssExcludeResArr" @change="loadRenames" placeholder="选择排除的标识" allow-create filterable clearable
                                multiple style="width: 160px">
                       <el-option
                           v-for="(item,index) in myExclusions"

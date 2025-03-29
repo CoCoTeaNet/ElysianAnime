@@ -13,7 +13,6 @@ import org.noear.solon.annotation.Inject;
 @Data
 @Component("defaultProp")
 public class DefaultProp {
-
     /**
      * 默认密码
      */
@@ -56,7 +55,6 @@ public class DefaultProp {
     @Inject("${sra-admin.excludes}")
     private String excludes;
 
-
     /**
      * 前端访问地址
      */
@@ -74,4 +72,10 @@ public class DefaultProp {
      */
     @Inject("${elysiananime.seed-flag}")
     private Boolean seedFlag;
+
+    /**
+     * 是否启用邮件通知
+     */
+    @Inject("${elysiananime.mail-notify-flag}")
+    private Boolean mailNotifyFlag;
 }

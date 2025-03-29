@@ -33,7 +33,7 @@ public class RssJobs {
     public void scanBt() {
         // 定时重命名
         miKanRss.doRenameBtV2();
-        // 清楚历史记录
+        // 清理历史记录
         miKanRss.clearHistory();
     }
 

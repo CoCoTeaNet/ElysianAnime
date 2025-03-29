@@ -1,6 +1,13 @@
 # 变更日志
 
 
+## v2.2.5
+- 优化 系统通知日志信息打印
+- 优化 添加配置项控制邮件通知
+- 优化 预览区无法实时显示@[byoukinn](https://github.com/byoukinn) in [#25](https://github.com/CoCoTeaNet/ElysianAnime/issues/25)
+- 修复 当查不到中文名称时就用原名称代替@[byoukinn](https://github.com/byoukinn) in [#26](https://github.com/CoCoTeaNet/ElysianAnime/issues/26)
+
+
 ## v2.2.4
 
 - 新增 在主页显示看到第几集，更新到N集和全N集
