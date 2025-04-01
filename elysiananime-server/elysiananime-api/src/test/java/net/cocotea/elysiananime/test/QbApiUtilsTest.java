@@ -1,7 +1,8 @@
 package net.cocotea.elysiananime.test;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.system.SystemUtil;
 import com.alibaba.fastjson.JSONArray;
 import net.cocotea.elysiananime.api.anime.rss.model.QbInfo;
 import net.cocotea.elysiananime.util.QbApiUtils;
@@ -10,8 +11,6 @@ import org.junit.runner.RunWith;
 import org.noear.solon.annotation.Import;
 import org.noear.solon.annotation.Inject;
 import org.noear.solon.test.SolonJUnit4ClassRunner;
-
-import java.io.File;
 
 @Import(scanPackages = {"net.cocotea.elysiananime"})
 @RunWith(SolonJUnit4ClassRunner.class)
@@ -48,9 +47,15 @@ public class QbApiUtilsTest {
     public void renameFile() {
         JSONArray list = qbApiUtils.info("all");
         for (Object obj : list) {
+            String fileSeparator = SystemUtil.get(SystemUtil.FILE_SEPARATOR);
+
             QbInfo qbInfo = BeanUtil.toBean(obj, QbInfo.class);
-            File file = FileUtil.file(qbInfo.getContentPath());
-            String renamed = qbApiUtils.renameFile(qbInfo.getHash(), "123.mkv", file.getName());
+            String relativePath = StrUtil.replace(qbInfo.getContentPath(), qbInfo.getSavePath()+fileSeparator, "");
+
+            System.out.println("系统文件分隔符：" + fileSeparator);
+            System.out.println(relativePath);
+
+            String renamed = qbApiUtils.renameFile(qbInfo.getHash(), "example-03.mp4", relativePath);
             System.out.println(renamed);
         }
     }
