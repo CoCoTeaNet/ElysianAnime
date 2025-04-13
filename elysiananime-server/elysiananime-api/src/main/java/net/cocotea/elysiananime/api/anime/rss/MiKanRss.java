@@ -454,9 +454,6 @@ public class MiKanRss {
                 String relativePath = StrUtil.replace(info.getContentPath(), info.getSavePath() + fileSeparator, "");
                 String msg = qbApiUtils.renameFile(info.getHash(), info.getName(), relativePath);
                 log.info("doRenameBtV2 >>>>> call qb renameFile api, msg: {}", msg);
-                if (!Objects.equals(msg, qbittorrentProp.getOk())) {
-                    throw new BusinessException(msg);
-                }
                 // 通知
                 String opusName = FileUtil.file(info.getSavePath()).getName();
                 AniOpus aniOpus = aniOpusService.loadByNameCn(opusName);
