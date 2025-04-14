@@ -21,6 +21,7 @@ import net.cocotea.elysiananime.properties.DefaultProp;
 import net.cocotea.elysiananime.util.LoginUtils;
 import org.noear.solon.annotation.Component;
 import org.noear.solon.annotation.Inject;
+import org.noear.solon.core.exception.StatusException;
 import org.noear.solon.core.handle.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,6 +87,8 @@ public class AppFilter implements Filter {
             } else if (e instanceof NotRoleException) {
                 logger.error("角色未知异常: {}", e.getMessage());
                 result = ApiResult.error(ApiResultEnum.NOT_PERMISSION.getCode(), ApiResultEnum.NOT_PERMISSION.getDesc());
+            } else if (e instanceof StatusException) {
+                result = ApiResult.error(((StatusException) e).getCode(), e.getMessage());
             } else {
                 logger.error("未知异常: {}", e.getMessage(), e);
                 result = ApiResult.error(ApiResultEnum.ERROR.getDesc());

@@ -1,6 +1,11 @@
 # 变更日志
 
 
+## v2.2.6
+- 优化 请求时出现的StatusException统一处理
+- 修复 解析部分番剧无法正常删除文件夹和重命名 by @[byoukinn](https://github.com/byoukinn) in [#27](https://github.com/CoCoTeaNet/ElysianAnime/issues/27)
+
+
 ## v2.2.5
 - 优化 系统通知日志信息打印
 - 优化 添加配置项控制邮件通知
