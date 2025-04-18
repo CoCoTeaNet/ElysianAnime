@@ -5,6 +5,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import net.cocotea.elysiananime.api.system.model.dto.*;
 import net.cocotea.elysiananime.api.system.model.po.SysUser;
@@ -40,6 +41,7 @@ import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -153,7 +155,7 @@ public class SysUserServiceImpl implements SysUserService {
             // 校验验证码
             key = String.format(RedisKeyConst.VERIFY_CODE_LOGIN, loginDTO.getCaptchaId());
             String code = redisService.get(key);
-            if (!loginDTO.getCaptcha().equals(code)) {
+            if (!ObjUtil.equal(loginDTO.getCaptcha().toUpperCase(Locale.ROOT), code.toUpperCase(Locale.ROOT))) {
                 throw new BusinessException("验证码错误");
             }
             // 校验密码

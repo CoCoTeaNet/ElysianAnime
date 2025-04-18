@@ -195,8 +195,7 @@ public class QbApiUtils {
 
         logger.info("renameFile >>>>> hash={}, newPath={}, oldPath={}", hash, newPath, oldPath);
 
-        return HttpUtil
-                .createPost(url)
+        return HttpUtil.createPost(url)
                 .header("cookie", getCookie())
                 .form(new JSONObject().fluentPut("hash", hash).fluentPut("newPath", newPath).fluentPut("oldPath", oldPath))
                 .execute()

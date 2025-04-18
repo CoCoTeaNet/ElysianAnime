@@ -1,10 +1,14 @@
 package net.cocotea.elysiananime.api.anime.rss.model;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * qb种子属性
  */
+@Accessors(chain = true)
+@Data
 public class QbInfo {
 
     /**
@@ -23,42 +27,6 @@ public class QbInfo {
      * 已保存的路径
      */
     private String contentPath;
-
-    public String getName() {
-        return name;
-    }
-
-    public QbInfo setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getSavePath() {
-        return savePath;
-    }
-
-    public QbInfo setSavePath(String savePath) {
-        this.savePath = savePath;
-        return this;
-    }
-
-    public String getContentPath() {
-        return contentPath;
-    }
-
-    public QbInfo setContentPath(String contentPath) {
-        this.contentPath = contentPath;
-        return this;
-    }
-
-    public String getHash() {
-        return hash;
-    }
-
-    public QbInfo setHash(String hash) {
-        this.hash = hash;
-        return this;
-    }
 
     @Override
     public String toString() {

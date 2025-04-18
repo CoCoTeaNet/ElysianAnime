@@ -12,6 +12,7 @@ import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import cn.hutool.system.SystemUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.dtflys.forest.Forest;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
@@ -49,10 +50,7 @@ import org.w3c.dom.NodeList;
 
 import java.io.File;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -76,6 +74,9 @@ public class MiKanRss {
 
     @Inject
     private QbApiUtils qbApiUtils;
+
+    @Inject
+    private QbittorrentProp qbittorrentProp;
 
     @Inject
     private AniOpusService aniOpusService;
@@ -433,6 +434,7 @@ public class MiKanRss {
     }
 
     public void doRenameBtV2() {
+        String fileSeparator = SystemUtil.get(SystemUtil.FILE_SEPARATOR);
         JSONArray completedArr = qbApiUtils.info("completed");
         JSONArray seedingArr = qbApiUtils.info("seeding");
         completedArr.fluentAddAll(seedingArr);
@@ -448,11 +450,12 @@ public class MiKanRss {
                     qbApiUtils.delete(info.getHash());
                     continue;
                 }
-                // 重命名操作
-                String renamed = qbApiUtils.renameFile(info.getHash(), info.getName(), file.getName());
-                log.warn("doRenameBtV2 >>>>> 重命名结束，msg: {}", renamed);
-
-                String opusName = file.getParentFile().getName();
+                // 用qb工具重命名操作（做种的时候qb占用资源没法外部操作）
+                String relativePath = StrUtil.replace(info.getContentPath(), info.getSavePath() + fileSeparator, "");
+                String msg = qbApiUtils.renameFile(info.getHash(), info.getName(), relativePath);
+                log.info("doRenameBtV2 >>>>> call qb renameFile api, msg: {}", msg);
+                // 通知
+                String opusName = FileUtil.file(info.getSavePath()).getName();
                 AniOpus aniOpus = aniOpusService.loadByNameCn(opusName);
                 doNotifyCatchEx(aniOpus, file);
             } catch (Exception ex) {
