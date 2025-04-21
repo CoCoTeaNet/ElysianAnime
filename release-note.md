@@ -1,6 +1,10 @@
 # 变更日志
 
 
+## v2.2.7
+- 修复 添加通知消息时未处理事务导致调度异常问题
+
+
 ## v2.2.6
 - 优化 请求时出现的StatusException统一处理
 - 修复 解析部分番剧无法正常删除文件夹和重命名 by @[byoukinn](https://github.com/byoukinn) in [#27](https://github.com/CoCoTeaNet/ElysianAnime/issues/27)
