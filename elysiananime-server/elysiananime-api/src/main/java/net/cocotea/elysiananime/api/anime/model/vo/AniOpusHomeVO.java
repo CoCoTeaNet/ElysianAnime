@@ -75,5 +75,9 @@ public class AniOpusHomeVO implements Serializable {
      * 下载资源数量
      */
     private Integer downloadNum;
+    /**
+     * 最新一集
+     */
+    private String episodesNewest;
 
 }

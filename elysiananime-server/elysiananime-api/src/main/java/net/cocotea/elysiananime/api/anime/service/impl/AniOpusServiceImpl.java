@@ -1,13 +1,18 @@
 package net.cocotea.elysiananime.api.anime.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.Opt;
 import cn.hutool.core.map.MapBuilder;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.text.StrPool;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import net.cocotea.elysiananime.api.anime.model.dto.*;
 import net.cocotea.elysiananime.api.anime.model.po.AniOpus;
@@ -111,6 +116,16 @@ public class AniOpusServiceImpl implements AniOpusService {
             String folder = resUtils.findMediaDir(row.getNameCn());
             try {
                 File[] files = FileUtil.ls(folder);
+
+                // 获取最新一集
+                Map<String, List<AniVideoVO.Media>> medias = getMedias(files);
+                List<AniVideoVO.Media> mediaList = medias.get("mediaList");
+                if (ObjUtil.isNotEmpty(mediaList)) {
+                    row.setEpisodesNewest(CollectionUtil.getLast(mediaList).getEpisodes());
+                } else {
+                    row.setEpisodesNewest(StrPool.DASHED);
+                }
+
                 row.setDownloadNum(files.length);
             } catch (Exception ex) {
                 row.setDownloadNum(0);
