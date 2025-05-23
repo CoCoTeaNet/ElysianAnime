@@ -39,8 +39,14 @@ public class AniUserOpusController {
         return ApiResult.ok(r);
     }
 
+    /**
+     * 更新观看进度
+     *
+     * @param updateDTO {@link AniUserOpusUpdateDTO}
+     * @return true更新成功
+     */
     @Post @Mapping("/updateProgress")
-    public ApiResult<?> updateProgress(@Body AniUserOpusUpdateDTO updateDTO) {
+    public ApiResult<Boolean> updateProgress(@Body AniUserOpusUpdateDTO updateDTO) {
         boolean r = aniUserOpusService.updateProgress(updateDTO);
         return ApiResult.ok(r);
     }

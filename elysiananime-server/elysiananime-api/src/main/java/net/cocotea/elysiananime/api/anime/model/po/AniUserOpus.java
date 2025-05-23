@@ -46,6 +46,9 @@ public class AniUserOpus implements Serializable {
 	@Column(name="reading_time",comment="正在播放的时长",length=19L,defaultValue="0",type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=false)
 	private BigInteger readingTime;
 
+	@Column(name="total_time",comment="视频总时长",length=19L,defaultValue="0",type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=false)
+	private BigInteger totalTime;
+
 	@Column(name="read_status",comment="观看状态：0未看 1已看 2在看",length=3L,defaultValue="0",type=java.sql.Types.TINYINT,nativeType="TINYINT",nullable=false)
 	private Integer readStatus;
 

@@ -17,7 +17,7 @@
                 </div>
               </div>
               <!-- 最新观看集数的观看进度条 -->
-              <div class="a-h-card-top-progress" :style="{width: `${(anime.readingTime / anime.totalTime) *100}%`, opacity: (anime.readingTime / anime.totalTime) > 0.80 ? 0:1}"></div>
+              <div class="a-h-card-top-progress" :style="{width: `${getProgressPercent(anime) *100}%`}"></div>
               <!--封面-->
               <div class="a-h-card-lazy-load"
                    :style="`background-image: url('api/anime/opus/cover?resName=${anime.coverUrl}');`"
@@ -239,8 +239,6 @@ const toPlayerView = (anime: any) => {
   }
 };
 
-
-
 const onAddAcgOpus = (isCover: number) => {
   addAcgOpusLoading.value = true;
   addAcgOpusByBgmUrl({bgmUrl: bgmUrl.value, isCover: isCover})
@@ -283,6 +281,25 @@ const onMultipleConditionsChange = (searchObj: any) => {
   loadTableData();
 }
 
+const getProgressPercent = (anime: any) => {
+  let percent = 0;
+  let readingTime = parseInt(anime.readingTime);
+  let totalTime = parseInt(anime.totalTime);
+
+  if (readingTime > totalTime) {
+    percent = 0;
+  } else if (readingTime > 0) {
+    percent = readingTime / totalTime;
+    if (percent > 1) {
+      percent = 0;
+    } else if (percent < 0) {
+      percent = 0;
+    }
+  }
+
+  console.debug(`${anime.nameCn} >>> readingTime:${anime.readingTime},totalTime:${anime.totalTime}, percent:${percent}`);
+  return percent;
+}
 </script>
 
 <style src="./AdminHome.css"></style>

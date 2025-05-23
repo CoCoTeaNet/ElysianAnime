@@ -13,7 +13,7 @@
     <groupId>net.cocotea</groupId>
     <artifactId>elysiananime</artifactId>
     <packaging>pom</packaging>
-    <version>2.2.7</version>
+    <version>2.3.0</version>
 
     <modules>
         <module>elysiananime-api</module>
@@ -25,10 +25,8 @@
         <maven.compiler.target>17</maven.compiler.target>
         <utf-8>UTF-8</utf-8>
 
-        <!-- 内部模块版本 -->
-        <elysiananime.version>2.2.7</elysiananime.version>
         <!-- 插件版本 -->
-        <lombok.version>1.18.28</lombok.version>
+        <lombok.version>1.18.38</lombok.version>
         <!-- ElysianAnime框架所需依赖 -->
         <xpath.version>2.5.3</xpath.version>
         <mail.version>1.6.2</mail.version>
@@ -54,13 +52,13 @@
             <dependency>
                 <groupId>net.cocotea</groupId>
                 <artifactId>elysiananime-api</artifactId>
-                <version>${elysiananime.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <!-- 通用 -->
             <dependency>
                 <groupId>net.cocotea</groupId>
                 <artifactId>elysiananime-common</artifactId>
-                <version>${elysiananime.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 插件使用 -->

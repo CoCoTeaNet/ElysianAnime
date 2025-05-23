@@ -114,6 +114,9 @@ public class AniOpusServiceImpl implements AniOpusService {
         Page<AniOpusHomeVO> page = lightDao.findPage(ApiPage.create(homeDTO), "ani_opus_listByUser", mapDTO, AniOpusHomeVO.class);
         for (AniOpusHomeVO row : page.getRows()) {
             String folder = resUtils.findMediaDir(row.getNameCn());
+            if (row.getTotalTime() == null) {
+                row.setTotalTime(BigInteger.ONE);
+            }
             try {
                 File[] files = FileUtil.ls(folder);
 
