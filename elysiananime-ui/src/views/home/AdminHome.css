@@ -37,7 +37,7 @@
 
 .a-h-card {
     width: calc(100% / 8);
-    padding: 0 3px 16px 3px;
+    padding: 0 4px 16px 4px;
 }
 
 /* a-h-card 图片部分  */
@@ -78,16 +78,24 @@
 .a-h-card-top-upper-info {
     display: flex;
     background: #0000009e;
-    border-radius: 1px;
+    border-radius: 4px;
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 8px;
+    right: 4px;
     color: white;
-    padding: 0 3px;
+    padding: 1px 4px;
 }
 
 .a-h-card:hover .a-h-card-top-upper-info {
     opacity: 0;
+}
+
+.a-h-card-top-progress {
+    position: absolute;
+    bottom: 0px;
+    height: 4px;
+    background: rgb(243 129 129);;
+    opacity: 1;
 }
 
 .a-h-card-top-upper-hover {
@@ -99,6 +107,7 @@
     top: 0;
     left: 0;
     opacity: 0%;
+    
 }
 
 .a-h-card:hover .a-h-card-top-upper {
