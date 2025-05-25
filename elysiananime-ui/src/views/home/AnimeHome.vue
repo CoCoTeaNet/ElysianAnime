@@ -7,14 +7,17 @@
         <div class="a-home-container">
           <div v-for="anime in pageVo.records" :key="anime.id" class="a-h-card" :class="{ 'downloaded': anime.hasResource }">
             <div class="a-h-card-top" @click="toPlayerView(anime)">
-              <!-- 下载资源数量 -->
-              <div class="a-h-card-downloads">{{formatUtil.fillZero(anime.downloadNum)}}</div>
-              <!-- 观看到哪集 / 全多少集 -->
+              
+              <!-- 原本右上角的吧唧标签，效果不好已取消，下载资源数量 -->
+              <!-- <div class="a-h-card-downloads">{{formatUtil.fillZero(anime.downloadNum)}}</div> -->
+              <!-- 已更新至第几集 / 全多少集   -->
               <div class="a-h-card-top-upper-info">
                 <div class='playinfo' style="font-size: 0.7rem; flex-grow:4;">
-                  {{ `${anime.readingNum} / ${anime.episodes}` }}
+                  {{ `${anime.downloadNum} / ${anime.episodes}` }}{{ anime.downloadNum >= anime.episodes ? ' (已完结)' : ''   }}
                 </div>
               </div>
+              <!-- 最新观看集数的观看进度条 -->
+              <div class="a-h-card-top-progress" :style="{width: `${getProgressPercent(anime) *100}%`}"></div>
               <!--封面-->
               <div class="a-h-card-lazy-load"
                    :style="`background-image: url('api/anime/opus/cover?resName=${anime.coverUrl}');`"
@@ -42,8 +45,9 @@
                    :title="anime.nameCn">
                   {{ anime.nameCn }}
                 </p>
+                <!-- 效果例如：已观看至第03集·每周三更新 -->
                 <p style="font-size: 0.6rem; padding-top: 2px; color: #999;" @click="onOpenDetail(anime.detailInfoUrl)">
-                  {{ anime.launchStart }}
+                  {{ anime.readingNum > 0 ? `已观看至第${formatUtil.fillZero(anime.readingNum)}集` : '从未观看' }} · {{isOverSeason(anime.launchStart) ? `每${anime.deliveryWeek}更新`: `${formatDateMonth(anime.launchStart)}`}}
                 </p>
               </el-col>
             </el-row>
@@ -162,6 +166,15 @@ watch(
     }
 );
 
+const isOverSeason = (animeLaunchTime: string) => {
+  // 是否过季，过季番显示到月份
+  return formatUtil.strToDate(animeLaunchTime) < new Date(Date.now()-7776000000)  // 7776000000 = 90天
+}
+
+const formatDateMonth = (animeLaunchTime: string) => {
+  return formatUtil.formatDate(formatUtil.strToDate(animeLaunchTime), 'YYYY/MM') 
+}
+
 const onSearch = () => {
   router.push({
     name: 'AnimeHome',
@@ -268,6 +281,25 @@ const onMultipleConditionsChange = (searchObj: any) => {
   loadTableData();
 }
 
+const getProgressPercent = (anime: any) => {
+  let percent = 0;
+  let readingTime = parseInt(anime.readingTime);
+  let totalTime = parseInt(anime.totalTime);
+
+  if (readingTime > totalTime) {
+    percent = 0;
+  } else if (readingTime > 0) {
+    percent = readingTime / totalTime;
+    if (percent > 1) {
+      percent = 0;
+    } else if (percent < 0) {
+      percent = 0;
+    }
+  }
+
+  console.debug(`${anime.nameCn} >>> readingTime:${anime.readingTime},totalTime:${anime.totalTime}, percent:${percent}`);
+  return percent;
+}
 </script>
 
 <style src="./AdminHome.css"></style>

@@ -1,6 +1,15 @@
 # 变更日志
 
 
+## v2.3.0
+- 新增 增加对当前已观看集数、更新时间、等功能 by @[byoukinn](https://github.com/byoukinn) in [#31](https://github.com/CoCoTeaNet/ElysianAnime/issues/31)
+- 调整 lombok --> 1.18.38
+
+
+## v2.2.7
+- 修复 添加通知消息时未处理事务导致调度异常问题
+
+
 ## v2.2.6
 - 优化 请求时出现的StatusException统一处理
 - 修复 解析部分番剧无法正常删除文件夹和重命名 by @[byoukinn](https://github.com/byoukinn) in [#27](https://github.com/CoCoTeaNet/ElysianAnime/issues/27)

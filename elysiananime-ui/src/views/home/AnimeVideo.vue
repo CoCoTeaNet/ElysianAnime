@@ -260,7 +260,11 @@ onMounted(() => {
     }
     if (!player.value.video.paused && videoInfo.value.userOpusId > 0) {
       let currentTime = parseInt(player.value.video.currentTime);
-      updateProgress({readingTime: currentTime, id: videoInfo.value.userOpusId});
+      updateProgress({
+        readingTime: currentTime, 
+        totalTime: parseInt(player.value.video.duration),
+        id: videoInfo.value.userOpusId
+      });
     }
   }, 2500);
 

@@ -68,6 +68,10 @@ public class AniOpusHomeVO implements Serializable {
      */
     private BigInteger readingTime;
     /**
+     * 用户正在观看的视频总时长
+     */
+    private BigInteger totalTime;
+    /**
      * 观看状态：0未看 1已看 2在看
      */
     private Integer readStatus;
@@ -75,5 +79,9 @@ public class AniOpusHomeVO implements Serializable {
      * 下载资源数量
      */
     private Integer downloadNum;
+    /**
+     * 最新一集
+     */
+    private String episodesNewest;
 
 }

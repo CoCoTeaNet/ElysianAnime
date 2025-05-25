@@ -13,6 +13,7 @@ import net.cocotea.elysiananime.common.enums.IsEnum;
 import net.cocotea.elysiananime.common.model.BusinessException;
 import net.cocotea.elysiananime.util.LoginUtils;
 import org.noear.solon.annotation.Component;
+import org.noear.solon.data.annotation.Tran;
 import org.sagacity.sqltoy.dao.LightDao;
 import org.sagacity.sqltoy.solon.annotation.Db;
 import org.slf4j.Logger;
@@ -31,6 +32,7 @@ public class SysNotifyServiceImpl implements SysNotifyService {
     @Db
     private LightDao lightDao;
 
+    @Tran
     @Override
     public void addNotify(SysNotifyAddDTO addDTO) throws BusinessException {
         Map<String, Object> sysNotifyMapDTO = getNotifyMapDTO(addDTO);
