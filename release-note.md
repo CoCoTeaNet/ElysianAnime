@@ -2,7 +2,6 @@
 
 
 ## v2.3.0
-- 新增 主页展示资源最新一集
 - 新增 增加对当前已观看集数、更新时间、等功能 by @[byoukinn](https://github.com/byoukinn) in [#31](https://github.com/CoCoTeaNet/ElysianAnime/issues/31)
 - 调整 lombok --> 1.18.38
 
