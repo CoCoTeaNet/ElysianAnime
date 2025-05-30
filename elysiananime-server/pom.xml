@@ -13,7 +13,7 @@
     <groupId>net.cocotea</groupId>
     <artifactId>elysiananime</artifactId>
     <packaging>pom</packaging>
-    <version>2.3.0</version>
+    <version>2.3.1</version>
 
     <modules>
         <module>elysiananime-api</module>
@@ -32,12 +32,12 @@
         <mail.version>1.6.2</mail.version>
         <forest-jaxb.veraion>1.5.33</forest-jaxb.veraion>
         <!-- SRA-ADMIN-SOLON必备依赖 -->
-        <sqltoy.version>5.6.10</sqltoy.version>
+        <sqltoy.version>5.6.46</sqltoy.version>
         <mysql-connector.version>8.3.0</mysql-connector.version>
         <satoken.version>1.33.0</satoken.version>
-        <fastjson.version>1.2.83</fastjson.version>
-        <hutool.version>5.8.20</hutool.version>
-        <hutool-oshi.version>5.6.1</hutool-oshi.version>
+        <fastjson2.version>2.0.57</fastjson2.version>
+        <hutool.version>5.8.38</hutool.version>
+        <oshi.version>5.6.1</oshi.version>
         <bcprov.version>1.69</bcprov.version>
         <commons-pool2.version>2.11.1</commons-pool2.version>
         <redisx.version>1.4.7</redisx.version>
@@ -131,11 +131,11 @@
                 <artifactId>HikariCP</artifactId>
                 <version>${hikaricp.version}</version>
             </dependency>
-            <!-- fastjson -->
+            <!-- fastjson2 -->
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson2.version}</version>
             </dependency>
             <!-- hutool工具 -->
             <dependency>
@@ -146,7 +146,7 @@
             <dependency>
                 <groupId>com.github.oshi</groupId>
                 <artifactId>oshi-core</artifactId>
-                <version>${hutool-oshi.version}</version>
+                <version>${oshi.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.bouncycastle</groupId>
