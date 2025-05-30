@@ -34,7 +34,7 @@
         <!-- SRA-ADMIN-SOLON必备依赖 -->
         <sqltoy.version>5.6.46</sqltoy.version>
         <mysql-connector.version>8.3.0</mysql-connector.version>
-        <satoken.version>1.33.0</satoken.version>
+        <satoken.version>1.43.0</satoken.version>
         <fastjson2.version>2.0.57</fastjson2.version>
         <hutool.version>5.8.38</hutool.version>
         <oshi.version>5.6.1</oshi.version>

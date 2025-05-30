@@ -5,6 +5,9 @@
 - 变更 sqltoy --> 5.6.46
 - 变更 fastjson --> fastjson2
 - 变更 hutool --> 5.8.38
+- 变更 sa-token --> 1.43.0
+- 变更 smart-doc --> 3.1.0
+- 优化 readme页面使用AI自动构建内容
 
 
 ## v2.3.0
