@@ -17,8 +17,6 @@ import org.noear.solon.serialization.fastjson2.Fastjson2RenderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -74,7 +72,6 @@ public class WebMvcConfig {
                 JSONWriter.Feature.WriteMapNullValue,
                 JSONWriter.Feature.WriteNullNumberAsZero,
                 JSONWriter.Feature.WriteNullStringAsEmpty,
-                JSONWriter.Feature.WriteLongAsString,
                 JSONWriter.Feature.WriteBigDecimalAsPlain,
                 JSONWriter.Feature.BrowserCompatible
         );
