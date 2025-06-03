@@ -1,51 +1,76 @@
-<html><head><meta charset="utf-8" /><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor/dist/index.css"/><script src="https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor/dist/js/i18n/zh_CN.js"></script><script src="https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor/dist/method.min.js"></script></head><body style="width: 1075px;"><div class="vditor-reset" id="preview"><h1 id="ElysianAnime">ElysianAnime<a id="vditorAnchor-ElysianAnime" class="vditor-anchor" href="#ElysianAnime"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h1>
-<h2 id="项目简介">项目简介<a id="vditorAnchor-项目简介" class="vditor-anchor" href="#项目简介"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
-<p>这是一个番剧管理系统，主要用于部署在个人NAS服务器上，订阅和下载RSS内容，然后自动追番~~~</p>
-<ul>
-<li>version: v2.2.0</li>
-<li><a href="release-note.md">Changed Log</a></li>
-</ul>
-<h2 id="图片演示">图片演示<a id="vditorAnchor-图片演示" class="vditor-anchor" href="#图片演示"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
-<table>
-    <tr>
-        <td><img src="./doc/pictures/1_proc.jpg" alt="ys_1"/></td>
-        <td><img src="./doc/pictures/2_proc.jpg" alt="ys_2"/></td>
-    </tr>
-    <tr>
-        <td><img src="./doc/pictures/3_proc.jpg" alt="ys_3"/></td>
-        <td><img src="./doc/pictures/4_proc.jpg" alt="ys_4"/></td>
-    </tr>
-</table>
-<h2 id="功能要点">功能要点<a id="vditorAnchor-功能要点" class="vditor-anchor" href="#功能要点"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
-<ul>
-<li class="vditor-task vditor-task--done"><input checked="" disabled="" type="checkbox" />  蜜柑RSS订阅自动下载内容</li>
-<li class="vditor-task vditor-task--done"><input checked="" disabled="" type="checkbox" />  在线番剧检索和播放</li>
-<li class="vditor-task vditor-task--done"><input checked="" disabled="" type="checkbox" />  番剧信息管理</li>
-<li class="vditor-task vditor-task--done"><input checked="" disabled="" type="checkbox" />  追番进度管理</li>
-<li class="vditor-task vditor-task--done"><input checked="" disabled="" type="checkbox" />  番剧推荐栏目</li>
-</ul>
-<h2 id="启动说明">启动说明<a id="vditorAnchor-启动说明" class="vditor-anchor" href="#启动说明"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
-<h3 id="步骤">步骤<a id="vditorAnchor-步骤" class="vditor-anchor" href="#步骤"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h3>
-<ol>
-<li>运行数据库脚本</li>
-<li>启动本地Redis并运行后端服务</li>
-<li>安装前端依赖并运行前端项目</li>
-</ol>
-<h3 id="访问">访问<a id="vditorAnchor-访问" class="vditor-anchor" href="#访问"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h3>
-<ul>
-<li>地址：http://localhost:8086</li>
-<li>账号：admin admin123456</li>
-</ul>
-<h2 id="环境要求">环境要求<a id="vditorAnchor-环境要求" class="vditor-anchor" href="#环境要求"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
-<ul>
-<li>JDK：17+</li>
-<li>Nodejs：14+</li>
-<li>MySQL：8.0+</li>
-<li>Redis</li>
-<li>qBittorrent</li>
-</ul>
-<h2 id="拓展项目">拓展项目<a id="vditorAnchor-拓展项目" class="vditor-anchor" href="#拓展项目"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h2>
-<ul>
-<li><a href="https://github.com/CoCoTeaNet/ElysianAnime-Viewer">ElysianAnime-Viewer</a> 桌面端应用（嵌入Mpv,播放体验更好）</li>
-</ul>
-</div><script>    const previewElement = document.getElementById('preview');    Vditor.setContentTheme('idea-light', 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor/dist/css/content-theme');    Vditor.codeRender(previewElement);    Vditor.highlightRender({"enable":true,"lineNumber":false,"style":"dracula"}, previewElement, 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor');    Vditor.mathRender(previewElement, { cdn: 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor',math: {"engine":"KaTeX","inlineDigit":true,"macros":{}}});    Vditor.mermaidRender(previewElement, 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor', 'light');    Vditor.flowchartRender(previewElement, 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor');    Vditor.graphvizRender(previewElement, 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor');    Vditor.chartRender(previewElement, 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor', 'light');    Vditor.mindmapRender(previewElement, 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor', 'light');    Vditor.abcRender(previewElement, 'https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor');    Vditor.mediaRender(previewElement);    Vditor.speechRender(previewElement); </script>  <script src="https://cdn.jsdelivr.net/gh/shuzijun/markdown-editor@2.0.5/src/main/resources/vditor/dist/js/icons/ant.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElysianAnime - 自动化追番神器</title>
+    <link rel="stylesheet" href="readme.css">
+</head>
+<body>
+
+<header class="hero">
+    <div class="container">
+        <h1>🎬 ElysianAnime</h1>
+        <p>私人服务器上的动漫追番神器</p>
+        <a href="https://github.com/CoCoTeaNet/ElysianAnime " class="btn-github" target="_blank">GitHub 项目地址</a>
+    </div>
+</header>
+
+<section class="intro">
+    <div class="container">
+        <h2>🌟 简介</h2>
+        <p>ElysianAnime 是一个专为动漫爱好者打造的自动化追番管理系统。你可以：</p>
+        <ul>
+            <li>📺 自动订阅并下载 RSS 中的番剧资源</li>
+            <li>🧩 部署在你的私人服务器上，完全掌控数据</li>
+            <li>🎞️ 搭配桌面端播放器 <a href="https://github.com/CoCoTeaNet/ElysianAnime-Viewer " target="_blank">ElysianAnime-Viewer</a>，享受内嵌 MPV 的高清播放体验</li>
+        </ul>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <h2>🛠 技术栈 & 运行环境</h2>
+        <ul>
+            <li>JDK 17+</li>
+            <li>MySQL 8.0+</li>
+            <li>Redis 支持</li>
+            <li>Node.js 14+</li>
+            <li>qBittorrent（推荐）</li>
+            <li>前端：Vue / React 可选</li>
+        </ul>
+    </div>
+</section>
+
+<section class="quick-start">
+    <div class="container">
+        <h2>🚀 快速开始</h2>
+        <ol>
+            <li><code>git clone https://github.com/CoCoTeaNet/ElysianAnime.git </code></li>
+            <li>运行数据库脚本初始化表结构</li>
+            <li>启动 Spring Boot 后端服务</li>
+            <li>安装前端依赖并运行：<br>
+                <code>npm install</code><br>
+                <code>npm run serve</code>
+            </li>
+            <li>访问：<a href="http://localhost:8086" target="_blank">http://localhost:8086</a>（默认账号：admin/admin123456）</li>
+        </ol>
+    </div>
+</section>
+
+<section class="contributing">
+    <div class="container">
+        <h2>🤝 贡献指南</h2>
+        <p>欢迎贡献代码、提交 Issue 或参与讨论！</p>
+        <p>GitHub 项目地址：<a href="https://github.com/CoCoTeaNet/ElysianAnime " target="_blank">https://github.com/CoCoTeaNet/ElysianAnime </a></p>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <p>❤️ 致谢所有贡献者与社区支持！如有问题欢迎提 issue 或加入交流群。</p>
+    </div>
+</footer>
+
+</body>
+</html>

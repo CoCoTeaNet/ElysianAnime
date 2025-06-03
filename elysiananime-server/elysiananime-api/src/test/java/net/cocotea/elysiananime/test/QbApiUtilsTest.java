@@ -3,7 +3,7 @@ package net.cocotea.elysiananime.test;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.system.SystemUtil;
-import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson2.JSONArray;
 import net.cocotea.elysiananime.api.anime.rss.model.QbInfo;
 import net.cocotea.elysiananime.util.QbApiUtils;
 import org.junit.Test;

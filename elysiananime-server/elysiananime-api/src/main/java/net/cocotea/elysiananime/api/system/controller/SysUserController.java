@@ -2,7 +2,7 @@ package net.cocotea.elysiananime.api.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import net.cocotea.elysiananime.api.system.model.dto.SysLoginUserUpdateDTO;
 import net.cocotea.elysiananime.api.system.model.dto.SysUserAddDTO;
 import net.cocotea.elysiananime.api.system.model.dto.SysUserPageDTO;

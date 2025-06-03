@@ -1,6 +1,6 @@
 package net.cocotea.elysiananime.api.anime.rss.model;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -30,6 +30,6 @@ public class QbInfo {
 
     @Override
     public String toString() {
-        return JSONObject.toJSONString(this);
+        return JSON.toJSONString(this);
     }
 }

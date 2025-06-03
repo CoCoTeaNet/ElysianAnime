@@ -5,7 +5,7 @@ import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusAddDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusHomeDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusPageDTO;

@@ -8,17 +8,15 @@ import cn.dev33.satoken.solon.integration.SaTokenInterceptor;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson2.JSONWriter;
 import org.noear.solon.annotation.Bean;
 import org.noear.solon.annotation.Configuration;
 import org.noear.solon.annotation.Inject;
-import org.noear.solon.serialization.fastjson.FastjsonActionExecutor;
-import org.noear.solon.serialization.fastjson.FastjsonRenderFactory;
+import org.noear.solon.serialization.fastjson2.Fastjson2ActionExecutor;
+import org.noear.solon.serialization.fastjson2.Fastjson2RenderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -64,22 +62,19 @@ public class WebMvcConfig {
     }
 
     @Bean
-    public void jsonInit(@Inject FastjsonRenderFactory factory, @Inject FastjsonActionExecutor executor){
-        // 解决前端精度问题
-        factory.addConvertor(BigInteger.class, String::valueOf);
-
+    public void jsonInit(@Inject Fastjson2RenderFactory factory, @Inject Fastjson2ActionExecutor executor){
         // 日期转换
         factory.addConvertor(Date.class, s -> DateUtil.format(s, DatePattern.NORM_DATETIME_PATTERN));
         factory.addConvertor(LocalDateTime.class, s -> DateUtil.format(s, DatePattern.NORM_DATETIME_PATTERN));
-        factory.addConvertor(Timestamp.class, s -> DateUtil.format(s, DatePattern.NORM_DATETIME_PATTERN));
 
         factory.addFeatures(
-                SerializerFeature.PrettyFormat,
-                SerializerFeature.WriteMapNullValue,
-                SerializerFeature.WriteNullNumberAsZero,
-                SerializerFeature.WriteNullStringAsEmpty
+                JSONWriter.Feature.PrettyFormat,
+                JSONWriter.Feature.WriteMapNullValue,
+                JSONWriter.Feature.WriteNullNumberAsZero,
+                JSONWriter.Feature.WriteNullStringAsEmpty,
+                JSONWriter.Feature.WriteBigDecimalAsPlain,
+                JSONWriter.Feature.BrowserCompatible
         );
-
     }
 
     /**
