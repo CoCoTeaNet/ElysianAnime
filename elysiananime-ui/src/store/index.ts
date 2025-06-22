@@ -122,6 +122,10 @@ export function setCollapseMenu() {
     store.state.isCollapseMenu = !store.state.isCollapseMenu;
 }
 
+export function updateCollapseMenu(flag: boolean) {
+    store.state.isCollapseMenu = flag;
+}
+
 /**
  * 设置胖屏状态
  */

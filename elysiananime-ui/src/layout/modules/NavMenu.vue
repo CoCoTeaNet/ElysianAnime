@@ -1,19 +1,17 @@
 <template>
-  <el-menu class="new-el-menu--sidebar"
-           :default-active="menuState.defaultActive"
-           :default-openeds="menuState.defaultOpened"
-           :collapse="store.state.isCollapseMenu"
-           :unique-opened="true">
+  <el-menu class="new-el-menu--sidebar" :default-active="menuState.defaultActive"
+    :default-openeds="menuState.defaultOpened" :collapse="store.state.isCollapseMenu" :unique-opened="true">
     <!-- 菜单渲染 -->
-    <child-menu :menu-list="store.state.userInfo.menuList"/>
+    <child-menu :menu-list="store.state.userInfo.menuList" />
   </el-menu>
 </template>
 
 <script setup lang="ts">
-import {useStore} from "@/store";
-import {useRoute} from "vue-router";
-import {computed} from "vue";
+import { useStore, updateCollapseMenu } from "@/store";
+import { useRoute } from "vue-router";
+import { computed } from "vue";
 import ChildMenu from "@/layout/modules/ChildMenu.vue";
+import { useWindowSize } from "@vueuse/core";
 
 const store = useStore();
 const route = useRoute();
@@ -22,9 +20,10 @@ const route = useRoute();
  * 根据路由路径动态设置当前菜单的状态
  */
 let menuState = computed(() => {
+  initMenu();
   const path = route.path;
   const routes = store.state.userInfo.menuList;
-  let state = {defaultOpened: [""], defaultActive: ""};
+  let state = { defaultOpened: [""], defaultActive: "" };
   if (routes) {
     let stack: Array<string> = [];
     for (let i in routes) {
@@ -64,6 +63,15 @@ const dfs = (root: MenuModel, path: string, stack: Array<string>) => {
         return;
       }
     }
+  }
+}
+
+const initMenu = () => {
+  let winSize = useWindowSize();
+  if (winSize.width.value <= 1200) {
+    updateCollapseMenu(true);
+  } else {
+    updateCollapseMenu(false);
   }
 }
 </script>
