@@ -181,9 +181,8 @@ import {ElForm} from "element-plus";
 import acgUserOpusTypes from "@/types/acg-user-opus-types";
 import userOpusApi, {updateProgress} from "@/api/anime/ani-user-opus-api";
 import rssApi from "@/api/anime/ani-rss-api";
-import {Grid, Star} from "@element-plus/icons-vue";
 import formatUtil from "@/utils/format-util";
-import {addTabItem, updateTabItem} from "@/store";
+import {addTabItem, updateTabItem, useStore} from "@/store";
 import sysUserApi from "@/api/system/sys-user-api.ts";
 
 const route = useRoute();
@@ -197,6 +196,7 @@ const editForm = ref<any>({});
 const epListNewStyle = ref<boolean>(true);
 const shareUrl = ref<string>('');
 const roleKeys = ref<string>([]);
+const store = useStore();
 
 const init = (toParams?: any, previousParams?: any) => {
   let isOpusChanged:boolean = true;
@@ -304,7 +304,14 @@ const loadData = (): void => {
   reqCommonFeedback(getOpusMedia(route.params.id), (data: any) => {
     createTabItem(data.nameCn);
 
-    shareUrl.value = window.location.href + '?nameCn=' + data.nameCn;
+
+    let baseUrl = window.location.href;
+    const origin = store.state.userInfo.origin;
+    if (origin) {
+      baseUrl = `${window.location.protocol}//${origin}/${window.location.hash}`
+    }
+
+    shareUrl.value = baseUrl + '?nameCn=' + data.nameCn;
     loading.value = false;
     videoInfo.value = data;
     mediaList.value = data.mediaList;
