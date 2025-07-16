@@ -205,7 +205,7 @@ public class SysUserServiceImpl implements SysUserService {
         menuList = new TreeBuilder<SysMenuVO>().get(menuList);
         sysLoginUser.setMenuList(Convert.toList(SysMenuTreeVO.class, menuList));
         // 用户基本信息
-        sysLoginUser
+        sysLoginUser.setOrigin(defaultProp.getWebUrl())
                 .setUsername(sysUser.getUsername())
                 .setNickname(sysUser.getNickname())
                 .setAvatar(sysUser.getAvatar())

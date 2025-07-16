@@ -25,6 +25,7 @@ export const store = createStore<State>({
             token: '',
             loginStatus: false,
             avatar: '',
+            origin: '',
             menuList: []
         },
         isCollapseMenu: false,
@@ -98,9 +99,9 @@ export function initTabItems() {
  * 设置用户信息
  * @param v 用户模型
  */
-export function setUserInfo(v: UserModel) {
-    store.state.userInfo = v;
-    localStorage.setItem("userInfo", JSON.stringify(v));
+export function setUserInfo(info: UserModel) {
+    store.state.userInfo = info;
+    localStorage.setItem("userInfo", JSON.stringify(info));
 }
 
 /**
@@ -120,6 +121,10 @@ export function updateUserInfo(v: UserModel) {
  */
 export function setCollapseMenu() {
     store.state.isCollapseMenu = !store.state.isCollapseMenu;
+}
+
+export function updateCollapseMenu(flag: boolean) {
+    store.state.isCollapseMenu = flag;
 }
 
 /**

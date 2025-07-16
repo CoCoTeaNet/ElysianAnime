@@ -35,4 +35,9 @@ public class SysLoginUserVO implements Serializable {
 
     private String token;
 
+    /**
+     * 溯源地址
+     */
+    private String origin;
+
 }

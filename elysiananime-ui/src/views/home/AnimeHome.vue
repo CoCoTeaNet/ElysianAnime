@@ -120,7 +120,7 @@ import {useRoute, useRouter} from "vue-router";
 import {ElMessage} from 'element-plus'
 import MultSelection from "@/views/home/modules/MultipleConditionsSearch.vue";
 import CardBox from "@/components/container/CardBox.vue";
-import formatUtil from "../../utils/format-util.ts";
+import formatUtil from "@/utils/format-util.ts";
 
 const route = useRoute();
 const router = useRouter();
