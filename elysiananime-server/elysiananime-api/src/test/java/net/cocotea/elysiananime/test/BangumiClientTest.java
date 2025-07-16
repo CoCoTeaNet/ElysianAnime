@@ -1,8 +1,8 @@
 package net.cocotea.elysiananime.test;
 
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson2.JSONObject;
 import net.cocotea.elysiananime.client.BangumiClient;
-import net.cocotea.elysiananime.client.result.calendar.CalendarResult;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.noear.solon.annotation.Import;
@@ -24,9 +24,15 @@ public class BangumiClientTest {
     BangumiClient bangumiClient;
 
     @Test
-    public void calendar() {
-        List<CalendarResult> calendar = bangumiClient.calendar();
+    public void calendarTest() {
+        List<JSONObject> calendar = bangumiClient.calendar();
         log.info(JSONUtil.toJsonStr(calendar));
+    }
+
+    @Test
+    public void subjectsTest() {
+        JSONObject subjects = bangumiClient.subjects("504054");
+        log.info(JSONUtil.toJsonStr(subjects));
     }
 
 }

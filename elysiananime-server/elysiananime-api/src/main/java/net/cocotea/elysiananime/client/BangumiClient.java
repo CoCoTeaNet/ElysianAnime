@@ -1,8 +1,9 @@
 package net.cocotea.elysiananime.client;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.dtflys.forest.annotation.ForestClient;
 import com.dtflys.forest.annotation.Get;
-import net.cocotea.elysiananime.client.result.calendar.CalendarResult;
+import com.dtflys.forest.annotation.Var;
 
 import java.util.List;
 
@@ -22,10 +23,16 @@ public interface BangumiClient {
 
     /**
      * 每日放送
-     *
-     * @return {@link CalendarResult}
      */
     @Get(BASE_URL + "/calendar")
-    List<CalendarResult> calendar();
+    List<JSONObject> calendar();
+
+    /**
+     * 获取条目
+     *
+     * @param subjectId 条目 ID
+     */
+    @Get(BASE_URL + "/v0/subjects/${subjectId}")
+    JSONObject subjects(@Var("subjectId") String subjectId);
 
 }
