@@ -1,13 +1,20 @@
 package net.cocotea.elysiananime.api.anime.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.lang.Opt;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.core.util.ObjUtil;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.dtflys.forest.Forest;
 import net.cocotea.elysiananime.api.anime.model.po.AniOpus;
 import net.cocotea.elysiananime.api.anime.model.po.AniTag;
 import net.cocotea.elysiananime.api.anime.service.AniSpiderService;
 import net.cocotea.elysiananime.api.anime.service.AniTagService;
+import net.cocotea.elysiananime.client.BangumiClient;
 import net.cocotea.elysiananime.common.constant.BgmDetailRuleConst;
 import net.cocotea.elysiananime.common.constant.CharConst;
 import net.cocotea.elysiananime.common.enums.IsEnum;
@@ -26,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +49,9 @@ public class AniSpiderServiceImpl implements AniSpiderService {
 
     @Inject
     private AniTagService aniTagService;
+
+    @Inject
+    private BangumiClient bangumiClient;
 
     final String treaty = "https:";
 
@@ -61,10 +72,12 @@ public class AniSpiderServiceImpl implements AniSpiderService {
         Map<String, Object> aniOpusMapDTO = MapUtil.newHashMap(1);
         aniOpusMapDTO.put("detailUrl", detailUrl);
         AniOpus existOpus = lightDao.findOne("ani_opus_findList", aniOpusMapDTO, AniOpus.class);
-        // 解析HTML
-        String html = Forest.get(bgmUrl).executeAsString();
-        List<AniTag> aniTagList = new ArrayList<>();
-        AniOpus aniOpus = doParseHtmlToAcgOpus(html, aniTagList);
+
+        String subjectId = CollectionUtil.getLast(Arrays.stream(split).toList());
+        JSONObject opusJSON = fetchOpusFromBangumi(subjectId);
+
+        List<AniTag> aniTagList = opusJSON.getList(AniTag.class.getName(), AniTag.class);
+        AniOpus aniOpus = opusJSON.getObject(AniOpus.class.getName(), AniOpus.class);
         aniOpus.setDetailInfoUrl(detailUrl);
         aniOpus.setRssStatus(RssStatusEnum.UNSUBSCRIBED.getCode());
         aniOpus.setRssLevelIndex(0);
@@ -95,6 +108,55 @@ public class AniSpiderServiceImpl implements AniSpiderService {
         return updateFlag;
     }
 
+    private JSONObject fetchOpusFromBangumi(String subjectId) throws BusinessException {
+        JSONObject subjects = bangumiClient.subjects(subjectId);
+        Assert.isFalse(subjects == null, () -> new BusinessException("未找到条目"));
+
+        AniOpus aniOpus = new AniOpus()
+                .setNameOriginal(subjects.getString("name"))// 原名称
+                .setNameCn(Opt.ofBlankAble(subjects.getString("name_cn")).orElseGet(() -> subjects.getString("name")))// 中文名称
+                .setEpisodes(subjects.getString("total_episodes")) // 话数
+                .setAniSummary(subjects.getString("summary")); // 简介
+
+        String infobox = subjects.getString("infobox");
+        for (Object json : JSON.parseArray(infobox)) {
+            JSONObject item = JSON.parseObject(JSON.toJSONString(json));
+            Object key = item.get("key");
+            Object value = item.get("value");
+            if (ObjUtil.equal("放送开始", key)) {
+                aniOpus.setLaunchStart(value.toString());
+            } else if (ObjUtil.equal("放送星期", key)) {
+                aniOpus.setDeliveryWeek(value.toString());
+            }
+        }
+
+        String tags = subjects.getString("tags");
+        List<AniTag> aniTags = new ArrayList<>();
+        for (Object json : JSON.parseArray(tags)) {
+            JSONObject item = JSON.parseObject(json.toString());
+            AniTag aniTag = new AniTag().setTagName(item.getString("name"));
+            aniTags.add(aniTag);
+        }
+
+        String coverUrl = subjects.getByPath("images.common").toString();
+        // 获取封面的文件名
+        String[] split = coverUrl.split("/");
+        String fileName = split[split.length - 1];
+        aniOpus.setCoverUrl(fileName);
+        // 封面保存目录
+        File file = FileUtil.file(fileProp.getAnimationCoverSavePath());
+        if (file.exists()) {
+            ThreadUtil.execAsync(() -> Forest.get(coverUrl).setDownloadFile(file.getPath(), fileName).execute());
+        } else {
+            logger.warn("fetchOpusFromBangumi >>>>> coverUrl={}, fileDir={}", coverUrl, file.getPath());
+        }
+
+        return new JSONObject()
+                .fluentPut(AniOpus.class.getName(), aniOpus)
+                .fluentPut(AniTag.class.getName(), aniTags);
+    }
+
+    @Deprecated
     private AniOpus doParseHtmlToAcgOpus(String html, List<AniTag> aniTagList) throws BusinessException {
         JXDocument document = JXDocument.create(html);
         AniOpus aniOpus = new AniOpus();

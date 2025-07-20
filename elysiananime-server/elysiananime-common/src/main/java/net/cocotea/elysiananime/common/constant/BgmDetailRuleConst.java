@@ -6,6 +6,7 @@ package net.cocotea.elysiananime.common.constant;
  * @author CoCoTea
  * @since v1
  */
+@Deprecated
 public class BgmDetailRuleConst {
 
     /**
