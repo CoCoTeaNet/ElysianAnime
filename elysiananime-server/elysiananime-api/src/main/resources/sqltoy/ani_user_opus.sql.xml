@@ -72,7 +72,6 @@
                      left join sys_user su on (su.id = auo.user_id)
                      left join ani_opus ao on (ao.id = auo.opus_id)
             where auo.is_share = :isShare
-            order by auo.id desc, auo.read_status desc, ao.id desc, ao.launch_start desc
             limit :limits
             ]]>
         </value>

@@ -1,10 +1,13 @@
 package net.cocotea.elysiananime.api.anime.service;
 
 import net.cocotea.elysiananime.api.anime.model.po.AniTag;
+import net.cocotea.elysiananime.api.anime.model.vo.AniOpusTagVO;
 import net.cocotea.elysiananime.common.model.BusinessException;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 标签服务接口
@@ -20,7 +23,9 @@ public interface AniTagService {
      * @param id 作品ID
      * @return 标签
      */
-    List<AniTag> findByOpusId(BigInteger id);
+    List<AniTag> findByOpusId(BigInteger opusId);
+
+    Map<BigInteger, List<AniOpusTagVO>> findByOpusIds(Set<BigInteger> opusIds);
 
     /**
      * 保存作品标签

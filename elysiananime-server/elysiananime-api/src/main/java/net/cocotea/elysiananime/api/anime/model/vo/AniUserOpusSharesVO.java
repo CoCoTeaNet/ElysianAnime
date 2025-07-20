@@ -59,7 +59,7 @@ public class AniUserOpusSharesVO {
     /**
      * 作品标签
      */
-    private List<AniTag> aniTagList;
+    private List<AniOpusTagVO> aniTagList;
 
     private String shareUser;
 
