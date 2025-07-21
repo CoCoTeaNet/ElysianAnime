@@ -61,8 +61,7 @@ public class AniSpiderServiceImpl implements AniSpiderService {
     @Override
     public boolean addAniOpusByBgmUrl(String bgmUrl, Integer isCover) throws BusinessException {
         // 判断校验URL是否正确
-        boolean startsWith = bgmUrl.startsWith("https://bgm.tv/subject/");
-        if (!startsWith) {
+        if (!(bgmUrl.startsWith("https://bgm.tv/subject/") || bgmUrl.startsWith("http://bgm.tv/subject/"))) {
             throw new BusinessException("错误的链接");
         }
         // 详细链接
