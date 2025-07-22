@@ -10,23 +10,23 @@
       </el-form-item>
       <el-form-item label="订阅状态:">
         <el-select placeholder="选择状态" style="width: 200px" v-model="pageParam.searchObject.rssStatus">
-          <el-option v-for="i in rssStatusList" :label="i.label" :value="i.value"/>
+          <el-option v-for="(item, index) in rssStatusList" :label="item.label" :value="item.value" :key="index" />
         </el-select>
       </el-form-item>
       <el-form-item label="是否有资源:">
         <el-select placeholder="选择状态" style="width: 200px" v-model="pageParam.searchObject.hasResource">
-          <el-option v-for="i in hasResourceList" :label="i.label" :value="i.value"/>
+          <el-option v-for="(item, index) in hasResourceList" :label="item.label" :value="item.value" :key="index" />
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button :icon="Search" type="primary" @click="loadTableData">搜索</el-button>
-        <el-button :icon="RefreshRight" @click="resetSearchForm">重置</el-button>
+        <el-button icon="Search" type="primary" @click="loadTableData">搜索</el-button>
+        <el-button icon="RefreshRight" @click="resetSearchForm">重置</el-button>
       </el-form-item>
     </template>
 
     <template #operate>
       <el-button type="primary" @click="addAcgOpusDialog = true">通过URL自动添加</el-button>
-      <el-button type="primary" :icon="Plus" @click="onAdd">添加作品</el-button>
+      <el-button type="primary" icon="Plus" @click="onAdd">添加作品</el-button>
     </template>
 
     <!-- 表格视图 -->
@@ -34,21 +34,17 @@
       <el-table stripe row-key="id" :data="pageVo.records" v-loading="loading">
         <el-table-column prop="coverUrl" width="155" label="封面地址">
           <template #default="scope">
-            <el-image style="width: 100px; height: 144px"
-                      :src="`api/anime/opus/cover?resName=${scope.row.coverUrl}`"
-                      fit="fill"/>
+            <el-image style="width: 100px; height: 144px" :src="`api/anime/opus/cover?resName=${scope.row.coverUrl}`"
+              fit="fill" />
           </template>
         </el-table-column>
-        <el-table-column width="300" prop="nameOriginal" label="原名"/>
-        <el-table-column width="300" prop="nameCn" label="中文名"/>
-        <el-table-column prop="detailInfoUrl" label="详细链接"/>
+        <el-table-column width="300" prop="nameOriginal" label="原名" />
+        <el-table-column width="300" prop="nameCn" label="中文名" />
+        <el-table-column prop="detailInfoUrl" label="详细链接" />
         <el-table-column width="100" prop="hasResource" label="是否有资源">
           <template #default="scope">
-            <el-switch :model-value="scope.row.hasResource"
-                       :active-value="1"
-                       :inactive-value="0"
-                       @change="updateHasResource(scope.row.id, scope.row.hasResource)"
-            />
+            <el-switch :model-value="scope.row.hasResource" :active-value="1" :inactive-value="0"
+              @change="updateHasResource(scope.row.id, scope.row.hasResource)" />
           </template>
         </el-table-column>
         <el-table-column width="100" prop="rssStatus" label="RSS状态">
@@ -63,19 +59,19 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column width="200" prop="createTime" label="创建时间"/>
-        <el-table-column prop="createByName" label="创建人"/>
-        <el-table-column width="200" prop="updateTime" label="更新时间"/>
-        <el-table-column prop="updateByName" label="更新人"/>
+        <el-table-column width="200" prop="createTime" label="创建时间" />
+        <el-table-column prop="createByName" label="创建人" />
+        <el-table-column width="200" prop="updateTime" label="更新时间" />
+        <el-table-column prop="updateByName" label="更新人" />
         <!-- 单行操作 -->
         <el-table-column fixed="right" width="400" label="操作">
           <template #default="scope">
-            <el-button size="small" :icon="Upload" @click="onUploadRes(scope.row)">上传资源</el-button>
-            <el-button size="small" :icon="Edit" @click="onEdit(scope.row)">编辑</el-button>
-            <el-button size="small" type="primary" :icon="VideoCamera" @click="onRssEdit(scope.row)">
+            <el-button size="small" icon="Upload" @click="onUploadRes(scope.row)">上传资源</el-button>
+            <el-button size="small" icon="Edit" @click="onEdit(scope.row)">编辑</el-button>
+            <el-button size="small" type="primary" icon="VideoCamera" @click="onRssEdit(scope.row)">
               RSS订阅
             </el-button>
-            <el-button size="small" plain type="danger" :icon="DeleteFilled" @click="onRemove(scope.row)">
+            <el-button size="small" plain type="danger" icon="DeleteFilled" @click="onRemove(scope.row)">
               删除
             </el-button>
           </template>
@@ -84,14 +80,13 @@
     </template>
 
     <template #page>
-      <el-pagination background layout="total, sizes, prev, pager, next, jumper"
-                     :total="pageVo.total" :page-size="pageVo.pageSize" :page-sizes=[5,10,15]
-                     @current-change="onPageChange" @size-change="onSizeChange"/>
+      <el-pagination background layout="total, sizes, prev, pager, next, jumper" :total="pageVo.total"
+        :page-size="pageVo.pageSize" :page-sizes=[5,10,15] @current-change="onPageChange" @size-change="onSizeChange" />
     </template>
 
     <!-- 编辑对话框 -->
     <template #form>
-      <el-dialog v-model="dialogFormVisible" :title="editForm.id? '编辑' : '添加'">
+      <el-dialog v-model="dialogFormVisible" :title="editForm.id ? '编辑' : '添加'">
         <el-form ref="sttFormRef" label-width="150px" :model="editForm" :rules="rules">
           <!-- 普通属性 -->
           <el-form-item prop="nameCn" label="中文名">
@@ -123,8 +118,10 @@
             <el-scrollbar max-height="640px">
               <el-radio-group v-model="mkXmlItemSelectedIndex" @change="onMkXmlItemSelectedIndexChange">
                 <el-space direction="vertical" alignment="normal">
-                  <el-radio v-for="(item,index) in mkXmlDetail.itemList" :value="index" border>
-                    <el-text v-html="item.titleHtml"></el-text>
+                  <el-radio v-for="(item, index) in mkXmlDetail.itemList" :value="index" :key="index" border>
+                    <el-text>
+                      <div v-html="item.titleHtml"></div>
+                    </el-text>
                   </el-radio>
                 </el-space>
               </el-radio-group>
@@ -141,13 +138,10 @@
                 <el-form-item prop="rssLevelIndex" label="集数出现的位置">
                   <el-space>
                     <el-input-number :min="0" v-model="rssForm.rssLevelIndex"></el-input-number>
-                    <el-select v-model="rssForm.rssLevelIndex" placeholder="选择位置" style="width: 240px" @change="loadRenames">
-                      <el-option
-                          v-for="(item,index) in mkXmlDetail.episodeIndexList?.[mkXmlItemSelectedIndex]"
-                          :key="index"
-                          :label="`位置：${index}，  索引：${item}`"
-                          :value="index"
-                      />
+                    <el-select v-model="rssForm.rssLevelIndex" placeholder="选择位置" style="width: 240px"
+                      @change="loadRenames">
+                      <el-option v-for="(item, index) in mkXmlDetail.episodeIndexList?.[mkXmlItemSelectedIndex]"
+                        :key="index" :label="`位置：${index}，  索引：${item}`" :value="index" />
                     </el-select>
                   </el-space>
                 </el-form-item>
@@ -157,25 +151,18 @@
                 <el-form-item prop="rssOnlyMark" label="匹配的唯一标识">
                   <el-space>
                     <el-input v-model="rssForm.rssOnlyMark" @change="loadRenames"></el-input>
-                    <el-select v-model="rssForm.rssOnlyMark" placeholder="选择唯一标识" style="width: 160px" @change="loadRenames">
-                      <el-option
-                          v-for="(item,index) in mkXmlDetail.titleFragmentList?.[mkXmlItemSelectedIndex]"
-                          :key="index"
-                          :label="item"
-                          :value="item"/>
+                    <el-select v-model="rssForm.rssOnlyMark" placeholder="选择唯一标识" style="width: 160px"
+                      @change="loadRenames">
+                      <el-option v-for="(item, index) in mkXmlDetail.titleFragmentList?.[mkXmlItemSelectedIndex]"
+                        :key="index" :label="item" :value="item" />
                     </el-select>
                   </el-space>
                 </el-form-item>
                 <el-form-item label="排除的资源标识">
                   <el-space>
-                    <el-select v-model="rssExcludeResArr" @change="loadRenames" placeholder="选择排除的标识" allow-create filterable clearable
-                               multiple style="width: 160px">
-                      <el-option
-                          v-for="(item,index) in myExclusions"
-                          :key="index"
-                          :label="item"
-                          :value="item"
-                      />
+                    <el-select v-model="rssExcludeResArr" @change="loadRenames" placeholder="选择排除的标识" allow-create
+                      filterable clearable multiple style="width: 160px">
+                      <el-option v-for="(item, index) in myExclusions" :key="index" :label="item" :value="item" />
                     </el-select>
                   </el-space>
                 </el-form-item>
@@ -190,8 +177,8 @@
 
             <el-card v-if="mkXmlParsed" shadow="never" style="margin-top: 1em;">
               <el-scrollbar max-height="240px">
-                <el-text line-clamp="1" :truncated="false" v-for="item in filenamesPreview">
-                  {{item.rename}} --> {{item.title}}<br>
+                <el-text line-clamp="1" :truncated="false" v-for="(item, index) in filenamesPreview" :key="index">
+                  {{ item.rename }} --> {{ item.title }}<br>
                 </el-text>
               </el-scrollbar>
             </el-card>
@@ -200,18 +187,17 @@
 
         <!--快速链接-->
         <el-row justify="center">
-          <el-link :href="`https://mikanime.tv/Home/Search?searchstr=${rssForm.nameCn}`"
-                   :icon="Right"
-                   type="warning"
-                   target="_blank">
+          <el-link :href="`https://mikanime.tv/Home/Search?searchstr=${rssForm.nameCn}`" icon="Right" type="warning"
+            target="_blank">
             前往蜜柑获取RSS链接
           </el-link>
         </el-row>
         <template #footer>
           <span class="dialog-footer">
+            <el-button @click="onShareRSS(rssForm)">导入 / 导出</el-button>
             <el-button @click="doParseMkXml(sttRssFormRef)" :loading="mkXmlParseLoading">资源解析</el-button>
-            <el-button @click="enableRss = false">取消</el-button>
-            <el-button type="primary" @click="doRssUpdate(sttRssFormRef)">确认</el-button>
+            <el-button @click="enableRss = false">取 消</el-button>
+            <el-button type="primary" @click="doRssUpdate(sttRssFormRef)">确 认</el-button>
           </span>
         </template>
       </el-dialog>
@@ -220,28 +206,36 @@
       <el-dialog v-model="addAcgOpusDialog">
         <el-form>
           <el-form-item label="Bangumi番剧详细链接：">
-            <el-input v-model="bgmUrl" placeholder="https://bgm.tv/subject/389772"/>
+            <el-input v-model="bgmUrl" placeholder="https://bgm.tv/subject/389772" />
             <el-link type="primary" href="https://bgm.tv" target="_blank">在Bangumi检索</el-link>
           </el-form-item>
         </el-form>
         <template #footer>
-            <span class="dialog-footer">
-              <el-button @click="closeAddAcgOpusDialog">取 消</el-button>
-              <el-button :loading="addAcgOpusLoading" type="warning" @click="onAddAcgOpus(1)">重 刷</el-button>
-              <el-button :loading="addAcgOpusLoading" type="primary" @click="onAddAcgOpus(0)">新 增</el-button>
-            </span>
+          <span class="dialog-footer">
+            <el-button @click="closeAddAcgOpusDialog">取 消</el-button>
+            <el-button :loading="addAcgOpusLoading" type="warning" @click="onAddAcgOpus(1)">重 刷</el-button>
+            <el-button :loading="addAcgOpusLoading" type="primary" @click="onAddAcgOpus(0)">新 增</el-button>
+          </span>
+        </template>
+      </el-dialog>
+
+      <el-dialog v-model="showShareRSSConfig" :title="`RSS配置分享 —— ${rssForm.nameCn}`">
+        <el-form>
+          <el-form-item label="配置JSON">
+            <el-input type="textarea" v-model="shareRSSConfig" autosize />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="showShareRSSConfig = false">取 消</el-button>
+            <el-button type="primary" @click="onImportShareRSS">导 入</el-button>
+          </span>
         </template>
       </el-dialog>
 
       <!--上传资源-->
       <el-dialog v-model="uploadResDialog" :title="`${currentRow.nameCn} - 资源上传`">
-        <el-upload
-            v-model:file-list="fileList"
-            :action="uploadUrl"
-            multiple
-            :limit="24"
-            :on-exceed="handleExceed"
-        >
+        <el-upload v-model:file-list="fileList" :action="uploadUrl" multiple :limit="24" :on-exceed="handleExceed">
           <el-button type="primary">点击上传</el-button>
           <template #tip>
             <div class="el-upload__tip">
@@ -255,32 +249,31 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, reactive, nextTick} from "vue";
-import {add, deleteBatch, update, listByPage, addAcgOpusByBgmUrl} from "@/api/anime/ani-opus-api";
-import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
+import { onMounted, ref, reactive, nextTick } from "vue";
+import { add, deleteBatch, update, listByPage, addAcgOpusByBgmUrl } from "@/api/anime/ani-opus-api";
+import { reqCommonFeedback, reqSuccessFeedback } from "@/api/ApiFeedback";
 import TableManage from "@/components/container/TableManage.vue";
-import {ElForm} from "element-plus/es";
-import {ElMessage, ElMessageBox, UploadProps, UploadUserFile} from "element-plus";
-import {DeleteFilled, Edit, Plus, Search, RefreshRight, VideoCamera, Upload, Right} from "@element-plus/icons-vue";
-import {rssSubscribe, closeSubscribe, getMkXmlDetail, getRenames, defaultExclusions} from "@/api/anime/ani-rss-api";
-import {ApiResultEnum} from "@/api/ApiResultEnum";
+import { ElForm } from "element-plus/es";
+import { ElMessage, ElMessageBox, UploadProps, UploadUserFile } from "element-plus";
+import { rssSubscribe, closeSubscribe, getMkXmlDetail, getRenames, defaultExclusions } from "@/api/anime/ani-rss-api";
+import { ApiResultEnum } from "@/api/ApiResultEnum";
 
 type FormInstance = InstanceType<typeof ElForm>
 const sttFormRef = ref<FormInstance>();
 const sttRssFormRef = ref<FormInstance>();
 const rssStatusList = ref<any>([
-  {label: '未订阅', value: 0},
-  {label: '订阅中', value: 1},
-  {label: '订阅完成', value: 2}
+  { label: '未订阅', value: 0 },
+  { label: '订阅中', value: 1 },
+  { label: '订阅完成', value: 2 }
 ]);
 const hasResourceList = ref<any>([
-  {label: '否', value: 0},
-  {label: '是', value: 1}
+  { label: '否', value: 0 },
+  { label: '是', value: 1 }
 ]);
 
 // 是否开启订阅
 const enableRss = ref<boolean>(false);
-const pageParam = ref<PageParam>({pageNo: 1, pageSize: 10, searchObject: {}});
+const pageParam = ref<PageParam>({ pageNo: 1, pageSize: 10, searchObject: {} });
 // 表单参数
 const editForm = ref<AniOpusModel>({});
 // 表单参数
@@ -289,24 +282,24 @@ const rssForm = ref<AniOpusModel>({});
 const loading = ref<boolean>(true);
 // 表单校验规则
 const rules = reactive({
-  nameCn: [{required: true, min: 1, max: 100, message: '字数1~100', trigger: 'blur'}],
-  nameOriginal: [{required: true, min: 1, max: 100, message: '字数1~100', trigger: 'blur'}],
-  detailInfoUrl: [{required: true, min: 2, max: 200, message: '字数2~200', trigger: 'blur'}],
-  coverUrl: [{required: true, min: 5, max: 200, message: '字数5~200', trigger: 'blur'}],
-  rssUrl: [{required: true, trigger: 'blur'}],
-  rssLevelIndex: [{required: true, trigger: 'blur'}],
-  rssFileType: [{required: true, trigger: 'blur'}],
-  rssOnlyMark: [{required: true, trigger: 'blur'}],
+  nameCn: [{ required: true, min: 1, max: 100, message: '字数1~100', trigger: 'blur' }],
+  nameOriginal: [{ required: true, min: 1, max: 100, message: '字数1~100', trigger: 'blur' }],
+  detailInfoUrl: [{ required: true, min: 2, max: 200, message: '字数2~200', trigger: 'blur' }],
+  coverUrl: [{ required: true, min: 5, max: 200, message: '字数5~200', trigger: 'blur' }],
+  rssUrl: [{ required: true, trigger: 'blur' }],
+  rssLevelIndex: [{ required: true, trigger: 'blur' }],
+  rssFileType: [{ required: true, trigger: 'blur' }],
+  rssOnlyMark: [{ required: true, trigger: 'blur' }],
 });
 // rss订阅校验规则
 const rssRules = reactive({
-  rssUrl: [{required: true, trigger: 'blur'}],
-  rssLevelIndex: [{required: true, trigger: 'blur'}],
-  rssFileType: [{required: true, trigger: 'blur'}],
-  rssOnlyMark: [{required: true, trigger: 'blur'}],
+  rssUrl: [{ required: true, trigger: 'blur' }],
+  rssLevelIndex: [{ required: true, trigger: 'blur' }],
+  rssFileType: [{ required: true, trigger: 'blur' }],
+  rssOnlyMark: [{ required: true, trigger: 'blur' }],
 });
 const dialogFormVisible = ref<boolean>(false);
-const pageVo = ref<PageVO>({pageNo: 1, pageSize: 10, total: 0, records: []});
+const pageVo = ref<PageVO>({ pageNo: 1, pageSize: 10, total: 0, records: [] });
 // url抓取番剧信息
 const addAcgOpusDialog = ref<boolean>(false);
 const addAcgOpusLoading = ref<boolean>(false);
@@ -328,6 +321,9 @@ const myExclusions = ref<string[]>([]);
 const rssOverride = ref<number>(0);
 // 重命名结果集预览
 const filenamesPreview = ref<any>([]);
+// 是否展示导入导出对话框
+const showShareRSSConfig = ref<boolean>(false);
+const shareRSSConfig = ref<string>('');
 
 // 初始化数据
 onMounted(() => {
@@ -367,10 +363,10 @@ const onAdd = () => {
 
 const onRemove = (row: AniOpusModel): void => {
   ElMessageBox.confirm('确认删除改行数据?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }
   ).then(() => {
     reqSuccessFeedback(deleteBatch([row.id]), '删除成功', () => {
       loadTableData();
@@ -484,12 +480,12 @@ const closeAddAcgOpusDialog = () => {
 
 const onAddAcgOpus = (isCover: number) => {
   addAcgOpusLoading.value = true;
-  addAcgOpusByBgmUrl({bgmUrl: bgmUrl.value, isCover: isCover}).then((data) => {
+  addAcgOpusByBgmUrl({ bgmUrl: bgmUrl.value, isCover: isCover }).then((data) => {
     if (data.code === 200) {
-      ElMessage.success({message: '提交成功'});
+      ElMessage.success({ message: '提交成功' });
       loadTableData();
     } else {
-      ElMessage.error({message: data.message});
+      ElMessage.error({ message: data.message });
     }
   }).catch((err) => {
     console.log(err);
@@ -502,9 +498,8 @@ const fileList = ref<UploadUserFile[]>([]);
 
 const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
   ElMessage.warning(
-      `The limit is 24, you selected ${files.length} files this time, add up to ${
-          files.length + uploadFiles.length
-      } totally`
+    `The limit is 24, you selected ${files.length} files this time, add up to ${files.length + uploadFiles.length
+    } totally`
   )
 }
 
@@ -571,10 +566,39 @@ const onMkXmlItemSelectedIndexChange = () => {
 }
 
 const loadDefaultExclusions = () => {
-  reqCommonFeedback(defaultExclusions(), (res:any) => {
+  reqCommonFeedback(defaultExclusions(), (res: any) => {
     myExclusions.value = res;
     rssExcludeResArr.value = res;
   });
+}
+
+const onShareRSS = (rssForm: any) => {
+  showShareRSSConfig.value = true;
+  shareRSSConfig.value = JSON.stringify({
+    "rssUrl": rssForm.rssUrl,
+    "rssExcludeRes": rssForm.rssExcludeRes,
+    "rssFileType": rssForm.rssFileType,
+    "rssLevelIndex": rssForm.rssLevelIndex,
+    "rssOnlyMark": rssForm.rssOnlyMark,
+    "rssStatus": rssForm.rssStatus,
+  }, null, '\t');
+}
+
+const onImportShareRSS = () => {
+  if (shareRSSConfig.value == null) {
+    return;
+  }
+  let cloneObj = Object.assign(rssForm.value, JSON.parse(shareRSSConfig.value));
+  rssForm.value = cloneObj;
+  
+  let split = cloneObj.rssExcludeRes?.split(',');
+  if (split && split[0] != '' && split.length > 0) {
+    rssExcludeResArr.value = split;
+  } else {
+    rssExcludeResArr.value = [];
+  }
+
+  showShareRSSConfig.value = false;
 }
 </script>
 

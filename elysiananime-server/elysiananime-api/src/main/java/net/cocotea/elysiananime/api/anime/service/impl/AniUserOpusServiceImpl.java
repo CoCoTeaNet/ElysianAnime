@@ -3,12 +3,14 @@ package net.cocotea.elysiananime.api.anime.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ObjUtil;
 import net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusAddDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusPageDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusUpdateDTO;
 import net.cocotea.elysiananime.api.anime.model.po.AniOpus;
 import net.cocotea.elysiananime.api.anime.model.po.AniTag;
 import net.cocotea.elysiananime.api.anime.model.po.AniUserOpus;
+import net.cocotea.elysiananime.api.anime.model.vo.AniOpusTagVO;
 import net.cocotea.elysiananime.api.anime.model.vo.AniUserOpusSharesVO;
 import net.cocotea.elysiananime.api.anime.model.vo.AniUserOpusVO;
 import net.cocotea.elysiananime.api.anime.service.AniOpusService;
@@ -30,10 +32,7 @@ import org.sagacity.sqltoy.model.Page;
 import org.sagacity.sqltoy.solon.annotation.Db;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -215,11 +214,18 @@ public class AniUserOpusServiceImpl implements AniUserOpusService {
             sharesVO.setShareUserList(userList);
             shares.add(sharesVO);
         }
+
+        // 获取作品的标签
+        Map<BigInteger, List<AniOpusTagVO>> tagMap = aniTagService.findByOpusIds(opusIdMap.keySet());
         for (AniUserOpusSharesVO share : shares) {
-            // 查找标签
-            List<AniTag> tagList = aniTagService.findByOpusId(share.getOpusId());
-            share.setAniTagList(tagList);
+            List<AniOpusTagVO> tagVOList = tagMap.get(share.getOpusId());
+            if (ObjUtil.isEmpty(tagVOList)) {
+                share.setAniTagList(Collections.emptyList());
+                continue;
+            }
+            share.setAniTagList(tagVOList);
         }
+
         return shares;
     }
 

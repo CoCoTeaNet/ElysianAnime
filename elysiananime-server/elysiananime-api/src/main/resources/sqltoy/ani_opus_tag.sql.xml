@@ -15,4 +15,20 @@
         </value>
     </sql>
 
+    <sql id="ani_opus_tag_findListByOpusIds">
+        <value>
+            <![CDATA[
+            select
+                a.opus_id ,
+                b.tag_name
+            from
+                ani_opus_tag a
+            inner join ani_tag b on
+                (a.tag_id = b.id )
+            where
+                a.opus_id in (:opusIds)
+            ]]>
+        </value>
+    </sql>
+
 </sqltoy>
