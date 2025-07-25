@@ -26,12 +26,18 @@
 
     <template #operate>
       <el-button type="primary" @click="addAcgOpusDialog = true">通过URL自动添加</el-button>
+      <el-button type="primary" @click="onClickShareBatchImport">批量导出 / 导入</el-button>
       <el-button type="primary" icon="Plus" @click="onAdd">添加作品</el-button>
     </template>
 
     <!-- 表格视图 -->
     <template #default>
-      <el-table stripe row-key="id" :data="pageVo.records" v-loading="loading">
+      
+      <el-table @selection-change="onSelectionChange" stripe row-key="id" :data="pageVo.records" v-loading="loading">
+        <el-table-column
+          type="selection"
+          width="55">
+        </el-table-column>
         <el-table-column prop="coverUrl" width="155" label="封面地址">
           <template #default="scope">
             <el-image style="width: 100px; height: 144px" :src="`api/anime/opus/cover?resName=${scope.row.coverUrl}`"
@@ -218,6 +224,27 @@
           </span>
         </template>
       </el-dialog>
+      <!-- 导入链接 -->
+      <el-dialog v-model="showShareBatchImport" :title="`批量导出 / 导入`">
+        <el-dialog
+          width="30%"
+          title="导入失败列表"
+          :visible.sync="showInnerShareBatchImport"
+          append-to-body>
+          <el-input type="textarea"  v-model="innerShareBatchImportErrText" :autosize="{ minRows: 16, maxRows: 64}" />
+        </el-dialog>
+        <el-form>
+          <el-form-item label="分享链接">
+            <el-input type="textarea" v-model="shareBatchImport" :autosize="{ minRows: 16, maxRows: 64}" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="showShareBatchImport = false">取 消</el-button>
+            <el-button type="primary" @click="onImportShareBatch">导 入</el-button>
+          </span>
+        </template>
+      </el-dialog>
 
       <el-dialog v-model="showShareRSSConfig" :title="`RSS配置分享 —— ${rssForm.nameCn}`">
         <el-form>
@@ -309,6 +336,7 @@ const uploadResDialog = ref<boolean>(false);
 const uploadUrl = ref<string>('');
 // 选中弹窗项
 const currentRow = ref<AniOpusModel>({});
+const multipleSelection = ref<AniOpusModel[]>([]);
 // RSS资源详细
 const mkXmlDetail = ref<MkXmlDetailModel>({});
 const mkXmlParseLoading = ref<boolean>(false);
@@ -324,6 +352,10 @@ const filenamesPreview = ref<any>([]);
 // 是否展示导入导出对话框
 const showShareRSSConfig = ref<boolean>(false);
 const shareRSSConfig = ref<string>('');
+const showShareBatchImport = ref<boolean>(false);
+const showInnerShareBatchImport = ref<boolean>(false);
+const shareBatchImport = ref<string>('');
+const innerShareBatchImportErrText = ref<string>('');
 
 // 初始化数据
 onMounted(() => {
@@ -372,6 +404,10 @@ const onRemove = (row: AniOpusModel): void => {
       loadTableData();
     });
   });
+}
+
+const onSelectionChange = (val: AniOpusModel[]) => {
+  multipleSelection.value = val;
 }
 
 const loadTableData = (): void => {
@@ -599,6 +635,75 @@ const onImportShareRSS = () => {
   }
 
   showShareRSSConfig.value = false;
+}
+
+const onClickShareBatchImport = () => {
+  showShareBatchImport.value = true;
+  if (multipleSelection.value.length !== 0) {
+    shareBatchImport.value = multipleSelection.value.map(item => { 
+      let json = JSON.stringify({
+        id: item.id,
+        bgmUrl: item.detailInfoUrl, 
+        rssUrl: item.rssUrl,
+        rssExcludeRes: item.rssExcludeRes,
+        rssFileType: item.rssFileType,
+        rssLevelIndex: item.rssLevelIndex,
+        rssOnlyMark: item.rssOnlyMark,
+        rssStatus: item.rssStatus, 
+      }, (_key, value) => { return typeof value === 'string' ?  encodeURI(value) : value })
+      console.log(json);
+      return item.nameCn + "-" + btoa(json)
+    }).join('\n');
+  } else {
+    // 显示警告信息，提示用户选择要导出的行
+    ElMessage.warning('如需导出，请选择要导出的行');
+    return;
+  }
+}
+
+const onImportShareBatch = async () => {
+  if (shareBatchImport.value == null) {
+    return;
+  }
+  // 解密然后解析
+  let arr = shareBatchImport.value.split('\n');
+  let errorList = []
+  let decodeArr = arr.map(item => { 
+    if (typeof item === 'string' && item.lastIndexOf('-') > 0) {
+       let sliced = item.slice(item.lastIndexOf('-') + 1)
+       return atob(sliced)
+    }
+    return atob(item)
+  });
+  for (const item of decodeArr) { 
+    if (item == '') { 
+      continue;
+    }
+    let shareItem = JSON.parse(item, (_key, value) => { return typeof value === 'string'?  decodeURI(value) : value });
+        console.log(shareItem);
+    try {
+        // debugger
+        // 等待 doRssUpdate 请求完成
+        // 等待 addAcgOpusByBgmUrl 请求完成
+        const data = await addAcgOpusByBgmUrl({ bgmUrl: 'https://bgm.tv' + shareItem.bgmUrl, isCover: false }); 
+        if  (data.code !== 200 && data.message !== '作品已经存在') { 
+          ElMessage.error({ message: data.message }); 
+        }
+        await rssSubscribe(shareItem); 
+    } catch (err) { 
+      ElMessage.error({ message: shareItem.nameCn + '导入失败' }); 
+      errorList.push({nameCn: shareItem.nameCn, content: item, err: err});
+    }
+  }
+  if (errorList.length > 0) {
+    ElMessage.error({ message: '部分导入失败' });
+    showInnerShareBatchImport.value = true;
+    innerShareBatchImportErrText.value = errorList.map(item => { return item.nameCn + "-" + btoa(item.content) }).join('\n');
+  } else {
+    ElMessage.success({ message: '导入成功' });
+  }
+  loadTableData();
+  showShareBatchImport.value = false;
 }
 </script>
 
