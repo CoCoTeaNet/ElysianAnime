@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -105,6 +106,52 @@ public class AniSpiderServiceImpl implements AniSpiderService {
         // 标签关联
         aniTagService.saveTagOfOpus(aniTagList, aniOpus.getId());
         return updateFlag;
+    }
+
+    @Override
+    public BigInteger addOpusFromBangumi(String bgmUrl, Integer isCover) throws BusinessException {
+        // 判断校验URL是否正确
+        if (!(bgmUrl.startsWith("https://bgm.tv/subject/") || bgmUrl.startsWith("http://bgm.tv/subject/"))) {
+            throw new BusinessException("错误的链接");
+        }
+        // 详细链接
+        String[] split = bgmUrl.split(CharConst.LEFT_LINE);
+        String detailUrl = CharConst.LEFT_LINE + split[split.length - 2] + CharConst.LEFT_LINE + split[split.length - 1];
+        // 已存在的作品
+        Map<String, Object> aniOpusMapDTO = MapUtil.newHashMap(1);
+        aniOpusMapDTO.put("detailUrl", detailUrl);
+        AniOpus existOpus = lightDao.findOne("ani_opus_findList", aniOpusMapDTO, AniOpus.class);
+
+        String subjectId = CollectionUtil.getLast(Arrays.stream(split).toList());
+        JSONObject opusJSON = fetchOpusFromBangumi(subjectId);
+
+        List<AniTag> aniTagList = opusJSON.getList(AniTag.class.getName(), AniTag.class);
+        AniOpus aniOpus = opusJSON.getObject(AniOpus.class.getName(), AniOpus.class);
+        aniOpus.setDetailInfoUrl(detailUrl);
+        aniOpus.setRssStatus(RssStatusEnum.UNSUBSCRIBED.getCode());
+        aniOpus.setRssLevelIndex(0);
+        // 更新类型
+        boolean isCoverFlag = (isCover != null && isCover == IsEnum.Y.getCode().intValue());
+        logger.debug("addOpusFromBangumi >>> isCoverFlag: {}", isCoverFlag);
+        if (isCoverFlag) {
+            // 覆盖更新
+            if (existOpus == null) {
+                throw new BusinessException("作品不存在");
+            }
+            aniOpus.setId(existOpus.getId());
+            lightDao.update(aniOpus);
+        } else {
+            if (existOpus != null) {
+                throw new BusinessException("作品已经存在");
+            }
+            // 新增才默认无资源
+            aniOpus.setHasResource(IsEnum.N.getCode());
+            // 新增保存
+            lightDao.save(aniOpus);
+        }
+        // 标签关联
+        aniTagService.saveTagOfOpus(aniTagList, aniOpus.getId());
+        return aniOpus.getId();
     }
 
     private JSONObject fetchOpusFromBangumi(String subjectId) throws BusinessException {
