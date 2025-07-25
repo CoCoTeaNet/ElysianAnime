@@ -72,7 +72,7 @@
         <!-- 单行操作 -->
         <el-table-column fixed="right" width="400" label="操作">
           <template #default="scope">
-            <el-button size="small" icon="Upload" @click="onUploadRes(scope.row)">上传资源</el-button>
+            <!-- <el-button size="small" icon="Upload" @click="onUploadRes(scope.row)">上传资源</el-button> -->
             <el-button size="small" icon="Edit" @click="onEdit(scope.row)">编辑</el-button>
             <el-button size="small" type="primary" icon="VideoCamera" @click="onRssEdit(scope.row)">
               RSS订阅
