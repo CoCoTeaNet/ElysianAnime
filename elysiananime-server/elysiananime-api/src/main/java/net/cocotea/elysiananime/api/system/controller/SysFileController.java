@@ -1,7 +1,9 @@
 package net.cocotea.elysiananime.api.system.controller;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.CharPool;
+import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.ContentType;
@@ -30,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -213,19 +216,16 @@ public class SysFileController {
     }
 
     private void filter(UploadedFile uploadedFile) throws BusinessException {
-        if (uploadedFile != null) {
-            String extension = uploadedFile.getExtension();
-            if (StrUtil.isBlank(extension)) {
-                throw new BusinessException("未知文件格式");
-            } else {
-                boolean flag = fileProp.getNotSupportFiletype().contains(extension);
-                if (flag) {
-                    throw new BusinessException("该文件格式不支持上传");
-                }
-            }
-        } else {
-            throw new BusinessException("文件名为空");
-        }
+        Assert.isFalse(uploadedFile == null, () -> new BusinessException("文件名为空"));
+
+        String extension = uploadedFile.getExtension();
+        Assert.isFalse(StrUtil.isBlank(extension), () -> new BusinessException("未知文件格式"));
+
+        boolean supportFlag = Arrays
+                .stream(fileProp.getSupportFiletype().split(StrPool.COMMA))
+                .toList()
+                .contains(extension);
+        Assert.isTrue(supportFlag, () -> new BusinessException("该文件格式不支持上传"));
     }
 
 }

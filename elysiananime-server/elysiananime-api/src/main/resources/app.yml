@@ -34,8 +34,8 @@ sra-admin:
     default-path: F:/Files/default/
     # 头像保存位置
     avatar: F:/Files/avatar/
-    # 禁止上传的文件
-    not-support-filetype: js,html,htm,shtml,php,css,java,sh,bat,xml
+    # 支持上传的文件格式
+    support-filetype: pdf,doc,docx,ppt,txt,md,xlsx,xlx,jpg,png
     # 媒体格式
     media-filetype: mp4,avi,mpg,mpeg,wmv,flv,swf,mov,mkv
 

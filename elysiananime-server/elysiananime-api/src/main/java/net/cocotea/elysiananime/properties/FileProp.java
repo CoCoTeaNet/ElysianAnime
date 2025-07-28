@@ -27,10 +27,10 @@ public class FileProp {
     private String avatarPath;
 
     /**
-     * 不支持上传的文件
+     * 支持上传的文件格式
      */
-    @Inject("${sra-admin.file.not-support-filetype}")
-    private String notSupportFiletype;
+    @Inject("${sra-admin.file.support-filetype}")
+    private String supportFiletype;
 
     /**
      * 媒体格式
