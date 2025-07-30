@@ -31,5 +31,5 @@ jobs:
       run: mvn -B package --file elysiananime-server/pom.xml
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
-    - name: Update dependency graph
-      uses: actions/upload-dependency-graph@v1
+    # - name: Update dependency graph
+    #   uses: actions/upload-dependency-graph@v1
