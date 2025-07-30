@@ -1,0 +1,108 @@
+name: Release ElysianAnime
+
+on:
+  push:
+    tags:
+      - 'v*'  # 当 git push 一个 tag（如 v1.0.0）时触发发布
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 允许创建 Release
+      pull-requests: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 获取完整历史，用于生成 changelog
+
+      # 🌐 设置 Node.js 并构建前端
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install and Build Frontend
+        run: |
+          cd elysiananime-web
+          npm install
+          npm run build
+        env:
+          VITE_API_URL: "/api"  # 前端调用后端 API 的路径
+
+      # ☕ 设置 Java 并构建后端
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build Backend with Maven
+        run: |
+          cd elysiananime-server
+          mvn -B package -DskipTests
+
+      # 📦 创建 release 目录并合并文件
+      - name: Prepare Release Directory
+        run: |
+          mkdir -p release/ElysianAnime/{backend,frontend}
+          
+          # 复制后端 jar
+          cp elysiananime-server/target/*.jar release/ElysianAnime/backend/
+          
+          # 复制前端构建结果
+          cp -r elysiananime-web/dist/* release/ElysianAnime/frontend/
+          
+          # 复制启动脚本
+          cp elysiananime-server/start.bat release/ElysianAnime/backend/
+          cp elysiananime-server/start.sh release/ElysianAnime/backend/
+
+          # 可选：复制 README 或说明文件
+          cp README.md release/ElysianAnime/ || echo "No README.md"
+
+      # 🗜️ 打包为 ZIP
+      - name: Create ZIP Archive
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          zip -r "ElysianAnime-$VERSION.zip" release/ElysianAnime/
+        id: zip
+
+      # 📜 生成 changelog（基于 commit）
+      - name: Generate Changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v3
+        with:
+          configuration: |
+            {
+              "categories": [
+                {
+                  "title": "## 🚀 新功能",
+                  "labels": ["feature", "enhancement"]
+                },
+                {
+                  "title": "## 🐛 修复",
+                  "labels": ["fix", "bug"]
+                },
+                {
+                  "title": "## 🧩 其他",
+                  "labels": ["chore", "refactor", "docs"]
+                }
+              ],
+              "excludeLabels": ["no-changelog"]
+            }
+
+      # 🚀 创建 GitHub Release
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref }}
+          name: "ElysianAnime ${{ github.ref }}"
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
+          files: |
+            *.zip
