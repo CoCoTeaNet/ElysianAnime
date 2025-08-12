@@ -1,6 +1,11 @@
 # 变更日志
 
 
+## v2.5.0
+- 增加批量导入导出番剧信息的功能和删除上传资源按钮 https://github.com/CoCoTeaNet/ElysianAnime/pull/38 by [byoukinn](https://github.com/byoukinn)
+- 文件类型过滤配置项从不包含xxx改成只包含xxx
+
+
 ## v2.4.0
 - 优化 兼容http链接
 - 新增 导入/导出RSS配置
