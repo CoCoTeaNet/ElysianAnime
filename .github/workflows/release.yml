@@ -56,6 +56,7 @@ jobs:
           
           # 复制后端 jar
           cp elysiananime-server/elysiananime-api/target/*.jar release/ElysianAnime/backend/
+          cp elysiananime-server/elysiananime-api/target/classes/app.yml release/ElysianAnime/backend/
           
           # 复制前端构建结果
           cp -r elysiananime-ui/dist/* release/ElysianAnime/frontend/
@@ -104,7 +105,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref }}
-          name: "ElysianAnime ${{ github.ref }}"
+          name: "${{ github.ref_name }}"
           body: ${{ steps.changelog.outputs.changelog }}
           draft: false
           prerelease: false
