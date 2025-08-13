@@ -1,4 +1,4 @@
-name: Release ElysianAnime
+name: Release
 
 on:
   push:
@@ -25,14 +25,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
+          cache: 'yarn'
+          cache-dependency-path: elysiananime-ui/yarn.lock
 
       - name: Install and Build Frontend
         run: |
           cd elysiananime-ui
-          npm install --package-lock-only
-          npm install
-          npm run build
+          yarn install --frozen-lockfile
+          yarn build
         env:
           VITE_API_URL: "/api"  # 前端调用后端 API 的路径
 
@@ -58,7 +58,7 @@ jobs:
           cp elysiananime-server/target/*.jar release/ElysianAnime/backend/
           
           # 复制前端构建结果
-          cp -r elysiananime-web/dist/* release/ElysianAnime/frontend/
+          cp -r elysiananime-ui/dist/* release/ElysianAnime/frontend/
           
           # 复制启动脚本
           cp elysiananime-server/start.bat release/ElysianAnime/backend/
