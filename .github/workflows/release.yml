@@ -55,14 +55,15 @@ jobs:
           mkdir -p release/ElysianAnime/{backend,frontend}
           
           # 复制后端 jar
-          cp elysiananime-server/target/*.jar release/ElysianAnime/backend/
+          cp elysiananime-server/elysiananime-api/target/*.jar release/ElysianAnime/backend/
           
           # 复制前端构建结果
           cp -r elysiananime-ui/dist/* release/ElysianAnime/frontend/
           
           # 复制启动脚本
-          cp elysiananime-server/start.bat release/ElysianAnime/backend/
-          cp elysiananime-server/start.sh release/ElysianAnime/backend/
+          cp doc/bin/start.bat release/ElysianAnime/backend/
+          cp doc/bin/stop.bat release/ElysianAnime/backend/
+          cp doc/bin/start.sh release/ElysianAnime/backend/
 
           # 可选：复制 README 或说明文件
           cp README.md release/ElysianAnime/ || echo "No README.md"
