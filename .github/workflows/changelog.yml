@@ -1,3 +1,10 @@
+name: changelog
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
 jobs:
   changelog:
     name: Generate changelog
