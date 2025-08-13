@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install and Build Frontend
@@ -105,4 +105,4 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            *.zip
+            ElysianAnime-*.zip
