@@ -52,28 +52,28 @@ jobs:
       # 📦 创建 release 目录并合并文件
       - name: Prepare Release Directory
         run: |
-          mkdir -p release/ElysianAnime/{backend,frontend}
+          mkdir -p ElysianAnime-Release/{backend,frontend}
           
           # 复制后端 jar
-          cp elysiananime-server/elysiananime-api/target/*.jar release/ElysianAnime/backend/
-          cp elysiananime-server/elysiananime-api/target/classes/app.yml release/ElysianAnime/backend/
+          cp elysiananime-server/elysiananime-api/target/*.jar ElysianAnime-Release/backend/
+          cp elysiananime-server/elysiananime-api/target/classes/app.yml ElysianAnime-Release/backend/
           
           # 复制前端构建结果
-          cp -r elysiananime-ui/dist/* release/ElysianAnime/frontend/
+          cp -r elysiananime-ui/dist/* ElysianAnime-Release/frontend/
           
           # 复制启动脚本
-          cp doc/bin/start.bat release/ElysianAnime/backend/
-          cp doc/bin/stop.bat release/ElysianAnime/backend/
-          cp doc/bin/start.sh release/ElysianAnime/backend/
+          cp doc/bin/start.bat ElysianAnime-Release/backend/
+          cp doc/bin/stop.bat ElysianAnime-Release/backend/
+          cp doc/bin/start.sh ElysianAnime-Release/backend/
 
           # 可选：复制 README 或说明文件
-          cp README.md release/ElysianAnime/ || echo "No README.md"
+          cp README.md ElysianAnime-Release/ || echo "No README.md"
 
       # 🗜️ 打包为 ZIP
       - name: Create ZIP Archive
         run: |
           VERSION=${GITHUB_REF#refs/tags/}
-          zip -r "ElysianAnime-$VERSION.zip" release/ElysianAnime/
+          zip -r "ElysianAnime-$VERSION.zip" ElysianAnime-Release/
         id: zip
 
       # 📜 生成 changelog（基于 commit）
