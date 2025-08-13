@@ -3,7 +3,9 @@ name: Release ElysianAnime
 on:
   push:
     tags:
-      - 'v*'  # 当 git push 一个 tag（如 v1.0.0）时触发发布
+      # 仅当 git push 一个形如 1.0.0 的 tag 时触发
+      # 匹配类似 1.0.0、2.3.4 这样的 tag
+      - '[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   release:
@@ -28,6 +30,7 @@ jobs:
       - name: Install and Build Frontend
         run: |
           cd elysiananime-web
+          npm install --package-lock-only
           npm install
           npm run build
         env:
