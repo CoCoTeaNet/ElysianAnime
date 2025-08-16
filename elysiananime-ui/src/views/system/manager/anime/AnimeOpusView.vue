@@ -25,7 +25,7 @@
     </template>
 
     <template #operate>
-      <el-button type="primary" @click="addAcgOpusDialog = true">通过URL自动添加</el-button>
+      <el-button type="primary" @click="addAcgOpusDialog = true">通过Bangumi添加</el-button>
       <el-button type="primary" @click="onClickShareBatchImport">批量导出 / 导入</el-button>
       <el-button type="primary" icon="Plus" @click="onAdd">添加作品</el-button>
     </template>
