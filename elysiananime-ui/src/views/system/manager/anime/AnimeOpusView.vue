@@ -25,18 +25,16 @@
     </template>
 
     <template #operate>
-      <el-button type="primary" @click="addAcgOpusDialog = true">通过URL自动添加</el-button>
+      <el-button type="primary" @click="addAcgOpusDialog = true">通过Bangumi添加</el-button>
       <el-button type="primary" @click="onClickShareBatchImport">批量导出 / 导入</el-button>
       <el-button type="primary" icon="Plus" @click="onAdd">添加作品</el-button>
     </template>
 
     <!-- 表格视图 -->
     <template #default>
-      
+
       <el-table @selection-change="onSelectionChange" stripe row-key="id" :data="pageVo.records" v-loading="loading">
-        <el-table-column
-          type="selection"
-          width="55">
+        <el-table-column type="selection" width="55">
         </el-table-column>
         <el-table-column prop="coverUrl" width="155" label="封面地址">
           <template #default="scope">
@@ -72,7 +70,7 @@
         <!-- 单行操作 -->
         <el-table-column fixed="right" width="400" label="操作">
           <template #default="scope">
-            <!-- <el-button size="small" icon="Upload" @click="onUploadRes(scope.row)">上传资源</el-button> -->
+            <el-button size="small" icon="Link" @click="onAddOpusTorrentShowDialog(scope.row)">添加资源</el-button>
             <el-button size="small" icon="Edit" @click="onEdit(scope.row)">编辑</el-button>
             <el-button size="small" type="primary" icon="VideoCamera" @click="onRssEdit(scope.row)">
               RSS订阅
@@ -226,12 +224,8 @@
       </el-dialog>
       <!-- 导入链接 -->
       <el-dialog v-model="showShareBatchImport" :title="`批量导出 / 导入`">
-        <el-dialog
-          width="30%"
-          title="导入失败列表"
-          :visible.sync="showInnerShareBatchImport"
-          append-to-body>
-          <el-input type="textarea"  v-model="innerShareBatchImportErrText" :autosize="{ minRows: 16, maxRows: 64}" />
+        <el-dialog width="30%" title="导入失败列表" :visible.sync="showInnerShareBatchImport" append-to-body>
+          <el-input type="textarea" v-model="innerShareBatchImportErrText" :autosize="{ minRows: 16, maxRows: 64}" />
         </el-dialog>
         <el-form>
           <el-form-item label="分享链接">
@@ -261,7 +255,7 @@
       </el-dialog>
 
       <!--上传资源-->
-      <el-dialog v-model="uploadResDialog" :title="`${currentRow.nameCn} - 资源上传`">
+      <!-- <el-dialog v-model="uploadResDialog" :title="`${currentRow.nameCn} - 资源上传`">
         <el-upload v-model:file-list="fileList" :action="uploadUrl" multiple :limit="24" :on-exceed="handleExceed">
           <el-button type="primary">点击上传</el-button>
           <template #tip>
@@ -270,7 +264,28 @@
             </div>
           </template>
         </el-upload>
+      </el-dialog> -->
+
+      <el-dialog v-model="addSimpleResDialog" :title="`${currentRow.nameCn} - 种子资源添加`">
+        <el-form :model="addSimpleResForm" ref="sttAddSimpleResFormRef" label-position="left" :rules="addSimpleResFormRules">
+          <el-form-item label="种子地址" prop="torrentUrl">
+            <el-input v-model="addSimpleResForm.torrentUrl" autosize />
+          </el-form-item>
+          <el-form-item label="重命名集数" prop="episodes">
+            <el-input type="number" v-model="addSimpleResForm.episodes" autosize />
+          </el-form-item>
+          <el-form-item label="文件类型" prop="fileType">
+            <el-input v-model="addSimpleResForm.fileType" autosize />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="addSimpleResDialog = false">取 消</el-button>
+            <el-button type="primary" @click="onAddOpusTorrent(sttAddSimpleResFormRef)">确 定</el-button>
+          </span>
+        </template>
       </el-dialog>
+
     </template>
   </table-manage>
 </template>
@@ -281,13 +296,15 @@ import { add, deleteBatch, update, listByPage, addAcgOpusByBgmUrl } from "@/api/
 import { reqCommonFeedback, reqSuccessFeedback } from "@/api/ApiFeedback";
 import TableManage from "@/components/container/TableManage.vue";
 import { ElForm } from "element-plus/es";
-import { ElMessage, ElMessageBox, UploadProps, UploadUserFile } from "element-plus";
-import { rssSubscribe, closeSubscribe, getMkXmlDetail, getRenames, defaultExclusions } from "@/api/anime/ani-rss-api";
+import { ElMessage, ElMessageBox, UploadProps } from "element-plus";
+import { rssSubscribe, closeSubscribe, getMkXmlDetail, getRenames, defaultExclusions, addOpusTorrent } from "@/api/anime/ani-rss-api";
 import { ApiResultEnum } from "@/api/ApiResultEnum";
 
 type FormInstance = InstanceType<typeof ElForm>
 const sttFormRef = ref<FormInstance>();
 const sttRssFormRef = ref<FormInstance>();
+const sttAddSimpleResFormRef = ref<FormInstance>();
+
 const rssStatusList = ref<any>([
   { label: '未订阅', value: 0 },
   { label: '订阅中', value: 1 },
@@ -332,8 +349,19 @@ const addAcgOpusDialog = ref<boolean>(false);
 const addAcgOpusLoading = ref<boolean>(false);
 const bgmUrl = ref<string>('');
 // 上传资源
-const uploadResDialog = ref<boolean>(false);
-const uploadUrl = ref<string>('');
+// const uploadResDialog = ref<boolean>(false);
+// const uploadUrl = ref<string>('');
+// 添加单个资源对话框
+const addSimpleResDialog = ref<boolean>(false);
+const addSimpleResForm = reactive({
+  opusId: '',
+  torrentUrl: '',
+  episodes: '',
+  fileType: ''
+});
+const addSimpleResFormRules = reactive({
+  torrentUrl: [{ required: true, trigger: 'blur' }],
+});
 // 选中弹窗项
 const currentRow = ref<AniOpusModel>({});
 const multipleSelection = ref<AniOpusModel[]>([]);
@@ -530,7 +558,7 @@ const onAddAcgOpus = (isCover: number) => {
   });
 }
 
-const fileList = ref<UploadUserFile[]>([]);
+// const fileList = ref<UploadUserFile[]>([]);
 
 const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
   ElMessage.warning(
@@ -539,14 +567,36 @@ const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
   )
 }
 
-const onUploadRes = (row: AniOpusModel) => {
+// const onUploadRes = (row: AniOpusModel) => {
+//   if (row.id) {
+//     currentRow.value = row;
+//     uploadUrl.value = `/api/anime/opus/${row.id}/uploadRes`;
+//     uploadResDialog.value = true;
+//   } else {
+//     ElMessage.warning('上传地址异常');
+//   }
+// }
+
+const onAddOpusTorrentShowDialog = (row: AniOpusModel) => {
   if (row.id) {
     currentRow.value = row;
-    uploadUrl.value = `/api/anime/opus/${row.id}/uploadRes`;
-    uploadResDialog.value = true;
+    addSimpleResDialog.value = true;
   } else {
-    ElMessage.warning('上传地址异常');
+    ElMessage.warning('作品ID找不到');
   }
+}
+
+const onAddOpusTorrent = (formEl: any) => {
+  formEl.validate((valid: any) => {
+    if (valid) {
+      let param = { opusId: '' };
+      Object.assign(param, addSimpleResForm);
+      param.opusId = currentRow.value.id;
+      reqCommonFeedback(addOpusTorrent(param), () => {
+        addSimpleResDialog.value = false;
+      });
+    }
+  });
 }
 
 const doParseMkXml = (formEl: any) => {

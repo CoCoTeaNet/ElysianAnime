@@ -3,6 +3,8 @@ package net.cocotea.elysiananime.api.anime.rss;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.lang.Opt;
 import cn.hutool.core.lang.RegexPool;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.ReUtil;
@@ -15,6 +17,7 @@ import cn.hutool.json.JSONUtil;
 import cn.hutool.system.SystemUtil;
 import com.alibaba.fastjson2.JSONArray;
 import com.dtflys.forest.Forest;
+import net.cocotea.elysiananime.api.anime.model.dto.AniAddOpusTorrentDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
 import net.cocotea.elysiananime.api.anime.model.po.AniOpus;
 import net.cocotea.elysiananime.api.anime.rss.model.MkXmlDetail;
@@ -485,4 +488,22 @@ public class MiKanRss {
             qbApiUtils.delete(qbInfo.getHash());
         }
     }
+
+    public String addOpusTorrent(AniAddOpusTorrentDTO opusTorrentDTO) throws BusinessException {
+        AniOpus aniOpus = aniOpusService.loadById(new BigInteger(opusTorrentDTO.getOpusId()));
+        Assert.isFalse(aniOpus == null, () -> new BusinessException("找不到这个作品"));
+
+        String mediaDir = resUtils.findMediaDir(aniOpus.getNameCn());
+
+        if (StrUtil.isNotBlank(opusTorrentDTO.getFileType())) {
+            String rename = Opt.ofNullable(opusTorrentDTO.getEpisodes())
+                    .map(String::valueOf)
+                    .orElseGet(() -> aniOpus.getNameCn() + "_RES");
+            rename += rename + "." + opusTorrentDTO.getFileType();
+            return qbApiUtils.addNewTorrent(opusTorrentDTO.getTorrentUrl(), mediaDir, rename);
+        }
+
+        return qbApiUtils.addNewTorrent(opusTorrentDTO.getTorrentUrl(), mediaDir, null);
+    }
+
 }
