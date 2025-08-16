@@ -1,0 +1,45 @@
+name: changedlog
+
+on:
+  push:
+    tags:
+      # 仅当 git push 一个形如 1.0.0 的 tag 时触发
+      # 匹配类似 1.0.0、2.3.4 这样的 tag
+      - '[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 允许创建 Release
+      pull-requests: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 获取完整历史，用于生成 changelog
+
+      # 📜 生成 changelog（基于 commit）
+      - name: Generate Changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v3
+        with:
+          configuration: |
+            {
+              "categories": [
+                {
+                  "title": "## 🚀 新功能",
+                  "labels": ["feature", "enhancement"]
+                },
+                {
+                  "title": "## 🐛 修复",
+                  "labels": ["fix", "bug"]
+                },
+                {
+                  "title": "## 🧩 其他",
+                  "labels": ["chore", "refactor", "docs"]
+                }
+              ],
+              "excludeLabels": ["no-changelog"]
+            }
