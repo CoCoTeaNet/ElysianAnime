@@ -22,7 +22,7 @@ jobs:
               "categories": [
                 {
                     "title": "## 🚀 Features",
-                    "labels": ["feature"]
+                    "labels": ["feat"]
                 },
                 {
                     "title": "## 🐛 Fixes",
@@ -34,18 +34,11 @@ jobs:
                 },
                 {
                     "title": "## 💬 Other",
-                    "labels": ["other"]
+                    "labels": []
                 },
                 {
                     "title": "## 📦 Dependencies",
-                    "labels": ["dependencies"]
-                }
-              ],
-              "label_extractor": [
-                {
-                  "pattern": "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\\([\\w\\-\\.]+\\))?(!)?: ([\\w ])+([\\s\\S]*)",
-                  "on_property": "title",
-                  "target": "$1"
+                    "labels": ["build"]
                 }
               ]
             }
