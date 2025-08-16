@@ -18,7 +18,7 @@ jobs:
           mode: "COMMIT"
           configurationJson: |
             {
-              "template": "#{{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n#{{UNCATEGORIZED}}\n</details>",
+              "template": "#{{CHANGELOG}}",
               "categories": [
                 {
                     "title": "## 🚀 Features",
@@ -34,7 +34,7 @@ jobs:
                 },
                 {
                     "title": "## 💬 Other",
-                    "labels": []
+                    "labels": ["perf", "refactor", "style", "docs", "ci"]
                 },
                 {
                     "title": "## 📦 Dependencies",
