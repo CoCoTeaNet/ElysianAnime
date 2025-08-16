@@ -43,4 +43,4 @@ jobs:
           fi
 
           git commit -m "docs: update CHANGELOG.md"
-          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git 'origin/dev'
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git 'origin/main'
