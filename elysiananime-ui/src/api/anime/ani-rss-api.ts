@@ -1,7 +1,7 @@
-import {request, post, get} from '@/utils/axios-util';
+import { request, post, get } from '@/utils/axios-util';
 
 const rssApi = {
-	closeSubscribe: closeSubscribe,
+	closeSubscribe: closeSubscribe, addOpusTorrent
 }
 
 export function rssSubscribe(data: any) {
@@ -29,6 +29,10 @@ export function getRenames(data: any) {
 
 export function defaultExclusions() {
 	return request('anime/rss/defaultExclusions', {}, get);
+}
+
+export function addOpusTorrent(data: any) {
+	return request('anime/rss/addOpusTorrent', data, post);
 }
 
 export default rssApi;

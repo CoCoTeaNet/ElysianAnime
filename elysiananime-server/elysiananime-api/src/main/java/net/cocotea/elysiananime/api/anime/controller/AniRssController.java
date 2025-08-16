@@ -3,6 +3,7 @@ package net.cocotea.elysiananime.api.anime.controller;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.json.JSONObject;
+import net.cocotea.elysiananime.api.anime.model.dto.AniAddOpusTorrentDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
 import net.cocotea.elysiananime.api.anime.rss.model.MkXmlDetail;
 import net.cocotea.elysiananime.api.anime.rss.model.RenameInfo;
@@ -14,6 +15,7 @@ import net.cocotea.elysiananime.common.model.ApiResult;
 import net.cocotea.elysiananime.common.model.BusinessException;
 import net.cocotea.elysiananime.api.anime.rss.MiKanRss;
 import org.noear.solon.annotation.*;
+import org.noear.solon.validation.annotation.Valid;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
  *
  * @author CoCoTea
  */
+@Valid
 @Mapping("/anime/rss")
 @Controller
 public class AniRssController {
@@ -109,6 +112,19 @@ public class AniRssController {
         List<SysDictionaryVO> list = sysDictionaryService.listByParentId(CommonConst.RSS_EXCLUSION);
         List<String> vos = list.stream().map(SysDictionaryVO::getDictionaryName).collect(Collectors.toList());
         return ApiResult.ok(vos);
+    }
+
+    /**
+     * 添加作品种子（将资源下载到作品目录）
+     *
+     * @param opusTorrentDTO {@link AniAddOpusTorrentDTO}
+     * @return 执行结果
+     */
+    @Post
+    @Mapping("/addOpusTorrent")
+    public ApiResult<String> addOpusTorrent(@Body AniAddOpusTorrentDTO opusTorrentDTO) throws BusinessException {
+        String msg = miKanRss.addOpusTorrent(opusTorrentDTO);
+        return ApiResult.ok(msg);
     }
 
 }
