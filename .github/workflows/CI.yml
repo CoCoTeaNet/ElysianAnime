@@ -15,30 +15,29 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          mode: "COMMIT"
+          mode: "COMMIT",
           configurationJson: |
             {
               "template": "#{{CHANGELOG}}",
               "categories": [
                 {
-                    "title": "## 🚀 Features",
-                    "labels": ["feat"]
+                    "title": "## Feature",
+                    "labels": ["feat", "feature"]
                 },
                 {
-                    "title": "## 🐛 Fixes",
-                    "labels": ["fix"]
+                    "title": "## Fix",
+                    "labels": ["fix", "bug"]
                 },
                 {
-                    "title": "## 🧪 Tests",
-                    "labels": ["test"]
-                },
+                    "title": "## Other",
+                    "labels": []
+                }
+              ],
+              "label_extractor": [
                 {
-                    "title": "## 💬 Other",
-                    "labels": ["perf", "refactor", "style", "docs", "ci"]
-                },
-                {
-                    "title": "## 📦 Dependencies",
-                    "labels": ["build"]
+                  "pattern": "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\\([\\w\\-\\.]+\\))?(!)?: ([\\w ])+([\\s\\S]*)",
+                  "on_property": "title",
+                  "target": "$1"
                 }
               ]
             }
