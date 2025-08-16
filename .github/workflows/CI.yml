@@ -20,23 +20,24 @@ jobs:
               "template": "#{{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n#{{UNCATEGORIZED}}\n</details>",
               "categories": [
                 {
-                    "title": "## Feature",
-                    "labels": ["feat", "feature"]
+                    "title": "## 🚀 Features",
+                    "labels": ["feature", "feat"]
                 },
                 {
-                    "title": "## Fix",
+                    "title": "## 🐛 Fixes",
                     "labels": ["fix", "bug"]
                 },
                 {
-                    "title": "## Other",
-                    "labels": []
-                }
-              ],
-              "label_extractor": [
+                    "title": "## 🧪 Tests",
+                    "labels": ["test"]
+                },
                 {
-                  "pattern": "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\\([\\w\\-\\.]+\\))?(!)?: ([\\w ])+([\\s\\S]*)",
-                  "on_property": "title",
-                  "target": "$1"
+                    "title": "## 💬 Other",
+                    "labels": ["other"]
+                },
+                {
+                    "title": "## 📦 Dependencies",
+                    "labels": ["dependencies"]
                 }
               ]
             }
