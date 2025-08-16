@@ -77,28 +77,11 @@ jobs:
         id: zip
 
       # 📜 生成 changelog（基于 commit）
-      - name: Generate Changelog
-        id: changelog
-        uses: mikepenz/release-changelog-builder-action@v3
-        with:
-          configuration: |
-            {
-              "categories": [
-                {
-                  "title": "## 🚀 新功能",
-                  "labels": ["feature", "enhancement"]
-                },
-                {
-                  "title": "## 🐛 修复",
-                  "labels": ["fix", "bug"]
-                },
-                {
-                  "title": "## 🧩 其他",
-                  "labels": ["chore", "refactor", "docs"]
-                }
-              ],
-              "excludeLabels": ["no-changelog"]
-            }
+      - name: Build Changelog
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # 🚀 创建 GitHub Release
       - name: Create GitHub Release
@@ -106,7 +89,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           name: "${{ github.ref_name }}"
-          body: ${{ steps.changelog.outputs.changelog }}
+          body: ${{ steps.github_release.outputs.changelog }}
           draft: false
           prerelease: false
           files: |
