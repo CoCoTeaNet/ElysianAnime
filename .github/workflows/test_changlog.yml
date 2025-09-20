@@ -50,4 +50,8 @@ jobs:
               ]
             }
           fail_on_error: false  # 避免因无 PR 导致失败
-
+          
+      - name: Output Changelog to Log
+        run: |
+          echo "📄 Generated Changelog:"
+          echo "${{ steps.changelog_generator.outputs.changelog }}"
