@@ -76,7 +76,7 @@ jobs:
           zip -r "ElysianAnime-$VERSION.zip" ElysianAnime-Release/
         id: zip
 
-      # 📜 生成 changelog（基于 commit）
+      # 📜 生成 changelog
       - name: Build Changelog
         id: github_release
         uses: mikepenz/release-changelog-builder-action@v5
@@ -109,6 +109,7 @@ jobs:
                 }
               ]
             }
+          fail_on_error: false  # 避免因无 PR 导致失败
 
       # 🚀 创建 GitHub Release
       - name: Create GitHub Release
