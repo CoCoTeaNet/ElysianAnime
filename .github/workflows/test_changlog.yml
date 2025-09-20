@@ -1,7 +1,15 @@
 name: test_changlog
 
 on:
-  push:
+  workflow_dispatch:  # 👈 允许手动触发
+    inputs:
+      logLevel:
+        description: '日志级别'
+        required: false
+        default: 'info'
+      tags:
+        description: '要部署的标签'
+        required: false
 
 jobs:
   release:
