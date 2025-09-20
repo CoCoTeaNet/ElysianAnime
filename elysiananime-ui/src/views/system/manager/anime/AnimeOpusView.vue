@@ -254,18 +254,6 @@
         </template>
       </el-dialog>
 
-      <!--上传资源-->
-      <!-- <el-dialog v-model="uploadResDialog" :title="`${currentRow.nameCn} - 资源上传`">
-        <el-upload v-model:file-list="fileList" :action="uploadUrl" multiple :limit="24" :on-exceed="handleExceed">
-          <el-button type="primary">点击上传</el-button>
-          <template #tip>
-            <div class="el-upload__tip">
-              建议mp4格式和内嵌字幕
-            </div>
-          </template>
-        </el-upload>
-      </el-dialog> -->
-
       <el-dialog v-model="addSimpleResDialog" :title="`${currentRow.nameCn} - 种子资源添加`">
         <el-form :model="addSimpleResForm" ref="sttAddSimpleResFormRef" label-position="left" :rules="addSimpleResFormRules">
           <el-form-item label="种子地址" prop="torrentUrl">
@@ -299,6 +287,7 @@ import { ElForm } from "element-plus/es";
 import { ElMessage, ElMessageBox, UploadProps } from "element-plus";
 import { rssSubscribe, closeSubscribe, getMkXmlDetail, getRenames, defaultExclusions, addOpusTorrent } from "@/api/anime/ani-rss-api";
 import { ApiResultEnum } from "@/api/ApiResultEnum";
+import {RULE_URL_HTTP} from "@/utils/rules-util";
 
 type FormInstance = InstanceType<typeof ElForm>
 const sttFormRef = ref<FormInstance>();
@@ -558,24 +547,12 @@ const onAddAcgOpus = (isCover: number) => {
   });
 }
 
-// const fileList = ref<UploadUserFile[]>([]);
-
 const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
   ElMessage.warning(
     `The limit is 24, you selected ${files.length} files this time, add up to ${files.length + uploadFiles.length
     } totally`
   )
 }
-
-// const onUploadRes = (row: AniOpusModel) => {
-//   if (row.id) {
-//     currentRow.value = row;
-//     uploadUrl.value = `/api/anime/opus/${row.id}/uploadRes`;
-//     uploadResDialog.value = true;
-//   } else {
-//     ElMessage.warning('上传地址异常');
-//   }
-// }
 
 const onAddOpusTorrentShowDialog = (row: AniOpusModel) => {
   if (row.id) {
@@ -599,41 +576,41 @@ const onAddOpusTorrent = (formEl: any) => {
   });
 }
 
-const doParseMkXml = (formEl: any) => {
+const doParseMkXml = async (formEl: any) => {
   let rssUrl = rssForm.value.rssUrl;
-  let prefix = 'https://mikanime.tv/RSS/';
-  if (rssUrl && rssUrl.startsWith(prefix)) {
-    mkXmlParseLoading.value = true;
-    let encodeRssUrl = encodeURIComponent(rssUrl);
-    console.log(encodeRssUrl);
-    getMkXmlDetail(encodeRssUrl).then(result => {
-      if (result.code === ApiResultEnum.SUCCESS) {
-        if (result.data) {
-          mkXmlDetail.value = result.data;
-          mkXmlParsed.value = true;
-        } else {
-          ElMessage.warning('无数据');
-        }
-      } else {
-        ElMessage.error(result.message);
-      }
-      mkXmlParseLoading.value = false;
-    }).catch(err => {
-      console.log(err);
-      mkXmlParseLoading.value = false;
-    });
-    // 获取解析结果
-    formEl.validate((valid: any) => {
-      if (valid) {
-        loadRenames();
-      }
-    });
-  } else {
+  let validRssURL = rssUrl && RULE_URL_HTTP.test(rssUrl);
+  if (!validRssURL) {
     ElMessage.warning('RSS链接格式有误');
+    return;
   }
+  mkXmlParseLoading.value = true;
+  let encodeRssUrl = encodeURIComponent(rssUrl);
+  let result = await getMkXmlDetail(encodeRssUrl);
+  if (result.code !== ApiResultEnum.SUCCESS) {
+    ElMessage.error(result.message);
+    mkXmlParseLoading.value = false;
+    return;
+  }
+  if (!result.data) {
+    ElMessage.warning('NONE DATA');
+    mkXmlParseLoading.value = false;
+    return;
+  }
+  mkXmlDetail.value = result.data;
+  mkXmlParsed.value = true;
+  // 获取解析结果
+  formEl.validate((valid: any) => {
+    if (valid) {
+      loadRenames();
+    }
+  });
+  mkXmlParseLoading.value = false;
 }
 
 const loadRenames = () => {
+  if (!mkXmlParsed.value) {
+    return;
+  }
   let rssSubscribeDTO = {
     id: rssForm.value.id,
     rssUrl: rssForm.value.rssUrl,
@@ -642,7 +619,7 @@ const loadRenames = () => {
     rssOnlyMark: rssForm.value.rssOnlyMark,
     rssExcludeRes: rssExcludeResArr.value.join(','),
   }
-  reqCommonFeedback(getRenames(rssSubscribeDTO), res => {
+  reqCommonFeedback(getRenames(rssSubscribeDTO), (res: any) => {
     filenamesPreview.value = res;
   });
 }

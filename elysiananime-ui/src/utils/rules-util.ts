@@ -21,7 +21,7 @@ export const RULE_ZIP_CODE = "^(0[1-7]|1[0-356]|2[0-7]|3[0-6]|4[0-7]|5[0-7]|6[0-
 export const RULE_BIRTHDAY = "^(\\d{2,4})([/\\-.年]?)(\\d{1,2})([/\\-.月]?)(\\d{1,2})日?$";
 export const RULE_URI = "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?";
 export const RULE_URL = "[a-zA-Z]+://[\\w-+&@#/%?=~_|!:,.;]*[\\w-+&@#/%=~_|]";
-export const RULE_URL_HTTP = "(https?|ftp|file)://[\\w-+&@#/%?=~_|!:,.;]*[\\w-+&@#/%=~_|]";
+export const RULE_URL_HTTP = /^(https?|ftp|file):\/\/[\w-+&@#/%?=~_|!:,.;]*[\w-+&@#/%=~_|]$/i;
 export const RULE_GENERAL_WITH_CHINESE = "^[一-\u9fff\\w]+$";
 export const RULE_UUID = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
 export const RULE_UUID_SIMPLE = "^[0-9a-fA-F]{32}$";
