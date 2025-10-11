@@ -57,7 +57,7 @@
 
       <el-col :span="5">
         <h2 class="a-home-title">番剧检索</h2>
-        <el-form>
+        <el-form @submit.prevent>
           <!--关键词搜索-->
           <el-form-item>
             <el-input placeholder="番剧名搜索~"
@@ -167,11 +167,17 @@ watch(
 );
 
 const isOverSeason = (animeLaunchTime: string) => {
+  if (!animeLaunchTime) {
+    return '-';
+  }
   // 是否过季，过季番显示到月份
   return formatUtil.strToDate(animeLaunchTime) < new Date(Date.now()-7776000000)  // 7776000000 = 90天
 }
 
 const formatDateMonth = (animeLaunchTime: string) => {
+    if (!animeLaunchTime) {
+    return false;
+  }
   return formatUtil.formatDate(formatUtil.strToDate(animeLaunchTime), 'YYYY/MM') 
 }
 
