@@ -494,6 +494,9 @@ public class MiKanRss {
         Assert.isFalse(aniOpus == null, () -> new BusinessException("找不到这个作品"));
 
         String mediaDir = resUtils.findMediaDir(aniOpus.getNameCn());
+        if (!FileUtil.exist(mediaDir)) {
+            FileUtil.mkdir(mediaDir);
+        }
 
         if (StrUtil.isNotBlank(opusTorrentDTO.getFileType())) {
             String rename = Opt.ofNullable(opusTorrentDTO.getEpisodes())
