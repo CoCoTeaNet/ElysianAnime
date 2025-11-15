@@ -83,12 +83,12 @@ const refresh = () => {
   justify-content: center;
   height: 23px;
   margin: 3px;
-  padding: 0 3px;
+  padding: 0 0.8em;
   text-align: center;
   background: var(--el-color-white);
-  box-shadow: var(--el-box-shadow-lighter);
-  border-radius: 2px;
-  color: var(--el-color-primary);
+  border: 1px solid var(--el-border-color);
+  border-radius: 3px;
+  color: #303133;
   /* 过渡效果设置 */
   transition: all 0.3s ease-in-out;
 }

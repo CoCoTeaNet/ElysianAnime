@@ -1,49 +1,46 @@
 <template>
   <el-row align="middle" class="header-row">
+    <!-- LOGO -->
     <el-col :span="20">
-      <el-space>
-        <!-- LOGO -->
-        <el-space class="logo">
-          <img src="@/assets/svg-source/logo.png" style="width: 36px;margin-right: 3px" alt="login-logo">
-          <h3>ElysianAnime</h3>
-        </el-space>
-
+      <el-space class="logo">
+        <img src="@/assets/svg-source/logo.png" style="width: 36px;margin-right: 3px" alt="login-logo">
+        <el-text tag="i" size="large">ElysianAnime</el-text>
         <el-button link @click="setCollapseMenu">
           <template #icon>
             <el-icon class="mouse-over right-item" :size="iconSize">
-              <expand v-if="store.state.isCollapseMenu"/>
-              <fold v-else/>
+              <expand v-if="store.state.isCollapseMenu" />
+              <fold v-else />
             </el-icon>
           </template>
         </el-button>
-        <admin-tab/>
+        <admin-tab />
       </el-space>
     </el-col>
 
     <!-- 用户信息 -->
     <el-col :span="4">
       <el-row :gutter="10" justify="end" align="middle">
+        <el-icon class="mouse-over" :size="iconSize-5" @click="clickToGo('Home')">
+          <house />
+        </el-icon>
+        <el-icon class="mouse-over" :size="iconSize-5" @click="doFullScreen">
+          <full-screen />
+        </el-icon>
         <!--通知消息-->
         <div class="mouse-over">
           <el-popover trigger="hover" placement="bottom" width="460">
             <template #reference>
-              <div>
+              <el-badge class="system-message" :is-dot="notifyList.length > 0">
                 <el-icon :size="iconSize-2">
-                  <el-badge :hidden="notifyList.length <= 0" :value="notifyList.length">
-                    <chat-dot-round />
-                  </el-badge>
+                  <Message />
                 </el-icon>
-              </div>
+              </el-badge>
             </template>
             <template #default>
               <el-scrollbar max-height="460px">
                 <el-timeline v-if="notifyList.length > 0">
-                  <el-timeline-item
-                      v-for="(notify,index) in notifyList"
-                      :key="index"
-                      :type="index === 0 ? 'primary' : 'info'"
-                      :timestamp="notify.notifyTime"
-                  >
+                  <el-timeline-item v-for="(notify,index) in notifyList" :key="index"
+                    :type="index === 0 ? 'primary' : 'info'" :timestamp="notify.notifyTime">
                     <el-link type="primary" @click="onReadMore(notify)">
                       {{notify.title}}
                     </el-link>
@@ -57,17 +54,11 @@
             </template>
           </el-popover>
         </div>
-        <el-icon class="mouse-over" :size="iconSize-2" @click="doFullScreen">
-          <full-screen/>
-        </el-icon>
-        <el-icon class="mouse-over" :size="iconSize-2" @click="clickToGo('Home')">
-          <house/>
-        </el-icon>
         <el-dropdown>
           <span class="mouse-over">
             <el-space>
-              <el-avatar shape="square" :src="avatar"/>
               <el-text>{{store.state.userInfo.nickname}}</el-text>
+              <el-avatar shape="square" :src="avatar" />
             </el-space>
           </span>
           <template #dropdown>
@@ -89,7 +80,6 @@ import {reqCommonFeedback} from "@/api/ApiFeedback";
 import {loginInfo, logout} from "@/api/system/sys-login-api";
 import {setUserInfo, useStore, setCollapseMenu} from "@/store";
 import AdminTab from "@/layout/modules/AdminTab.vue";
-import {ChatDotRound, Expand, Fold, FullScreen, House} from "@element-plus/icons-vue";
 import {onMounted, ref} from 'vue';
 import {listByType, read} from "@/api/anime/ani-notify-api";
 import default_avatar from '@/assets/svg-source/default-avatar.svg';
@@ -176,5 +166,11 @@ const onReadMore = (notify: any) => {
 .mouse-over {
   cursor: pointer;
   padding: 0 3px;
+}
+
+.system-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
