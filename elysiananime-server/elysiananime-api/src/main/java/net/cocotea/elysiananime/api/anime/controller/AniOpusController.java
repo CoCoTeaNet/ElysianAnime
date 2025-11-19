@@ -142,8 +142,14 @@ public class AniOpusController {
         return ApiResult.ok(r);
     }
 
+    /**
+     * 查找作品，并关联用户
+     *
+     * @param homeDTO {@link AniOpusHomeDTO}
+     * @return {@link AniOpusHomeVO}
+     */
     @Mapping("/listByUser")
-    public ApiResult<?> listByUser(@Body AniOpusHomeDTO homeDTO) throws BusinessException {
+    public ApiResult<ApiPage<AniOpusHomeVO>> listByUser(@Body AniOpusHomeDTO homeDTO) throws BusinessException {
         List<String> list = new ArrayList<>(homeDTO.getStatus().size());
         for (String status : homeDTO.getStatus()) {
             if (status.equals(ReadStatusEnum.NOT_READ.getAliseName())) {

@@ -129,6 +129,21 @@ public class AniOpusServiceImpl implements AniOpusService {
                     row.setEpisodesNewest(StrPool.DASHED);
                 }
 
+                if (row.getReadingNum() > files.length) {
+                    int readingNum = row.getReadingNum();
+                    for (int i = 0; i < mediaList.size(); i++) {
+                        if (!NumberUtil.isNumber(mediaList.get(i).getEpisodes())) {
+                            continue;
+                        }
+                        int p = NumberUtil.parseInt(mediaList.get(i).getEpisodes(), -1);
+                        if (p == row.getReadingNum()) {
+                            readingNum = i + 1;
+                            break;
+                        }
+                    }
+                    row.setReadingNum(readingNum);
+                }
+
                 row.setDownloadNum(files.length);
             } catch (Exception ex) {
                 row.setDownloadNum(0);
