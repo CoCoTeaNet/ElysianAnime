@@ -129,7 +129,7 @@ public class AniOpusServiceImpl implements AniOpusService {
                     row.setEpisodesNewest(StrPool.DASHED);
                 }
 
-                if (row.getReadingNum() > files.length) {
+                if (row.getReadingNum() != null && row.getReadingNum() > files.length) {
                     int readingNum = row.getReadingNum();
                     for (int i = 0; i < mediaList.size(); i++) {
                         if (!NumberUtil.isNumber(mediaList.get(i).getEpisodes())) {
@@ -146,6 +146,7 @@ public class AniOpusServiceImpl implements AniOpusService {
 
                 row.setDownloadNum(files.length);
             } catch (Exception ex) {
+                log.error("listByUser >>> error!", ex);
                 row.setDownloadNum(0);
             }
         }
