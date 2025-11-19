@@ -45,7 +45,7 @@
               <div>
                 <p style="font-size: 14px">
                   标签：
-                  <el-tag effect="dark" v-for="tag in videoInfo.aniTags" style="margin: 0 3px 3px 0;">
+                  <el-tag effect="dark" v-for="tag in videoInfo.aniTags" :key="tag.id" style="margin: 0 3px 3px 0;">
                     {{ tag.tagName ? tag.tagName : '...' }}
                   </el-tag>
                 </p>
@@ -95,7 +95,8 @@
              v-if="!loading">
           <el-button
               class="a-layout ep-button"
-              v-for="item in mediaList"
+              v-for="(item,index) in mediaList"
+              :key="index"
               :type="item.episodes === currentNum ? 'primary' : 'default'"
               @click="doSwitchPlay(item)"
           >
@@ -133,9 +134,10 @@
                 @change="doUpdateReadStatus"
             >
               <el-option
-                  v-for="i in acgUserOpusTypes.getReadStatusList()"
-                  :label="i.label"
-                  :value="i.value"
+                  v-for="(item,index) in acgUserOpusTypes.getReadStatusList()"
+                  :key="index"
+                  :label="item.label"
+                  :value="item.value"
               />
             </el-select>
           </el-form-item>
