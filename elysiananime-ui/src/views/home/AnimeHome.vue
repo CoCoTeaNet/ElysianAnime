@@ -47,7 +47,7 @@
                 </p>
                 <!-- 效果例如：已观看至第03集·每周三更新 -->
                 <p style="font-size: 0.6rem; padding-top: 2px; color: #999;" @click="onOpenDetail(anime.detailInfoUrl)">
-                  {{ anime.readingNum > 0 ? `已观看至第${formatUtil.fillZero(anime.readingNum)}集` : '从未观看' }} · {{isOverSeason(anime.launchStart) ? `每${anime.deliveryWeek}更新`: `${formatDateMonth(anime.launchStart)}`}}
+                  {{ getCurrentReading(anime) }} · {{isOverSeason(anime.launchStart) ? `每${anime.deliveryWeek}更新`: `${formatDateMonth(anime.launchStart)}`}}
                 </p>
               </el-col>
             </el-row>
@@ -115,7 +115,6 @@ import {nextTick, onMounted, ref, watch} from "vue";
 import {addAcgOpusByBgmUrl, listByUser} from "@/api/anime/ani-opus-api";
 import userOpusApi from "@/api/anime/ani-user-opus-api";
 import {reqCommonFeedback} from "@/api/ApiFeedback";
-import {Search, VideoPlay} from "@element-plus/icons-vue";
 import {useRoute, useRouter} from "vue-router";
 import {ElMessage} from 'element-plus'
 import MultSelection from "@/views/home/modules/MultipleConditionsSearch.vue";
@@ -305,6 +304,13 @@ const getProgressPercent = (anime: any) => {
 
   console.debug(`${anime.nameCn} >>> readingTime:${anime.readingTime},totalTime:${anime.totalTime}, percent:${percent}`);
   return percent;
+}
+
+const getCurrentReading = (anime: any) => {
+  if (anime.readingNum > 0) {
+    return `已观看至第${formatUtil.fillZero(anime.readingNum)}集`
+  }
+  return '从未观看';
 }
 </script>
 
