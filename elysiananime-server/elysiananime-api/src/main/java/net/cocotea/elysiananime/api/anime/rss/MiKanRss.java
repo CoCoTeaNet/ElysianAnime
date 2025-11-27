@@ -7,6 +7,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.lang.RegexPool;
 import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
@@ -278,25 +279,26 @@ public class MiKanRss {
     /**
      * 获取订阅番剧并下载
      */
-    public void doFindRssOpusAndDownload() throws InterruptedException {
+    public void doFindRssOpusAndDownload() {
+        String methodName = "doFindRssOpusAndDownload >>> ";
         List<AniOpus> aniOpusList = aniOpusService.getRssOpus(RssStatusEnum.SUBSCRIBING.getCode());
-        log.info("doFindRssOpusAndDownload------->start...opusSize={}", aniOpusList.size());
-        for (AniOpus opus : aniOpusList) {
+        log.info("{}start...opusSize={}", methodName, aniOpusList.size());
+        aniOpusList.forEach(opus -> {
             log.info("{}-------->开始下载", opus.getNameCn());
             String rssUrl = opus.getRssUrl();
-            if (StrUtil.isNotBlank(rssUrl)) {
-                try {
-                    log.info("存在订阅地址-------->rssUrl: {}", rssUrl);
+            try {
+                if (StrUtil.isNotBlank(rssUrl)) {
+                    log.info("{}rssUrl: {}", methodName, rssUrl);
                     requestRss(rssUrl, opus);
-                } catch (Exception e) {
-                    log.error("下载出现异常，作品是:{}, 堆栈信息:{}", opus.getNameCn(), e.getMessage());
-                } finally {
-                    Thread.sleep(3000L);
+                } else {
+                    log.warn("没有订阅地址, opus={}", opus);
                 }
-            } else {
-                log.warn("没有订阅地址, opus={}", opus);
+            } catch (Exception e) {
+                log.error("下载出现异常，作品是:{}, 堆栈信息:{}", opus.getNameCn(), e.getMessage());
+            } finally {
+                ThreadUtil.sleep(3000L);
             }
-        }
+        });
     }
 
     /**
@@ -461,10 +463,34 @@ public class MiKanRss {
                 String opusName = FileUtil.file(info.getSavePath()).getName();
                 AniOpus aniOpus = aniOpusService.loadByNameCn(opusName);
                 doNotifyCatchEx(aniOpus, file);
+
             } catch (Exception ex) {
                 log.error("doRenameBtV2 >>>>> 重命名失败，作品：{}，errorMsg：{}", info.getName(), ex.getMessage(), ex);
             }
         }
+    }
+
+    /**
+     * 更新已订阅完成的作品
+     */
+    public void doCloseSubscribe() {
+        aniOpusService.getRssOpus(RssStatusEnum.SUBSCRIBING.getCode())
+                .forEach(aniOpus -> {
+                    String folder = resUtils.findMediaDir(aniOpus.getNameCn());
+                    File[] files = FileUtil.ls(folder);
+                    if (files == null) {
+                        log.warn("doCloseSubscribe >>> files is null");
+                        return;
+                    }
+                    boolean equalled = ObjUtil.equal(String.valueOf(files.length), aniOpus.getEpisodes());
+                    log.info("doCloseSubscribe >>> [{}]files: {}/{}, flag: {}", aniOpus.getNameCn(), files.length, aniOpus.getEpisodes(), equalled);
+                    if (equalled) {
+                        AniOpus updatePO = new AniOpus().setId(aniOpus.getId())
+                                .setRssStatus(RssStatusEnum.SUBSCRIPTION_COMPLETED.getCode());
+                        boolean updated = aniOpusService.update(updatePO);
+                        log.info("doCloseSubscribe >>> 更新RSS状态值[{}]", updated);
+                    }
+                });
     }
 
     /**

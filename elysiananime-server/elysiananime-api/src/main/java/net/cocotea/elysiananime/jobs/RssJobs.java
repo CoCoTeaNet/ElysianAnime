@@ -35,6 +35,7 @@ public class RssJobs {
         miKanRss.doRenameBtV2();
         // 清理历史记录
         miKanRss.clearHistory();
+        miKanRss.doCloseSubscribe();
     }
 
     @Scheduled(cron = "0 0 0/6 * * ?")
