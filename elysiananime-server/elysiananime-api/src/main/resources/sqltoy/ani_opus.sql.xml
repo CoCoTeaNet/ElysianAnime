@@ -75,4 +75,15 @@
         </value>
     </sql>
 
+    <sql id="ani_opus_count">
+        <value>
+            <![CDATA[
+                select count(1)
+                from ani_opus
+                where is_deleted = 0
+                #[and rss_status = :rssStatus]
+            ]]>
+        </value>
+    </sql>
+
 </sqltoy>

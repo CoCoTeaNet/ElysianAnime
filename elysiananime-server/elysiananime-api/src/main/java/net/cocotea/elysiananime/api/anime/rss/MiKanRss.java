@@ -6,6 +6,8 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.lang.RegexPool;
+import cn.hutool.core.map.MapBuilder;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.ReUtil;
@@ -21,6 +23,7 @@ import com.dtflys.forest.Forest;
 import net.cocotea.elysiananime.api.anime.model.dto.AniAddOpusTorrentDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
 import net.cocotea.elysiananime.api.anime.model.po.AniOpus;
+import net.cocotea.elysiananime.api.anime.model.vo.RssCountVO;
 import net.cocotea.elysiananime.api.anime.rss.model.MkXmlDetail;
 import net.cocotea.elysiananime.api.anime.rss.model.RenameInfo;
 import net.cocotea.elysiananime.api.system.model.dto.SysNotifyAddDTO;
@@ -45,6 +48,8 @@ import net.cocotea.elysiananime.api.anime.rss.model.QbInfo;
 import net.cocotea.elysiananime.util.RuleUtils;
 import org.noear.solon.annotation.Component;
 import org.noear.solon.annotation.Inject;
+import org.sagacity.sqltoy.dao.LightDao;
+import org.sagacity.sqltoy.solon.annotation.Db;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -96,6 +101,9 @@ public class MiKanRss {
 
     @Inject
     private RedisService redisService;
+
+    @Db
+    private LightDao lightDao;
 
     /**
      * 保存并订阅rss
@@ -533,6 +541,19 @@ public class MiKanRss {
         }
 
         return qbApiUtils.addNewTorrent(opusTorrentDTO.getTorrentUrl(), mediaDir, null);
+    }
+
+    public RssCountVO getCounts() {
+        // 定义中的数量
+        Map<String, Object> params = MapUtil.builder(new HashMap<String, Object>())
+                .put("rssStatus", RssStatusEnum.SUBSCRIBING.getCode())
+                .build();
+        Long subscribing = lightDao.getCount("ani_opus_count", params);
+        // 定义完成的数量
+        params.replace("rssStatus", RssStatusEnum.SUBSCRIPTION_COMPLETED.getCode());
+        Long subscriptionCompleted = lightDao.getCount("ani_opus_count", params);
+        return new RssCountVO().setSubscribing(subscribing)
+                .setSubscriptionCompleted(subscriptionCompleted);
     }
 
 }
