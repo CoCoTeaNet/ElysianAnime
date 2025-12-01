@@ -275,7 +275,8 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  window.removeEventListener("onorientationchange" in window ? "orientationchange" : "resize", onOrientationchange, false)
+  window.removeEventListener("onorientationchange" in window ? "orientationchange" : "resize", onOrientationchange, false);
+  player.value.pause();
 });
 
 /**
