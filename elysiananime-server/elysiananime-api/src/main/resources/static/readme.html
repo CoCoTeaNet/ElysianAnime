@@ -1,76 +1,166 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ElysianAnime - 自动化追番神器</title>
-    <link rel="stylesheet" href="readme.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ElysianAnime - 专注动漫番剧管理的私人媒体服务器</title>
+    <style>
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+          line-height: 1.6;
+          color: #333;
+          max-width: 900px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: #fafafa;
+        }
+        h1, h2, h3 {
+          margin-top: 1.5em;
+          margin-bottom: 0.8em;
+        }
+        h1 {
+          border-bottom: 1px solid #eee;
+          padding-bottom: 0.3em;
+        }
+        img.shield {
+          vertical-align: middle;
+          margin-right: 4px;
+        }
+        .nav {
+          margin: 1em 0;
+        }
+        .nav a {
+          text-decoration: none;
+          color: #0366d6;
+          margin-right: 12px;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 1em 0;
+        }
+        th, td {
+          padding: 8px;
+          text-align: center;
+        }
+        pre {
+          background: #f6f8fa;
+          padding: 16px;
+          border-radius: 6px;
+          overflow-x: auto;
+        }
+        code {
+          font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, monospace;
+          font-size: 0.9em;
+        }
+        ul {
+          padding-left: 1.5em;
+        }
+    </style>
 </head>
 <body>
 
-<header class="hero">
-    <div class="container">
-        <h1>🎬 ElysianAnime</h1>
-        <p>私人服务器上的动漫追番神器</p>
-        <a href="https://github.com/CoCoTeaNet/ElysianAnime " class="btn-github" target="_blank">GitHub 项目地址</a>
-    </div>
-</header>
+<h1>🌸 ElysianAnime</h1>
+<p>一个专注动漫番剧管理的私人媒体服务器<br>
+    RSS 订阅 • 自动下载 • 智能追番 • 私有化部署
+</p>
 
-<section class="intro">
-    <div class="container">
-        <h2>🌟 简介</h2>
-        <p>ElysianAnime 是一个专为动漫爱好者打造的自动化追番管理系统。你可以：</p>
-        <ul>
-            <li>📺 自动订阅并下载 RSS 中的番剧资源</li>
-            <li>🧩 部署在你的私人服务器上，完全掌控数据</li>
-            <li>🎞️ 搭配桌面端播放器 <a href="https://github.com/CoCoTeaNet/ElysianAnime-Viewer " target="_blank">ElysianAnime-Viewer</a>，享受内嵌 MPV 的高清播放体验</li>
-        </ul>
-    </div>
-</section>
+<p>
+    <img class="shield" src="https://img.shields.io/github/license/CoCoTeaNet/ElysianAnime?color=blue&style=flat-square" alt="License">
+    <img class="shield" src="https://img.shields.io/github/v/release/CoCoTeaNet/ElysianAnime?style=flat-square&color=orange" alt="Release">
+    <img class="shield" src="https://img.shields.io/badge/Java-17+-007396?style=flat-square&logo=java&logoColor=white" alt="Java 17+">
+    <img class="shield" src="https://img.shields.io/badge/Vue.js-3.0-4FC08D?style=flat-square&logo=vuedotjs&logoColor=white" alt="Vue.js 3">
+    <img class="shield" src="https://img.shields.io/badge/Database-MySQL_8.0+-4479A1?style=flat-square&logo=mysql&logoColor=white" alt="MySQL 8.0+">
+</p>
 
-<section class="features">
-    <div class="container">
-        <h2>🛠 技术栈 & 运行环境</h2>
-        <ul>
-            <li>JDK 17+</li>
-            <li>MySQL 8.0+</li>
-            <li>Redis 支持</li>
-            <li>Node.js 14+</li>
-            <li>qBittorrent（推荐）</li>
-            <li>前端：Vue / React 可选</li>
-        </ul>
-    </div>
-</section>
+<div class="nav">
+    <a href="#项目简介">项目简介</a> •
+    <a href="#功能特性">功能特性</a> •
+    <a href="#界面预览">界面预览</a> •
+    <a href="#快速开始">快速开始</a> •
+    <a href="#关联项目">关联项目</a>
+</div>
 
-<section class="quick-start">
-    <div class="container">
-        <h2>🚀 快速开始</h2>
-        <ol>
-            <li><code>git clone https://github.com/CoCoTeaNet/ElysianAnime.git </code></li>
-            <li>运行数据库脚本初始化表结构</li>
-            <li>启动 Spring Boot 后端服务</li>
-            <li>安装前端依赖并运行：<br>
-                <code>npm install</code><br>
-                <code>npm run serve</code>
-            </li>
-            <li>访问：<a href="http://localhost:8086" target="_blank">http://localhost:8086</a>（默认账号：admin/admin123456）</li>
-        </ol>
-    </div>
-</section>
+<h2 id="项目简介">📖 项目简介</h2>
+<p>ElysianAnime 是一个运行在本地环境的番剧媒体库工具。它主要用于解决 RSS 订阅、自动下载以及本地媒体文件的整理展示问题，辅助用户更方便地管理 NAS 中的动漫资源。</p>
 
-<section class="contributing">
-    <div class="container">
-        <h2>🤝 贡献指南</h2>
-        <p>欢迎贡献代码、提交 Issue 或参与讨论！</p>
-        <p>GitHub 项目地址：<a href="https://github.com/CoCoTeaNet/ElysianAnime " target="_blank">https://github.com/CoCoTeaNet/ElysianAnime </a></p>
-    </div>
-</section>
+<h2 id="功能特性">✨ 功能特性</h2>
+<ul>
+    <li><strong>📡 RSS 订阅管理</strong>：支持解析 RSS 源，根据设定规则筛选并匹配番剧资源。</li>
+    <li><strong>🔗 下载器对接</strong>：对接 qBittorrent，将匹配到的资源自动推送至下载队列。</li>
+    <li><strong>🖥️ Web 可视化</strong>：提供基于 Web 的管理后台，以海报墙形式展示已订阅或入库的媒体信息。</li>
+    <li><strong>🏠 本地部署</strong>：适合部署在 NAS 或个人服务器上，通过 Docker 或源码运行。</li>
+    <li><strong>🧩 客户端支持</strong>：可配合配套的桌面端播放器使用，支持调用本地播放器打开资源。</li>
+</ul>
 
-<footer class="footer">
-    <div class="container">
-        <p>❤️ 致谢所有贡献者与社区支持！如有问题欢迎提 issue 或加入交流群。</p>
-    </div>
-</footer>
+<h2 id="界面预览">📸 界面预览</h2>
+<table>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+<p><em>（此处应插入实际截图，当前为空）</em></p>
+
+<h2 id="技术栈">🛠️ 技术栈</h2>
+<ul>
+    <li>后端: Java 17 (Spring Boot)</li>
+    <li>前端: Vue 3 + TypeScript</li>
+    <li>数据库: MySQL 8.0+</li>
+    <li>缓存: Redis</li>
+</ul>
+
+<h2 id="快速开始">🚀 快速开始</h2>
+
+<h3>环境要求</h3>
+<p>在开始之前，请确保您的环境满足以下要求：</p>
+<ul>
+    <li>JDK: 17+</li>
+    <li>Node.js: 14+</li>
+    <li>MySQL: 8.0+</li>
+    <li>Redis: 运行中</li>
+    <li>qBittorrent: 运行中且开启 Web UI</li>
+</ul>
+
+<h3>部署步骤</h3>
+<ol>
+    <li><strong>数据库初始化</strong><br>导入项目提供的 SQL 脚本到您的 MySQL 数据库中。</li>
+    <li><strong>后端启动</strong><br>修改配置文件（数据库连接、Redis配置、qBittorrent配置），然后启动 Spring Boot 服务。</li>
+    <li><strong>前端启动</strong>
+        <pre><code>cd elysiananime-ui
+npm install
+npm run dev</code></pre>
+    </li>
+    <li><strong>访问系统</strong><br>
+        访问地址：<code>http://localhost:8086</code><br>
+        默认账号：<code>admin</code><br>
+        默认密码：<code>admin123456</code>
+    </li>
+</ol>
+
+<h2 id="关联项目">🔗 关联项目</h2>
+<p>为了获得更好的播放体验（如支持内封字幕、特殊格式），推荐配合我们的桌面端播放器使用：</p>
+<p>🖥️ <a href="https://github.com/CoCoTeaNet/ElysianAnime-Viewer">ElysianAnime-Viewer</a>: 基于 MPV 内核的桌面客户端。</p>
+
+<h2>🤝 贡献指南</h2>
+<p>欢迎提交 Issue 和 Pull Request！如果您有好的想法或发现了 Bug，请随时告知我们。</p>
+<ol>
+    <li>Fork 本仓库</li>
+    <li>新建 Feat_xxx 分支</li>
+    <li>提交代码</li>
+    <li>新建 Pull Request</li>
+</ol>
+
+<h2>📄 开源协议</h2>
+<p>本项目采用 <a href="LICENSE">GPL-2.0</a> 协议开源。</p>
+
+<p style="text-align: right; margin-top: 40px;">
+    Made with ❤️ by <a href="https://github.com/CoCoTeaNet">CoCoTeaNet</a>
+</p>
 
 </body>
 </html>
