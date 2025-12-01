@@ -16,12 +16,18 @@
     <el-row style="margin-top: 1em">
       <el-col>
         <el-card shadow="never">
-          <el-descriptions title="RSS情况" direction="vertical" :column="2" border>
+          <el-descriptions title="RSS情况" direction="vertical" :column="4" border>
             <el-descriptions-item label="最后执行完成时间">
               {{ rssWork.lastExecTime }}
             </el-descriptions-item>
             <el-descriptions-item label="执行消息">
               {{ rssWork.execMessage }}
+            </el-descriptions-item>
+            <el-descriptions-item label="订阅中数量">
+              {{ rssCounts.data.subscribing }}
+            </el-descriptions-item>
+            <el-descriptions-item label="已完成订阅数量">
+              {{ rssCounts.data.subscriptionCompleted }}
             </el-descriptions-item>
           </el-descriptions>
         </el-card>
@@ -101,20 +107,20 @@ import {onMounted, reactive, ref} from "vue";
 import {getSystemInfo, getCount} from "@/api/system/sys-dashboard-api";
 import {reqCommonFeedback} from "@/api/ApiFeedback";
 import unitUtil from "@/utils/unit-util";
-import {getRssWorkStatus} from "@/api/anime/ani-rss-api.ts";
+import {getRssWorkStatus, getCounts} from "@/api/anime/ani-rss-api.ts";
 
 // 系统信息
 const systemInfo = reactive<any>({data: {cpuCount:0, cpuSystemUsed:0, cpuUserUsed:0, cpuFree:0}});
-
 // 表单统计
 const countList = ref<any[]>([]);
-
 const rssWork = ref<string>('');
+const rssCounts = reactive<any>({data: {subscribing: 0, subscriptionCompleted: 0}});
 
 onMounted(() => {
   initCount();
   initSystemInfo();
   loadRssWorkStatus();
+  loadCounts();
 })
 
 /**
@@ -138,6 +144,12 @@ const initCount = () => {
 const loadRssWorkStatus = () => {
   reqCommonFeedback(getRssWorkStatus(), (data: any) => {
     rssWork.value = data;
+  });
+}
+
+const loadCounts = () => {
+  reqCommonFeedback(getCounts(), (data: any) => {
+    rssCounts.data = data;
   });
 }
 </script>

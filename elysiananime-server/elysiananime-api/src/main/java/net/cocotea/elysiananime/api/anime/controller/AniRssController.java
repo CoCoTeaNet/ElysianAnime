@@ -5,6 +5,7 @@ import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.json.JSONObject;
 import net.cocotea.elysiananime.api.anime.model.dto.AniAddOpusTorrentDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
+import net.cocotea.elysiananime.api.anime.model.vo.RssCountVO;
 import net.cocotea.elysiananime.api.anime.rss.model.MkXmlDetail;
 import net.cocotea.elysiananime.api.anime.rss.model.RenameInfo;
 import net.cocotea.elysiananime.api.system.model.vo.SysDictionaryVO;
@@ -125,6 +126,15 @@ public class AniRssController {
     public ApiResult<String> addOpusTorrent(@Body AniAddOpusTorrentDTO opusTorrentDTO) throws BusinessException {
         String msg = miKanRss.addOpusTorrent(opusTorrentDTO);
         return ApiResult.ok(msg);
+    }
+
+    /**
+     * 获取RSS统计情况
+     */
+    @Get
+    @Mapping("/getCounts")
+    public ApiResult<RssCountVO> getCounts() {
+        return ApiResult.ok(miKanRss.getCounts());
     }
 
 }

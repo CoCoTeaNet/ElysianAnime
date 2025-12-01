@@ -1,7 +1,8 @@
 import { request, post, get } from '@/utils/axios-util';
 
 const rssApi = {
-	closeSubscribe: closeSubscribe, addOpusTorrent
+	closeSubscribe: closeSubscribe,
+	getCounts: getCounts
 }
 
 export function rssSubscribe(data: any) {
@@ -33,6 +34,10 @@ export function defaultExclusions() {
 
 export function addOpusTorrent(data: any) {
 	return request('anime/rss/addOpusTorrent', data, post);
+}
+
+export function getCounts() {
+	return request('anime/rss/getCounts', {}, get);
 }
 
 export default rssApi;
