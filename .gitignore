@@ -27,8 +27,11 @@ hs_err_pid*
 
 *.iml
 
+/elysiananime-server/.idea/
 /elysiananime-api/src/main/resources/static/doc/
+/release/html/
 *.smart-doc-dependency.json
 
 components.d.ts
 auto-imports.d.ts
+
