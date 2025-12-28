@@ -23,6 +23,7 @@ import com.dtflys.forest.Forest;
 import net.cocotea.elysiananime.api.anime.model.dto.AniAddOpusTorrentDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
 import net.cocotea.elysiananime.api.anime.model.po.AniOpus;
+import net.cocotea.elysiananime.api.anime.model.vo.AniVideoVO;
 import net.cocotea.elysiananime.api.anime.model.vo.RssCountVO;
 import net.cocotea.elysiananime.api.anime.rss.model.MkXmlDetail;
 import net.cocotea.elysiananime.api.anime.rss.model.RenameInfo;
@@ -490,8 +491,12 @@ public class MiKanRss {
                         log.warn("doCloseSubscribe >>> files is null");
                         return;
                     }
-                    boolean equalled = ObjUtil.equal(String.valueOf(files.length), aniOpus.getEpisodes());
+
+                    Map<String, List<AniVideoVO.Media>> medias = aniOpusService.getMedias(files);
+                    List<AniVideoVO.Media> mediaList = medias.get("mediaList");
+                    boolean equalled = ObjUtil.equal(String.valueOf(mediaList.size()), aniOpus.getEpisodes());
                     log.info("doCloseSubscribe >>> [{}]files: {}/{}, flag: {}", aniOpus.getNameCn(), files.length, aniOpus.getEpisodes(), equalled);
+
                     if (equalled) {
                         AniOpus updatePO = new AniOpus().setId(aniOpus.getId())
                                 .setRssStatus(RssStatusEnum.SUBSCRIPTION_COMPLETED.getCode());
