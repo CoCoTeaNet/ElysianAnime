@@ -27,7 +27,7 @@ sra-admin:
   # 1秒内访问服务器接口频率
   once-visits: 0
   # 路由放行（用逗号分割）
-  excludes: /system/file/getBackground,/anime/opus/cover,/system/login,/system/captcha,/,/favicon.ico,/css/**,/js/**,/img/**
+  excludes: /system/file/getBackground,/anime/opus/cover,/system/login,/system/captcha,/,/assets/**,/favicon.ico
   # 文件存放配置
   file:
     # 默认文件存放位置

@@ -144,7 +144,7 @@ public class AniOpusServiceImpl implements AniOpusService {
                     row.setReadingNum(readingNum);
                 }
 
-                row.setDownloadNum(files.length);
+                row.setDownloadNum(mediaList.size());
             } catch (Exception ex) {
                 log.error("listByUser >>> error!", ex);
                 row.setDownloadNum(0);
@@ -240,7 +240,8 @@ public class AniOpusServiceImpl implements AniOpusService {
         return vo;
     }
 
-    private Map<String, List<AniVideoVO.Media>> getMedias(File[] files) {
+    @Override
+    public Map<String, List<AniVideoVO.Media>> getMedias(File[] files) {
         List<AniVideoVO.Media> mediaList = new ArrayList<>(files.length);
         // 非数字集数，一般是SP或者OVA
         List<AniVideoVO.Media> noSortMediaList = new ArrayList<>();

@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 作品
@@ -74,4 +75,6 @@ public interface AniOpusService extends BaseService<ApiPage<AniOpusVO>, AniOpusP
      * @param resName  资源名称
      */
     File getCover(String resName, Integer w, Integer h) throws BusinessException, IOException;
+
+    Map<String, List<AniVideoVO.Media>> getMedias(File[] files);
 }
