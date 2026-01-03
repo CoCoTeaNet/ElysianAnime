@@ -1,6 +1,6 @@
 package net.cocotea.elysiananime.test;
 
-import net.cocotea.elysiananime.jobs.RssJobs;
+import net.cocotea.elysiananime.jobs.OpusJobs;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.noear.solon.annotation.Import;
@@ -9,10 +9,10 @@ import org.noear.solon.test.SolonJUnit4ClassRunner;
 
 @Import(scanPackages = {"net.cocotea.elysiananime"})
 @RunWith(SolonJUnit4ClassRunner.class)
-public class RssJobsTest {
+public class OpusJobsTest {
 
     @Inject
-    RssJobs rssJobs;
+    OpusJobs opusJobs;
 
     // @Test
     // public void scanBt() {
@@ -21,7 +21,7 @@ public class RssJobsTest {
 
     @Test
     public void scanRss() {
-        rssJobs.scanRss();
+        opusJobs.scanRss();
     }
 
 }
