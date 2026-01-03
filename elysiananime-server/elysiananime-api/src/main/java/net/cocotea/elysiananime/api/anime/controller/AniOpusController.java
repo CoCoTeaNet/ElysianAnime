@@ -83,24 +83,6 @@ public class AniOpusController {
      * @return {@link ApiResult}
      */
     @Post
-    @Mapping("/addAcgOpusByBgmUrl")
-    public ApiResult<?> addAniOpusByBgmUrl(@Body JSONObject obj) throws BusinessException {
-        String bgmUrl = obj.getString("bgmUrl");
-        if (StrUtil.isBlank(bgmUrl)) {
-            throw new BusinessException("bgmUrl is empty");
-        }
-        Integer isCover = obj.getInteger("isCover");
-        boolean b = aniSpiderService.addAniOpusByBgmUrl(bgmUrl, isCover);
-        return ApiResult.flag(b);
-    }
-
-    /**
-     * 添加作品信息,来源是Bangumi
-     *
-     * @param obj {bgmUrl："地址",isCover:"是否覆盖"}
-     * @return {@link ApiResult}
-     */
-    @Post
     @Mapping("/addOpusFromBangumi")
     public ApiResult<BigInteger> addOpusFromBangumi(@Body JSONObject obj) throws BusinessException {
         String bgmUrl = obj.getString("bgmUrl");
