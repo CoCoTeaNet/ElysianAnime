@@ -280,7 +280,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, reactive, nextTick } from "vue";
-import { add, deleteBatch, update, listByPage, addAcgOpusByBgmUrl } from "@/api/anime/ani-opus-api";
+import { add, deleteBatch, update, listByPage, addOpusFromBangumi } from "@/api/anime/ani-opus-api";
 import { reqCommonFeedback, reqSuccessFeedback } from "@/api/ApiFeedback";
 import TableManage from "@/components/container/TableManage.vue";
 import { ElForm } from "element-plus/es";
@@ -533,7 +533,7 @@ const closeAddAcgOpusDialog = () => {
 
 const onAddAcgOpus = (isCover: number) => {
   addAcgOpusLoading.value = true;
-  addAcgOpusByBgmUrl({ bgmUrl: bgmUrl.value, isCover: isCover }).then((data) => {
+  addOpusFromBangumi({ bgmUrl: bgmUrl.value, isCover: isCover }).then((data) => {
     if (data.code === 200) {
       ElMessage.success({ message: '提交成功' });
       loadTableData();
@@ -711,8 +711,7 @@ const onImportShareBatch = async () => {
     try {
         // debugger
         // 等待 doRssUpdate 请求完成
-        // 等待 addAcgOpusByBgmUrl 请求完成
-        const data = await addAcgOpusByBgmUrl({ bgmUrl: 'https://bgm.tv' + shareItem.bgmUrl, isCover: false }); 
+        const data = await addOpusFromBangumi({ bgmUrl: 'https://bgm.tv' + shareItem.bgmUrl, isCover: false }); 
         if  (data.code !== 200 && data.message !== '作品已经存在') { 
           ElMessage.error({ message: data.message }); 
         }

@@ -112,7 +112,7 @@
 
 <script lang="ts" setup>
 import {nextTick, onMounted, ref, watch} from "vue";
-import {addAcgOpusByBgmUrl, listByUser} from "@/api/anime/ani-opus-api";
+import {addOpusFromBangumi, listByUser} from "@/api/anime/ani-opus-api";
 import userOpusApi from "@/api/anime/ani-user-opus-api";
 import {reqCommonFeedback} from "@/api/ApiFeedback";
 import {useRoute, useRouter} from "vue-router";
@@ -247,7 +247,7 @@ const toPlayerView = (anime: any) => {
 
 const onAddAcgOpus = (isCover: number) => {
   addAcgOpusLoading.value = true;
-  addAcgOpusByBgmUrl({bgmUrl: bgmUrl.value, isCover: isCover})
+  addOpusFromBangumi({bgmUrl: bgmUrl.value, isCover: isCover})
       .then((data) => {
         if (data.code === 200) {
           ElMessage.success({message: '提交成功'});

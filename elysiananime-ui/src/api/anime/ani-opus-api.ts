@@ -28,8 +28,8 @@ export function getOpusMedia(data: any) {
 	return request(`anime/opus/getOpusMedia/${data}`, {}, get);
 }
 
-export function addAcgOpusByBgmUrl(data: any) {
-	return request(`anime/opus/addAcgOpusByBgmUrl`, data, post);
+export function addOpusFromBangumi(data: any) {
+	return request(`anime/opus/addOpusFromBangumi`, data, post);
 }
 
 export function getMedia(opus: any) {
