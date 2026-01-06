@@ -24,4 +24,9 @@ public class OpusJobsTest {
         opusJobs.scanRss();
     }
 
+    @Test
+    public void autoDiscoverResource() {
+        opusJobs.autoDiscoverResource();
+    }
+
 }

@@ -5,6 +5,7 @@ import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.cocotea.elysiananime.api.anime.model.dto.RssWorksStatusDTO;
 import net.cocotea.elysiananime.api.anime.rss.MiKanRss;
+import net.cocotea.elysiananime.api.anime.service.AniOpusService;
 import net.cocotea.elysiananime.api.anime.service.AniSpiderService;
 import net.cocotea.elysiananime.common.constant.RedisKeyConst;
 import net.cocotea.elysiananime.common.model.BusinessException;
@@ -31,6 +32,9 @@ public class OpusJobs {
 
     @Inject
     private AniSpiderService aniSpiderService;
+
+    @Inject
+    private AniOpusService aniOpusService;
 
     @Scheduled(cron = "0 0/5 * * * ?")
     public void scanBt() {
@@ -66,6 +70,14 @@ public class OpusJobs {
             log.error("scanRss >>> error,msg={}", ex.getMessage());
         }
         redisService.save(RedisKeyConst.RSS_WORKS_STATUS, JSONUtil.toJsonStr(worksStatusDTO));
+    }
+
+    /**
+     * 定时发现目录下的资源
+     */
+    @Scheduled(fixedDelay = 1000 * 60 * 60 * 24, initialDelay = 25000)
+    public void autoDiscoverResource() {
+        aniOpusService.autoDiscoverResource();
     }
 
 }

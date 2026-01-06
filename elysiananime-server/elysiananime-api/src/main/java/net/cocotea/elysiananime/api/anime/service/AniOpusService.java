@@ -77,4 +77,7 @@ public interface AniOpusService extends BaseService<ApiPage<AniOpusVO>, AniOpusP
     File getCover(String resName, Integer w, Integer h) throws BusinessException, IOException;
 
     Map<String, List<AniVideoVO.Media>> getMedias(File[] files);
+
+    void autoDiscoverResource();
+
 }
