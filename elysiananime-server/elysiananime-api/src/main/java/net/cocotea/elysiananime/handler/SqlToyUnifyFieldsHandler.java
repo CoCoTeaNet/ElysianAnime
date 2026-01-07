@@ -35,13 +35,15 @@ public class SqlToyUnifyFieldsHandler implements IUnifyFieldsHandler {
     public Map<String, Object> createUnifyFields() {
         LocalDateTime nowTime = DateUtil.getDateTime();
         String loginId = getLoginId();
-        Map<String, Object> map = new HashMap<>(Character.OTHER_LETTER);
-        map.put("createBy", loginId);
+        Map<String, Object> map = new HashMap<>(6);
+        if (loginId != null) {
+            map.put("createBy", loginId);
+            map.put("updateBy", loginId);
+        }
         map.put("createTime", nowTime);
-        map.put("updateBy", loginId);
         map.put("updateTime", nowTime);
-        map.put("deleteStatus", Character.UPPERCASE_LETTER);
-        map.put("sort", Character.UPPERCASE_LETTER);
+        map.put("deleteStatus", 1);
+        map.put("sort", 1);
         return map;
     }
 
@@ -49,8 +51,10 @@ public class SqlToyUnifyFieldsHandler implements IUnifyFieldsHandler {
     public Map<String, Object> updateUnifyFields() {
         LocalDateTime nowTime = DateUtil.getDateTime();
         String loginId = getLoginId();
-        Map<String, Object> map = new HashMap<>(Character.TITLECASE_LETTER);
-        map.put("updateBy", loginId);
+        Map<String, Object> map = new HashMap<>(2);
+        if (loginId != null) {
+            map.put("updateBy", loginId);
+        }
         map.put("updateTime", nowTime);
         return map;
     }

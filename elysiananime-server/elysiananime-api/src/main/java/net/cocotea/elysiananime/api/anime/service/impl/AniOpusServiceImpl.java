@@ -282,6 +282,53 @@ public class AniOpusServiceImpl implements AniOpusService {
     }
 
     @Override
+    public void autoDiscoverResource() {
+        for (String opusDir : resUtils.findOpusASS()) {
+            File allOpusDirFile = FileUtil.file(opusDir);
+            for (File opusDirFile : Objects.requireNonNull(allOpusDirFile.listFiles())) {
+                String opusName = opusDirFile.getName();
+                File[] files = opusDirFile.listFiles();
+                if (files == null) {
+                    continue;
+                }
+                Map<String, List<AniVideoVO.Media>> medias = getMedias(files);
+                List<AniVideoVO.Media> mediaList = medias.get("mediaList");
+                if (mediaList.isEmpty()) {
+                    continue;
+                }
+                Map<String, Object> map = MapUtil.newHashMap(1);
+                map.put("nameCn", opusName);
+                map.put("hasResource", IsEnum.N.getCode());
+                AniOpus aniOpus = lightDao.findOne("ani_opus_findList", map, AniOpus.class);
+                if (aniOpus == null) {
+                    continue;
+                }
+                // 更新资源状态
+                AniOpus updateOpus = new AniOpus().setId(aniOpus.getId())
+                        .setUpdateBy(aniOpus.getUpdateBy())
+                        .setHasResource(IsEnum.Y.getCode());
+                lightDao.update(updateOpus);
+                log.info("autoDiscoverResource >>> 更新资源状态值[{}]", updateOpus);
+                // 发送通知
+                SysNotifyAddDTO sysNotifyAddDTO = new SysNotifyAddDTO().setNotifyType(NotifyConst.OPUS_UPDATE)
+                        .setTitle("发现资源《" + aniOpus.getNameCn() + "》")
+                        .setMemo(StrUtil.format("""
+                                资源数量为{}
+                                """, mediaList.size()))
+                        .setJumpUrl(String.valueOf(aniOpus.getId()))
+                        .setNotifyTime(DateUtil.date().toTimestamp())
+                        .setLevel(LevelEnum.INFO.getCode())
+                        .setIsGlobal(IsEnum.Y.getCode());
+                try {
+                    sysNotifyService.addNotify(sysNotifyAddDTO);
+                } catch (Exception ex) {
+                    log.error("autoDiscoverResource >>> error,msg:{}", ex.getMessage());
+                }
+            }
+        }
+    }
+
+    @Override
     public List<AniOpus> getRssOpus(int rssStatus) {
         Map<String, Object> beanDTO = MapUtil.newHashMap(1);
         beanDTO.put("rssStatus", rssStatus);

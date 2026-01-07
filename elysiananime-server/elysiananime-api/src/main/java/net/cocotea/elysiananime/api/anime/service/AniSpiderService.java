@@ -12,15 +12,8 @@ import java.math.BigInteger;
  */
 public interface AniSpiderService {
 
-    /**
-     * 通过URL抓取bgm信息
-     *
-     * @param bgmUrl  例如：<a href="https://bgm.tv/subject/389772">...</a>
-     * @param isCover 是否覆盖
-     */
-    @Deprecated
-    boolean addAniOpusByBgmUrl(String bgmUrl, Integer isCover) throws BusinessException;
-
     BigInteger addOpusFromBangumi(String bgmUrl, Integer isCover) throws BusinessException;
+
+    void autoFetchOpus() throws BusinessException;
 
 }

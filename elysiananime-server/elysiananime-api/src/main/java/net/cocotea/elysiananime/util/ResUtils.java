@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class ResUtils {
@@ -125,6 +127,15 @@ public class ResUtils {
         }
         String dir = path + opusName;
         return FileUtil.exist(dir);
+    }
+
+    public List<String> findOpusASS() {
+        String path = findASS(2);
+        if (StrUtil.isBlank(path)) {
+            throw new NullPointerException("查找不到可用空间");
+        }
+        String[] paths = path.split(CharConst.COMMA);
+        return Arrays.stream(paths).toList();
     }
 
 }
