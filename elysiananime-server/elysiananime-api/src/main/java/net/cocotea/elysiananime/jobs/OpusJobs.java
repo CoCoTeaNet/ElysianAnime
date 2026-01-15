@@ -46,9 +46,9 @@ public class OpusJobs {
     }
 
     /**
-     * 定时自动抓取番剧信息
+     * 定时自动获取番剧信息
      */
-    @Scheduled(fixedDelay = 1000 * 60 * 60 * 24 * 7, initialDelay = 15000)
+    @Scheduled(cron = "0 0 2 ? * MON")
     public void autoFetchOpus() {
         try {
             aniSpiderService.autoFetchOpus();

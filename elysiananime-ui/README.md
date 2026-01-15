@@ -17,8 +17,10 @@ fnm use --install-if-missing 22
 
 ## 运行打包
 ```shell
+# 安装依赖
+pnpm install
 # 开发环境
-npm run dev
+pnpm run dev
 # 打包
-npm run build
+pnpm run build
 ```

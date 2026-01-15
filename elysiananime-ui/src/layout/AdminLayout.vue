@@ -9,11 +9,11 @@
 
       <el-main>
         <router-view v-slot="{ Component }">
-          <keep-alive>
-            <transition :name="`slide-fade`" :mode="`out-in`">
+          <transition :name="`slide-fade`" :mode="`out-in`">
+            <keep-alive>
               <component :is="Component" />
-            </transition>
-          </keep-alive>
+            </keep-alive>
+          </transition>
         </router-view>
       </el-main>
     </el-container>
