@@ -242,6 +242,10 @@ const init = (toParams?: any, previousParams?: any) => {
 watch(
     () => route.params,
     (toParams, previousParams) => {
+      // 防御无效参数（{}）
+      if (!toParams || Object.keys(toParams).length === 0) {
+        return;
+      }
       init(toParams, previousParams);
     }
 )
