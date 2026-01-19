@@ -86,7 +86,7 @@ public class AniOpusVO implements Serializable {
 	private String rssExcludeRes;
 
 	/**
-	 * acg标签
+	 * 作品标签
 	 */
 	private List<AniTag> aniTags;
 
@@ -114,6 +114,11 @@ public class AniOpusVO implements Serializable {
 	 * 简介
 	 */
 	private String aniSummary;
+
+	/**
+	 * 评分
+	 */
+	private Float score;
 
 	/**
 	 * 创建时间

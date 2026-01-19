@@ -1,5 +1,6 @@
 package net.cocotea.elysiananime.api.anime.service;
 
+import com.alibaba.fastjson2.JSONObject;
 import net.cocotea.elysiananime.common.model.BusinessException;
 
 import java.math.BigInteger;
@@ -15,5 +16,7 @@ public interface AniSpiderService {
     BigInteger addOpusFromBangumi(String bgmUrl, Integer isCover) throws BusinessException;
 
     void autoFetchOpus() throws BusinessException;
+
+    JSONObject fetchOpusFromBangumi(String subjectId) throws BusinessException;
 
 }

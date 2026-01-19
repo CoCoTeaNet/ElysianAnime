@@ -117,9 +117,15 @@ public class AniOpusController {
         return ApiResult.flag(b);
     }
 
+    /**
+     * 分页查询作品信息
+     *
+     * @param param {@link AniOpusPageDTO}
+     * @return {@link AniOpusVO}
+     */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin", "bangumi:rss:subscriber"}, mode = SaMode.OR)
     @Mapping("/listByPage")
-    public ApiResult<?> listByPage(@Body AniOpusPageDTO param) throws BusinessException {
+    public ApiResult<ApiPage<AniOpusVO>> listByPage(@Body AniOpusPageDTO param) throws BusinessException {
         ApiPage<AniOpusVO> r = aniOpusService.listByPage(param);
         return ApiResult.ok(r);
     }

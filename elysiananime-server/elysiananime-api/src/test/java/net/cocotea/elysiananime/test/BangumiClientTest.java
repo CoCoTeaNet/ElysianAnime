@@ -2,6 +2,7 @@ package net.cocotea.elysiananime.test;
 
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson2.JSONObject;
+import net.cocotea.elysiananime.api.anime.service.AniSpiderService;
 import net.cocotea.elysiananime.client.BangumiClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-
 @Import(scanPackages = {"net.cocotea.elysiananime"})
 @RunWith(SolonJUnit4ClassRunner.class)
 public class BangumiClientTest {
@@ -22,6 +22,9 @@ public class BangumiClientTest {
 
     @Inject
     BangumiClient bangumiClient;
+
+    @Inject
+    AniSpiderService aniSpiderService;
 
     @Test
     public void calendarTest() {
@@ -33,6 +36,12 @@ public class BangumiClientTest {
     public void subjectsTest() {
         JSONObject subjects = bangumiClient.subjects("504054");
         log.info(JSONUtil.toJsonStr(subjects));
+    }
+
+    @Test
+    public void addOpusFromBangumiTest() throws Exception {
+        JSONObject object = aniSpiderService.fetchOpusFromBangumi("504054");
+        log.info(JSONUtil.toJsonStr(object));
     }
 
 }
