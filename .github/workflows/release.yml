@@ -20,25 +20,26 @@ jobs:
         with:
           fetch-depth: 0  # 获取完整历史，用于生成 changelog
 
-      # 🌐 使用 volta 安装 Node.js 并设置 pnpm
+      # 🌐 设置 Node.js 和 pnpm
       - name: Setup Node.js and pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
           run_install: false
 
-      - name: Setup Node.js
+      - name: Setup Node.js with pnpm caching
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'pnpm'
-          cache-dependency-path: elysiananime-ui/pnpm-lock.yaml
+          cache-dependency-path: 'elysiananime-ui/pnpm-lock.yaml'
 
       - name: Install and Build Frontend
         run: |
           cd elysiananime-ui
           pnpm install --frozen-lockfile
           pnpm build
+        shell: bash
         env:
           VITE_API_URL: "/api"  # 前端调用后端 API 的路径
 
@@ -54,6 +55,7 @@ jobs:
         run: |
           cd elysiananime-server
           mvn -B package -DskipTests
+        shell: bash
 
       # 📦 创建 release 目录并合并文件
       - name: Prepare Release Directory
@@ -74,12 +76,14 @@ jobs:
 
           # 可选：复制 README 或说明文件
           cp README.md ElysianAnime-Release/ || echo "No README.md"
+        shell: bash
 
       # 🗜️ 打包为 ZIP
       - name: Create ZIP Archive
         run: |
           VERSION=${GITHUB_REF#refs/tags/}
           zip -r "ElysianAnime-$VERSION.zip" ElysianAnime-Release/
+        shell: bash
         id: zip
 
       # 📜 生成 changelog
