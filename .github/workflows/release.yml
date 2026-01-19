@@ -25,14 +25,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'yarn'
-          cache-dependency-path: elysiananime-ui/yarn.lock
+          cache: 'pnpm'
+          cache-dependency-path: elysiananime-ui/pnpm-lock.yaml
 
       - name: Install and Build Frontend
         run: |
           cd elysiananime-ui
-          yarn install --frozen-lockfile
-          yarn build
+          pnpm install --frozen-lockfile
+          pnpm build
         env:
           VITE_API_URL: "/api"  # 前端调用后端 API 的路径
 
