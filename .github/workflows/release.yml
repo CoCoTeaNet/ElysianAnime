@@ -20,13 +20,17 @@ jobs:
         with:
           fetch-depth: 0  # 获取完整历史，用于生成 changelog
 
-      # 🌐 设置 Node.js 并构建前端
+      # 🌐 设置 Node.js 并安装 pnpm
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'pnpm'
           cache-dependency-path: elysiananime-ui/pnpm-lock.yaml
+
+      # 安装 pnpm
+      - name: Install pnpm
+        run: npm install -g pnpm
 
       - name: Install and Build Frontend
         run: |
