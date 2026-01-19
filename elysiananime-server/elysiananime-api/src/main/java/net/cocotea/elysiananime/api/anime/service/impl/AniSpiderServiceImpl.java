@@ -6,6 +6,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
@@ -145,7 +146,8 @@ public class AniSpiderServiceImpl implements AniSpiderService {
         }));
     }
 
-    private JSONObject fetchOpusFromBangumi(String subjectId) throws BusinessException {
+    @Override
+    public JSONObject fetchOpusFromBangumi(String subjectId) throws BusinessException {
         JSONObject subjects = bangumiClient.subjects(subjectId);
         Assert.isFalse(subjects == null, () -> new BusinessException("未找到条目"));
 
@@ -154,6 +156,12 @@ public class AniSpiderServiceImpl implements AniSpiderService {
                 .setNameCn(Opt.ofBlankAble(subjects.getString("name_cn")).orElseGet(() -> subjects.getString("name")))// 中文名称
                 .setEpisodes(subjects.getString("total_episodes")) // 话数
                 .setAniSummary(subjects.getString("summary")); // 简介
+
+        // 评分
+        Object scoreObj = subjects.getByPath("rating.score");
+        if (scoreObj != null) {
+            aniOpus.setScore(NumberUtil.parseFloat(scoreObj.toString(), 0F));
+        }
 
         String infobox = subjects.getString("infobox");
         for (Object json : JSON.parseArray(infobox)) {

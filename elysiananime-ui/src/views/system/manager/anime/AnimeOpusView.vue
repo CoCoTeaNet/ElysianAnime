@@ -44,6 +44,11 @@
         </el-table-column>
         <el-table-column width="300" prop="nameOriginal" label="原名" />
         <el-table-column width="300" prop="nameCn" label="中文名" />
+        <el-table-column width="100" prop="score" label="评分">
+          <template #default="scope">
+            <el-tag>{{ scope.row.score }}</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="detailInfoUrl" label="详细链接" />
         <el-table-column width="100" prop="hasResource" label="是否有资源">
           <template #default="scope">

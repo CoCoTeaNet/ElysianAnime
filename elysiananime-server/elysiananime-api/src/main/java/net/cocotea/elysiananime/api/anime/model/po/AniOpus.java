@@ -3,6 +3,7 @@
  */
 package net.cocotea.elysiananime.api.anime.model.po;
 
+import java.io.Serial;
 import java.io.Serializable;
 import org.sagacity.sqltoy.config.annotation.Entity;
 import org.sagacity.sqltoy.config.annotation.Id;
@@ -10,6 +11,7 @@ import org.sagacity.sqltoy.config.annotation.Column;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import java.math.BigInteger;
+import java.sql.Types;
 import java.time.LocalDateTime;
 
 /**
@@ -21,11 +23,9 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @Entity(tableName="ani_opus",comment="作品主表",pk_constraint="PRIMARY")
 public class AniOpus implements Serializable {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7665174370014079908L;
+
+	@Serial
+    private static final long serialVersionUID = 7665174370014079908L;
 /*---begin-auto-generate-don't-update-this-area--*/	
 
 	@Id(strategy="generator",generator="org.sagacity.sqltoy.plugins.id.impl.SnowflakeIdGenerator")
@@ -46,6 +46,9 @@ public class AniOpus implements Serializable {
 
 	@Column(name="episodes",comment="话数",length=100L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
 	private String episodes;
+
+	@Column(name="score",comment="评分",length=10L,type= Types.FLOAT,nativeType="FLOAT",nullable=true)
+	private Float score;
 
 	@Column(name="launch_start",comment="放送开始",length=100L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
 	private String launchStart;
