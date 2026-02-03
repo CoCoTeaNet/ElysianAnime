@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sagacity
+        xmlns="https://www.sagframe.com/schema/sqltoy-translate"
+        xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://www.sagframe.com/schema/sqltoy-translate https://www.sagframe.com/schema/sqltoy/sqltoy-translate.xsd">
+    <!-- 缓存有默认失效时间，默认为1小时,因此只有较为频繁的缓存才需要及时检测 -->
+    <cache-translates>
+        <!-- 基于sql直接查询的方式获取缓存 -->
+        <sql-translate cache="userNameCache">
+            <sql>
+            <![CDATA[
+                select id, concat(username, '@', nickname) as full_name
+                from sys_user
+                where is_deleted = 0
+                order by id
+                ]]>
+            </sql>
+        </sql-translate>
+    </cache-translates>
+
+    <!-- 缓存刷新检测,可以提供多个基于sql、service、rest服务检测 -->
+    <cache-update-checkers cluster-time-deviation="1">
+        <!-- 基于sql的缓存更新检测 -->
+        <sql-increment-checker cache="userNameCache" check-frequency="60">
+            <sql><![CDATA[
+                select id, username, nickname
+                from sys_user
+                where is_deleted = 0
+                ]]></sql>
+        </sql-increment-checker>
+    </cache-update-checkers>
+</sagacity>
