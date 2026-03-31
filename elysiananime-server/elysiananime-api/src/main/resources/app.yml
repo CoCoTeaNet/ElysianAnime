@@ -92,8 +92,8 @@ myapp:
     schema: elysiananime
     jdbcUrl: jdbc:mysql://127.0.0.1:3306/elysiananime?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
     driverClassName: com.mysql.cj.jdbc.Driver
-    username: root
-    password: root
+    username: tester
+    password: tester123456
   # Redis
   rd1:
     server: 127.0.0.1:6379
