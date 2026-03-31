@@ -5,7 +5,7 @@
     <parent>
         <groupId>net.cocotea</groupId>
         <artifactId>elysiananime</artifactId>
-        <version>2.6.0</version>
+        <version>3.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,11 +13,11 @@
     <packaging>jar</packaging>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <skipTests>true</skipTests>
         <utf-8>UTF-8</utf-8>
-        <smart-doc.version>3.1.0</smart-doc.version>
+        <smart-doc.version>3.1.2</smart-doc.version>
     </properties>
 
     <dependencies>
@@ -47,12 +47,12 @@
 
         <dependency>
             <groupId>org.noear</groupId>
-            <artifactId>solon.serialization.fastjson2</artifactId>
+            <artifactId>solon-serialization-fastjson2</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.noear</groupId>
-            <artifactId>solon-job</artifactId>
+            <artifactId>solon-scheduling-simple</artifactId>
         </dependency>
 
         <!-- mysql连接器 -->
@@ -74,6 +74,11 @@
             </exclusions>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.noear</groupId>
+            <artifactId>solon-aot</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -83,13 +88,16 @@
             <plugin>
                 <groupId>org.noear</groupId>
                 <artifactId>solon-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>net.cocotea.elysiananime.Launcher</mainClass>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <source>21</source>
+                    <target>21</target>
                 </configuration>
             </plugin>
 
@@ -116,7 +124,7 @@
                         <phase>compile</phase>
                         <goals>
                             <!--smart-doc提供了html、openapi、markdown等goal，可按需配置-->
-                            <goal>html</goal>
+                            <goal>markdown</goal>
                         </goals>
                     </execution>
                 </executions>
