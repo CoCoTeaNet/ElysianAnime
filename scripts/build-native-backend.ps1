@@ -65,7 +65,6 @@ if (Test-Path $graalBin) {
 
 Assert-Command "java"
 Assert-Command "native-image"
-Assert-Command "jar"
 
 Info "RepoRoot      : $RepoRoot"
 Info "GRAALVM_HOME  : $env:GRAALVM_HOME"
@@ -112,33 +111,41 @@ try {
     if ($LASTEXITCODE -ne 0) { Fail "Maven 构建失败（exit code=$LASTEXITCODE）" }
     Pop-Location
 
-    # 兼容不同 jar 命名（比如 finalName / artifactId-version）
-    $TargetDir = Join-Path $ApiDir 'target'
-    $launcherClassPath = 'net/cocotea/elysiananime/Launcher.class'
-    $jarCandidates = Get-ChildItem -Path $TargetDir -Filter '*.jar' -ErrorAction SilentlyContinue |
-      Where-Object {
-        $_.Name -notmatch '(-sources|-javadoc)\.jar$' -and
-        $_.Name -notmatch '\.original\.jar$' -and
-        $_.Name -notmatch '^original-'
-      } |
-      Sort-Object LastWriteTime -Descending
-
-    $jar = $null
-    foreach ($c in $jarCandidates) {
-      # 确认 jar 内包含主类，避免选到不含 class 的 jar（会导致 native-image 报 Main entry point class not found）
-      $hasLauncher = $false
-      try {
-        $hasLauncher = (& jar tf $c.FullName | Select-String -SimpleMatch $launcherClassPath -Quiet)
-      } catch {
-        $hasLauncher = $false
-      }
-      if ($hasLauncher) { $jar = $c; break }
-    }
-    if (-not $jar) {
-      Fail "未找到包含主类的 JAR：$TargetDir\*.jar（期望包含：$launcherClassPath）"
+    # 关键修复：
+    # 很多框架（含某些 fat-jar）会把 class 放在 jar 内的 BOOT-INF/classes/ 下，
+    # 这样 native-image 直接 -cp app.jar 会找不到主类（net.cocotea.elysiananime.Launcher）。
+    # 因此这里不再依赖 jar，而是使用：
+    #   1) target/classes（必须包含 Launcher.class）
+    #   2) runtime 依赖 classpath（maven dependency:build-classpath 生成）
+    $ClassDir = Join-Path $ApiDir 'target\classes'
+    $LauncherClassFile = Join-Path $ClassDir 'net\cocotea\elysiananime\Launcher.class'
+    if (-not (Test-Path $LauncherClassFile)) {
+      Fail "未找到主类 class 文件：$LauncherClassFile（请确认 Maven 已成功编译 elysiananime-api）"
     }
 
-    Copy-Item -Force $jar.FullName (Join-Path $OutPath "elysiananime.jar")
+    $CpFile = Join-Path $OutPath 'classpath.txt'
+    Push-Location $ApiDir
+    $cpArgs = @(
+      'dependency:build-classpath',
+      '-DincludeScope=runtime',
+      '-DskipTests',
+      ('-Dmdep.outputFile=' + $CpFile),
+      '-B',
+      '-q'
+    )
+    & mvn @cpArgs
+    if ($LASTEXITCODE -ne 0) { Fail "Maven 生成依赖 classpath 失败（exit code=$LASTEXITCODE）" }
+    Pop-Location
+
+    $depCp = ''
+    if (Test-Path $CpFile) {
+      $depCp = (Get-Content -Raw -Path $CpFile).Trim()
+    }
+
+    $FullCp = $ClassDir
+    if ($depCp) {
+      $FullCp = "$ClassDir;$depCp"
+    }
 
     Push-Location $OutPath
     Info "native-image 构建中（可能需要几分钟）..."
@@ -151,7 +158,7 @@ try {
       "-H:IncludeResources=.*\.properties$" `
       "-H:IncludeResources=.*\.json$" `
       "-H:Name=elysiananime" `
-      -cp "elysiananime.jar" `
+      -cp "$FullCp" `
       "net.cocotea.elysiananime.Launcher"
     if ($LASTEXITCODE -ne 0) { Fail "native-image 构建失败（exit code=$LASTEXITCODE）" }
     Pop-Location

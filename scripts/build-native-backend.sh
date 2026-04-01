@@ -100,18 +100,33 @@ if [[ "${USE_CLI}" == "0" ]]; then
   popd >/dev/null
 else
   echo "[WARN] 使用 native-image 命令行兜底构建（不走 Maven -Pnative）..."
-  echo "[INFO] 先构建 JAR..."
+  echo "[INFO] 先编译后端（生成 target/classes 与依赖）..."
   pushd "${SERVER_DIR}" >/dev/null
-  mvn -f "${SERVER_DIR}/pom.xml" clean package -pl elysiananime-api -am -DskipTests -Dmaven.test.skip=true
+  mvn -f "${SERVER_DIR}/pom.xml" clean package -pl elysiananime-api -am -DskipTests -B
   popd >/dev/null
 
-  JAR_PATH="${API_DIR}/target/elysiananime.jar"
-  if [[ ! -f "${JAR_PATH}" ]]; then
-    echo "[ERROR] 未找到 JAR：${JAR_PATH}" >&2
+  # 关键修复：
+  # 某些 fat-jar 会把 classes 放在 BOOT-INF/classes/，native-image 直接 -cp app.jar 会找不到主类。
+  # 因此这里改为使用 target/classes + runtime 依赖 classpath。
+  CLASS_DIR="${API_DIR}/target/classes"
+  if [[ ! -f "${CLASS_DIR}/net/cocotea/elysiananime/Launcher.class" ]]; then
+    echo "[ERROR] 未找到主类 class：${CLASS_DIR}/net/cocotea/elysiananime/Launcher.class" >&2
     exit 1
   fi
 
-  cp -f "${JAR_PATH}" "${OUT_DIR}/elysiananime.jar"
+  CP_FILE="${OUT_DIR}/classpath.txt"
+  pushd "${API_DIR}" >/dev/null
+  mvn -q -B dependency:build-classpath -DincludeScope=runtime -DskipTests -Dmdep.outputFile="${CP_FILE}"
+  popd >/dev/null
+
+  DEP_CP=""
+  if [[ -f "${CP_FILE}" ]]; then
+    DEP_CP="$(tr -d '\r\n' < "${CP_FILE}")"
+  fi
+  FULL_CP="${CLASS_DIR}"
+  if [[ -n "${DEP_CP}" ]]; then
+    FULL_CP="${CLASS_DIR}:${DEP_CP}"
+  fi
 
   echo "[INFO] 开始 native-image 构建（可能需要几分钟）..."
   pushd "${OUT_DIR}" >/dev/null
@@ -124,7 +139,7 @@ else
     -H:IncludeResources='.*\.properties$' \
     -H:IncludeResources='.*\.json$' \
     -H:Name=elysiananime \
-    -cp "elysiananime.jar" \
+    -cp "${FULL_CP}" \
     net.cocotea.elysiananime.Launcher
   popd >/dev/null
 fi
