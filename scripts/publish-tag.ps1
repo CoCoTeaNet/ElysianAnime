@@ -55,7 +55,7 @@ Assert-Command "git"
 if ($LASTEXITCODE -ne 0) { Fail "当前目录不是 Git 仓库根目录/子目录。请在仓库内运行该脚本。" }
 
 # 基础信息
-$branch = (& git rev-parse --abbrev-ref HEAD).Trim()
+$branch = ((& git rev-parse --abbrev-ref HEAD) | Out-String).Trim()
 if (-not $branch) { Fail "无法获取当前分支名。" }
 Info "当前分支：$branch"
 Info "远端：$Remote"
@@ -80,7 +80,7 @@ $remoteTag = (& git ls-remote --tags $Remote "refs/tags/$Tag" 2>$null)
 if ($remoteTag) { Fail "远端 $Remote 已存在 tag：$Tag（请更换 tag）" }
 
 # 检查工作区状态
-$status = (& git status --porcelain).Trim()
+$status = ((& git status --porcelain) | Out-String).Trim()
 if ($status) {
   if (-not $AutoCommit) {
     Fail "检测到未提交改动。请先提交/暂存，或使用 -AutoCommit 让脚本自动提交。"
@@ -116,4 +116,3 @@ Info "推送 tag：git push $Remote $Tag"
 
 Info "完成。现在 GitHub Actions 应该已被 tag push 触发。"
 Info "你可以到 GitHub 仓库的 Actions 页面查看运行情况，成功后会在 Releases 里看到产物。"
-
