@@ -117,8 +117,8 @@ else
   pushd "${OUT_DIR}" >/dev/null
   native-image \
     --no-fallback \
-    --allow-incomplete-classpath \
     --report-unsupported-elements-at-runtime \
+    -H:+UnlockExperimentalVMOptions \
     -H:+ReportExceptionStackTraces \
     -H:IncludeResources='.*\.xml$' \
     -H:IncludeResources='.*\.properties$' \
@@ -166,4 +166,3 @@ echo
 echo "运行方式："
 echo "  cd \"${OUT_DIR}\""
 echo "  ./elysiananime"
-

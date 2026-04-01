@@ -65,6 +65,7 @@ if (Test-Path $graalBin) {
 
 Assert-Command "java"
 Assert-Command "native-image"
+Assert-Command "jar"
 
 Info "RepoRoot      : $RepoRoot"
 Info "GRAALVM_HOME  : $env:GRAALVM_HOME"
@@ -108,15 +109,33 @@ try {
       '-B'
     )
     & mvn @mvnArgs
+    if ($LASTEXITCODE -ne 0) { Fail "Maven 构建失败（exit code=$LASTEXITCODE）" }
     Pop-Location
 
     # 兼容不同 jar 命名（比如 finalName / artifactId-version）
     $TargetDir = Join-Path $ApiDir 'target'
-    $jar = Get-ChildItem -Path $TargetDir -Filter '*.jar' -ErrorAction SilentlyContinue |
-      Sort-Object LastWriteTime -Descending |
-      Select-Object -First 1
+    $launcherClassPath = 'net/cocotea/elysiananime/Launcher.class'
+    $jarCandidates = Get-ChildItem -Path $TargetDir -Filter '*.jar' -ErrorAction SilentlyContinue |
+      Where-Object {
+        $_.Name -notmatch '(-sources|-javadoc)\.jar$' -and
+        $_.Name -notmatch '\.original\.jar$' -and
+        $_.Name -notmatch '^original-'
+      } |
+      Sort-Object LastWriteTime -Descending
+
+    $jar = $null
+    foreach ($c in $jarCandidates) {
+      # 确认 jar 内包含主类，避免选到不含 class 的 jar（会导致 native-image 报 Main entry point class not found）
+      $hasLauncher = $false
+      try {
+        $hasLauncher = (& jar tf $c.FullName | Select-String -SimpleMatch $launcherClassPath -Quiet)
+      } catch {
+        $hasLauncher = $false
+      }
+      if ($hasLauncher) { $jar = $c; break }
+    }
     if (-not $jar) {
-      Fail "未找到构建产物 JAR：$TargetDir\*.jar"
+      Fail "未找到包含主类的 JAR：$TargetDir\*.jar（期望包含：$launcherClassPath）"
     }
 
     Copy-Item -Force $jar.FullName (Join-Path $OutPath "elysiananime.jar")
@@ -125,8 +144,8 @@ try {
     Info "native-image 构建中（可能需要几分钟）..."
     & native-image `
       --no-fallback `
-      --allow-incomplete-classpath `
       --report-unsupported-elements-at-runtime `
+      "-H:+UnlockExperimentalVMOptions" `
       "-H:+ReportExceptionStackTraces" `
       "-H:IncludeResources=.*\.xml$" `
       "-H:IncludeResources=.*\.properties$" `
@@ -134,6 +153,7 @@ try {
       "-H:Name=elysiananime" `
       -cp "elysiananime.jar" `
       "net.cocotea.elysiananime.Launcher"
+    if ($LASTEXITCODE -ne 0) { Fail "native-image 构建失败（exit code=$LASTEXITCODE）" }
     Pop-Location
   }
 }
