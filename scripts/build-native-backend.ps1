@@ -95,15 +95,31 @@ try {
     Warn "使用 native-image 命令行兜底构建（不走 Maven -Pnative）..."
     # 1) 先构建 jar（目标：elysiananime-server/elysiananime-api/target/elysiananime.jar）
     Push-Location $ServerDir
-    & mvn -f (Join-Path $ServerDir "pom.xml") clean package -pl elysiananime-api -am -DskipTests -Dmaven.test.skip=true
+    # 说明：
+    # 过去有用户在某些环境下遇到 Maven 参数被拆分，导致类似：
+    #   Unknown lifecycle phase ".test.skip=true"
+    # 为避免该类问题，这里用参数数组传递，并去掉冗余的 -Dmaven.test.skip=true（-DskipTests 已足够）
+    $mvnArgs = @(
+      '-f', (Join-Path $ServerDir 'pom.xml'),
+      'clean', 'package',
+      '-pl', 'elysiananime-api',
+      '-am',
+      '-DskipTests',
+      '-B'
+    )
+    & mvn @mvnArgs
     Pop-Location
 
-    $JarPath = Join-Path $ApiDir "target/elysiananime.jar"
-    if (-not (Test-Path $JarPath)) {
-      Fail "未找到构建产物 JAR：$JarPath"
+    # 兼容不同 jar 命名（比如 finalName / artifactId-version）
+    $TargetDir = Join-Path $ApiDir 'target'
+    $jar = Get-ChildItem -Path $TargetDir -Filter '*.jar' -ErrorAction SilentlyContinue |
+      Sort-Object LastWriteTime -Descending |
+      Select-Object -First 1
+    if (-not $jar) {
+      Fail "未找到构建产物 JAR：$TargetDir\*.jar"
     }
 
-    Copy-Item -Force $JarPath (Join-Path $OutPath "elysiananime.jar")
+    Copy-Item -Force $jar.FullName (Join-Path $OutPath "elysiananime.jar")
 
     Push-Location $OutPath
     Info "native-image 构建中（可能需要几分钟）..."
@@ -164,4 +180,3 @@ Info "  配置  -> $(Join-Path $OutPath 'config/app.yml')（如存在）"
 Info "运行方式（示例）："
 Info "  cd `"$OutPath`""
 Info "  .\\elysiananime.exe"
-
