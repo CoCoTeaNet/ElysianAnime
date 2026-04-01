@@ -1,26 +1,21 @@
-name: Release
+name: Release (ZIP + Docker + Native)
 
 on:
   push:
     tags:
-      # 仅当 git push 一个形如 1.0.0 的 tag 时触发
-      # 匹配类似 1.0.0、2.3.4 这样的 tag
-      - '[0-9]+.[0-9]+.[0-9]+'
+      # 仅当 git push 一个形如 v1.0.0 或 1.0.0 的 tag 时触发（避免日常开发 push 触发）
+      - 'v?[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
-  release:
+  build_artifacts:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # 允许创建 Release
-      pull-requests: read
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # 获取完整历史，用于生成 changelog
+          fetch-depth: 0
 
-      # 🌐 设置 Node.js 并构建前端
+      # 🌐 Node.js（用于构建前端）
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -28,53 +23,122 @@ jobs:
           cache: 'yarn'
           cache-dependency-path: elysiananime-ui/yarn.lock
 
-      - name: Install and Build Frontend
-        run: |
-          cd elysiananime-ui
-          yarn install --frozen-lockfile
-          yarn build
-        env:
-          VITE_API_URL: "/api"  # 前端调用后端 API 的路径
-
-      # ☕ 设置 Java 并构建后端
+      # ☕ Java（用于构建后端）
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
           cache: maven
 
-      - name: Build Backend with Maven
-        run: |
-          cd elysiananime-server
-          mvn -B package -DskipTests
+      # 🐳 Docker（ubuntu-latest 默认自带 Docker；此处只做 sanity check）
+      - name: Docker version
+        run: docker version
 
-      # 📦 创建 release 目录并合并文件
-      - name: Prepare Release Directory
+      # 🔧 一键构建：前端 + 后端 + ZIP + Docker 镜像导出（不 push）
+      - name: Build artifacts (zip + docker image tar.gz)
         run: |
-          mkdir -p ElysianAnime-Release/{backend,frontend}
-          
-          # 复制后端 jar
-          cp elysiananime-server/elysiananime-api/target/*.jar ElysianAnime-Release/backend/
-          cp elysiananime-server/elysiananime-api/target/classes/app.yml ElysianAnime-Release/backend/
-          
-          # 复制前端构建结果
-          cp -r elysiananime-ui/dist/* ElysianAnime-Release/frontend/
-          
-          # 复制启动脚本
-          cp doc/bin/start.bat ElysianAnime-Release/backend/
-          cp doc/bin/stop.bat ElysianAnime-Release/backend/
-          cp doc/bin/start.sh ElysianAnime-Release/backend/
+          chmod +x scripts/ci/release.sh
+          scripts/ci/release.sh
 
-          # 可选：复制 README 或说明文件
-          cp README.md ElysianAnime-Release/ || echo "No README.md"
+      - name: Upload artifacts (zip + docker)
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: |
+            ElysianAnime-*.zip
+            ElysianAnime-*-docker-image.tar.gz
 
-      # 🗜️ 打包为 ZIP
-      - name: Create ZIP Archive
+  native_linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup GraalVM (Linux)
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '21'
+          distribution: 'graalvm'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          components: 'native-image'
+          cache: 'maven'
+
+      - name: Build native binary (Linux)
         run: |
-          VERSION=${GITHUB_REF#refs/tags/}
-          zip -r "ElysianAnime-$VERSION.zip" ElysianAnime-Release/
-        id: zip
+          echo "GRAALVM_HOME=$JAVA_HOME" >> "$GITHUB_ENV"
+          chmod +x scripts/build-native-backend.sh
+          scripts/build-native-backend.sh -o out-linux --cli
+
+      - name: Package (Linux)
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+          tar -czf "ElysianAnime-native-linux-${VERSION}.tar.gz" -C out-linux .
+
+      - name: Upload native (Linux)
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-linux
+          path: ElysianAnime-native-linux-*.tar.gz
+
+  native_windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 初始化 MSVC 开发环境（native-image 在 Windows 上需要 cl.exe/link.exe）
+      - name: Setup MSVC dev cmd
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Setup GraalVM (Windows)
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '21'
+          distribution: 'graalvm'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          components: 'native-image'
+          cache: 'maven'
+
+      - name: Build native binary (Windows)
+        shell: pwsh
+        run: |
+          "GRAALVM_HOME=$env:JAVA_HOME" | Out-File -FilePath $env:GITHUB_ENV -Append
+          pwsh ./scripts/build-native-backend.ps1 -OutputDir out-windows -UseCliNativeImage
+
+      - name: Package (Windows)
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}"
+          Compress-Archive -Path "out-windows\\*" -DestinationPath "ElysianAnime-native-windows-$version.zip" -Force
+
+      - name: Upload native (Windows)
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-windows
+          path: ElysianAnime-native-windows-*.zip
+
+  release:
+    runs-on: ubuntu-latest
+    needs:
+      - build_artifacts
+      - native_linux
+      - native_windows
+    permissions:
+      contents: write # 允许创建 Release
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./dist
+
+      - name: List files
+        run: ls -R ./dist
 
       # 📜 生成 changelog（基于 commit）
       - name: Build Changelog
@@ -87,30 +151,15 @@ jobs:
             {
               "template": "#{{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n#{{UNCATEGORIZED}}\n</details>",
               "categories": [
-                {
-                    "title": "## 🚀 Features",
-                    "labels": ["feature", "feat"]
-                },
-                {
-                    "title": "## 🐛 Fixes",
-                    "labels": ["fix", "bug"]
-                },
-                {
-                    "title": "## 🧪 Tests",
-                    "labels": ["test"]
-                },
-                {
-                    "title": "## 💬 Other",
-                    "labels": ["other"]
-                },
-                {
-                    "title": "## 📦 Dependencies",
-                    "labels": ["dependencies"]
-                }
+                { "title": "## 🚀 Features", "labels": ["feature", "feat"] },
+                { "title": "## 🐛 Fixes", "labels": ["fix", "bug"] },
+                { "title": "## 🧪 Tests", "labels": ["test"] },
+                { "title": "## 💬 Other", "labels": ["other"] },
+                { "title": "## 📦 Dependencies", "labels": ["dependencies"] }
               ]
             }
 
-      # 🚀 创建 GitHub Release
+      # 🚀 创建 GitHub Release，并把 ZIP + Docker 镜像（tar.gz）作为 Release Assets
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -120,4 +169,7 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            ElysianAnime-*.zip
+            dist/**/ElysianAnime-*.zip
+            dist/**/ElysianAnime-*-docker-image.tar.gz
+            dist/**/ElysianAnime-native-linux-*.tar.gz
+            dist/**/ElysianAnime-native-windows-*.zip
