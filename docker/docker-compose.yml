@@ -1,0 +1,21 @@
+version: '3.8'
+
+# 由于网络问题，手动下载包代理出去
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx_local_network
+    ports:
+      - "3000:80"
+    volumes:
+      - D:/docker/nginx-local/conf.d:/etc/nginx/conf.d
+      - D:/docker/nginx-local/files:/var/www/files
+    networks:
+      - nginx_local_network
+
+volumes:
+  mysql_data:
+
+networks:
+  nginx_local_network:
+    driver: bridge
