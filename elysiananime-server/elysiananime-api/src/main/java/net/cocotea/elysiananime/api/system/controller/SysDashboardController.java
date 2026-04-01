@@ -55,4 +55,12 @@ public class SysDashboardController {
         return ApiResult.ok(vo);
     }
 
+    /**
+     * 查看系统健康状态
+     */
+    @Mapping(value = "health", method = MethodType.GET)
+    public ApiResult<String> health() {
+        return ApiResult.ok("OK");
+    }
+
 }

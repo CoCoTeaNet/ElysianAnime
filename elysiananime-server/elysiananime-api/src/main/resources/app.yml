@@ -1,6 +1,6 @@
 server:
   port: 8088
-  contextPath: /v2-api
+  contextPath: /
 
 
 solon.app:
