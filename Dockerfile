@@ -81,24 +81,22 @@ RUN echo "=========================================" && \
     echo "=========================================" && \
     ls -lh elysiananime-api/target
 
-# 运行阶段 - 使用 Alpine 作为基础镜像
-# 使用国内镜像源
-FROM docker.m.daocloud.io/library/alpine:3.19 AS runner
-RUN apk add --no-cache gcompat
+# 运行阶段
+FROM docker.m.daocloud.io/library/debian:bookworm-slim AS runner
 
 LABEL maintainer="CoCoTea" \
       description="ElysianAnime - Anime Management System" \
       version="3.0.0"
 
-# 配置 APK 使用阿里云镜像源
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
-
 # 更新包索引
-RUN apk update
+RUN apt update && apt install -y curl
 
 # 安装必要的工具（原生镜像不需要 JRE）
-RUN apk add --no-cache curl \
-    && apk add --no-cache fontconfig ttf-dejavu
+RUN apt update && apt install -y --no-install-recommends \
+    curl \
+    fontconfig \
+    fonts-dejavu-core \
+    && rm -rf /var/lib/apt/lists/*
 
 # 设置环境变量
 ENV TZ=Asia/Shanghai
@@ -120,7 +118,7 @@ EXPOSE 8088
 
 # 健康检查
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8088/api/system/dashboard/health || exit 1
+    CMD curl -f http://localhost:8088/health || exit 1
 
 # 启动应用
 ENTRYPOINT ["./elysiananime"]
