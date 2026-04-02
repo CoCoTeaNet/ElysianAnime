@@ -1,7 +1,7 @@
 package net.cocotea.elysiananime.test;
 
 import cn.hutool.extra.mail.MailAccount;
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson2.JSON;
 import net.cocotea.elysiananime.properties.EmailSenderProp;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +35,7 @@ public class EmailSendTest {
                 .setHost(emailSenderProp.getHost())
                 .setPort(emailSenderProp.getPort())
                 .setSslEnable(emailSenderProp.getSslEnable());
-        log.info(JSONUtil.toJsonStr(emailSenderProp));
+        log.info(JSON.toJSONString(emailSenderProp));
         // MailUtil.send(mailAccount, "2233@qq.com", emailTitle, emailHtml, true);
     }
 

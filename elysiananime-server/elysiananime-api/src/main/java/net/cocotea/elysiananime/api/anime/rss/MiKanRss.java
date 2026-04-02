@@ -12,10 +12,9 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
 import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import cn.hutool.system.SystemUtil;
 import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.dtflys.forest.Forest;
 import net.cocotea.elysiananime.api.anime.model.dto.AniAddOpusTorrentDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
@@ -432,8 +431,8 @@ public class MiKanRss {
     public JSONObject getRssWorkStatus() {
         return Optional
                 .of(redisService.get(RedisKeyConst.RSS_WORKS_STATUS))
-                .map(JSONUtil::parseObj)
-                .orElse(JSONUtil.createObj());
+                .map(JSONObject::parseObject)
+                .orElse(new JSONObject());
     }
 
     public void doRenameBtV2() {

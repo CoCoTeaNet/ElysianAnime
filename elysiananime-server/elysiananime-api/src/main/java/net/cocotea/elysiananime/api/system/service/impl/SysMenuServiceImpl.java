@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.text.CharPool;
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson2.JSON;
 import net.cocotea.elysiananime.api.system.model.dto.SysMenuAddDTO;
 import net.cocotea.elysiananime.api.system.model.dto.SysMenuPageDTO;
 import net.cocotea.elysiananime.api.system.model.dto.SysMenuTreeDTO;
@@ -146,7 +146,7 @@ public class SysMenuServiceImpl implements SysMenuService {
     public List<SysMenuVO> cachePermission(BigInteger userId) {
         // 缓存权限
         List<SysMenuVO> permissions = listByUserId(IsEnum.N.getCode());
-        redisService.save(String.format(RedisKeyConst.USER_PERMISSION, userId), JSONUtil.toJsonStr(permissions), 3600 * 24L);
+        redisService.save(String.format(RedisKeyConst.USER_PERMISSION, userId), JSON.toJSONString(permissions), 3600 * 24L);
         return permissions;
     }
 
@@ -154,7 +154,7 @@ public class SysMenuServiceImpl implements SysMenuService {
     public List<SysMenuVO> getCachePermission(BigInteger userId) {
         String s = redisService.get(String.format(RedisKeyConst.USER_PERMISSION, userId));
         logger.info("[{}]-permissions={}", userId, s);
-        return JSONUtil.toList(s, SysMenuVO.class);
+        return JSON.parseArray(s, SysMenuVO.class);
     }
 
     @Override
