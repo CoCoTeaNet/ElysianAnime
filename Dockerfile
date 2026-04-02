@@ -88,10 +88,7 @@ LABEL maintainer="CoCoTea" \
       description="ElysianAnime - Anime Management System" \
       version="3.0.0"
 
-# 更新包索引
-RUN apt update && apt install -y curl
-
-# 安装必要的工具（原生镜像不需要 JRE）
+# 安装必要的工具
 RUN apt update && apt install -y --no-install-recommends \
     curl \
     fontconfig \
@@ -111,7 +108,7 @@ COPY --from=builder /build/elysiananime-api/target/elysiananime-api ./elysianani
 RUN chmod +x ./elysiananime
 
 # 创建数据卷挂载点（用于日志和文件存储）
-VOLUME ["/app/logs", "/app/files"]
+VOLUME ["/app/logs", "/app/files", "/app/conf"]
 
 # 暴露端口（根据 app.yml 配置为 8088）
 EXPOSE 8088
@@ -121,4 +118,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
     CMD curl -f http://localhost:8088/health || exit 1
 
 # 启动应用
-ENTRYPOINT ["./elysiananime", "--solon.config.add=./conf/app.yml"]
+ENTRYPOINT ["./elysiananime", "--config.add=./conf/app.yml"]
