@@ -60,6 +60,7 @@ services:
       args:
         - BUILDKIT_INLINE_CACHE=1
     container_name: elysiananime-app
+    image: cocotea/elysiananime:latest
     restart: always
     environment:
       TZ: Asia/Shanghai

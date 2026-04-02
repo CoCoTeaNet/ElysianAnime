@@ -1,10 +1,7 @@
 package net.cocotea.elysiananime.api.system.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.captcha.CaptchaUtil;
-import cn.hutool.captcha.CircleCaptcha;
 import cn.hutool.core.util.HexUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SmUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
@@ -25,8 +22,6 @@ import org.noear.solon.core.handle.Context;
 import org.noear.solon.validation.annotation.Validated;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Locale;
 
 /**
  * 系统登录相关接口
@@ -115,15 +110,6 @@ public class SysLoginController {
     public ApiResult<SysCaptchaVO> captcha(@Param("timestamp") String timestamp, Context context) {
         log.info("captcha >>>>> timestamp: {}", timestamp);
         long cacheSeconds = 300L;
-        // 生成验证码ID
-        String captchaId = IdUtil.fastUUID().toUpperCase(Locale.ROOT);
-        // 生成圆圈干扰的验证码
-        CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(200, 100, 4, 20);
-        redisService.save(
-                String.format(RedisKeyConst.VERIFY_CODE_LOGIN, captchaId),
-                captcha.getCode(),
-                cacheSeconds
-        );
         // 生成公钥（加密）和私钥（解密）
         SM2 sm2 = SmUtil.sm2();
         String privateKey = sm2.getPrivateKeyBase64();
@@ -135,10 +121,7 @@ public class SysLoginController {
                 cacheSeconds
         );
         // 登录验证码对象
-        SysCaptchaVO captchaVO = new SysCaptchaVO()
-                .setCaptchaId(captchaId)
-                .setImgBase64(captcha.getImageBase64())
-                .setPublicKey(publicKey);
+        SysCaptchaVO captchaVO = new SysCaptchaVO().setPublicKey(publicKey);
         return ApiResult.ok(captchaVO);
     }
 }

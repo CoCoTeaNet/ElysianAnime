@@ -1,7 +1,7 @@
 package net.cocotea.elysiananime.api.system.service.impl;
 
-import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.dev33.satoken.stp.parameter.SaLoginParameter;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.map.MapUtil;
@@ -18,7 +18,6 @@ import net.cocotea.elysiananime.api.system.service.SysLogService;
 import net.cocotea.elysiananime.api.system.service.SysMenuService;
 import net.cocotea.elysiananime.api.system.service.SysRoleService;
 import net.cocotea.elysiananime.api.system.service.SysUserService;
-import net.cocotea.elysiananime.common.constant.RedisKeyConst;
 import net.cocotea.elysiananime.common.enums.IsEnum;
 import net.cocotea.elysiananime.common.model.ApiPage;
 import net.cocotea.elysiananime.common.model.BusinessException;
@@ -29,7 +28,9 @@ import net.cocotea.elysiananime.util.LoginUtils;
 import net.cocotea.elysiananime.util.SecurityUtils;
 import org.noear.solon.annotation.Inject;
 import org.noear.solon.core.handle.Context;
+import org.noear.solon.data.annotation.Cache;
 import org.noear.solon.data.annotation.Tran;
+import org.sagacity.sqltoy.dao.LightDao;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.EntityQuery;
 import org.sagacity.sqltoy.model.Page;
@@ -41,7 +42,6 @@ import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -65,6 +65,9 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Db("db1")
     private SqlToyLazyDao sqlToyLazyDao;
+
+    @Db("db1")
+    private LightDao lightDao;
 
     @Inject
     private SecurityUtils securityUtils;
@@ -140,10 +143,9 @@ public class SysUserServiceImpl implements SysUserService {
         return ApiPage.rest(page);
     }
 
-    @Tran
     @Override
     public String login(SysLoginDTO loginDTO, Context context) throws BusinessException {
-        SysUser sysUser;
+        SysUser sysUser = getOneOfCache(loginDTO.getUsername());
         // 强密码为空或者为none表示“启用”
         boolean strongPwdFlag =
                 StrUtil.isBlank(defaultProp.getStrongPassword())
@@ -152,24 +154,15 @@ public class SysUserServiceImpl implements SysUserService {
         // 验证码缓存键
         String key = null;
         if (strongPwdFlag) {
-            // 校验验证码
-            key = String.format(RedisKeyConst.VERIFY_CODE_LOGIN, loginDTO.getCaptchaId());
-            String code = redisService.get(key);
-            if (!ObjUtil.equal(loginDTO.getCaptcha().toUpperCase(Locale.ROOT), code.toUpperCase(Locale.ROOT))) {
-                throw new BusinessException("验证码错误");
-            }
             // 校验密码
             String pwd = securityUtils.getPwd(loginDTO.getPassword());
-            sysUser = sqlToyLazyDao.loadBySql("sys_user_getOne", new SysUser().setUsername(loginDTO.getUsername()).setPassword(pwd));
-            if (sysUser == null) {
+            if (ObjUtil.notEqual(sysUser.getPassword(), pwd)) {
                 throw new BusinessException("登录失败，用户名或密码错误");
             }
-        } else {
-            sysUser = sqlToyLazyDao.loadBySql("sys_user_getOne", new SysUser().setUsername(loginDTO.getUsername()));
         }
         // 记住我模式
         if (loginDTO.getRememberMe()) {
-            StpUtil.login(sysUser.getId(), new SaLoginModel().setTimeout(3600 * 24 * 365));
+            StpUtil.login(sysUser.getId(), new SaLoginParameter().setTimeout(3600 * 24 * 365));
         } else {
             StpUtil.login(sysUser.getId());
         }
@@ -179,10 +172,6 @@ public class SysUserServiceImpl implements SysUserService {
         loginSysUser.setLastLoginIp(context.realIp());
         loginSysUser.setLastLoginTime(LocalDateTime.now());
         sqlToyLazyDao.update(loginSysUser);
-        // 删除缓存
-        if (StrUtil.isNotBlank(key)) {
-            redisService.delete(key);
-        }
         return StpUtil.getTokenValue();
     }
 
@@ -254,5 +243,19 @@ public class SysUserServiceImpl implements SysUserService {
         BigInteger loginId = LoginUtils.loginId();
         SysUser sysUser = new SysUser().setId(loginId).setAvatar(avatarName);
         sqlToyLazyDao.update(sysUser);
+    }
+
+    @Override
+    public SysUser getOne(String username) throws BusinessException {
+        if (StrUtil.isBlank(username)) {
+            throw new BusinessException("用户名不能为空");
+        }
+        return lightDao.findOne("sys_user_getOne", new SysUser().setUsername(username), SysUser.class);
+    }
+
+    @Cache(key = "sys_user_getOneOfCache:${username}", seconds = 3600)
+    @Override
+    public SysUser getOneOfCache(String username) throws BusinessException {
+        return getOne(username);
     }
 }
