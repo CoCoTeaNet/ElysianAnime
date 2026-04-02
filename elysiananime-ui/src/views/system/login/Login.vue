@@ -26,14 +26,6 @@
             </el-input>
           </el-form-item>
 
-          <el-form-item prop="captcha">
-            <el-input style="width: 75%;" placeholder="验证码" :prefix-icon="Connection"
-                      @keydown.enter="submitForm(loginFormRef)"
-                      v-model="loginForm.captcha">
-            </el-input>
-            <el-image @click="getVerifyCodeImage" style="width: 25%;cursor: pointer" :src="captcha"/>
-          </el-form-item>
-
           <el-form-item>
             <el-checkbox v-model="loginForm.rememberMe">记住我</el-checkbox>
           </el-form-item>
@@ -58,9 +50,7 @@ import {ElMessage} from "element-plus";
 import {useRouter, useRoute} from "vue-router";
 import 'element-plus/theme-chalk/display.css'
 import {ApiResultEnum} from "@/api/ApiResultEnum";
-import {getSm2} from "@/utils/smUtil";
 
-const sm2 = getSm2();
 const router = useRouter();
 const route = useRoute();
 
@@ -77,8 +67,6 @@ const captcha = ref<string>('');
 const loginForm = reactive({
   username: '',
   password: '',
-  captcha: '',
-  captchaId: '', // 验证码ID
   publicKey: [], // 公钥
   rememberMe: true
 });
@@ -87,23 +75,18 @@ const loginForm = reactive({
 const rules = reactive({
   username: [{required: true, min: 2, max: 16, message: '长度限制2~16', trigger: 'blur'}],
   password: [{required: true, min: 6, max: 30, message: '长度限制6~30', trigger: 'blur'}],
-  captcha: [{required: true, message: '请输入验证码', trigger: 'blur'}],
 });
 
 onMounted(() => {
   getVerifyCodeImage();
-  console.log(route.query.redirect)
 });
 
 /**
  * 获取验证码
  */
 const getVerifyCodeImage = () => {
-  let timestamp = new Date().getTime();
-  getCaptcha(timestamp).then((res: any) => {
+  getCaptcha(new Date().getTime()).then((res: any) => {
     if (res.code === ApiResultEnum.SUCCESS) {
-      captcha.value = `data:image/jpeg;base64,${res.data.imgBase64}`;
-      loginForm.captchaId = res.data.captchaId;
       loginForm.publicKey = res.data.publicKey;
     }
   });
@@ -119,11 +102,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (valid) {
       loading.value = true;
 
-      // see https://github.com/JuneAndGreen/sm-crypto/issues/72
-      let encPassword = '04' + sm2.doEncrypt(loginForm.password, loginForm.publicKey);
-      let loginParams = {password: ''};
+      let loginParams = {};
       Object.assign(loginParams, loginForm);
-      loginParams.password = encPassword;
 
       nextTick(() => {
         login(loginParams).then((res: any) => {
@@ -135,7 +115,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
             }
           } else {
             ElMessage.error(!res.data ? res.message : res.data);
-            getVerifyCodeImage();
           }
           loading.value = false;
         });

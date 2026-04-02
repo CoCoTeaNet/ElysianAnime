@@ -1,6 +1,6 @@
 package net.cocotea.elysiananime.util;
 
-import cn.hutool.crypto.SmUtil;
+import cn.hutool.crypto.digest.MD5;
 import net.cocotea.elysiananime.properties.DefaultProp;
 import org.noear.solon.annotation.Component;
 import org.noear.solon.annotation.Inject;
@@ -24,10 +24,7 @@ public class SecurityUtils {
      * @return 密文
      */
     public String getPwd(String password) {
-        return SmUtil
-                .sm3WithSalt(defaultProp.getPasswordSalt().getBytes())
-                .digestHex(password)
-                .toUpperCase();
+        return MD5.create().digestHex(password).toUpperCase();
     }
 
 }

@@ -146,19 +146,10 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public String login(SysLoginDTO loginDTO, Context context) throws BusinessException {
         SysUser sysUser = getOneOfCache(loginDTO.getUsername());
-        // 强密码为空或者为none表示“启用”
-        boolean strongPwdFlag =
-                StrUtil.isBlank(defaultProp.getStrongPassword())
-                        || !defaultProp.getStrongPassword().equals(loginDTO.getPassword())
-                        || !"none".equals(loginDTO.getPassword());
-        // 验证码缓存键
-        String key = null;
-        if (strongPwdFlag) {
-            // 校验密码
-            String pwd = securityUtils.getPwd(loginDTO.getPassword());
-            if (ObjUtil.notEqual(sysUser.getPassword(), pwd)) {
-                throw new BusinessException("登录失败，用户名或密码错误");
-            }
+        // 校验密码
+        String pwd = securityUtils.getPwd(loginDTO.getPassword());
+        if (ObjUtil.notEqual(sysUser.getPassword(), pwd)) {
+            throw new BusinessException("登录失败，用户名或密码错误");
         }
         // 记住我模式
         if (loginDTO.getRememberMe()) {
