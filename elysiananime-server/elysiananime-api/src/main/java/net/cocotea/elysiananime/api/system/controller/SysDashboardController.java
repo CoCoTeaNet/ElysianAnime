@@ -1,7 +1,6 @@
 package net.cocotea.elysiananime.api.system.controller;
 
 import net.cocotea.elysiananime.api.system.model.vo.SysOverviewVO;
-import net.cocotea.elysiananime.api.system.model.vo.SystemInfoVO;
 import net.cocotea.elysiananime.api.system.service.SysDashboardService;
 import net.cocotea.elysiananime.common.model.ApiResult;
 import org.noear.solon.annotation.Controller;
@@ -24,16 +23,6 @@ public class SysDashboardController {
     private SysDashboardService sysDashboardService;
 
     /**
-     * 测试服务是否运行成功
-     *
-     * @return 字符串
-     */
-    @Mapping(value = "index", method = MethodType.GET)
-    public ApiResult<String> index() {
-        return ApiResult.ok("Hello SRA-ADMIN.");
-    }
-
-    /**
      * 获取系统数据概览
      *
      * @return {@link SysOverviewVO}
@@ -42,17 +31,6 @@ public class SysDashboardController {
     public ApiResult<List<SysOverviewVO>> getCount() {
         List<SysOverviewVO> voList = sysDashboardService.getCount();
         return ApiResult.ok(voList);
-    }
-
-    /**
-     * 获取服务器运行信息
-     *
-     * @return {@link SystemInfoVO}
-     */
-    @Mapping(value = "getSystemInfo", method = MethodType.GET)
-    public ApiResult<SystemInfoVO> getSystemInfo() {
-        SystemInfoVO vo = sysDashboardService.getSystemInfo();
-        return ApiResult.ok(vo);
     }
 
 }
