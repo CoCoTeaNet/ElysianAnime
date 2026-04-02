@@ -26,7 +26,7 @@ public class Launcher {
         AppContext context = app.context();
 
         DefaultProp defaultProp = context.getBean("defaultProp");
-        log.warn("强密码：{}, 权限缓存状态：{}", defaultProp.getStrongPassword(), defaultProp.getPermissionCache());
+        log.warn("权限缓存状态：{}", defaultProp.getPermissionCache());
 
         GlobalConst.START_TIME = System.currentTimeMillis();
 
