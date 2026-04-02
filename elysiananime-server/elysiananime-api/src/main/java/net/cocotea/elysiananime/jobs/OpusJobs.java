@@ -3,6 +3,7 @@ package net.cocotea.elysiananime.jobs;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
+import com.alibaba.fastjson2.JSON;
 import net.cocotea.elysiananime.api.anime.model.dto.RssWorksStatusDTO;
 import net.cocotea.elysiananime.api.anime.rss.MiKanRss;
 import net.cocotea.elysiananime.api.anime.service.AniOpusService;
@@ -69,7 +70,7 @@ public class OpusJobs {
             worksStatusDTO.setExecMessage("运行异常：" + ex.getMessage());
             log.error("scanRss >>> error,msg={}", ex.getMessage());
         }
-        redisService.save(RedisKeyConst.RSS_WORKS_STATUS, JSONUtil.toJsonStr(worksStatusDTO));
+        redisService.save(RedisKeyConst.RSS_WORKS_STATUS, JSON.toJSONString(worksStatusDTO));
     }
 
     /**

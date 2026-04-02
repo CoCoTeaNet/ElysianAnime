@@ -2,7 +2,7 @@ package net.cocotea.elysiananime.api.anime.controller;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
-import cn.hutool.json.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import net.cocotea.elysiananime.api.anime.model.dto.AniAddOpusTorrentDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
 import net.cocotea.elysiananime.api.anime.model.vo.RssCountVO;

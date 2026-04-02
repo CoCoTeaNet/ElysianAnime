@@ -5,15 +5,15 @@
     <parent>
         <groupId>net.cocotea</groupId>
         <artifactId>elysiananime</artifactId>
-        <version>2.10.0</version>
+        <version>3.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>elysiananime-common</artifactId>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <utf-8>UTF-8</utf-8>
     </properties>
 
@@ -47,11 +47,10 @@
             <artifactId>forest-jaxb</artifactId>
         </dependency>
 
-
         <!-- solon -->
         <dependency>
             <groupId>org.noear</groupId>
-            <artifactId>solon-api</artifactId>
+            <artifactId>solon-web</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.noear</groupId>
@@ -82,15 +81,19 @@
         <!-- hutool工具 -->
         <dependency>
             <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
+            <artifactId>hutool-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.oshi</groupId>
-            <artifactId>oshi-core</artifactId>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15to18</artifactId>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-http</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-crypto</artifactId>
         </dependency>
         <!-- redis -->
         <dependency>

@@ -72,4 +72,20 @@ public interface SysUserService extends DetailService<ApiPage<SysUserVO>, SysUse
      * @param avatarName 头像名称
      */
     void doModifyAvatar(String avatarName);
+
+    /**
+     * 根据用户名获取用户
+     *
+     * @param username 用户名
+     * @return 用户
+     */
+    SysUser getOne(String username) throws BusinessException;
+
+    /**
+     * 根据用户名获取用户（会有缓存）
+     *
+     * @param username 用户名
+     * @return 用户
+     */
+    SysUser getOneOfCache(String username) throws BusinessException;
 }

@@ -26,12 +26,6 @@ public class DefaultProp {
     private String passwordSalt;
 
     /**
-     * 1秒内限制api访问的次数
-     */
-    @Inject("${sra-admin.once-visits}")
-    private Integer onceVisits;
-
-    /**
      * 是否开启权限缓存: true开启，false关闭
      */
     @Inject("${sra-admin.permission-cache}")
@@ -42,12 +36,6 @@ public class DefaultProp {
      */
     @Inject("${sra-admin.save-log}")
     private Boolean saveLog;
-
-    /**
-     * 强密码：启用后会关闭图片验证码验证
-     */
-    @Inject("${sra-admin.strong-password}")
-    private String strongPassword;
 
     /**
      * 路由放行地址

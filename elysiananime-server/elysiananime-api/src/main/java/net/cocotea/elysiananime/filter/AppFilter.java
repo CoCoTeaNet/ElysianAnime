@@ -32,9 +32,6 @@ import java.math.BigInteger;
 public class AppFilter implements Filter {
     private static final Logger logger = LoggerFactory.getLogger(AppFilter.class);
 
-    @Inject("${sra-admin.once-visits}")
-    private Integer visits;
-
     @Inject
     private DefaultProp defaultProp;
 
@@ -49,8 +46,6 @@ public class AppFilter implements Filter {
         //1.开始计时（用于计算响应时长）
         long start = System.currentTimeMillis();
         try {
-            apiLimitAccessTimes(ctx.realIp());
-
             chain.doFilter(ctx);
 
             //2.未处理设为404状态
@@ -99,7 +94,7 @@ public class AppFilter implements Filter {
         }
         //5.获得接口响应时长
         long times = System.currentTimeMillis() - start;
-        logger.info("用时：{}ms, once-visits: {}", times, visits);
+        logger.info("用时：{}ms", times);
         saveSystemLog(ctx, LogStatusEnum.SUCCESS.getCode());
     }
 
@@ -155,30 +150,5 @@ public class AppFilter implements Filter {
             });
         }
     }
-
-    /**
-     * 接口访问限制：1秒内运行访问N次
-     */
-    private void apiLimitAccessTimes(String ip) throws BusinessException {
-        if (visits <= 0) {
-            return;
-        }
-        if (StpUtil.isLogin()) {
-            String redisKey = ip + ":" + StpUtil.getLoginId();
-            String value = redisService.get(redisKey);
-            if (StrUtil.isBlank(value)) {
-                redisService.save(redisKey, String.valueOf(1), 1L);
-                return;
-            }
-            if (Integer.parseInt(value) <= visits) {
-                int count = Integer.parseInt(value);
-                count++;
-                redisService.set(redisKey, String.valueOf(count));
-            } else {
-                throw new BusinessException("操作过于频繁");
-            }
-        }
-    }
-
 
 }

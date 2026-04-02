@@ -1,4 +1,18 @@
 @echo off
+setlocal enabledelayedexpansion
+
+:: 检查是否使用原生打包参数
+set "NATIVE_BUILD=false"
+if "%1"=="--native" set "NATIVE_BUILD=true"
+if "%1"=="-n" set "NATIVE_BUILD=true"
+
+if "%NATIVE_BUILD%"=="true" (
+    echo 检测到原生打包参数，将调用 build-native-windows.bat
+    call "%~dp0build-native-windows.bat"
+    exit /b %errorlevel%
+)
+
+:: 默认普通打包流程
 
 :: 设置项目的根路径和目标目录
 set "PROJECT_ROOT=%~dp0"
