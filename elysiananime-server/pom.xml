@@ -168,11 +168,6 @@
                 <artifactId>oshi-core</artifactId>
                 <version>${oshi.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.bouncycastle</groupId>
-                <artifactId>bcprov-jdk15to18</artifactId>
-                <version>${bcprov.version}</version>
-            </dependency>
             <!-- redis -->
             <dependency>
                 <groupId>org.noear</groupId>
