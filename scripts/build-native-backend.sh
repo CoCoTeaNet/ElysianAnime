@@ -76,6 +76,18 @@ export PATH="${GRAALVM_HOME}/bin:${PATH}"
 command -v mvn >/dev/null 2>&1 || { echo "[ERROR] 未找到 mvn，请先安装 Maven。" >&2; exit 1; }
 command -v native-image >/dev/null 2>&1 || { echo "[ERROR] 未找到 native-image，请确认 GraalVM 安装与 PATH 设置正确。" >&2; exit 1; }
 
+# 为避免某些环境下 ~/.m2/settings.xml 配置了 http 镜像导致 Maven 3.8+ 默认拦截，
+# 这里生成一个最小 settings.xml 并强制 mvn 使用它。
+MAVEN_SETTINGS="${OUT_DIR}/maven-settings.xml"
+mkdir -p "${OUT_DIR}"
+cat > "${MAVEN_SETTINGS}" <<'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+</settings>
+EOF
+
 # 规范化输出路径
 if [[ "${OUT_DIR}" != /* ]]; then
   OUT_DIR="${ROOT_DIR}/${OUT_DIR}"
@@ -96,13 +108,13 @@ mkdir -p "${OUT_DIR}/"{config,logs,files}
 if [[ "${USE_CLI}" == "0" ]]; then
   echo "[INFO] 使用 Maven Profile 'native' 构建（推荐）..."
   pushd "${API_DIR}" >/dev/null
-  mvn clean package -Pnative -DskipTests
+  mvn -s "${MAVEN_SETTINGS}" clean package -Pnative -DskipTests -B
   popd >/dev/null
 else
   echo "[WARN] 使用 native-image 命令行兜底构建（不走 Maven -Pnative）..."
   echo "[INFO] 先编译后端（生成 target/classes 与依赖）..."
   pushd "${SERVER_DIR}" >/dev/null
-  mvn -f "${SERVER_DIR}/pom.xml" clean package -pl elysiananime-api -am -DskipTests -B
+  mvn -s "${MAVEN_SETTINGS}" -f "${SERVER_DIR}/pom.xml" clean package -pl elysiananime-api -am -DskipTests -B
   popd >/dev/null
 
   # 关键修复：
@@ -116,7 +128,7 @@ else
 
   CP_FILE="${OUT_DIR}/classpath.txt"
   pushd "${API_DIR}" >/dev/null
-  mvn -q -B dependency:build-classpath -DincludeScope=runtime -DskipTests -Dmdep.outputFile="${CP_FILE}"
+  mvn -s "${MAVEN_SETTINGS}" -q -B dependency:build-classpath -DincludeScope=runtime -DskipTests -Dmdep.outputFile="${CP_FILE}"
   popd >/dev/null
 
   DEP_CP=""

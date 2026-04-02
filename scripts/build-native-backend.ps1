@@ -40,6 +40,21 @@ function Assert-Command([string]$name) {
   }
 }
 
+# 为避免某些环境里 ~/.m2/settings.xml 配了 http 镜像导致 Maven 3.8+ 默认拦截，
+# 这里在运行时生成一个“最小 settings.xml”（不配置任何 http 镜像），并强制所有 mvn 调用使用它。
+function New-MinimalMavenSettings([string]$dir) {
+  $path = Join-Path $dir 'maven-settings.xml'
+  $xml = @"
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+</settings>
+"@
+  Set-Content -Path $path -Value $xml -Encoding UTF8
+  return $path
+}
+
 # 计算仓库根目录：假设脚本位于 <repo>/scripts/ 下
 $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $ServerDir = Join-Path $RepoRoot "elysiananime-server"
@@ -83,32 +98,39 @@ New-Item -ItemType Directory -Force -Path (Join-Path $OutPath "config") | Out-Nu
 New-Item -ItemType Directory -Force -Path (Join-Path $OutPath "logs")   | Out-Null
 New-Item -ItemType Directory -Force -Path (Join-Path $OutPath "files")  | Out-Null
 
+$MavenSettings = New-MinimalMavenSettings -dir $OutPath
+Info "Maven settings : $MavenSettings"
+
 try {
   if (-not $UseCliNativeImage) {
     Info "使用 Maven Profile 'native' 构建（推荐）..."
     Push-Location $ApiDir
     # 说明：NATIVE-BUILD-GUIDE.md 提到可以这样打包：
     # mvn clean package -Pnative -DskipTests
-    & mvn clean package -Pnative -DskipTests
+    & mvn -s $MavenSettings clean package -Pnative -DskipTests -B
     Pop-Location
   } else {
     Warn "使用 native-image 命令行兜底构建（不走 Maven -Pnative）..."
-    # 1) 先构建 jar（目标：elysiananime-server/elysiananime-api/target/elysiananime.jar）
+    # 1) 在父工程（reactor）内同时完成：构建 + 生成 runtime 依赖 classpath
+    # 关键点：
+    # - 必须在 reactor 中跑，否则 elysiananime-common 这种同仓库模块在未 install 时会被当成远程依赖去解析
+    # - 生成 classpath 也放在同一次/同环境的 Maven 解析中，避免再次解析导致的异常
+    $CpFile = Join-Path $OutPath 'classpath.txt'
     Push-Location $ServerDir
-    # 说明：
-    # 过去有用户在某些环境下遇到 Maven 参数被拆分，导致类似：
-    #   Unknown lifecycle phase ".test.skip=true"
-    # 为避免该类问题，这里用参数数组传递，并去掉冗余的 -Dmaven.test.skip=true（-DskipTests 已足够）
     $mvnArgs = @(
+      '-s', $MavenSettings,
       '-f', (Join-Path $ServerDir 'pom.xml'),
       'clean', 'package',
+      'dependency:build-classpath',
       '-pl', 'elysiananime-api',
       '-am',
       '-DskipTests',
+      '-DincludeScope=runtime',
+      ('-Dmdep.outputFile=' + $CpFile),
       '-B'
     )
     & mvn @mvnArgs
-    if ($LASTEXITCODE -ne 0) { Fail "Maven 构建失败（exit code=$LASTEXITCODE）" }
+    if ($LASTEXITCODE -ne 0) { Fail "Maven 构建/生成classpath失败（exit code=$LASTEXITCODE）" }
     Pop-Location
 
     # 关键修复：
@@ -122,20 +144,6 @@ try {
     if (-not (Test-Path $LauncherClassFile)) {
       Fail "未找到主类 class 文件：$LauncherClassFile（请确认 Maven 已成功编译 elysiananime-api）"
     }
-
-    $CpFile = Join-Path $OutPath 'classpath.txt'
-    Push-Location $ApiDir
-    $cpArgs = @(
-      'dependency:build-classpath',
-      '-DincludeScope=runtime',
-      '-DskipTests',
-      ('-Dmdep.outputFile=' + $CpFile),
-      '-B',
-      '-q'
-    )
-    & mvn @cpArgs
-    if ($LASTEXITCODE -ne 0) { Fail "Maven 生成依赖 classpath 失败（exit code=$LASTEXITCODE）" }
-    Pop-Location
 
     $depCp = ''
     if (Test-Path $CpFile) {
