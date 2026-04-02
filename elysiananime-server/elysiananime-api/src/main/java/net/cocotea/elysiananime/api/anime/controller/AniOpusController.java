@@ -54,7 +54,7 @@ public class AniOpusController {
     /**
      * 上传作品资源
      *
-     * @param opusId        作品ID
+     * @param opusId 作品ID
      * @return 路径
      */
     @LogPersistence
@@ -62,7 +62,7 @@ public class AniOpusController {
     @Post
     @Mapping("/{opusId}/uploadRes")
     public ApiResult<String> uploadRes(@Path("opusId") BigInteger opusId,
-                                       @Param(value = "file",required = true) UploadedFile uploadedFile) throws BusinessException, IOException {
+                                       @Param(value = "file", required = true) UploadedFile uploadedFile) throws BusinessException, IOException {
         String fileExtension = uploadedFile.getExtension();
         String fileName = uploadedFile.getName();
 
@@ -70,7 +70,7 @@ public class AniOpusController {
             throw new BusinessException("目前只支持格式：" + fileProp.getMediaFileType());
         }
 
-        FileInfo fileInfo = aniOpusService.uploadRes(opusId, (fileName+fileExtension));
+        FileInfo fileInfo = aniOpusService.uploadRes(opusId, (fileName + fileExtension));
         uploadedFile.transferTo(new File(fileInfo.getRealPath()));
 
         return ApiResult.ok(fileInfo.getFileName());
@@ -168,8 +168,8 @@ public class AniOpusController {
     /**
      * 获取资源媒体流
      *
-     * @param opusId   作品ID
-     * @param resName  资源名称
+     * @param opusId  作品ID
+     * @param resName 资源名称
      */
     @Get
     @Mapping("/media/{opusId}")

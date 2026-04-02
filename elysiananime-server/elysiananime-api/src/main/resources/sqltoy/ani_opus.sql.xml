@@ -29,13 +29,9 @@
             <![CDATA[
             select ao.id, ao.name_original, ao.name_cn, ao.cover_url, ao.detail_info_url, ao.episodes, ao.launch_start,
                    ao.delivery_week, ao.ani_summary, ao.score, ao.has_resource, ao.rss_url, ao.rss_status, ao.rss_level_index,
-                   ao.rss_file_type, ao.rss_only_mark, ao.rss_exclude_res, ao.create_by, ao.create_time,
-                   ao.update_time, ao.update_by,
-                   concat(bb.username, '@', bb.nickname) as create_by_name,
-                   concat(cc.username, '@', cc.nickname) as update_by_name
+                   ao.rss_file_type, ao.rss_only_mark, ao.rss_exclude_res, ao.create_time,ao.update_time,
+                   ao.create_by as createByName, ao.update_by as updateByName
             from ani_opus ao
-                left join sys_user bb on (bb.id = ao.create_by)
-                left join sys_user cc on (cc.id = ao.update_by)
             where ao.is_deleted = 0
             #[and ao.name_cn = :nameCn]
             #[and ao.name_cn like :likeNameCn]
@@ -47,6 +43,8 @@
             order by ao.id desc
             ]]>
         </value>
+        <translate cache="userNameCache" columns="createByName" uncached-template="-"/>
+        <translate cache="userNameCache" columns="updateByName" uncached-template="-"/>
     </sql>
 
     <sql id="ani_opus_listByUser">
