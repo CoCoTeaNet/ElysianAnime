@@ -114,23 +114,25 @@ try {
     # 1) 在父工程（reactor）内同时完成：构建 + 生成 runtime 依赖 classpath
     # 关键点：
     # - 必须在 reactor 中跑，否则 elysiananime-common 这种同仓库模块在未 install 时会被当成远程依赖去解析
-    # - 生成 classpath 也放在同一次/同环境的 Maven 解析中，避免再次解析导致的异常
-    $CpFile = Join-Path $OutPath 'classpath.txt'
+    # - Windows 下 classpath 过长会触发 "The command line is too long."，因此这里改为把依赖复制到 lib/，
+    #   后续 native-image 直接使用：target\classes + lib\*（classpath 通配符），避免超长命令行
+    $LibDir = Join-Path $OutPath 'lib'
+    New-Item -ItemType Directory -Force -Path $LibDir | Out-Null
     Push-Location $ServerDir
     $mvnArgs = @(
       '-s', $MavenSettings,
       '-f', (Join-Path $ServerDir 'pom.xml'),
       'clean', 'package',
-      'dependency:build-classpath',
+      'dependency:copy-dependencies',
       '-pl', 'elysiananime-api',
       '-am',
       '-DskipTests',
       '-DincludeScope=runtime',
-      ('-Dmdep.outputFile=' + $CpFile),
+      ('-DoutputDirectory=' + $LibDir),
       '-B'
     )
     & mvn @mvnArgs
-    if ($LASTEXITCODE -ne 0) { Fail "Maven 构建/生成classpath失败（exit code=$LASTEXITCODE）" }
+    if ($LASTEXITCODE -ne 0) { Fail "Maven 构建/复制依赖失败（exit code=$LASTEXITCODE）" }
     Pop-Location
 
     # 关键修复：
@@ -145,15 +147,7 @@ try {
       Fail "未找到主类 class 文件：$LauncherClassFile（请确认 Maven 已成功编译 elysiananime-api）"
     }
 
-    $depCp = ''
-    if (Test-Path $CpFile) {
-      $depCp = (Get-Content -Raw -Path $CpFile).Trim()
-    }
-
-    $FullCp = $ClassDir
-    if ($depCp) {
-      $FullCp = "$ClassDir;$depCp"
-    }
+    $FullCp = "$ClassDir;$LibDir\*"
 
     Push-Location $OutPath
     Info "native-image 构建中（可能需要几分钟）..."

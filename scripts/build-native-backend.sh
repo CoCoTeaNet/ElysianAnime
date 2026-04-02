@@ -76,18 +76,6 @@ export PATH="${GRAALVM_HOME}/bin:${PATH}"
 command -v mvn >/dev/null 2>&1 || { echo "[ERROR] 未找到 mvn，请先安装 Maven。" >&2; exit 1; }
 command -v native-image >/dev/null 2>&1 || { echo "[ERROR] 未找到 native-image，请确认 GraalVM 安装与 PATH 设置正确。" >&2; exit 1; }
 
-# 为避免某些环境下 ~/.m2/settings.xml 配置了 http 镜像导致 Maven 3.8+ 默认拦截，
-# 这里生成一个最小 settings.xml 并强制 mvn 使用它。
-MAVEN_SETTINGS="${OUT_DIR}/maven-settings.xml"
-mkdir -p "${OUT_DIR}"
-cat > "${MAVEN_SETTINGS}" <<'EOF'
-<?xml version="1.0" encoding="UTF-8"?>
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
-</settings>
-EOF
-
 # 规范化输出路径
 if [[ "${OUT_DIR}" != /* ]]; then
   OUT_DIR="${ROOT_DIR}/${OUT_DIR}"
@@ -104,6 +92,17 @@ echo
 
 rm -rf "${OUT_DIR}"
 mkdir -p "${OUT_DIR}/"{config,logs,files}
+
+# 为避免某些环境下 ~/.m2/settings.xml 配置了 http 镜像导致 Maven 3.8+ 默认拦截，
+# 这里在输出目录生成一个最小 settings.xml，并强制所有 mvn 调用使用它。
+MAVEN_SETTINGS="${OUT_DIR}/maven-settings.xml"
+cat > "${MAVEN_SETTINGS}" <<'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+</settings>
+EOF
 
 if [[ "${USE_CLI}" == "0" ]]; then
   echo "[INFO] 使用 Maven Profile 'native' 构建（推荐）..."
@@ -126,19 +125,14 @@ else
     exit 1
   fi
 
-  CP_FILE="${OUT_DIR}/classpath.txt"
+  # 与 Windows 同理：依赖可能很多，直接拼接 classpath 容易过长，因此复制依赖到 lib/ 并使用通配符。
+  LIB_DIR="${OUT_DIR}/lib"
+  mkdir -p "${LIB_DIR}"
   pushd "${API_DIR}" >/dev/null
-  mvn -s "${MAVEN_SETTINGS}" -q -B dependency:build-classpath -DincludeScope=runtime -DskipTests -Dmdep.outputFile="${CP_FILE}"
+  mvn -s "${MAVEN_SETTINGS}" -q -B dependency:copy-dependencies -DincludeScope=runtime -DskipTests -DoutputDirectory="${LIB_DIR}"
   popd >/dev/null
 
-  DEP_CP=""
-  if [[ -f "${CP_FILE}" ]]; then
-    DEP_CP="$(tr -d '\r\n' < "${CP_FILE}")"
-  fi
-  FULL_CP="${CLASS_DIR}"
-  if [[ -n "${DEP_CP}" ]]; then
-    FULL_CP="${CLASS_DIR}:${DEP_CP}"
-  fi
+  FULL_CP="${CLASS_DIR}:${LIB_DIR}/*"
 
   echo "[INFO] 开始 native-image 构建（可能需要几分钟）..."
   pushd "${OUT_DIR}" >/dev/null
