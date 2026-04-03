@@ -1,0 +1,2296 @@
+[
+{
+  "name":"[B"
+},
+{
+  "name":"[C"
+},
+{
+  "name":"[D"
+},
+{
+  "name":"[F"
+},
+{
+  "name":"[I"
+},
+{
+  "name":"[J"
+},
+{
+  "name":"[Ljava.lang.String;"
+},
+{
+  "name":"[Ljava.lang.reflect.Field;"
+},
+{
+  "name":"[Ljava.lang.reflect.Method;"
+},
+{
+  "name":"[Ljava.sql.Statement;"
+},
+{
+  "name":"[Ljavax.management.openmbean.CompositeData;"
+},
+{
+  "name":"[S"
+},
+{
+  "name":"[Z"
+},
+{
+  "name":"ch.qos.logback.classic.encoder.PatternLayoutEncoder",
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.joran.SerializedModelConfigurator",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.pattern.ContextNameConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.pattern.DateConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.pattern.LevelConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.pattern.LineSeparatorConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.pattern.LoggerConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.pattern.MessageConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.pattern.ThreadConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.pattern.color.HighlightingCompositeConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.util.DefaultJoranConfigurator",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.core.ConsoleAppender",
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.core.FileAppender",
+  "methods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"ch.qos.logback.core.OutputStreamAppender",
+  "methods":[{"name":"setEncoder","parameterTypes":["ch.qos.logback.core.encoder.Encoder"] }]
+},
+{
+  "name":"ch.qos.logback.core.encoder.Encoder",
+  "methods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"ch.qos.logback.core.encoder.LayoutWrappingEncoder",
+  "methods":[{"name":"setParent","parameterTypes":["ch.qos.logback.core.spi.ContextAware"] }]
+},
+{
+  "name":"ch.qos.logback.core.pattern.PatternLayoutEncoderBase",
+  "methods":[{"name":"setPattern","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"ch.qos.logback.core.pattern.color.BoldMagentaCompositeConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.core.pattern.color.GreenCompositeConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.core.pattern.color.RedCompositeConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.core.pattern.color.WhiteCompositeConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.core.rolling.RollingFileAppender",
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setRollingPolicy","parameterTypes":["ch.qos.logback.core.rolling.RollingPolicy"] }]
+},
+{
+  "name":"ch.qos.logback.core.rolling.RollingPolicy",
+  "methods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"ch.qos.logback.core.rolling.RollingPolicyBase",
+  "methods":[{"name":"setFileNamePattern","parameterTypes":["java.lang.String"] }, {"name":"setParent","parameterTypes":["ch.qos.logback.core.FileAppender"] }]
+},
+{
+  "name":"ch.qos.logback.core.rolling.TimeBasedRollingPolicy",
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setMaxHistory","parameterTypes":["int"] }]
+},
+{
+  "name":"ch.qos.logback.core.rolling.helper.DateTokenConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.core.spi.ContextAware",
+  "methods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"cn.dev33.satoken.config.SaTokenConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"<init>","parameterTypes":["java.util.Properties"] }, {"name":"getActiveTimeout","parameterTypes":[] }, {"name":"getActivityTimeout","parameterTypes":[] }, {"name":"getAutoRenew","parameterTypes":[] }, {"name":"getBasic","parameterTypes":[] }, {"name":"getCheckSameToken","parameterTypes":[] }, {"name":"getCookie","parameterTypes":[] }, {"name":"getCookieAutoFillPrefix","parameterTypes":[] }, {"name":"getCurrDomain","parameterTypes":[] }, {"name":"getDataRefreshPeriod","parameterTypes":[] }, {"name":"getDynamicActiveTimeout","parameterTypes":[] }, {"name":"getHttpBasic","parameterTypes":[] }, {"name":"getHttpDigest","parameterTypes":[] }, {"name":"getIsColorLog","parameterTypes":[] }, {"name":"getIsConcurrent","parameterTypes":[] }, {"name":"getIsLastingCookie","parameterTypes":[] }, {"name":"getIsLog","parameterTypes":[] }, {"name":"getIsLogoutKeepFreezeOps","parameterTypes":[] }, {"name":"getIsLogoutKeepTokenSession","parameterTypes":[] }, {"name":"getIsPrint","parameterTypes":[] }, {"name":"getIsReadBody","parameterTypes":[] }, {"name":"getIsReadCookie","parameterTypes":[] }, {"name":"getIsReadHeader","parameterTypes":[] }, {"name":"getIsShare","parameterTypes":[] }, {"name":"getIsWriteHeader","parameterTypes":[] }, {"name":"getJwtSecretKey","parameterTypes":[] }, {"name":"getLogLevel","parameterTypes":[] }, {"name":"getLogLevelInt","parameterTypes":[] }, {"name":"getLogoutRange","parameterTypes":[] }, {"name":"getMaxLoginCount","parameterTypes":[] }, {"name":"getMaxTryTimes","parameterTypes":[] }, {"name":"getOverflowLogoutMode","parameterTypes":[] }, {"name":"getReplacedRange","parameterTypes":[] }, {"name":"getRightNowCreateTokenSession","parameterTypes":[] }, {"name":"getSameTokenTimeout","parameterTypes":[] }, {"name":"getTimeout","parameterTypes":[] }, {"name":"getTokenName","parameterTypes":[] }, {"name":"getTokenPrefix","parameterTypes":[] }, {"name":"getTokenSessionCheckLogin","parameterTypes":[] }, {"name":"getTokenStyle","parameterTypes":[] }, {"name":"setActiveTimeout","parameterTypes":["long"] }, {"name":"setActivityTimeout","parameterTypes":["long"] }, {"name":"setAutoRenew","parameterTypes":["java.lang.Boolean"] }, {"name":"setBasic","parameterTypes":["java.lang.String"] }, {"name":"setCheckSameToken","parameterTypes":["java.lang.Boolean"] }, {"name":"setCookie","parameterTypes":["cn.dev33.satoken.config.SaCookieConfig"] }, {"name":"setCookieAutoFillPrefix","parameterTypes":["java.lang.Boolean"] }, {"name":"setCurrDomain","parameterTypes":["java.lang.String"] }, {"name":"setDataRefreshPeriod","parameterTypes":["int"] }, {"name":"setDynamicActiveTimeout","parameterTypes":["java.lang.Boolean"] }, {"name":"setHttpBasic","parameterTypes":["java.lang.String"] }, {"name":"setHttpDigest","parameterTypes":["java.lang.String"] }, {"name":"setIsColorLog","parameterTypes":["java.lang.Boolean"] }, {"name":"setIsConcurrent","parameterTypes":["java.lang.Boolean"] }, {"name":"setIsLastingCookie","parameterTypes":["java.lang.Boolean"] }, {"name":"setIsLog","parameterTypes":["java.lang.Boolean"] }, {"name":"setIsLogoutKeepFreezeOps","parameterTypes":["java.lang.Boolean"] }, {"name":"setIsLogoutKeepTokenSession","parameterTypes":["java.lang.Boolean"] }, {"name":"setIsPrint","parameterTypes":["java.lang.Boolean"] }, {"name":"setIsReadBody","parameterTypes":["java.lang.Boolean"] }, {"name":"setIsReadCookie","parameterTypes":["java.lang.Boolean"] }, {"name":"setIsReadHeader","parameterTypes":["java.lang.Boolean"] }, {"name":"setIsShare","parameterTypes":["java.lang.Boolean"] }, {"name":"setIsWriteHeader","parameterTypes":["java.lang.Boolean"] }, {"name":"setJwtSecretKey","parameterTypes":["java.lang.String"] }, {"name":"setLogLevel","parameterTypes":["java.lang.String"] }, {"name":"setLogLevelInt","parameterTypes":["int"] }, {"name":"setLogoutRange","parameterTypes":["cn.dev33.satoken.stp.parameter.enums.SaLogoutRange"] }, {"name":"setMaxLoginCount","parameterTypes":["int"] }, {"name":"setMaxTryTimes","parameterTypes":["int"] }, {"name":"setOverflowLogoutMode","parameterTypes":["cn.dev33.satoken.stp.parameter.enums.SaLogoutMode"] }, {"name":"setReplacedRange","parameterTypes":["cn.dev33.satoken.stp.parameter.enums.SaReplacedRange"] }, {"name":"setRightNowCreateTokenSession","parameterTypes":["java.lang.Boolean"] }, {"name":"setSameTokenTimeout","parameterTypes":["long"] }, {"name":"setTimeout","parameterTypes":["long"] }, {"name":"setTokenName","parameterTypes":["java.lang.String"] }, {"name":"setTokenPrefix","parameterTypes":["java.lang.String"] }, {"name":"setTokenSessionCheckLogin","parameterTypes":["java.lang.Boolean"] }, {"name":"setTokenStyle","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"cn.dev33.satoken.dao.SaTokenDao",
+  "methods":[{"name":"destroy","parameterTypes":[] }, {"name":"init","parameterTypes":[] }]
+},
+{
+  "name":"cn.dev33.satoken.dao.SaTokenDaoForRedisx",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.util.Properties"] }, {"name":"delete","parameterTypes":["java.lang.String"] }, {"name":"get","parameterTypes":["java.lang.String"] }, {"name":"getTimeout","parameterTypes":["java.lang.String"] }, {"name":"searchData","parameterTypes":["java.lang.String","java.lang.String","int","int","boolean"] }, {"name":"set","parameterTypes":["java.lang.String","java.lang.String","long"] }, {"name":"update","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"updateTimeout","parameterTypes":["java.lang.String","long"] }]
+},
+{
+  "name":"cn.dev33.satoken.dao.auto.SaTokenDaoByObjectFollowString",
+  "methods":[{"name":"deleteObject","parameterTypes":["java.lang.String"] }, {"name":"getObject","parameterTypes":["java.lang.String"] }, {"name":"getObject","parameterTypes":["java.lang.String","java.lang.Class"] }, {"name":"getObjectTimeout","parameterTypes":["java.lang.String"] }, {"name":"setObject","parameterTypes":["java.lang.String","java.lang.Object","long"] }, {"name":"updateObject","parameterTypes":["java.lang.String","java.lang.Object"] }, {"name":"updateObjectTimeout","parameterTypes":["java.lang.String","long"] }]
+},
+{
+  "name":"cn.dev33.satoken.dao.auto.SaTokenDaoBySessionFollowObject",
+  "methods":[{"name":"deleteSession","parameterTypes":["java.lang.String"] }, {"name":"getSession","parameterTypes":["java.lang.String"] }, {"name":"getSessionTimeout","parameterTypes":["java.lang.String"] }, {"name":"setSession","parameterTypes":["cn.dev33.satoken.session.SaSession","long"] }, {"name":"updateSession","parameterTypes":["cn.dev33.satoken.session.SaSession"] }, {"name":"updateSessionTimeout","parameterTypes":["java.lang.String","long"] }]
+},
+{
+  "name":"cn.dev33.satoken.solon.SaBeanInject",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["cn.dev33.satoken.log.SaLog","cn.dev33.satoken.config.SaTokenConfig","cn.dev33.satoken.plugin.SaTokenPluginHolder"] }, {"name":"setCorsHandle","parameterTypes":["cn.dev33.satoken.fun.strategy.SaCorsHandleFunction"] }, {"name":"setSaAnnotationHandler","parameterTypes":["java.util.List"] }, {"name":"setSaFirewallCheckHooks","parameterTypes":["java.util.List"] }, {"name":"setSaHttpBasicTemplate","parameterTypes":["cn.dev33.satoken.httpauth.basic.SaHttpBasicTemplate"] }, {"name":"setSaHttpDigestTemplate","parameterTypes":["cn.dev33.satoken.httpauth.digest.SaHttpDigestTemplate"] }, {"name":"setSaHttpTemplate","parameterTypes":["cn.dev33.satoken.http.SaHttpTemplate"] }, {"name":"setSaIdTemplate","parameterTypes":["cn.dev33.satoken.same.SaSameTemplate"] }, {"name":"setSaJsonTemplate","parameterTypes":["cn.dev33.satoken.json.SaJsonTemplate"] }, {"name":"setSaSerializerTemplate","parameterTypes":["cn.dev33.satoken.serializer.SaSerializerTemplate"] }, {"name":"setSaTempTemplate","parameterTypes":["cn.dev33.satoken.temp.SaTempTemplate"] }, {"name":"setSaTokenContext","parameterTypes":["cn.dev33.satoken.context.SaTokenContext"] }, {"name":"setSaTokenDao","parameterTypes":["cn.dev33.satoken.dao.SaTokenDao"] }, {"name":"setSaTokenListener","parameterTypes":["java.util.List"] }, {"name":"setSaTokenPluginList","parameterTypes":["java.util.List"] }, {"name":"setSaTotpTemplate","parameterTypes":["cn.dev33.satoken.secure.totp.SaTotpTemplate"] }, {"name":"setStpInterface","parameterTypes":["cn.dev33.satoken.stp.StpInterface"] }, {"name":"setStpLogic","parameterTypes":["cn.dev33.satoken.stp.StpLogic"] }]
+},
+{
+  "name":"cn.dev33.satoken.solon.SaBeanRegister",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getSaTokenConfig","parameterTypes":["cn.dev33.satoken.config.SaTokenConfig"] }, {"name":"saFirewallCheckFilterForSolon","parameterTypes":[] }, {"name":"saTokenContextFilterForSolon","parameterTypes":[] }, {"name":"saTokenCorsFilterForSolon","parameterTypes":[] }]
+},
+{
+  "name":"cn.dev33.satoken.solon.SaSolonPlugin",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"cn.dev33.satoken.solon.integration.SaFirewallCheckFilterForSolon",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"doFilter","parameterTypes":["org.noear.solon.core.handle.Context","org.noear.solon.core.handle.FilterChain"] }]
+},
+{
+  "name":"cn.dev33.satoken.solon.integration.SaTokenContextFilterForSolon",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"doFilter","parameterTypes":["org.noear.solon.core.handle.Context","org.noear.solon.core.handle.FilterChain"] }]
+},
+{
+  "name":"cn.dev33.satoken.solon.integration.SaTokenCorsFilterForSolon",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"doFilter","parameterTypes":["org.noear.solon.core.handle.Context","org.noear.solon.core.handle.FilterChain"] }]
+},
+{
+  "name":"cn.dev33.satoken.solon.integration.SaTokenInterceptor",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"addExclude","parameterTypes":["java.lang.String[]"] }, {"name":"addInclude","parameterTypes":["java.lang.String[]"] }, {"name":"doIntercept","parameterTypes":["org.noear.solon.core.handle.Context","org.noear.solon.core.handle.Handler","org.noear.solon.core.route.RouterInterceptorChain"] }, {"name":"getExcludeList","parameterTypes":[] }, {"name":"getIncludeList","parameterTypes":[] }, {"name":"setAuth","parameterTypes":["cn.dev33.satoken.filter.SaFilterAuthStrategy"] }, {"name":"setBeforeAuth","parameterTypes":["cn.dev33.satoken.filter.SaFilterAuthStrategy"] }, {"name":"setError","parameterTypes":["cn.dev33.satoken.filter.SaFilterErrorStrategy"] }, {"name":"setExcludeList","parameterTypes":["java.util.List"] }, {"name":"setIncludeList","parameterTypes":["java.util.List"] }]
+},
+{
+  "name":"cn.dev33.satoken.stp.StpInterface",
+  "methods":[{"name":"isDisabled","parameterTypes":["java.lang.Object","java.lang.String"] }]
+},
+{
+  "name":"com.alibaba.fastjson.JSONArray"
+},
+{
+  "name":"com.alibaba.fastjson.JSONObject"
+},
+{
+  "name":"com.alibaba.fastjson2.JSONFactory$CacheItem",
+  "fields":[{"name":"bytes"}, {"name":"chars"}]
+},
+{
+  "name":"com.alibaba.fastjson2.JSONObject",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"clone","parameterTypes":[] }, {"name":"containsKey","parameterTypes":["java.lang.Object"] }, {"name":"containsKey","parameterTypes":["java.lang.String"] }, {"name":"copyTo","parameterTypes":["java.lang.Object","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"eval","parameterTypes":["com.alibaba.fastjson2.JSONPath"] }, {"name":"fluentPut","parameterTypes":["java.lang.String","java.lang.Object"] }, {"name":"forEachArrayObject","parameterTypes":["java.lang.String","java.util.function.Consumer"] }, {"name":"forEchArrayObject","parameterTypes":["java.lang.String","java.util.function.Consumer"] }, {"name":"from","parameterTypes":["java.lang.Object"] }, {"name":"from","parameterTypes":["java.lang.Object","com.alibaba.fastjson2.JSONWriter$Feature[]"] }, {"name":"get","parameterTypes":["java.lang.Object"] }, {"name":"get","parameterTypes":["java.lang.String"] }, {"name":"getBigDecimal","parameterTypes":["java.lang.String"] }, {"name":"getBigInteger","parameterTypes":["java.lang.String"] }, {"name":"getBoolean","parameterTypes":["java.lang.String"] }, {"name":"getBooleanValue","parameterTypes":["java.lang.String"] }, {"name":"getBooleanValue","parameterTypes":["java.lang.String","boolean"] }, {"name":"getByPath","parameterTypes":["java.lang.String"] }, {"name":"getByte","parameterTypes":["java.lang.String"] }, {"name":"getByteValue","parameterTypes":["java.lang.String"] }, {"name":"getBytes","parameterTypes":["java.lang.String"] }, {"name":"getDate","parameterTypes":["java.lang.String"] }, {"name":"getDate","parameterTypes":["java.lang.String","java.util.Date"] }, {"name":"getDouble","parameterTypes":["java.lang.String"] }, {"name":"getDoubleValue","parameterTypes":["java.lang.String"] }, {"name":"getFloat","parameterTypes":["java.lang.String"] }, {"name":"getFloatValue","parameterTypes":["java.lang.String"] }, {"name":"getInstant","parameterTypes":["java.lang.String"] }, {"name":"getIntValue","parameterTypes":["java.lang.String"] }, {"name":"getIntValue","parameterTypes":["java.lang.String","int"] }, {"name":"getInteger","parameterTypes":["java.lang.String"] }, {"name":"getJSONArray","parameterTypes":["java.lang.String"] }, {"name":"getJSONObject","parameterTypes":["java.lang.String"] }, {"name":"getList","parameterTypes":["java.lang.String","java.lang.Class","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"getLocalDate","parameterTypes":["java.lang.String"] }, {"name":"getLocalDate","parameterTypes":["java.lang.String","java.time.LocalDate"] }, {"name":"getLocalDateTime","parameterTypes":["java.lang.String"] }, {"name":"getLocalDateTime","parameterTypes":["java.lang.String","java.time.LocalDateTime"] }, {"name":"getLocalTime","parameterTypes":["java.lang.String"] }, {"name":"getLocalTime","parameterTypes":["java.lang.String","java.time.LocalTime"] }, {"name":"getLong","parameterTypes":["java.lang.String"] }, {"name":"getLongValue","parameterTypes":["java.lang.String"] }, {"name":"getLongValue","parameterTypes":["java.lang.String","long"] }, {"name":"getObject","parameterTypes":["java.lang.String","com.alibaba.fastjson2.TypeReference","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"getObject","parameterTypes":["java.lang.String","java.lang.Class","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"getObject","parameterTypes":["java.lang.String","java.lang.reflect.Type","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"getObject","parameterTypes":["java.lang.String","java.util.function.Function"] }, {"name":"getOffsetDateTime","parameterTypes":["java.lang.String"] }, {"name":"getOffsetDateTime","parameterTypes":["java.lang.String","java.time.OffsetDateTime"] }, {"name":"getOffsetTime","parameterTypes":["java.lang.String"] }, {"name":"getOffsetTime","parameterTypes":["java.lang.String","java.time.OffsetTime"] }, {"name":"getOrDefault","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"getOrDefault","parameterTypes":["java.lang.String","java.lang.Object"] }, {"name":"getShort","parameterTypes":["java.lang.String"] }, {"name":"getShortValue","parameterTypes":["java.lang.String"] }, {"name":"getSize","parameterTypes":["java.lang.String"] }, {"name":"getString","parameterTypes":["java.lang.String"] }, {"name":"getZonedDateTime","parameterTypes":["java.lang.String"] }, {"name":"getZonedDateTime","parameterTypes":["java.lang.String","java.time.ZonedDateTime"] }, {"name":"invoke","parameterTypes":["java.lang.Object","java.lang.reflect.Method","java.lang.Object[]"] }, {"name":"isArray","parameterTypes":["java.lang.Object"] }, {"name":"isValid","parameterTypes":["com.alibaba.fastjson2.schema.JSONSchema"] }, {"name":"nameFilter","parameterTypes":["com.alibaba.fastjson2.filter.NameFilter"] }, {"name":"of","parameterTypes":[] }, {"name":"of","parameterTypes":["java.lang.String","java.lang.Object"] }, {"name":"of","parameterTypes":["java.lang.String","java.lang.Object","java.lang.String","java.lang.Object"] }, {"name":"of","parameterTypes":["java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object"] }, {"name":"of","parameterTypes":["java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object"] }, {"name":"of","parameterTypes":["java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object"] }, {"name":"of","parameterTypes":["java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.Object[]"] }, {"name":"parse","parameterTypes":["java.lang.String","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"parseObject","parameterTypes":["java.lang.String"] }, {"name":"parseObject","parameterTypes":["java.lang.String","com.alibaba.fastjson2.TypeReference","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"parseObject","parameterTypes":["java.lang.String","java.lang.Class"] }, {"name":"parseObject","parameterTypes":["java.lang.String","java.lang.Class","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"parseObject","parameterTypes":["java.lang.String","java.lang.reflect.Type","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"putArray","parameterTypes":["java.lang.String"] }, {"name":"putObject","parameterTypes":["java.lang.String"] }, {"name":"to","parameterTypes":["com.alibaba.fastjson2.TypeReference","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"to","parameterTypes":["java.lang.Class","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"to","parameterTypes":["java.lang.reflect.Type","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"to","parameterTypes":["java.util.function.Function"] }, {"name":"toJSONBBytes","parameterTypes":["com.alibaba.fastjson2.JSONWriter$Feature[]"] }, {"name":"toJSONString","parameterTypes":["java.lang.Object","com.alibaba.fastjson2.JSONWriter$Feature[]"] }, {"name":"toJSONString","parameterTypes":["com.alibaba.fastjson2.JSONWriter$Feature[]"] }, {"name":"toJavaObject","parameterTypes":["com.alibaba.fastjson2.TypeReference","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"toJavaObject","parameterTypes":["java.lang.Class","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"toJavaObject","parameterTypes":["java.lang.reflect.Type","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"toString","parameterTypes":[] }, {"name":"toString","parameterTypes":["com.alibaba.fastjson2.JSONWriter$Feature[]"] }, {"name":"valueFilter","parameterTypes":["com.alibaba.fastjson2.filter.ValueFilter"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.reader.ORG_1_7_AniTag",
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.util.function.Supplier","com.alibaba.fastjson2.reader.FieldReader[]"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.util.TypeUtils$Cache",
+  "fields":[{"name":"chars"}]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.FieldWriter",
+  "fields":[{"name":"initObjectWriter"}]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.FieldWriterObject",
+  "fields":[{"name":"initValueClass"}]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_1_4_ApiResult",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_2_4_ApiPage",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_3_15_SysUserVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_4_9_SysRoleVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_5_9_SysDictionaryVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_6_17_SysMenuVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_7_2_RssCountVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_8_2_SysOverviewVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.mysql.cj.conf.url.SingleConnectionUrl",
+  "methods":[{"name":"<init>","parameterTypes":["com.mysql.cj.conf.ConnectionUrlParser","java.util.Properties"] }]
+},
+{
+  "name":"com.mysql.cj.exceptions.CJException",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"com.mysql.cj.jdbc.AbandonedConnectionCleanupThread"
+},
+{
+  "name":"com.mysql.cj.jdbc.Driver",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.mysql.cj.log.StandardLogger",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"com.mysql.cj.protocol.StandardSocketFactory",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.crypto.provider.AESCipher$General",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.crypto.provider.ARCFOURCipher",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.crypto.provider.ChaCha20Cipher$ChaCha20Poly1305",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.crypto.provider.DESCipher",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.crypto.provider.DESedeCipher",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.crypto.provider.DHParameters",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.crypto.provider.GaloisCounterMode$AESGCM",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.crypto.provider.HmacCore$HmacSHA384",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.crypto.provider.TlsMasterSecretGenerator",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.management.GarbageCollectorMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"com.sun.management.GcInfo",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"com.sun.management.HotSpotDiagnosticMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"com.sun.management.OperatingSystemMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"com.sun.management.ThreadMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"com.sun.management.VMOption",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"com.sun.management.internal.GarbageCollectorExtImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"com.sun.management.internal.HotSpotDiagnostic",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"com.sun.management.internal.HotSpotThreadImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"com.sun.management.internal.OperatingSystemImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.zaxxer.hikari.HikariConfig",
+  "allDeclaredFields":true,
+  "methods":[{"name":"addDataSourceProperty","parameterTypes":["java.lang.String","java.lang.Object"] }, {"name":"addHealthCheckProperty","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"copyStateTo","parameterTypes":["com.zaxxer.hikari.HikariConfig"] }, {"name":"getCatalog","parameterTypes":[] }, {"name":"getConnectionInitSql","parameterTypes":[] }, {"name":"getConnectionTestQuery","parameterTypes":[] }, {"name":"getConnectionTimeout","parameterTypes":[] }, {"name":"getDataSource","parameterTypes":[] }, {"name":"getDataSourceClassName","parameterTypes":[] }, {"name":"getDataSourceJNDI","parameterTypes":[] }, {"name":"getDataSourceProperties","parameterTypes":[] }, {"name":"getDriverClassName","parameterTypes":[] }, {"name":"getExceptionOverrideClassName","parameterTypes":[] }, {"name":"getHealthCheckProperties","parameterTypes":[] }, {"name":"getHealthCheckRegistry","parameterTypes":[] }, {"name":"getIdleTimeout","parameterTypes":[] }, {"name":"getInitializationFailTimeout","parameterTypes":[] }, {"name":"getJdbcUrl","parameterTypes":[] }, {"name":"getKeepaliveTime","parameterTypes":[] }, {"name":"getLeakDetectionThreshold","parameterTypes":[] }, {"name":"getMaxLifetime","parameterTypes":[] }, {"name":"getMaximumPoolSize","parameterTypes":[] }, {"name":"getMetricRegistry","parameterTypes":[] }, {"name":"getMetricsTrackerFactory","parameterTypes":[] }, {"name":"getMinimumIdle","parameterTypes":[] }, {"name":"getPassword","parameterTypes":[] }, {"name":"getPoolName","parameterTypes":[] }, {"name":"getScheduledExecutor","parameterTypes":[] }, {"name":"getSchema","parameterTypes":[] }, {"name":"getThreadFactory","parameterTypes":[] }, {"name":"getTransactionIsolation","parameterTypes":[] }, {"name":"getUsername","parameterTypes":[] }, {"name":"getValidationTimeout","parameterTypes":[] }, {"name":"isAllowPoolSuspension","parameterTypes":[] }, {"name":"isAutoCommit","parameterTypes":[] }, {"name":"isIsolateInternalQueries","parameterTypes":[] }, {"name":"isReadOnly","parameterTypes":[] }, {"name":"isRegisterMbeans","parameterTypes":[] }, {"name":"setAllowPoolSuspension","parameterTypes":["boolean"] }, {"name":"setAutoCommit","parameterTypes":["boolean"] }, {"name":"setCatalog","parameterTypes":["java.lang.String"] }, {"name":"setConnectionInitSql","parameterTypes":["java.lang.String"] }, {"name":"setConnectionTestQuery","parameterTypes":["java.lang.String"] }, {"name":"setConnectionTimeout","parameterTypes":["long"] }, {"name":"setDataSource","parameterTypes":["javax.sql.DataSource"] }, {"name":"setDataSourceClassName","parameterTypes":["java.lang.String"] }, {"name":"setDataSourceJNDI","parameterTypes":["java.lang.String"] }, {"name":"setDataSourceProperties","parameterTypes":["java.util.Properties"] }, {"name":"setDriverClassName","parameterTypes":["java.lang.String"] }, {"name":"setExceptionOverrideClassName","parameterTypes":["java.lang.String"] }, {"name":"setHealthCheckProperties","parameterTypes":["java.util.Properties"] }, {"name":"setIdleTimeout","parameterTypes":["long"] }, {"name":"setInitializationFailTimeout","parameterTypes":["long"] }, {"name":"setIsolateInternalQueries","parameterTypes":["boolean"] }, {"name":"setJdbcUrl","parameterTypes":["java.lang.String"] }, {"name":"setKeepaliveTime","parameterTypes":["long"] }, {"name":"setLeakDetectionThreshold","parameterTypes":["long"] }, {"name":"setMaxLifetime","parameterTypes":["long"] }, {"name":"setMaximumPoolSize","parameterTypes":["int"] }, {"name":"setMinimumIdle","parameterTypes":["int"] }, {"name":"setPassword","parameterTypes":["java.lang.String"] }, {"name":"setPoolName","parameterTypes":["java.lang.String"] }, {"name":"setReadOnly","parameterTypes":["boolean"] }, {"name":"setRegisterMbeans","parameterTypes":["boolean"] }, {"name":"setScheduledExecutor","parameterTypes":["java.util.concurrent.ScheduledExecutorService"] }, {"name":"setSchema","parameterTypes":["java.lang.String"] }, {"name":"setThreadFactory","parameterTypes":["java.util.concurrent.ThreadFactory"] }, {"name":"setTransactionIsolation","parameterTypes":["java.lang.String"] }, {"name":"setUsername","parameterTypes":["java.lang.String"] }, {"name":"setValidationTimeout","parameterTypes":["long"] }, {"name":"validate","parameterTypes":[] }]
+},
+{
+  "name":"com.zaxxer.hikari.HikariDataSource",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"<init>","parameterTypes":["java.util.Properties"] }, {"name":"close","parameterTypes":[] }, {"name":"evictConnection","parameterTypes":["java.sql.Connection"] }, {"name":"getConnection","parameterTypes":[] }, {"name":"getConnection","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"getHikariConfigMXBean","parameterTypes":[] }, {"name":"getHikariPoolMXBean","parameterTypes":[] }, {"name":"getLogWriter","parameterTypes":[] }, {"name":"getLoginTimeout","parameterTypes":[] }, {"name":"getParentLogger","parameterTypes":[] }, {"name":"isClosed","parameterTypes":[] }, {"name":"isRunning","parameterTypes":[] }, {"name":"isWrapperFor","parameterTypes":["java.lang.Class"] }, {"name":"setHealthCheckRegistry","parameterTypes":["java.lang.Object"] }, {"name":"setLogWriter","parameterTypes":["java.io.PrintWriter"] }, {"name":"setLoginTimeout","parameterTypes":["int"] }, {"name":"setMetricRegistry","parameterTypes":["java.lang.Object"] }, {"name":"setMetricsTrackerFactory","parameterTypes":["com.zaxxer.hikari.metrics.MetricsTrackerFactory"] }, {"name":"toString","parameterTypes":[] }, {"name":"unwrap","parameterTypes":["java.lang.Class"] }]
+},
+{
+  "name":"com.zaxxer.hikari.pool.PoolEntry",
+  "fields":[{"name":"state"}]
+},
+{
+  "name":"int",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"java.beans.Introspector"
+},
+{
+  "name":"java.beans.Transient"
+},
+{
+  "name":"java.io.FilePermission"
+},
+{
+  "name":"java.io.Serializable",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.Boolean",
+  "fields":[{"name":"TYPE"}]
+},
+{
+  "name":"java.lang.Byte",
+  "fields":[{"name":"TYPE"}]
+},
+{
+  "name":"java.lang.Character",
+  "fields":[{"name":"TYPE"}]
+},
+{
+  "name":"java.lang.ClassLoader"
+},
+{
+  "name":"java.lang.Deprecated",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.Double",
+  "fields":[{"name":"TYPE"}]
+},
+{
+  "name":"java.lang.Float",
+  "fields":[{"name":"TYPE"}]
+},
+{
+  "name":"java.lang.Integer",
+  "fields":[{"name":"TYPE"}]
+},
+{
+  "name":"java.lang.Long",
+  "fields":[{"name":"TYPE"}]
+},
+{
+  "name":"java.lang.Object",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"add","parameterTypes":["java.lang.Object"] }, {"name":"addExclude","parameterTypes":["java.lang.String[]"] }, {"name":"addInclude","parameterTypes":["java.lang.String[]"] }, {"name":"deserialize","parameterTypes":["java.lang.Object","java.lang.reflect.Type"] }, {"name":"getDetail","parameterTypes":[] }, {"name":"listByPage","parameterTypes":["java.lang.Object"] }, {"name":"serialize","parameterTypes":["java.lang.Object"] }, {"name":"setAuth","parameterTypes":["cn.dev33.satoken.filter.SaFilterAuthStrategy"] }, {"name":"setBeforeAuth","parameterTypes":["cn.dev33.satoken.filter.SaFilterAuthStrategy"] }, {"name":"setError","parameterTypes":["cn.dev33.satoken.filter.SaFilterErrorStrategy"] }, {"name":"setExcludeList","parameterTypes":["java.util.List"] }, {"name":"setIncludeList","parameterTypes":["java.util.List"] }, {"name":"update","parameterTypes":["java.lang.Object"] }]
+},
+{
+  "name":"java.lang.Record"
+},
+{
+  "name":"java.lang.Runtime",
+  "methods":[{"name":"version","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.Runtime$Version",
+  "methods":[{"name":"major","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.RuntimePermission"
+},
+{
+  "name":"java.lang.Short",
+  "fields":[{"name":"TYPE"}]
+},
+{
+  "name":"java.lang.StackTraceElement",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.String",
+  "fields":[{"name":"COMPACT_STRINGS"}, {"name":"TYPE"}, {"name":"coder"}, {"name":"value"}],
+  "methods":[{"name":"<init>","parameterTypes":["byte[]","byte"] }, {"name":"coder","parameterTypes":[] }, {"name":"isASCII","parameterTypes":["byte[]"] }, {"name":"value","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.StringCoding",
+  "methods":[{"name":"hasNegatives","parameterTypes":["byte[]","int","int"] }]
+},
+{
+  "name":"java.lang.StringLatin1",
+  "methods":[{"name":"indexOfChar","parameterTypes":["byte[]","int","int","int"] }]
+},
+{
+  "name":"java.lang.System",
+  "methods":[{"name":"nanoTime","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.Thread",
+  "fields":[{"name":"threadLocalRandomProbe"}],
+  "methods":[{"name":"ofVirtual","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.ThreadBuilders$VirtualThreadBuilder",
+  "methods":[{"name":"factory","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.Void",
+  "fields":[{"name":"TYPE"}]
+},
+{
+  "name":"java.lang.invoke.MethodHandles$Lookup",
+  "fields":[{"name":"IMPL_LOOKUP"}],
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.Class","int"] }]
+},
+{
+  "name":"java.lang.management.BufferPoolMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.management.ClassLoadingMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.management.CompilationMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.management.LockInfo",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.management.ManagementFactory",
+  "methods":[{"name":"getRuntimeMXBean","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.management.ManagementPermission",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"java.lang.management.MemoryMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.management.MemoryManagerMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.management.MemoryPoolMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.management.MemoryUsage",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.management.MonitorInfo",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.management.PlatformLoggingMXBean",
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"getLoggerLevel","parameterTypes":["java.lang.String"] }, {"name":"getLoggerNames","parameterTypes":[] }, {"name":"getParentLoggerName","parameterTypes":["java.lang.String"] }, {"name":"setLoggerLevel","parameterTypes":["java.lang.String","java.lang.String"] }]
+},
+{
+  "name":"java.lang.management.RuntimeMXBean",
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"getInputArguments","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.management.ThreadInfo",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.math.BigDecimal",
+  "allDeclaredFields":true
+},
+{
+  "name":"java.math.BigInteger",
+  "fields":[{"name":"mag"}]
+},
+{
+  "name":"java.net.NetPermission"
+},
+{
+  "name":"java.net.SocketPermission"
+},
+{
+  "name":"java.net.URLPermission",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String"] }]
+},
+{
+  "name":"java.security.AlgorithmParametersSpi"
+},
+{
+  "name":"java.security.AllPermission"
+},
+{
+  "name":"java.security.KeyStoreSpi"
+},
+{
+  "name":"java.security.SecureRandomParameters"
+},
+{
+  "name":"java.security.SecurityPermission"
+},
+{
+  "name":"java.security.interfaces.ECPrivateKey"
+},
+{
+  "name":"java.security.interfaces.ECPublicKey"
+},
+{
+  "name":"java.security.interfaces.RSAPrivateKey"
+},
+{
+  "name":"java.security.interfaces.RSAPublicKey"
+},
+{
+  "name":"java.sql.Clob"
+},
+{
+  "name":"java.sql.Date"
+},
+{
+  "name":"java.sql.SQLException",
+  "fields":[{"name":"next"}]
+},
+{
+  "name":"java.sql.Struct"
+},
+{
+  "name":"java.sql.Timestamp"
+},
+{
+  "name":"java.util.AbstractMap",
+  "allDeclaredFields":true,
+  "methods":[{"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"hashCode","parameterTypes":[] }]
+},
+{
+  "name":"java.util.ArrayList",
+  "methods":[{"name":"<init>","parameterTypes":["java.util.Properties"] }]
+},
+{
+  "name":"java.util.Collections$UnmodifiableCollection"
+},
+{
+  "name":"java.util.Collections$UnmodifiableMap"
+},
+{
+  "name":"java.util.Date"
+},
+{
+  "name":"java.util.Dictionary",
+  "allDeclaredFields":true
+},
+{
+  "name":"java.util.HashMap",
+  "allDeclaredFields":true,
+  "methods":[{"name":"clone","parameterTypes":[] }, {"name":"compute","parameterTypes":["java.lang.Object","java.util.function.BiFunction"] }, {"name":"computeIfAbsent","parameterTypes":["java.lang.Object","java.util.function.Function"] }, {"name":"computeIfPresent","parameterTypes":["java.lang.Object","java.util.function.BiFunction"] }, {"name":"isEmpty","parameterTypes":[] }, {"name":"merge","parameterTypes":["java.lang.Object","java.lang.Object","java.util.function.BiFunction"] }, {"name":"newHashMap","parameterTypes":["int"] }, {"name":"put","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"putAll","parameterTypes":["java.util.Map"] }, {"name":"putIfAbsent","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"remove","parameterTypes":["java.lang.Object"] }, {"name":"remove","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"replace","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"replace","parameterTypes":["java.lang.Object","java.lang.Object","java.lang.Object"] }, {"name":"size","parameterTypes":[] }]
+},
+{
+  "name":"java.util.Hashtable",
+  "allDeclaredFields":true
+},
+{
+  "name":"java.util.LinkedHashMap",
+  "allDeclaredFields":true,
+  "methods":[{"name":"clear","parameterTypes":[] }, {"name":"containsValue","parameterTypes":["java.lang.Object"] }, {"name":"entrySet","parameterTypes":[] }, {"name":"forEach","parameterTypes":["java.util.function.BiConsumer"] }, {"name":"keySet","parameterTypes":[] }, {"name":"newLinkedHashMap","parameterTypes":["int"] }, {"name":"putFirst","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"putLast","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"replaceAll","parameterTypes":["java.util.function.BiFunction"] }, {"name":"reversed","parameterTypes":[] }, {"name":"sequencedEntrySet","parameterTypes":[] }, {"name":"sequencedKeySet","parameterTypes":[] }, {"name":"sequencedValues","parameterTypes":[] }, {"name":"values","parameterTypes":[] }]
+},
+{
+  "name":"java.util.Properties",
+  "allDeclaredFields":true,
+  "methods":[{"name":"clear","parameterTypes":[] }, {"name":"clone","parameterTypes":[] }, {"name":"compute","parameterTypes":["java.lang.Object","java.util.function.BiFunction"] }, {"name":"computeIfAbsent","parameterTypes":["java.lang.Object","java.util.function.Function"] }, {"name":"computeIfPresent","parameterTypes":["java.lang.Object","java.util.function.BiFunction"] }, {"name":"contains","parameterTypes":["java.lang.Object"] }, {"name":"containsKey","parameterTypes":["java.lang.Object"] }, {"name":"containsValue","parameterTypes":["java.lang.Object"] }, {"name":"elements","parameterTypes":[] }, {"name":"entrySet","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"get","parameterTypes":["java.lang.Object"] }, {"name":"getOrDefault","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"getProperty","parameterTypes":["java.lang.String"] }, {"name":"getProperty","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"hashCode","parameterTypes":[] }, {"name":"isEmpty","parameterTypes":[] }, {"name":"keySet","parameterTypes":[] }, {"name":"keys","parameterTypes":[] }, {"name":"list","parameterTypes":["java.io.PrintStream"] }, {"name":"list","parameterTypes":["java.io.PrintWriter"] }, {"name":"load","parameterTypes":["java.io.InputStream"] }, {"name":"load","parameterTypes":["java.io.Reader"] }, {"name":"loadFromXML","parameterTypes":["java.io.InputStream"] }, {"name":"merge","parameterTypes":["java.lang.Object","java.lang.Object","java.util.function.BiFunction"] }, {"name":"propertyNames","parameterTypes":[] }, {"name":"putAll","parameterTypes":["java.util.Map"] }, {"name":"putIfAbsent","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"remove","parameterTypes":["java.lang.Object"] }, {"name":"remove","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"replace","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"replace","parameterTypes":["java.lang.Object","java.lang.Object","java.lang.Object"] }, {"name":"replaceAll","parameterTypes":["java.util.function.BiFunction"] }, {"name":"save","parameterTypes":["java.io.OutputStream","java.lang.String"] }, {"name":"setProperty","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"store","parameterTypes":["java.io.OutputStream","java.lang.String"] }, {"name":"store","parameterTypes":["java.io.Writer","java.lang.String"] }, {"name":"storeToXML","parameterTypes":["java.io.OutputStream","java.lang.String"] }, {"name":"storeToXML","parameterTypes":["java.io.OutputStream","java.lang.String","java.lang.String"] }, {"name":"storeToXML","parameterTypes":["java.io.OutputStream","java.lang.String","java.nio.charset.Charset"] }, {"name":"stringPropertyNames","parameterTypes":[] }, {"name":"toString","parameterTypes":[] }, {"name":"values","parameterTypes":[] }]
+},
+{
+  "name":"java.util.PropertyPermission",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String"] }]
+},
+{
+  "name":"java.util.SequencedMap",
+  "methods":[{"name":"firstEntry","parameterTypes":[] }, {"name":"lastEntry","parameterTypes":[] }, {"name":"pollFirstEntry","parameterTypes":[] }, {"name":"pollLastEntry","parameterTypes":[] }]
+},
+{
+  "name":"java.util.concurrent.ForkJoinTask",
+  "fields":[{"name":"aux"}, {"name":"status"}]
+},
+{
+  "name":"java.util.concurrent.atomic.AtomicBoolean",
+  "fields":[{"name":"value"}]
+},
+{
+  "name":"java.util.concurrent.atomic.AtomicReference",
+  "fields":[{"name":"value"}]
+},
+{
+  "name":"java.util.concurrent.atomic.Striped64",
+  "fields":[{"name":"base"}, {"name":"cellsBusy"}]
+},
+{
+  "name":"java.util.logging.LogManager",
+  "methods":[{"name":"getLoggingMXBean","parameterTypes":[] }]
+},
+{
+  "name":"java.util.logging.LoggingMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"javax.management.MBeanOperationInfo",
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"getSignature","parameterTypes":[] }]
+},
+{
+  "name":"javax.management.MBeanServerBuilder",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javax.management.ObjectName"
+},
+{
+  "name":"javax.management.StandardEmitterMBean",
+  "methods":[{"name":"cacheMBeanInfo","parameterTypes":["javax.management.MBeanInfo"] }, {"name":"getCachedMBeanInfo","parameterTypes":[] }, {"name":"getMBeanInfo","parameterTypes":[] }]
+},
+{
+  "name":"javax.management.openmbean.CompositeData"
+},
+{
+  "name":"javax.management.openmbean.OpenMBeanOperationInfoSupport"
+},
+{
+  "name":"javax.management.openmbean.TabularData"
+},
+{
+  "name":"javax.security.auth.x500.X500Principal",
+  "fields":[{"name":"thisX500Name"}],
+  "methods":[{"name":"<init>","parameterTypes":["sun.security.x509.X500Name"] }]
+},
+{
+  "name":"javax.smartcardio.CardPermission"
+},
+{
+  "name":"javax.sql.CommonDataSource",
+  "methods":[{"name":"createShardingKeyBuilder","parameterTypes":[] }]
+},
+{
+  "name":"javax.sql.DataSource",
+  "methods":[{"name":"createConnectionBuilder","parameterTypes":[] }]
+},
+{
+  "name":"javax.sql.RowSet"
+},
+{
+  "name":"jdk.internal.misc.Unsafe"
+},
+{
+  "name":"jdk.management.jfr.ConfigurationInfo",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"jdk.management.jfr.EventTypeInfo",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"jdk.management.jfr.FlightRecorderMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"jdk.management.jfr.FlightRecorderMXBeanImpl",
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"cacheMBeanInfo","parameterTypes":["javax.management.MBeanInfo"] }, {"name":"getCachedMBeanInfo","parameterTypes":[] }, {"name":"getMBeanInfo","parameterTypes":[] }, {"name":"getNotificationInfo","parameterTypes":[] }]
+},
+{
+  "name":"jdk.management.jfr.RecordingInfo",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"jdk.management.jfr.SettingDescriptorInfo",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"kotlin.Metadata"
+},
+{
+  "name":"long",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"net.cocotea.elysiananime.Launcher",
+  "methods":[{"name":"main","parameterTypes":["java.lang.String[]"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.RuntimeNativeRegistrarImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"register","parameterTypes":["org.noear.solon.core.AppContext","org.noear.solon.aot.RuntimeNativeMetadata"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.HomeController",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"health","parameterTypes":[] }, {"name":"home","parameterTypes":["org.noear.solon.core.handle.Context"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.controller.AniOpusController",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniOpusAddDTO"] }, {"name":"addOpusFromBangumi","parameterTypes":["com.alibaba.fastjson2.JSONObject"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"getBackground","parameterTypes":["java.lang.String"] }, {"name":"getCover","parameterTypes":["java.lang.String","java.lang.Integer","java.lang.Integer"] }, {"name":"getMedia","parameterTypes":["java.math.BigInteger","java.lang.String"] }, {"name":"getOpusMedia","parameterTypes":["java.math.BigInteger"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniOpusPageDTO"] }, {"name":"listByUser","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniOpusHomeDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniOpusUpdateDTO"] }, {"name":"uploadRes","parameterTypes":["java.math.BigInteger","org.noear.solon.core.handle.UploadedFile"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.controller.AniRssController",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"addOpusTorrent","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniAddOpusTorrentDTO"] }, {"name":"closeSubscribe","parameterTypes":["java.math.BigInteger"] }, {"name":"getCounts","parameterTypes":[] }, {"name":"getDefaultExclusions","parameterTypes":[] }, {"name":"getMkXmlDetail","parameterTypes":["java.lang.String"] }, {"name":"getRenames","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO"] }, {"name":"getRssWorkStatus","parameterTypes":[] }, {"name":"subscribe","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.controller.AniRssController$$SolonAotProxy"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.controller.AniRssController$$SolonAsmProxy",
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.controller.AniUserOpusController",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"follow","parameterTypes":["java.math.BigInteger"] }, {"name":"listByUser","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusPageDTO"] }, {"name":"listFromShares","parameterTypes":["int"] }, {"name":"share","parameterTypes":["java.math.BigInteger"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusUpdateDTO"] }, {"name":"updateProgress","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusUpdateDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniAddOpusTorrentDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniOpusAddDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniOpusHomeDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getDeliveryWeeks","parameterTypes":[] }, {"name":"getHasResource","parameterTypes":[] }, {"name":"getMonths","parameterTypes":[] }, {"name":"getSearchKey","parameterTypes":[] }, {"name":"getStates","parameterTypes":[] }, {"name":"getStatus","parameterTypes":[] }, {"name":"getYears","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setDeliveryWeeks","parameterTypes":["java.util.List"] }, {"name":"setHasResource","parameterTypes":["java.lang.Integer"] }, {"name":"setMonths","parameterTypes":["java.util.List"] }, {"name":"setSearchKey","parameterTypes":["java.lang.String"] }, {"name":"setStates","parameterTypes":["java.util.List"] }, {"name":"setStatus","parameterTypes":["java.util.List"] }, {"name":"setYears","parameterTypes":["java.util.List"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniOpusPageDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getAniOpus","parameterTypes":[] }, {"name":"getQuarter","parameterTypes":[] }, {"name":"getSearchKey","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setAniOpus","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniOpusPageDTO$Query"] }, {"name":"setQuarter","parameterTypes":["java.lang.String"] }, {"name":"setSearchKey","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniOpusPageDTO$Query",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getHasResource","parameterTypes":[] }, {"name":"getLikeNameCn","parameterTypes":[] }, {"name":"getLikeNameOriginal","parameterTypes":[] }, {"name":"getNameCn","parameterTypes":[] }, {"name":"getNameOriginal","parameterTypes":[] }, {"name":"getRssStatus","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setHasResource","parameterTypes":["java.lang.Integer"] }, {"name":"setLikeNameCn","parameterTypes":["java.lang.String"] }, {"name":"setLikeNameOriginal","parameterTypes":["java.lang.String"] }, {"name":"setNameCn","parameterTypes":["java.lang.String"] }, {"name":"setNameOriginal","parameterTypes":["java.lang.String"] }, {"name":"setRssStatus","parameterTypes":["java.lang.Integer"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniOpusUpdateDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusAddDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusPageDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getIsShare","parameterTypes":[] }, {"name":"getNameCn","parameterTypes":[] }, {"name":"getNameOriginal","parameterTypes":[] }, {"name":"getReadStatus","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setIsShare","parameterTypes":["java.lang.Integer"] }, {"name":"setNameCn","parameterTypes":["java.lang.String"] }, {"name":"setNameOriginal","parameterTypes":["java.lang.String"] }, {"name":"setReadStatus","parameterTypes":["java.lang.Integer"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusUpdateDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.RssWorksStatusDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.po.AniOpus",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"getAniSummary","parameterTypes":[] }, {"name":"getCoverUrl","parameterTypes":[] }, {"name":"getCreateBy","parameterTypes":[] }, {"name":"getCreateTime","parameterTypes":[] }, {"name":"getDeliveryWeek","parameterTypes":[] }, {"name":"getDetailInfoUrl","parameterTypes":[] }, {"name":"getEpisodes","parameterTypes":[] }, {"name":"getHasResource","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getIsDeleted","parameterTypes":[] }, {"name":"getLaunchStart","parameterTypes":[] }, {"name":"getNameCn","parameterTypes":[] }, {"name":"getNameOriginal","parameterTypes":[] }, {"name":"getRssExcludeRes","parameterTypes":[] }, {"name":"getRssFileType","parameterTypes":[] }, {"name":"getRssLevelIndex","parameterTypes":[] }, {"name":"getRssOnlyMark","parameterTypes":[] }, {"name":"getRssStatus","parameterTypes":[] }, {"name":"getRssUrl","parameterTypes":[] }, {"name":"getScore","parameterTypes":[] }, {"name":"getUpdateBy","parameterTypes":[] }, {"name":"getUpdateTime","parameterTypes":[] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.po.AniOpusGroup"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.po.AniOpusTag"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.po.AniTag",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.po.AniUserOpus"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniOpusHomeVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniOpusInfoVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniOpusTagVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniOpusVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniUserOpusSharesVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniUserOpusVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniVideoVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniVideoVO$Media"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.model.vo.RssCountVO",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.rss.MiKanRss",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"addOpusTorrent","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniAddOpusTorrentDTO"] }, {"name":"clearHistory","parameterTypes":[] }, {"name":"closeSubscribe","parameterTypes":["java.math.BigInteger"] }, {"name":"doCloseSubscribe","parameterTypes":[] }, {"name":"doFindRssOpusAndDownload","parameterTypes":[] }, {"name":"doParseMkXmlDetail","parameterTypes":["java.lang.String"] }, {"name":"doParseXmlItems","parameterTypes":["java.lang.String"] }, {"name":"doRenameBtV2","parameterTypes":[] }, {"name":"findBtSource","parameterTypes":["org.w3c.dom.NodeList","net.cocotea.elysiananime.api.anime.rss.model.MkXmlItem"] }, {"name":"findItemInfo","parameterTypes":["org.w3c.dom.NodeList","net.cocotea.elysiananime.api.anime.rss.model.MkXmlItem"] }, {"name":"getCounts","parameterTypes":[] }, {"name":"getRenames","parameterTypes":["java.lang.String","net.cocotea.elysiananime.api.anime.model.po.AniOpus"] }, {"name":"getRenames","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO"] }, {"name":"getRssWorkStatus","parameterTypes":[] }, {"name":"requestRss","parameterTypes":["java.lang.String","net.cocotea.elysiananime.api.anime.model.po.AniOpus"] }, {"name":"subscribe","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.rss.model.MkXmlDetail"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.rss.model.MkXmlItem"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.rss.model.QbInfo"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.rss.model.RenameInfo"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.service.AniOpusService"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.service.AniSpiderService"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.service.AniTagService"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.service.AniUserOpusService"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.service.impl.AniOpusServiceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniOpusAddDTO"] }, {"name":"autoDiscoverResource","parameterTypes":[] }, {"name":"delete","parameterTypes":["java.math.BigInteger"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"getCover","parameterTypes":["java.lang.String","java.lang.Integer","java.lang.Integer"] }, {"name":"getMedia","parameterTypes":["java.math.BigInteger","java.lang.String"] }, {"name":"getMedias","parameterTypes":["java.io.File[]"] }, {"name":"getOpusMedia","parameterTypes":["java.math.BigInteger"] }, {"name":"getRssOpus","parameterTypes":["int"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniOpusPageDTO"] }, {"name":"listByUser","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniOpusHomeDTO"] }, {"name":"loadById","parameterTypes":["java.math.BigInteger"] }, {"name":"loadByNameCn","parameterTypes":["java.lang.String"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniOpusUpdateDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.anime.model.po.AniOpus"] }, {"name":"uploadRes","parameterTypes":["java.math.BigInteger","java.lang.String"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.service.impl.AniOpusServiceImpl$$SolonAotProxy"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.service.impl.AniOpusServiceImpl$$SolonAsmProxy",
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.service.impl.AniSpiderServiceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"addOpusFromBangumi","parameterTypes":["java.lang.String","java.lang.Integer"] }, {"name":"autoFetchOpus","parameterTypes":[] }, {"name":"fetchOpusFromBangumi","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.service.impl.AniTagServiceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"findByOpusId","parameterTypes":["java.math.BigInteger"] }, {"name":"findByOpusIds","parameterTypes":["java.util.Set"] }, {"name":"saveTagOfOpus","parameterTypes":["java.util.List","java.math.BigInteger"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.service.impl.AniUserOpusServiceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusAddDTO"] }, {"name":"delete","parameterTypes":["java.math.BigInteger"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"findFollowsEmail","parameterTypes":["java.math.BigInteger"] }, {"name":"follow","parameterTypes":["java.math.BigInteger"] }, {"name":"getByOpusIdAndUserId","parameterTypes":["java.math.BigInteger","java.math.BigInteger"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusPageDTO"] }, {"name":"listByUser","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusPageDTO"] }, {"name":"listFromShares","parameterTypes":["int"] }, {"name":"share","parameterTypes":["java.math.BigInteger"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusUpdateDTO"] }, {"name":"updateProgress","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusUpdateDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.service.impl.AniUserOpusServiceImpl$$SolonAotProxy"
+},
+{
+  "name":"net.cocotea.elysiananime.api.anime.service.impl.AniUserOpusServiceImpl$$SolonAsmProxy",
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.controller.SysDashboardController",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getCount","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.controller.SysDictionaryController",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysDictionaryAddDTO"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"listByTree","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysDictionaryTreeDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysDictionaryUpdateDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.controller.SysDictionaryController$$SolonAotProxy"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.controller.SysDictionaryController$$SolonAsmProxy",
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.controller.SysFileController",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"download","parameterTypes":["java.math.BigInteger"] }, {"name":"getAvatar","parameterTypes":["java.lang.String","org.noear.solon.core.handle.Context"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysFilePageDTO"] }, {"name":"recoveryBatch","parameterTypes":["java.util.List"] }, {"name":"recycleBinDeleteBatch","parameterTypes":["java.util.List"] }, {"name":"recycleBinPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysFilePageDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysFileUpdateDTO"] }, {"name":"upload","parameterTypes":["org.noear.solon.core.handle.UploadedFile"] }, {"name":"uploadAvatar","parameterTypes":["org.noear.solon.core.handle.UploadedFile"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.controller.SysLogController",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"pageApiResult","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysLogPageDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.controller.SysLoginController",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"login","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysLoginDTO","org.noear.solon.core.handle.Context"] }, {"name":"loginInfo","parameterTypes":[] }, {"name":"logout","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.controller.SysMenuController",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysMenuAddDTO"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysMenuPageDTO"] }, {"name":"listByRoleId","parameterTypes":["java.lang.String"] }, {"name":"listByTree","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysMenuTreeDTO"] }, {"name":"listByTreeAsRoleSelection","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysMenuTreeDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysMenuUpdateDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.controller.SysNotifyController",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"listByType","parameterTypes":["java.lang.String"] }, {"name":"read","parameterTypes":["java.math.BigInteger"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.controller.SysRoleController",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysRoleAddDTO"] }, {"name":"delete","parameterTypes":["java.math.BigInteger"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"grantPermissionsByRoleId","parameterTypes":["java.util.List"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysRolePageDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysRoleUpdateDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.controller.SysThemeController",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"loadByUser","parameterTypes":[] }, {"name":"updateByUser","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysThemeUpdateDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.controller.SysUserController",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysUserAddDTO"] }, {"name":"delete","parameterTypes":["java.math.BigInteger"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"doModifyPassword","parameterTypes":["com.alibaba.fastjson2.JSONObject"] }, {"name":"getDetail","parameterTypes":[] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysUserPageDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysUserUpdateDTO"] }, {"name":"updateByUser","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysLoginUserUpdateDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.controller.SysVersionController",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysVersionAddDTO"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysVersionPageDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysVersionUpdateDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.controller.SysVersionController$$SolonAotProxy"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.controller.SysVersionController$$SolonAsmProxy",
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysDictionaryAddDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysDictionaryPageDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysDictionaryTreeDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getDictionaryName","parameterTypes":[] }, {"name":"getEnableStatus","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setDictionaryName","parameterTypes":["java.lang.String"] }, {"name":"setEnableStatus","parameterTypes":["java.lang.Integer"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysDictionaryUpdateDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysFileAddDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysFilePageDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getIsDeleted","parameterTypes":[] }, {"name":"getSysFile","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setIsDeleted","parameterTypes":["java.lang.Integer"] }, {"name":"setSysFile","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysFilePageDTO$Query"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysFilePageDTO$Query",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getBeginTime","parameterTypes":[] }, {"name":"getEndTime","parameterTypes":[] }, {"name":"getFileName","parameterTypes":[] }, {"name":"getFileSuffix","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setBeginTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setEndTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setFileName","parameterTypes":["java.lang.String"] }, {"name":"setFileSuffix","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysFileUpdateDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysLogAddDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysLogPageDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getSysLog","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setSysLog","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysLogPageDTO$Query"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysLogPageDTO$Query",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getApiPath","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getOperator","parameterTypes":[] }, {"name":"getRequestWay","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setApiPath","parameterTypes":["java.lang.String"] }, {"name":"setId","parameterTypes":["java.lang.String"] }, {"name":"setOperator","parameterTypes":["java.lang.String"] }, {"name":"setRequestWay","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysLogUpdateDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysLoginDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysLoginUserUpdateDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysMenuAddDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysMenuPageDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysMenuPageDTO$Query"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysMenuTreeDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getIsMenu","parameterTypes":[] }, {"name":"getMenuName","parameterTypes":[] }, {"name":"getMenuStatus","parameterTypes":[] }, {"name":"getPermissionCode","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setIsMenu","parameterTypes":["java.lang.Integer"] }, {"name":"setMenuName","parameterTypes":["java.lang.String"] }, {"name":"setMenuStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setPermissionCode","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysMenuUpdateDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysNotifyAddDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysRoleAddDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysRolePageDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getSysRole","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setSysRole","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysRolePageDTO$Query"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysRolePageDTO$Query",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getRemark","parameterTypes":[] }, {"name":"getRoleKey","parameterTypes":[] }, {"name":"getRoleName","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setRemark","parameterTypes":["java.lang.String"] }, {"name":"setRoleKey","parameterTypes":["java.lang.String"] }, {"name":"setRoleName","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysRoleUpdateDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysThemeUpdateDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysUserAddDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysUserPageDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysUserPageDTO$Query"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysUserUpdateDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysVersionAddDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysVersionPageDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysVersionPageDTO$Query"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysVersionUpdateDTO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysDictionary",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getCreateBy","parameterTypes":[] }, {"name":"getCreateTime","parameterTypes":[] }, {"name":"getDictionaryName","parameterTypes":[] }, {"name":"getEnableStatus","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getParentId","parameterTypes":[] }, {"name":"getRemark","parameterTypes":[] }, {"name":"getSort","parameterTypes":[] }, {"name":"setCreateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setDictionaryName","parameterTypes":["java.lang.String"] }, {"name":"setEnableStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setIsDeleted","parameterTypes":["java.lang.Integer"] }, {"name":"setParentId","parameterTypes":["java.math.BigInteger"] }, {"name":"setRemark","parameterTypes":["java.lang.String"] }, {"name":"setSort","parameterTypes":["java.lang.Integer"] }, {"name":"setUpdateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setUpdateTime","parameterTypes":["java.time.LocalDateTime"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysFile"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysLog"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysMenu"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysNotify"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysRole"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysRoleMenu"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysTheme"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysUser",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getAccountStatus","parameterTypes":[] }, {"name":"getAvatar","parameterTypes":[] }, {"name":"getCreateBy","parameterTypes":[] }, {"name":"getCreateTime","parameterTypes":[] }, {"name":"getEmail","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getLastLoginIp","parameterTypes":[] }, {"name":"getLastLoginTime","parameterTypes":[] }, {"name":"getMobilePhone","parameterTypes":[] }, {"name":"getNickname","parameterTypes":[] }, {"name":"getPassword","parameterTypes":[] }, {"name":"getSex","parameterTypes":[] }, {"name":"getUpdateBy","parameterTypes":[] }, {"name":"getUpdateTime","parameterTypes":[] }, {"name":"getUsername","parameterTypes":[] }, {"name":"setAccountStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setCreateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setIsDeleted","parameterTypes":["java.lang.Integer"] }, {"name":"setLastLoginIp","parameterTypes":["java.lang.String"] }, {"name":"setLastLoginTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setNickname","parameterTypes":["java.lang.String"] }, {"name":"setPassword","parameterTypes":["java.lang.String"] }, {"name":"setSex","parameterTypes":["java.lang.Integer"] }, {"name":"setUpdateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setUpdateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setUsername","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysUserRole",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setRoleId","parameterTypes":["java.math.BigInteger"] }, {"name":"setUserId","parameterTypes":["java.math.BigInteger"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysVersion"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysCaptchaVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysDictionaryVO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getCreateBy","parameterTypes":[] }, {"name":"getCreateTime","parameterTypes":[] }, {"name":"getDictionaryName","parameterTypes":[] }, {"name":"getEnableStatus","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getParentId","parameterTypes":[] }, {"name":"getRemark","parameterTypes":[] }, {"name":"getSort","parameterTypes":[] }, {"name":"setCreateBy","parameterTypes":["java.lang.String"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setDictionaryName","parameterTypes":["java.lang.String"] }, {"name":"setEnableStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setParentId","parameterTypes":["java.math.BigInteger"] }, {"name":"setRemark","parameterTypes":["java.lang.String"] }, {"name":"setSort","parameterTypes":["java.lang.Integer"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysFileVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysLogVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysLoginUserVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysMenuTreeVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysMenuVO",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getChildren","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getParentId","parameterTypes":[] }, {"name":"setChildren","parameterTypes":["java.util.List"] }, {"name":"setComponentPath","parameterTypes":["java.lang.String"] }, {"name":"setCreateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setIconPath","parameterTypes":["java.lang.String"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setIsExternalLink","parameterTypes":["java.lang.Integer"] }, {"name":"setIsMenu","parameterTypes":["java.lang.Integer"] }, {"name":"setMenuName","parameterTypes":["java.lang.String"] }, {"name":"setMenuStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setMenuType","parameterTypes":["java.lang.Integer"] }, {"name":"setParentId","parameterTypes":["java.math.BigInteger"] }, {"name":"setPermissionCode","parameterTypes":["java.lang.String"] }, {"name":"setRouterPath","parameterTypes":["java.lang.String"] }, {"name":"setSort","parameterTypes":["java.lang.Integer"] }, {"name":"setUpdateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setUpdateTime","parameterTypes":["java.time.LocalDateTime"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysNotifyVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysOverviewVO",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysRoleMenuVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysRoleVO",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setCreateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setId","parameterTypes":["java.lang.String"] }, {"name":"setRoleKey","parameterTypes":["java.lang.String"] }, {"name":"setRoleName","parameterTypes":["java.lang.String"] }, {"name":"setSort","parameterTypes":["java.lang.Integer"] }, {"name":"setUpdateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setUpdateTime","parameterTypes":["java.time.LocalDateTime"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysThemeVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysUserRoleVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysUserVO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setAccountStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setAvatar","parameterTypes":["java.lang.String"] }, {"name":"setCreateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setEmail","parameterTypes":["java.lang.String"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setLastLoginIp","parameterTypes":["java.lang.String"] }, {"name":"setLastLoginTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setMobilePhone","parameterTypes":["java.lang.String"] }, {"name":"setNickname","parameterTypes":["java.lang.String"] }, {"name":"setSex","parameterTypes":["java.lang.Integer"] }, {"name":"setUpdateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setUpdateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setUsername","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysVersionVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SystemInfoVO"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.SysDashboardService"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.SysDictionaryService"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.SysFileService"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.SysLogService"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.SysMenuService"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.SysNotifyService"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.SysRoleService"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.SysThemeService"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.SysUserService"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.SysVersionService"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysDashboardServiceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getCount","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysDictionaryServiceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysDictionaryAddDTO"] }, {"name":"delete","parameterTypes":["java.math.BigInteger"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysDictionaryPageDTO"] }, {"name":"listByParentId","parameterTypes":["java.math.BigInteger"] }, {"name":"listByTree","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysDictionaryTreeDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysDictionaryUpdateDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysDictionaryServiceImpl$$SolonAotProxy"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysDictionaryServiceImpl$$SolonAsmProxy",
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysFileServiceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysFileAddDTO"] }, {"name":"delete","parameterTypes":["java.math.BigInteger"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"getFile","parameterTypes":["java.math.BigInteger"] }, {"name":"getUserFile","parameterTypes":["java.math.BigInteger"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysFilePageDTO"] }, {"name":"recoveryBatch","parameterTypes":["java.util.List"] }, {"name":"recycleBinDeleteBatch","parameterTypes":["java.util.List"] }, {"name":"recycleBinPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysFilePageDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysFileUpdateDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysFileServiceImpl$$SolonAotProxy"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysFileServiceImpl$$SolonAsmProxy",
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysLogServiceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysLogAddDTO"] }, {"name":"delete","parameterTypes":["java.math.BigInteger"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysLogPageDTO"] }, {"name":"saveByLogType","parameterTypes":["java.lang.Integer","org.noear.solon.core.handle.Context"] }, {"name":"saveErrorLog","parameterTypes":["org.noear.solon.core.handle.Context"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysLogUpdateDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysMenuServiceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysMenuAddDTO"] }, {"name":"cachePermission","parameterTypes":["java.math.BigInteger"] }, {"name":"delete","parameterTypes":["java.math.BigInteger"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"getCachePermission","parameterTypes":["java.math.BigInteger"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysMenuPageDTO"] }, {"name":"listByRoleId","parameterTypes":["java.lang.String"] }, {"name":"listByTree","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysMenuTreeDTO"] }, {"name":"listByTreeAsRoleSelection","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysMenuTreeDTO"] }, {"name":"listByUserId","parameterTypes":["java.lang.Integer"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysMenuUpdateDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysMenuServiceImpl$$SolonAotProxy"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysMenuServiceImpl$$SolonAsmProxy",
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysNotifyServiceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"addNotify","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysNotifyAddDTO"] }, {"name":"listByType","parameterTypes":["java.lang.String"] }, {"name":"read","parameterTypes":["java.math.BigInteger"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysNotifyServiceImpl$$SolonAotProxy"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysNotifyServiceImpl$$SolonAsmProxy",
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysRoleServiceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysRoleAddDTO"] }, {"name":"delete","parameterTypes":["java.math.BigInteger"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"grantPermissionsByRoleId","parameterTypes":["java.util.List"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysRolePageDTO"] }, {"name":"loadByUserId","parameterTypes":["java.math.BigInteger"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysRoleUpdateDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysRoleServiceImpl$$SolonAotProxy"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysRoleServiceImpl$$SolonAsmProxy",
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysThemeServiceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"loadByUser","parameterTypes":[] }, {"name":"updateByUser","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysThemeUpdateDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysUserServiceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysUserAddDTO"] }, {"name":"delete","parameterTypes":["java.math.BigInteger"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"doModifyAvatar","parameterTypes":["java.lang.String"] }, {"name":"doModifyPassword","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"getDetail","parameterTypes":[] }, {"name":"getMap","parameterTypes":["java.util.List"] }, {"name":"getOne","parameterTypes":["java.lang.String"] }, {"name":"getOneOfCache","parameterTypes":["java.lang.String"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysUserPageDTO"] }, {"name":"login","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysLoginDTO","org.noear.solon.core.handle.Context"] }, {"name":"loginUser","parameterTypes":[] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysUserUpdateDTO"] }, {"name":"updateByUser","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysLoginUserUpdateDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysUserServiceImpl$$SolonAotProxy"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysUserServiceImpl$$SolonAsmProxy",
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysVersionServiceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysVersionAddDTO"] }, {"name":"delete","parameterTypes":["java.math.BigInteger"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysVersionPageDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysVersionUpdateDTO"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysVersionServiceImpl$$SolonAotProxy"
+},
+{
+  "name":"net.cocotea.elysiananime.api.system.service.impl.SysVersionServiceImpl$$SolonAsmProxy",
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.client.BangumiClient",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"calendar","parameterTypes":[] }, {"name":"subjects","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.common.annotation.LogPersistence"
+},
+{
+  "name":"net.cocotea.elysiananime.common.constant.BgmDetailRuleConst"
+},
+{
+  "name":"net.cocotea.elysiananime.common.constant.CharConst"
+},
+{
+  "name":"net.cocotea.elysiananime.common.constant.CommonConst"
+},
+{
+  "name":"net.cocotea.elysiananime.common.constant.GlobalConst"
+},
+{
+  "name":"net.cocotea.elysiananime.common.constant.NotifyConst"
+},
+{
+  "name":"net.cocotea.elysiananime.common.constant.RedisKeyConst"
+},
+{
+  "name":"net.cocotea.elysiananime.common.enums.AccountStatusEnum"
+},
+{
+  "name":"net.cocotea.elysiananime.common.enums.AcgOpusTypeEnum"
+},
+{
+  "name":"net.cocotea.elysiananime.common.enums.ActiveEnum"
+},
+{
+  "name":"net.cocotea.elysiananime.common.enums.ApiResultEnum"
+},
+{
+  "name":"net.cocotea.elysiananime.common.enums.EnableStatusEnum"
+},
+{
+  "name":"net.cocotea.elysiananime.common.enums.IsEnum"
+},
+{
+  "name":"net.cocotea.elysiananime.common.enums.LevelEnum"
+},
+{
+  "name":"net.cocotea.elysiananime.common.enums.LogStatusEnum"
+},
+{
+  "name":"net.cocotea.elysiananime.common.enums.LogTypeEnum"
+},
+{
+  "name":"net.cocotea.elysiananime.common.enums.MenuStatusEnum"
+},
+{
+  "name":"net.cocotea.elysiananime.common.enums.MenuTypeEnum"
+},
+{
+  "name":"net.cocotea.elysiananime.common.enums.PublishStatusEnum"
+},
+{
+  "name":"net.cocotea.elysiananime.common.enums.ReadStatusEnum"
+},
+{
+  "name":"net.cocotea.elysiananime.common.enums.ReplyTypeEnum"
+},
+{
+  "name":"net.cocotea.elysiananime.common.enums.RssStatusEnum"
+},
+{
+  "name":"net.cocotea.elysiananime.common.enums.SexEnum"
+},
+{
+  "name":"net.cocotea.elysiananime.common.model.ApiPage",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.common.model.ApiPageDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"getPageNo","parameterTypes":[] }, {"name":"getPageSize","parameterTypes":[] }, {"name":"setPageNo","parameterTypes":["int"] }, {"name":"setPageSize","parameterTypes":["int"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.common.model.ApiResult",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"net.cocotea.elysiananime.common.model.BusinessException"
+},
+{
+  "name":"net.cocotea.elysiananime.common.model.FileInfo"
+},
+{
+  "name":"net.cocotea.elysiananime.common.model.NotLogException"
+},
+{
+  "name":"net.cocotea.elysiananime.common.service.BaseService"
+},
+{
+  "name":"net.cocotea.elysiananime.common.service.DetailService"
+},
+{
+  "name":"net.cocotea.elysiananime.common.service.RedisService"
+},
+{
+  "name":"net.cocotea.elysiananime.common.service.impl.RedisServiceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"delete","parameterTypes":["java.lang.String"] }, {"name":"get","parameterTypes":["java.lang.String"] }, {"name":"hashGet","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"hashGetEntries","parameterTypes":["java.lang.String"] }, {"name":"hashPut","parameterTypes":["java.lang.String","java.lang.String","java.lang.Object"] }, {"name":"hashPut","parameterTypes":["java.lang.String","java.lang.String","java.lang.String"] }, {"name":"hashRemove","parameterTypes":["java.lang.String","java.lang.Object[]"] }, {"name":"keys","parameterTypes":["java.lang.String"] }, {"name":"save","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"save","parameterTypes":["java.lang.String","java.lang.String","java.lang.Long"] }, {"name":"saveByHours","parameterTypes":["java.lang.String","java.lang.String","int"] }, {"name":"saveByMinutes","parameterTypes":["java.lang.String","java.lang.String","int"] }, {"name":"set","parameterTypes":["java.lang.String","java.lang.String"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.common.util.FileUploadUtils"
+},
+{
+  "name":"net.cocotea.elysiananime.common.util.LoopUtils"
+},
+{
+  "name":"net.cocotea.elysiananime.common.util.PpUtils"
+},
+{
+  "name":"net.cocotea.elysiananime.common.util.StrcUtis"
+},
+{
+  "name":"net.cocotea.elysiananime.common.util.TreeBuilder"
+},
+{
+  "name":"net.cocotea.elysiananime.config.DbConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"db1","parameterTypes":["com.zaxxer.hikari.HikariDataSource"] }, {"name":"redisClient","parameterTypes":["org.noear.redisx.RedisClient"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.config.WebMvcConfig",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"jsonInit","parameterTypes":["org.noear.solon.serialization.fastjson2.Fastjson2RenderFactory","org.noear.solon.serialization.fastjson2.Fastjson2ActionExecutor"] }, {"name":"saTokenDaoInit","parameterTypes":["cn.dev33.satoken.dao.SaTokenDaoForRedisx"] }, {"name":"saTokenInterceptor","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.filter.AppFilter",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"doFilter","parameterTypes":["org.noear.solon.core.handle.Context","org.noear.solon.core.handle.FilterChain"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.handler.SaJsonTemplateImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"jsonToMap","parameterTypes":["java.lang.String"] }, {"name":"jsonToObject","parameterTypes":["java.lang.String"] }, {"name":"jsonToObject","parameterTypes":["java.lang.String","java.lang.Class"] }, {"name":"objectToJson","parameterTypes":["java.lang.Object"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.handler.SqlToyUnifyFieldsHandler",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.handler.StpInterfaceImpl",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getPermissionList","parameterTypes":["java.lang.Object","java.lang.String"] }, {"name":"getRoleList","parameterTypes":["java.lang.Object","java.lang.String"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.jobs.OpusJobs",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"autoDiscoverResource","parameterTypes":[] }, {"name":"autoFetchOpus","parameterTypes":[] }, {"name":"scanBt","parameterTypes":[] }, {"name":"scanRss","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.jobs.SysNotifyJobs",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"scan","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.properties.DefaultProp",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getAutoReadingTime","parameterTypes":[] }, {"name":"getExcludes","parameterTypes":[] }, {"name":"getMailNotifyFlag","parameterTypes":[] }, {"name":"getPassword","parameterTypes":[] }, {"name":"getPasswordSalt","parameterTypes":[] }, {"name":"getPermissionCache","parameterTypes":[] }, {"name":"getSaveLog","parameterTypes":[] }, {"name":"getSeedFlag","parameterTypes":[] }, {"name":"getWebUrl","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setAutoReadingTime","parameterTypes":["java.lang.Long"] }, {"name":"setExcludes","parameterTypes":["java.lang.String"] }, {"name":"setMailNotifyFlag","parameterTypes":["java.lang.Boolean"] }, {"name":"setPassword","parameterTypes":["java.lang.String"] }, {"name":"setPasswordSalt","parameterTypes":["java.lang.String"] }, {"name":"setPermissionCache","parameterTypes":["java.lang.Boolean"] }, {"name":"setSaveLog","parameterTypes":["java.lang.Boolean"] }, {"name":"setSeedFlag","parameterTypes":["java.lang.Boolean"] }, {"name":"setWebUrl","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.properties.EmailSenderProp",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getFrom","parameterTypes":[] }, {"name":"getHost","parameterTypes":[] }, {"name":"getPass","parameterTypes":[] }, {"name":"getPort","parameterTypes":[] }, {"name":"getSslEnable","parameterTypes":[] }, {"name":"getUser","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setFrom","parameterTypes":["java.lang.String"] }, {"name":"setHost","parameterTypes":["java.lang.String"] }, {"name":"setPass","parameterTypes":["java.lang.String"] }, {"name":"setPort","parameterTypes":["java.lang.Integer"] }, {"name":"setSslEnable","parameterTypes":["java.lang.Boolean"] }, {"name":"setUser","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.properties.FileProp",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getAnimationCoverSavePath","parameterTypes":[] }, {"name":"getAnimationSavePath","parameterTypes":[] }, {"name":"getAvatarPath","parameterTypes":[] }, {"name":"getBackgroundPath","parameterTypes":[] }, {"name":"getDefaultSavePath","parameterTypes":[] }, {"name":"getMediaFileType","parameterTypes":[] }, {"name":"getSupportFiletype","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setAnimationCoverSavePath","parameterTypes":["java.lang.String"] }, {"name":"setAnimationSavePath","parameterTypes":["java.lang.String"] }, {"name":"setAvatarPath","parameterTypes":["java.lang.String"] }, {"name":"setBackgroundPath","parameterTypes":["java.lang.String"] }, {"name":"setDefaultSavePath","parameterTypes":["java.lang.String"] }, {"name":"setMediaFileType","parameterTypes":["java.lang.String"] }, {"name":"setSupportFiletype","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.properties.QbittorrentProp",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getCategory","parameterTypes":[] }, {"name":"getDomain","parameterTypes":[] }, {"name":"getForbidden","parameterTypes":[] }, {"name":"getOk","parameterTypes":[] }, {"name":"getPassword","parameterTypes":[] }, {"name":"getUsername","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setCategory","parameterTypes":["java.lang.String"] }, {"name":"setDomain","parameterTypes":["java.lang.String"] }, {"name":"setForbidden","parameterTypes":["java.lang.String"] }, {"name":"setOk","parameterTypes":["java.lang.String"] }, {"name":"setPassword","parameterTypes":["java.lang.String"] }, {"name":"setUsername","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"net.cocotea.elysiananime.util.LoginUtils"
+},
+{
+  "name":"net.cocotea.elysiananime.util.QbApiUtils",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"addNewTorrent","parameterTypes":["java.lang.String","java.lang.String","java.lang.String"] }, {"name":"delete","parameterTypes":["java.lang.String"] }, {"name":"delete","parameterTypes":["java.lang.String","boolean"] }, {"name":"getCookie","parameterTypes":[] }, {"name":"info","parameterTypes":["java.lang.String"] }, {"name":"login","parameterTypes":[] }, {"name":"pause","parameterTypes":["java.lang.String"] }, {"name":"rename","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"renameFile","parameterTypes":["java.lang.String","java.lang.String","java.lang.String"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.util.ResUtils",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"exist","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"existDir","parameterTypes":["java.lang.String"] }, {"name":"findASS","parameterTypes":["int"] }, {"name":"findMediaDir","parameterTypes":["java.lang.String"] }, {"name":"findOpusASS","parameterTypes":[] }, {"name":"findResource","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"saveRes","parameterTypes":["java.lang.String","java.lang.String"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.util.RuleUtils"
+},
+{
+  "name":"net.cocotea.elysiananime.util.SecurityUtils",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getPwd","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"org.apache.commons.pool2.impl.DefaultEvictionPolicy",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.apache.commons.pool2.impl.DefaultPooledObjectInfo",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"org.apache.commons.pool2.impl.GenericObjectPoolMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"org.noear.redisx.RedisClient",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.util.Properties"] }, {"name":"close","parameterTypes":[] }, {"name":"getAtomic","parameterTypes":["java.lang.String"] }, {"name":"getBucket","parameterTypes":[] }, {"name":"getBus","parameterTypes":[] }, {"name":"getHash","parameterTypes":["java.lang.String"] }, {"name":"getHash","parameterTypes":["java.lang.String","int"] }, {"name":"getId","parameterTypes":["java.lang.String"] }, {"name":"getList","parameterTypes":["java.lang.String"] }, {"name":"getLock","parameterTypes":["java.lang.String"] }, {"name":"getQueue","parameterTypes":["java.lang.String"] }, {"name":"open","parameterTypes":["java.util.function.Consumer"] }, {"name":"open0","parameterTypes":["java.util.function.Consumer"] }, {"name":"open1","parameterTypes":["java.util.function.Function"] }, {"name":"openAndGet","parameterTypes":["java.util.function.Function"] }, {"name":"openSession","parameterTypes":[] }, {"name":"serializer","parameterTypes":[] }, {"name":"serializer","parameterTypes":["org.noear.redisx.Serializer"] }]
+},
+{
+  "name":"org.noear.solon.core.Lifecycle",
+  "methods":[{"name":"preStop","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.core.Props",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"addAll","parameterTypes":["java.lang.Iterable"] }, {"name":"addAll","parameterTypes":["java.util.Map"] }, {"name":"addAll","parameterTypes":["java.util.Properties"] }, {"name":"bindTo","parameterTypes":["java.lang.Class"] }, {"name":"bindTo","parameterTypes":["java.lang.Object"] }, {"name":"complete","parameterTypes":[] }, {"name":"find","parameterTypes":["java.lang.String","java.util.function.BiConsumer"] }, {"name":"forEach","parameterTypes":["java.util.function.BiConsumer"] }, {"name":"from","parameterTypes":["java.util.Properties"] }, {"name":"get","parameterTypes":["java.lang.String"] }, {"name":"get","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"getBean","parameterTypes":["java.lang.Class"] }, {"name":"getBean","parameterTypes":["java.lang.String","java.lang.Class"] }, {"name":"getBool","parameterTypes":["java.lang.String","boolean"] }, {"name":"getByExpr","parameterTypes":["java.lang.String"] }, {"name":"getByKeys","parameterTypes":["java.lang.String[]"] }, {"name":"getByTmpl","parameterTypes":["java.lang.String"] }, {"name":"getDouble","parameterTypes":["java.lang.String","double"] }, {"name":"getGroupedProp","parameterTypes":["java.lang.String"] }, {"name":"getInt","parameterTypes":["java.lang.String","int"] }, {"name":"getList","parameterTypes":["java.lang.String"] }, {"name":"getListedProp","parameterTypes":["java.lang.String"] }, {"name":"getLong","parameterTypes":["java.lang.String","long"] }, {"name":"getMap","parameterTypes":["java.lang.String"] }, {"name":"getOrDefault","parameterTypes":["java.lang.String","java.lang.Object","java.util.function.Function"] }, {"name":"getProp","parameterTypes":["java.lang.String"] }, {"name":"getPropByExpr","parameterTypes":["java.lang.String"] }, {"name":"loadAdd","parameterTypes":["java.lang.String"] }, {"name":"loadAdd","parameterTypes":["java.net.URL"] }, {"name":"loadAdd","parameterTypes":["java.util.Properties"] }, {"name":"loadAdd","parameterTypes":["org.noear.solon.annotation.Import"] }, {"name":"loadAddIfAbsent","parameterTypes":["java.lang.String"] }, {"name":"loadAddIfAbsent","parameterTypes":["java.net.URL"] }, {"name":"loadAddIfAbsent","parameterTypes":["java.util.Properties"] }, {"name":"onChange","parameterTypes":["java.util.function.BiConsumer"] }, {"name":"put","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"putIfNotNull","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"revise","parameterTypes":[] }, {"name":"size","parameterTypes":[] }, {"name":"toBean","parameterTypes":["java.lang.Class"] }, {"name":"toBean","parameterTypes":["java.lang.String","java.lang.Class"] }]
+},
+{
+  "name":"org.noear.solon.core.handle.AbstractEntityConverter",
+  "allDeclaredFields":true,
+  "methods":[{"name":"read","parameterTypes":["org.noear.solon.core.handle.Context","java.lang.Object","org.noear.solon.core.wrap.MethodWrap"] }]
+},
+{
+  "name":"org.noear.solon.core.handle.AbstractEntityReader",
+  "allDeclaredFields":true
+},
+{
+  "name":"org.noear.solon.core.handle.ActionExecuteHandler",
+  "methods":[{"name":"executeHandle","parameterTypes":["org.noear.solon.core.handle.Context","java.lang.Object","org.noear.solon.core.wrap.MethodWrap"] }]
+},
+{
+  "name":"org.noear.solon.core.handle.EntityConverter",
+  "methods":[{"name":"isInstance","parameterTypes":["java.lang.Class"] }, {"name":"name","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.core.route.RouterInterceptor",
+  "methods":[{"name":"pathPatterns","parameterTypes":[] }, {"name":"postArguments","parameterTypes":["org.noear.solon.core.handle.Context","org.noear.solon.core.wrap.ParamWrap[]","java.lang.Object[]"] }, {"name":"postResult","parameterTypes":["org.noear.solon.core.handle.Context","java.lang.Object"] }]
+},
+{
+  "name":"org.noear.solon.data.cache.CacheService",
+  "methods":[{"name":"get","parameterTypes":["java.lang.String","java.lang.Class"] }, {"name":"getOrStore","parameterTypes":["java.lang.String","java.lang.reflect.Type","int","java.util.function.Supplier"] }]
+},
+{
+  "name":"org.noear.solon.data.cache.LocalCacheService",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"clear","parameterTypes":[] }, {"name":"get","parameterTypes":["java.lang.String","java.lang.reflect.Type"] }, {"name":"getDefalutSeconds","parameterTypes":[] }, {"name":"remove","parameterTypes":["java.lang.String"] }, {"name":"store","parameterTypes":["java.lang.String","java.lang.Object","int"] }]
+},
+{
+  "name":"org.noear.solon.data.cache.integration.CachePlugin",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.data.integration.DataPlugin",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.extend.impl.ActionLoaderFactoryExt",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.extend.impl.AppClassLoaderExt"
+},
+{
+  "name":"org.noear.solon.extend.impl.PropsConverterExt",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.extend.impl.PropsLoaderExt",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.extend.impl.ProxyBinderExt",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.extend.impl.RuntimeServiceExt",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.net.integration.NetPlugin",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.net.websocket.WebSocketRouter",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"after","parameterTypes":["org.noear.solon.net.websocket.WebSocketListener"] }, {"name":"afterIfAbsent","parameterTypes":["org.noear.solon.net.websocket.WebSocketListener"] }, {"name":"before","parameterTypes":["org.noear.solon.net.websocket.WebSocketListener"] }, {"name":"beforeIfAbsent","parameterTypes":["org.noear.solon.net.websocket.WebSocketListener"] }, {"name":"getInstance","parameterTypes":[] }, {"name":"getListener","parameterTypes":[] }, {"name":"getPaths","parameterTypes":[] }, {"name":"getSubProtocol","parameterTypes":["java.lang.String"] }, {"name":"matching","parameterTypes":["java.lang.String"] }, {"name":"of","parameterTypes":["java.lang.String","org.noear.solon.net.websocket.WebSocketListener"] }]
+},
+{
+  "name":"org.noear.solon.scheduling.command.CommandManager",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"execute","parameterTypes":["java.lang.String"] }, {"name":"executeAll","parameterTypes":[] }, {"name":"exists","parameterTypes":["java.lang.String"] }, {"name":"getInstance","parameterTypes":[] }, {"name":"register","parameterTypes":["java.lang.String","org.noear.solon.scheduling.command.CommandExecutor"] }]
+},
+{
+  "name":"org.noear.solon.scheduling.integration.SchedulingPlugin",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.scheduling.scheduled.manager.AbstractJobManager",
+  "allDeclaredFields":true,
+  "methods":[{"name":"addJobInterceptor","parameterTypes":["int","org.noear.solon.scheduling.scheduled.JobInterceptor"] }, {"name":"getJobInterceptors","parameterTypes":[] }, {"name":"hasJobInterceptor","parameterTypes":[] }, {"name":"isStarted","parameterTypes":[] }, {"name":"jobAdd","parameterTypes":["java.lang.String","org.noear.solon.scheduling.annotation.Scheduled","org.noear.solon.scheduling.scheduled.JobHandler"] }, {"name":"jobAdd","parameterTypes":["java.lang.String","org.noear.solon.scheduling.annotation.Scheduled","org.noear.solon.scheduling.scheduled.JobHandler","java.util.Map"] }, {"name":"jobExists","parameterTypes":["java.lang.String"] }, {"name":"jobGet","parameterTypes":["java.lang.String"] }, {"name":"jobGetAll","parameterTypes":[] }, {"name":"jobRemove","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"org.noear.solon.scheduling.simple.JobManager",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"getInstance","parameterTypes":[] }, {"name":"jobStart","parameterTypes":["java.lang.String","java.util.Map"] }, {"name":"jobStop","parameterTypes":["java.lang.String"] }, {"name":"postStart","parameterTypes":[] }, {"name":"start","parameterTypes":[] }, {"name":"stop","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.scheduling.simple.integration.SchedulingSimplePlugin",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.serialization.AbstractStringEntityConverter",
+  "allDeclaredFields":true,
+  "methods":[{"name":"allowRead","parameterTypes":[] }, {"name":"allowWrite","parameterTypes":[] }, {"name":"canRead","parameterTypes":["org.noear.solon.core.handle.Context","java.lang.String"] }, {"name":"canWrite","parameterTypes":["java.lang.String","org.noear.solon.core.handle.Context"] }, {"name":"getSerializer","parameterTypes":[] }, {"name":"write","parameterTypes":["java.lang.Object","org.noear.solon.core.handle.Context"] }, {"name":"writeAndReturn","parameterTypes":["java.lang.Object","org.noear.solon.core.handle.Context"] }]
+},
+{
+  "name":"org.noear.solon.serialization.EntitySerializer",
+  "methods":[{"name":"bodyRequired","parameterTypes":[] }, {"name":"deserializeFromBody","parameterTypes":["org.noear.solon.core.handle.Context"] }]
+},
+{
+  "name":"org.noear.solon.serialization.fastjson2.Fastjson2ActionExecutor",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"config","parameterTypes":[] }, {"name":"getSerializer","parameterTypes":[] }, {"name":"matched","parameterTypes":["org.noear.solon.core.handle.Context","java.lang.String"] }, {"name":"resolveArguments","parameterTypes":["org.noear.solon.core.handle.Context","java.lang.Object","org.noear.solon.core.wrap.MethodWrap"] }]
+},
+{
+  "name":"org.noear.solon.serialization.fastjson2.Fastjson2EntityConverter",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"mappings","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.serialization.fastjson2.Fastjson2RenderFactory",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"addFeatures","parameterTypes":["com.alibaba.fastjson2.JSONWriter$Feature[]"] }, {"name":"create","parameterTypes":[] }, {"name":"mappings","parameterTypes":[] }, {"name":"removeFeatures","parameterTypes":["com.alibaba.fastjson2.JSONWriter$Feature[]"] }, {"name":"setFeatures","parameterTypes":["com.alibaba.fastjson2.JSONWriter$Feature[]"] }]
+},
+{
+  "name":"org.noear.solon.serialization.fastjson2.Fastjson2RenderFactoryBase",
+  "allDeclaredFields":true,
+  "methods":[{"name":"addConvertor","parameterTypes":["java.lang.Class","org.noear.solon.core.convert.Converter"] }, {"name":"addEncoder","parameterTypes":["java.lang.Class","com.alibaba.fastjson2.writer.ObjectWriter"] }, {"name":"config","parameterTypes":[] }, {"name":"getSerializer","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.serialization.fastjson2.Fastjson2RenderTypedFactory",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"create","parameterTypes":[] }, {"name":"mappings","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.serialization.fastjson2.Fastjson2StringSerializer",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"addEncoder","parameterTypes":["java.lang.Class","com.alibaba.fastjson2.writer.ObjectWriter"] }, {"name":"addEncoder","parameterTypes":["java.lang.Class","org.noear.solon.core.convert.Converter"] }, {"name":"dataType","parameterTypes":[] }, {"name":"deserialize","parameterTypes":["java.lang.String","java.lang.reflect.Type"] }, {"name":"deserializeFromBody","parameterTypes":["org.noear.solon.core.handle.Context","java.lang.reflect.Type"] }, {"name":"getDefault","parameterTypes":[] }, {"name":"getDeserializeConfig","parameterTypes":[] }, {"name":"getSerializeConfig","parameterTypes":[] }, {"name":"matched","parameterTypes":["org.noear.solon.core.handle.Context","java.lang.String"] }, {"name":"mimeType","parameterTypes":[] }, {"name":"name","parameterTypes":[] }, {"name":"serialize","parameterTypes":["java.lang.Object"] }, {"name":"serializeToBody","parameterTypes":["org.noear.solon.core.handle.Context","java.lang.Object"] }]
+},
+{
+  "name":"org.noear.solon.serialization.fastjson2.integration.SerializationFastjson2Plugin",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.serialization.prop.JsonProps",
+  "methods":[{"name":"<init>","parameterTypes":["java.util.Properties"] }]
+},
+{
+  "name":"org.noear.solon.serialization.snack4.Snack4EntityConverter",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"mappings","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.serialization.snack4.Snack4StringSerializer",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"addEncoder","parameterTypes":["java.lang.Class","org.noear.snack4.codec.ObjectEncoder"] }, {"name":"addEncoder","parameterTypes":["java.lang.Class","org.noear.solon.core.convert.Converter"] }, {"name":"dataType","parameterTypes":[] }, {"name":"deserialize","parameterTypes":["java.lang.String","java.lang.reflect.Type"] }, {"name":"deserializeFromBody","parameterTypes":["org.noear.solon.core.handle.Context","java.lang.reflect.Type"] }, {"name":"getDefault","parameterTypes":[] }, {"name":"getDeserializeConfig","parameterTypes":[] }, {"name":"getSerializeConfig","parameterTypes":[] }, {"name":"matched","parameterTypes":["org.noear.solon.core.handle.Context","java.lang.String"] }, {"name":"mimeType","parameterTypes":[] }, {"name":"name","parameterTypes":[] }, {"name":"serialize","parameterTypes":["java.lang.Object"] }, {"name":"serializeToBody","parameterTypes":["org.noear.solon.core.handle.Context","java.lang.Object"] }]
+},
+{
+  "name":"org.noear.solon.serialization.snack4.integration.SerializationSnack4Plugin",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.server.grizzly.integration.GyHttpPlugin"
+},
+{
+  "name":"org.noear.solon.server.jetty.integration.JettyPlugin"
+},
+{
+  "name":"org.noear.solon.server.smarthttp.integration.SmHttpPlugin",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.server.tomcat.integration.TomcatPlugin"
+},
+{
+  "name":"org.noear.solon.server.undertow.integration.UndertowPlugin"
+},
+{
+  "name":"org.noear.solon.server.vertx.integration.VxHttpPlugin"
+},
+{
+  "name":"org.noear.solon.sessionstate.local.integration.SessionstateLocalPlugin",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.validation.ContextValidateHandler",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"doFilter","parameterTypes":["org.noear.solon.core.handle.Context","org.noear.solon.core.handle.FilterChain"] }]
+},
+{
+  "name":"org.noear.solon.validation.integration.ValidPlugin",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.vault.integration.VaultPlugin",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.noear.solon.web.staticfiles.integration.WebStaticfilesPlugin",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.sagacity.sqltoy.SqlToyContext",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"destroy","parameterTypes":[] }, {"name":"getAppContext","parameterTypes":[] }, {"name":"getAutoDDL","parameterTypes":[] }, {"name":"getBatchSize","parameterTypes":[] }, {"name":"getBean","parameterTypes":["java.lang.Object"] }, {"name":"getColumnLabelUpperOrLower","parameterTypes":[] }, {"name":"getConnection","parameterTypes":["javax.sql.DataSource"] }, {"name":"getCustomFilterHandler","parameterTypes":[] }, {"name":"getDataSourceBean","parameterTypes":["java.lang.String"] }, {"name":"getDataSourceSelector","parameterTypes":[] }, {"name":"getDefaultDataSource","parameterTypes":[] }, {"name":"getDefaultElastic","parameterTypes":[] }, {"name":"getDesensitizeProvider","parameterTypes":[] }, {"name":"getDialect","parameterTypes":[] }, {"name":"getDialectDDLGenerator","parameterTypes":[] }, {"name":"getDialectReturnPrimaryColumnCase","parameterTypes":[] }, {"name":"getDistributeIdGeneratorClass","parameterTypes":[] }, {"name":"getDynamicCacheFetch","parameterTypes":[] }, {"name":"getElasticEndpoint","parameterTypes":["java.lang.String"] }, {"name":"getEntityManager","parameterTypes":[] }, {"name":"getEntityMeta","parameterTypes":["java.lang.Class"] }, {"name":"getEntityMeta","parameterTypes":["java.lang.String"] }, {"name":"getFetchSize","parameterTypes":[] }, {"name":"getFieldsSecureProvider","parameterTypes":[] }, {"name":"getMongoQueryClass","parameterTypes":[] }, {"name":"getOverPageToFirst","parameterTypes":[] }, {"name":"getOverTimeSqlHandler","parameterTypes":[] }, {"name":"getPageFetchSizeLimit","parameterTypes":[] }, {"name":"getPrintSqlTimeoutMillis","parameterTypes":[] }, {"name":"getRedoDataSources","parameterTypes":[] }, {"name":"getScriptLoader","parameterTypes":[] }, {"name":"getServiceData","parameterTypes":["java.lang.String","java.lang.String","java.lang.Object[]"] }, {"name":"getShardingStrategy","parameterTypes":["java.lang.String"] }, {"name":"getSlowestSql","parameterTypes":["int","boolean"] }, {"name":"getSqlInjectionRegexes","parameterTypes":[] }, {"name":"getSqlInterceptors","parameterTypes":[] }, {"name":"getSqlToyConfig","parameterTypes":["java.lang.String"] }, {"name":"getSqlToyConfig","parameterTypes":["java.lang.String","org.sagacity.sqltoy.config.model.SqlType","java.lang.String"] }, {"name":"getSqlToyConfig","parameterTypes":["java.lang.String","org.sagacity.sqltoy.config.model.SqlType","java.lang.String","java.lang.Object"] }, {"name":"getSqlToyConfig","parameterTypes":["org.sagacity.sqltoy.model.QueryExecutor","org.sagacity.sqltoy.config.model.SqlType","java.lang.String"] }, {"name":"getTaskExecutor","parameterTypes":[] }, {"name":"getTranslateManager","parameterTypes":[] }, {"name":"getTypeHandler","parameterTypes":[] }, {"name":"getUnifyFieldsHandler","parameterTypes":[] }, {"name":"getUpdateTipCount","parameterTypes":[] }, {"name":"hasSqlInterceptors","parameterTypes":[] }, {"name":"initDefaultDataSource","parameterTypes":[] }, {"name":"initialize","parameterTypes":[] }, {"name":"isDebug","parameterTypes":[] }, {"name":"isDefaultPageOffset","parameterTypes":[] }, {"name":"isEntity","parameterTypes":["java.lang.Class"] }, {"name":"isExecuteSqlBlankToNull","parameterTypes":[] }, {"name":"isHumpMapResultTypeLabel","parameterTypes":[] }, {"name":"isSplitMergeInto","parameterTypes":[] }, {"name":"parseSqlFile","parameterTypes":["java.lang.Object"] }, {"name":"parseSqlSegment","parameterTypes":["java.lang.Object"] }, {"name":"putSqlToyConfig","parameterTypes":["org.sagacity.sqltoy.config.model.SqlToyConfig"] }, {"name":"releaseConnection","parameterTypes":["java.sql.Connection","javax.sql.DataSource"] }, {"name":"setAnnotatedClasses","parameterTypes":["java.lang.String[]"] }, {"name":"setAppContext","parameterTypes":["org.sagacity.sqltoy.integration.AppContext"] }, {"name":"setAutoDDL","parameterTypes":["java.lang.Boolean"] }, {"name":"setBatchSize","parameterTypes":["int"] }, {"name":"setBreakWhenSqlRepeat","parameterTypes":["boolean"] }, {"name":"setCacheType","parameterTypes":["java.lang.String"] }, {"name":"setColumnLabelUpperOrLower","parameterTypes":["java.lang.String"] }, {"name":"setConnectionFactory","parameterTypes":["org.sagacity.sqltoy.integration.ConnectionFactory"] }, {"name":"setCustomFilterHandler","parameterTypes":["org.sagacity.sqltoy.plugins.FilterHandler"] }, {"name":"setDataCenterId","parameterTypes":["java.lang.Integer"] }, {"name":"setDataSourceSelector","parameterTypes":["org.sagacity.sqltoy.plugins.datasource.DataSourceSelector"] }, {"name":"setDebug","parameterTypes":["boolean"] }, {"name":"setDefaultDataSource","parameterTypes":["javax.sql.DataSource"] }, {"name":"setDefaultDataSourceName","parameterTypes":["java.lang.String"] }, {"name":"setDefaultElastic","parameterTypes":["java.lang.String"] }, {"name":"setDefaultPageOffset","parameterTypes":["boolean"] }, {"name":"setDefaultPageSize","parameterTypes":["int"] }, {"name":"setDelayCheckSeconds","parameterTypes":["int"] }, {"name":"setDesensitizeProvider","parameterTypes":["org.sagacity.sqltoy.plugins.secure.DesensitizeProvider"] }, {"name":"setDialect","parameterTypes":["java.lang.String"] }, {"name":"setDialectConfig","parameterTypes":["java.util.Map"] }, {"name":"setDialectDDLGenerator","parameterTypes":["org.sagacity.sqltoy.plugins.ddl.DialectDDLGenerator"] }, {"name":"setDialectMap","parameterTypes":["java.util.Map"] }, {"name":"setDialectReturnPrimaryColumnCase","parameterTypes":["org.sagacity.sqltoy.model.IgnoreKeyCaseMap"] }, {"name":"setDistributeIdGeneratorClass","parameterTypes":["java.lang.String"] }, {"name":"setDynamicCacheFetch","parameterTypes":["org.sagacity.sqltoy.translate.DynamicCacheFetch"] }, {"name":"setElasticEndpoints","parameterTypes":["java.util.List"] }, {"name":"setEncoding","parameterTypes":["java.lang.String"] }, {"name":"setExecuteSqlBlankToNull","parameterTypes":["boolean"] }, {"name":"setFetchSize","parameterTypes":["int"] }, {"name":"setFieldsSecureProvider","parameterTypes":["org.sagacity.sqltoy.plugins.secure.FieldsSecureProvider"] }, {"name":"setFirstBizCodeTrace","parameterTypes":["org.sagacity.sqltoy.plugins.FirstBizCodeTrace"] }, {"name":"setFunctionConverts","parameterTypes":["java.lang.Object"] }, {"name":"setHumpMapResultTypeLabel","parameterTypes":["boolean"] }, {"name":"setKeywordSign","parameterTypes":["java.lang.String"] }, {"name":"setLocalDateTimeFormat","parameterTypes":["java.lang.String"] }, {"name":"setLocalTimeFormat","parameterTypes":["java.lang.String"] }, {"name":"setMongoQueryClass","parameterTypes":["java.lang.String"] }, {"name":"setOverPageToFirst","parameterTypes":["java.lang.Boolean"] }, {"name":"setOverTimeSqlHandler","parameterTypes":["org.sagacity.sqltoy.plugins.OverTimeSqlHandler"] }, {"name":"setPackagesToScan","parameterTypes":["java.lang.String[]"] }, {"name":"setPageFetchSizeLimit","parameterTypes":["int"] }, {"name":"setPrintSqlTimeoutMillis","parameterTypes":["int"] }, {"name":"setRecursive","parameterTypes":["boolean"] }, {"name":"setRedoDataSources","parameterTypes":["java.lang.String[]"] }, {"name":"setReservedWords","parameterTypes":["java.lang.String"] }, {"name":"setScriptCheckIntervalSeconds","parameterTypes":["int"] }, {"name":"setSecurePrivateKey","parameterTypes":["java.lang.String"] }, {"name":"setSecurePublicKey","parameterTypes":["java.lang.String"] }, {"name":"setServerId","parameterTypes":["java.lang.Integer"] }, {"name":"setShardingStrategys","parameterTypes":["java.util.HashMap"] }, {"name":"setSplitMergeInto","parameterTypes":["boolean"] }, {"name":"setSqlFormater","parameterTypes":["org.sagacity.sqltoy.plugins.formater.SqlFormater"] }, {"name":"setSqlInjectionRegexes","parameterTypes":["java.lang.String[]"] }, {"name":"setSqlInterceptors","parameterTypes":["java.util.List"] }, {"name":"setSqlResources","parameterTypes":["java.util.List"] }, {"name":"setSqlResourcesDir","parameterTypes":["java.lang.String"] }, {"name":"setTaskExecutor","parameterTypes":["java.util.concurrent.Executor"] }, {"name":"setTaskExecutorName","parameterTypes":["java.lang.String"] }, {"name":"setTranslateCacheManager","parameterTypes":["org.sagacity.sqltoy.translate.cache.TranslateCacheManager"] }, {"name":"setTranslateCaffeineManagerClass","parameterTypes":["java.lang.String"] }, {"name":"setTranslateConfig","parameterTypes":["java.lang.String"] }, {"name":"setTypeHandler","parameterTypes":["org.sagacity.sqltoy.plugins.TypeHandler"] }, {"name":"setUncachedKeyResult","parameterTypes":["java.lang.String"] }, {"name":"setUnifyFieldsHandler","parameterTypes":["org.sagacity.sqltoy.plugins.IUnifyFieldsHandler"] }, {"name":"setUpdateTipCount","parameterTypes":["int"] }, {"name":"setWorkerId","parameterTypes":["java.lang.Integer"] }]
+},
+{
+  "name":"org.sagacity.sqltoy.plugins.id.impl.SnowflakeIdGenerator",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.sagacity.sqltoy.solon.configure.SqlToyContextProperties",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"<init>","parameterTypes":["java.util.Properties"] }, {"name":"getAnnotatedClasses","parameterTypes":[] }, {"name":"getAutoDDL","parameterTypes":[] }, {"name":"getBatchSize","parameterTypes":[] }, {"name":"getCacheType","parameterTypes":[] }, {"name":"getColumnLabelUpperOrLower","parameterTypes":[] }, {"name":"getConnectionFactory","parameterTypes":[] }, {"name":"getCustomFilterHandler","parameterTypes":[] }, {"name":"getDataSourceSelector","parameterTypes":[] }, {"name":"getDebug","parameterTypes":[] }, {"name":"getDefaultDataSource","parameterTypes":[] }, {"name":"getDefaultPageSize","parameterTypes":[] }, {"name":"getDelayCheckSeconds","parameterTypes":[] }, {"name":"getDesensitizeProvider","parameterTypes":[] }, {"name":"getDialect","parameterTypes":[] }, {"name":"getDialectConfig","parameterTypes":[] }, {"name":"getDialectDDLGenerator","parameterTypes":[] }, {"name":"getDialectMap","parameterTypes":[] }, {"name":"getDialectReturnPrimaryColumnCase","parameterTypes":[] }, {"name":"getDynamicCacheFetch","parameterTypes":[] }, {"name":"getElastic","parameterTypes":[] }, {"name":"getEncoding","parameterTypes":[] }, {"name":"getFetchSize","parameterTypes":[] }, {"name":"getFieldsSecureProvider","parameterTypes":[] }, {"name":"getFirstBizCodeTrace","parameterTypes":[] }, {"name":"getFunctionConverts","parameterTypes":[] }, {"name":"getHumpMapResultTypeLabel","parameterTypes":[] }, {"name":"getLocalDateTimeFormat","parameterTypes":[] }, {"name":"getLocalTimeFormat","parameterTypes":[] }, {"name":"getOverPageToFirst","parameterTypes":[] }, {"name":"getOverTimeSqlHandler","parameterTypes":[] }, {"name":"getPackagesToScan","parameterTypes":[] }, {"name":"getPageFetchSizeLimit","parameterTypes":[] }, {"name":"getPrintSqlTimeoutMillis","parameterTypes":[] }, {"name":"getRedoDataSources","parameterTypes":[] }, {"name":"getReservedWords","parameterTypes":[] }, {"name":"getScriptCheckIntervalSeconds","parameterTypes":[] }, {"name":"getSecurePrivateKey","parameterTypes":[] }, {"name":"getSecurePublicKey","parameterTypes":[] }, {"name":"getSqlFormater","parameterTypes":[] }, {"name":"getSqlInjectionRegexes","parameterTypes":[] }, {"name":"getSqlInterceptors","parameterTypes":[] }, {"name":"getSqlResources","parameterTypes":[] }, {"name":"getSqlResourcesDir","parameterTypes":[] }, {"name":"getTaskExecutor","parameterTypes":[] }, {"name":"getTranslateCacheManager","parameterTypes":[] }, {"name":"getTranslateConfig","parameterTypes":[] }, {"name":"getTypeHandler","parameterTypes":[] }, {"name":"getUnifyFieldsHandler","parameterTypes":[] }, {"name":"getUpdateTipCount","parameterTypes":[] }, {"name":"isBreakWhenSqlRepeat","parameterTypes":[] }, {"name":"isDefaultPageOffset","parameterTypes":[] }, {"name":"isExecuteSqlBlankToNull","parameterTypes":[] }, {"name":"isSplitMergeInto","parameterTypes":[] }, {"name":"setAnnotatedClasses","parameterTypes":["java.lang.String[]"] }, {"name":"setAutoDDL","parameterTypes":["java.lang.Boolean"] }, {"name":"setBatchSize","parameterTypes":["java.lang.Integer"] }, {"name":"setBreakWhenSqlRepeat","parameterTypes":["boolean"] }, {"name":"setCacheType","parameterTypes":["java.lang.String"] }, {"name":"setColumnLabelUpperOrLower","parameterTypes":["java.lang.String"] }, {"name":"setConnectionFactory","parameterTypes":["java.lang.String"] }, {"name":"setCustomFilterHandler","parameterTypes":["java.lang.String"] }, {"name":"setDataSourceSelector","parameterTypes":["java.lang.String"] }, {"name":"setDebug","parameterTypes":["java.lang.Boolean"] }, {"name":"setDefaultDataSource","parameterTypes":["java.lang.String"] }, {"name":"setDefaultPageOffset","parameterTypes":["boolean"] }, {"name":"setDefaultPageSize","parameterTypes":["int"] }, {"name":"setDelayCheckSeconds","parameterTypes":["java.lang.Integer"] }, {"name":"setDesensitizeProvider","parameterTypes":["java.lang.String"] }, {"name":"setDialect","parameterTypes":["java.lang.String"] }, {"name":"setDialectConfig","parameterTypes":["java.util.Map"] }, {"name":"setDialectDDLGenerator","parameterTypes":["java.lang.String"] }, {"name":"setDialectMap","parameterTypes":["java.util.Map"] }, {"name":"setDialectReturnPrimaryColumnCase","parameterTypes":["java.util.HashMap"] }, {"name":"setDynamicCacheFetch","parameterTypes":["java.lang.String"] }, {"name":"setElastic","parameterTypes":["org.sagacity.sqltoy.solon.configure.Elastic"] }, {"name":"setEncoding","parameterTypes":["java.lang.String"] }, {"name":"setExecuteSqlBlankToNull","parameterTypes":["boolean"] }, {"name":"setFetchSize","parameterTypes":["int"] }, {"name":"setFieldsSecureProvider","parameterTypes":["java.lang.String"] }, {"name":"setFirstBizCodeTrace","parameterTypes":["java.lang.String"] }, {"name":"setFunctionConverts","parameterTypes":["java.lang.Object"] }, {"name":"setHumpMapResultTypeLabel","parameterTypes":["java.lang.Boolean"] }, {"name":"setLocalDateTimeFormat","parameterTypes":["java.lang.String"] }, {"name":"setLocalTimeFormat","parameterTypes":["java.lang.String"] }, {"name":"setOverPageToFirst","parameterTypes":["java.lang.Boolean"] }, {"name":"setOverTimeSqlHandler","parameterTypes":["java.lang.String"] }, {"name":"setPackagesToScan","parameterTypes":["java.lang.String[]"] }, {"name":"setPageFetchSizeLimit","parameterTypes":["java.lang.Integer"] }, {"name":"setPrintSqlTimeoutMillis","parameterTypes":["java.lang.Integer"] }, {"name":"setRedoDataSources","parameterTypes":["java.lang.String[]"] }, {"name":"setReservedWords","parameterTypes":["java.lang.String"] }, {"name":"setScriptCheckIntervalSeconds","parameterTypes":["java.lang.Integer"] }, {"name":"setSecurePrivateKey","parameterTypes":["java.lang.String"] }, {"name":"setSecurePublicKey","parameterTypes":["java.lang.String"] }, {"name":"setSplitMergeInto","parameterTypes":["boolean"] }, {"name":"setSqlFormater","parameterTypes":["java.lang.String"] }, {"name":"setSqlInjectionRegexes","parameterTypes":["java.lang.String[]"] }, {"name":"setSqlInterceptors","parameterTypes":["java.lang.String[]"] }, {"name":"setSqlResources","parameterTypes":["java.lang.String[]"] }, {"name":"setSqlResourcesDir","parameterTypes":["java.lang.String"] }, {"name":"setTaskExecutor","parameterTypes":["org.sagacity.sqltoy.solon.configure.SqlToyContextTaskPoolProperties"] }, {"name":"setTranslateCacheManager","parameterTypes":["java.lang.String"] }, {"name":"setTranslateConfig","parameterTypes":["java.lang.String"] }, {"name":"setTypeHandler","parameterTypes":["java.lang.String"] }, {"name":"setUnifyFieldsHandler","parameterTypes":["java.lang.String"] }, {"name":"setUpdateTipCount","parameterTypes":["int"] }]
+},
+{
+  "name":"org.sagacity.sqltoy.solon.integration.SqlToyPluginImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.sagacity.sqltoy.translate.model.CheckerConfigModel",
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"setCache","parameterTypes":["java.lang.String"] }, {"name":"setCheckFrequency","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"org.sagacity.sqltoy.translate.model.DefaultConfig",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"org.sagacity.sqltoy.translate.model.TranslateConfigModel",
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"setCache","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"org.smartboot.http.common.io.BodyInputStream",
+  "fields":[{"name":"state"}]
+},
+{
+  "name":"org.smartboot.socket.timer.HashedWheelTimer$HashedWheelTimerTask",
+  "fields":[{"name":"state"}]
+},
+{
+  "name":"redis.clients.jedis.ConnectionPool",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.management.ClassLoadingImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.management.CompilationImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.management.ManagementFactoryHelper$1",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.management.ManagementFactoryHelper$PlatformLoggingImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.management.MemoryImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.management.MemoryManagerImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.management.MemoryPoolImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.management.RuntimeImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.misc.Unsafe",
+  "fields":[{"name":"theUnsafe"}]
+},
+{
+  "name":"sun.security.pkcs12.PKCS12KeyStore",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.pkcs12.PKCS12KeyStore$DualFormatPKCS12",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.DRBG",
+  "methods":[{"name":"<init>","parameterTypes":["java.security.SecureRandomParameters"] }]
+},
+{
+  "name":"sun.security.provider.DSA$SHA224withDSA",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.DSA$SHA256withDSA",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.SHA",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.SHA2$SHA224",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.SHA2$SHA256",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.SHA5$SHA384",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.SHA5$SHA512",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.X509Factory",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.rsa.PSSParameters",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.rsa.RSAKeyFactory$Legacy",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.rsa.RSAPSSSignature",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.rsa.RSASignature$SHA224withRSA",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.ssl.KeyManagerFactoryImpl$SunX509",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.ssl.SSLContextImpl$DefaultSSLContext",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.ssl.SSLContextImpl$TLSContext",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.ssl.TrustManagerFactoryImpl$PKIXFactory",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.x509.AuthorityInfoAccessExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.AuthorityKeyIdentifierExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.BasicConstraintsExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.CRLDistributionPointsExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.CertificatePoliciesExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.ExtendedKeyUsageExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.KeyUsageExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.NetscapeCertTypeExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.PrivateKeyUsageExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.SubjectAlternativeNameExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.SubjectKeyIdentifierExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+}
+]

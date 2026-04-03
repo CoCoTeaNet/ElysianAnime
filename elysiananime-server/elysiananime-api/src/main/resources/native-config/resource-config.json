@@ -1,0 +1,194 @@
+{
+  "resources":{
+  "includes":[{
+    "pattern":"\\QMETA-INF/satoken/cn.dev33.satoken.plugin.SaTokenPlugin\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/ch.qos.logback.classic.spi.Configurator\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/cn.hutool.core.convert.Converter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/java.lang.System$LoggerFinder\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/java.net.spi.InetAddressResolverProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/java.net.spi.URLStreamHandlerProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/java.nio.channels.spi.SelectorProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/java.sql.Driver\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/java.time.zone.ZoneRulesProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/java.util.spi.ResourceBundleControlProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/javax.xml.parsers.DocumentBuilderFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/javax.xml.parsers.SAXParserFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.noear.snack4.jsonpath.JsonPathProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.noear.solon.logging.LogIncubator\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.slf4j.spi.SLF4JServiceProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/solon-index/net-cocotea-elysiananime_bean_clz.index\\E"
+  }, {
+    "pattern":"\\QMETA-INF/solon/cn.dev33.satoken.solon.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/solon/org.noear.solon.vault.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/solon/solon-cache.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/solon/solon.data.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/solon/solon.net.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/solon/solon.scheduling.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/solon/solon.scheduling.simple.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/solon/solon.serialization.fastjson2.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/solon/solon.serialization.snack4.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/solon/solon.server.smarthttp.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/solon/solon.sessionstate.local.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/solon/solon.validation.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/solon/solon.web.staticfiles.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/solon/sqltoy-solon-plugin.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/solon\\E"
+  }, {
+    "pattern":"\\QWEB-INF/static/\\E"
+  }, {
+    "pattern":"\\Q\\E"
+  }, {
+    "pattern":"\\Qapp.properties\\E"
+  }, {
+    "pattern":"\\Qapp.yml\\E"
+  }, {
+    "pattern":"\\Qcom/mysql/cj/TlsSettings.properties\\E"
+  }, {
+    "pattern":"\\Qfastjson2.properties\\E"
+  }, {
+    "pattern":"\\Qlogback-test.scmo\\E"
+  }, {
+    "pattern":"\\Qlogback-test.xml\\E"
+  }, {
+    "pattern":"\\Qlogback.scmo\\E"
+  }, {
+    "pattern":"\\Qlogback.xml\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/anime/controller/AniRssController.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/anime/service/AniOpusService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/anime/service/AniUserOpusService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/anime/service/impl/AniOpusServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/anime/service/impl/AniUserOpusServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/controller/SysDictionaryController.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/controller/SysVersionController.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysDictionaryService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysFileService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysMenuService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysNotifyService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysRoleService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysUserService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysVersionService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysDictionaryServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysFileServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysMenuServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysNotifyServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysRoleServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysUserServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysVersionServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/common/service/BaseService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/common/service/DetailService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime\\E"
+  }, {
+    "pattern":"\\Qorg/noear/solon/core/META-INF/solon-index/net-cocotea-elysiananime_bean_clz.index\\E"
+  }, {
+    "pattern":"\\Qorg/noear/solon/core/WEB-INF/static/\\E"
+  }, {
+    "pattern":"\\Qorg/noear/solon/core/app.properties\\E"
+  }, {
+    "pattern":"\\Qorg/noear/solon/core/fastjson2.properties\\E"
+  }, {
+    "pattern":"\\Qorg/sagacity/sqltoy/sqltoy-default.properties\\E"
+  }, {
+    "pattern":"\\Qsqltoy-translate.xml\\E"
+  }, {
+    "pattern":"\\Qsqltoy/ani_opus.sql.xml\\E"
+  }, {
+    "pattern":"\\Qsqltoy/ani_opus_tag.sql.xml\\E"
+  }, {
+    "pattern":"\\Qsqltoy/ani_tag.sql.xml\\E"
+  }, {
+    "pattern":"\\Qsqltoy/ani_user_opus.sql.xml\\E"
+  }, {
+    "pattern":"\\Qsqltoy/sys_dictionary.sql.xml\\E"
+  }, {
+    "pattern":"\\Qsqltoy/sys_file.sql.xml\\E"
+  }, {
+    "pattern":"\\Qsqltoy/sys_log.sql.xml\\E"
+  }, {
+    "pattern":"\\Qsqltoy/sys_menu.sql.xml\\E"
+  }, {
+    "pattern":"\\Qsqltoy/sys_notify.sql.xml\\E"
+  }, {
+    "pattern":"\\Qsqltoy/sys_role.sql.xml\\E"
+  }, {
+    "pattern":"\\Qsqltoy/sys_role_menu.sql.xml\\E"
+  }, {
+    "pattern":"\\Qsqltoy/sys_user.sql.xml\\E"
+  }, {
+    "pattern":"\\Qsqltoy/sys_user_role.sql.xml\\E"
+  }, {
+    "pattern":"\\Qsqltoy/sys_version.sql.xml\\E"
+  }, {
+    "pattern":"\\Qsqltoy\\E"
+  }, {
+    "pattern":"\\Qstatic/\\E"
+  }, {
+    "pattern":"\\Qstatic/readme.html\\E"
+  }, {
+    "pattern":"\\Qtranslates\\E"
+  }, {
+    "pattern":"java.base:\\Qjdk/internal/icu/impl/data/icudt72b/uprops.icu\\E"
+  }, {
+    "pattern":"java.base:\\Qsun/net/idn/uidna.spp\\E"
+  }, {
+    "pattern":"java.base:\\Qsun/net/www/content-types.properties\\E"
+  }, {
+    "pattern":"jdk.jfr:\\Qjdk/jfr/internal/query/view.ini\\E"
+  }]},
+  "bundles":[{
+    "name":"com.mysql.cj.LocalizedErrorMessages",
+    "locales":[""]
+  }]
+}
