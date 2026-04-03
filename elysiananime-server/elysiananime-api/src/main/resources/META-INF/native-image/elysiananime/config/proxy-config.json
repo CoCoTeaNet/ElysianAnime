@@ -1,8 +1,0 @@
-[
-  {
-    "interfaces": [
-      "net.cocotea.elysiananime.client.BangumiClient",
-      "com.dtflys.forest.proxy.ForestClientProxy"
-    ]
-  }
-]
