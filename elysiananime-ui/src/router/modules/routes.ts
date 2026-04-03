@@ -9,9 +9,6 @@ const Dashboard = () => import("@/views/system/dashboard/Dashboard.vue");
 const NotFound = () => import("@/views/error/NotFound.vue");
 const UserCenterView = () => import("@/views/system/personal/UserCenterView.vue");
 const OperationLogView = () => import("@/views/system/manager/system/log/SysLogView.vue");
-const VersionView = () => import("@/views/system/manager/system/version/VersionView.vue");
-const SysFileView = () => import("@/views/system/manager/system/file/SysFileView.vue");
-const SysRecycleView = () => import("@/views/system/manager/system/file/SysRecycleView.vue");
 const Login = () => import("@/views/system/login/Login.vue");
 const AnimeOpusView = () => import("@/views/system/manager/anime/AnimeOpusView.vue");
 const AnimeUserOpusView = () => import("@/views/system/manager/anime/AnimeUserOpusView.vue");
@@ -45,9 +42,6 @@ export const routes = [
             {path: 'sys-dictionary-manager', meta: {title: '字典管理'}, name: 'DictionaryView', component: DictionaryView},
             {path: 'sys-log-manager', meta: {title: '日志管理'}, name: 'OperationLogView', component: OperationLogView},
             {path: 'sys-user-center', meta: {title: '用户中心'}, name: 'UserCenterView', component: UserCenterView},
-            {path: 'sys-version-manager', meta: {title: '版本管理'}, name: 'VersionView', component: VersionView},
-            {path: 'sys-file-manager', meta: {title: '文件管理'}, name: 'SysFileView', component: SysFileView},
-            {path: 'sys-recycle-manager', meta: {title: '文件回收站'}, name: 'RecycleBinView', component: SysRecycleView},
             // 番剧管理模块
             {path: 'ani-opus-manager', meta: {title: '番剧管理'}, name: 'AnimeOpusView', component: AnimeOpusView},
             {path: 'ani-user-opus-manager', meta: {title: '我的追番'}, name: 'AnimeUserOpusView', component: AnimeUserOpusView},

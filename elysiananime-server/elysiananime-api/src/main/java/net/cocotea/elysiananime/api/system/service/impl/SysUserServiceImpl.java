@@ -8,6 +8,7 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
+import lombok.extern.slf4j.Slf4j;
 import net.cocotea.elysiananime.api.system.model.dto.*;
 import net.cocotea.elysiananime.api.system.model.po.SysUser;
 import net.cocotea.elysiananime.api.system.model.po.SysUserRole;
@@ -30,7 +31,7 @@ import net.cocotea.elysiananime.util.LoginUtils;
 import net.cocotea.elysiananime.util.SecurityUtils;
 import org.noear.solon.annotation.Inject;
 import org.noear.solon.core.handle.Context;
-import org.noear.solon.data.annotation.Tran;
+import org.noear.solon.data.annotation.Transaction;
 import org.sagacity.sqltoy.dao.LightDao;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
 import org.sagacity.sqltoy.model.EntityQuery;
@@ -50,6 +51,7 @@ import java.util.stream.Collectors;
  * @author CoCoTea
  * @version 2.0.0
  */
+@Slf4j
 @Component
 public class SysUserServiceImpl implements SysUserService {
     @Inject
@@ -76,7 +78,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Inject
     private SysRoleService sysRoleService;
 
-    @Tran
+    @Transaction
     @Override
     public boolean add(SysUserAddDTO addDTO) {
         SysUser sysUser = sqlToyLazyDao.convertType(addDTO, SysUser.class);
@@ -105,7 +107,7 @@ public class SysUserServiceImpl implements SysUserService {
         return sqlToyLazyDao.update(sysUser) > 0;
     }
 
-    @Tran
+    @Transaction
     @Override
     public boolean update(SysUserUpdateDTO updateDTO) {
         SysUser sysUser = Convert.convert(SysUser.class, updateDTO);

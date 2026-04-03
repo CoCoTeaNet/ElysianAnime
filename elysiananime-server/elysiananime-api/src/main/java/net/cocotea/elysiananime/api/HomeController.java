@@ -1,5 +1,6 @@
 package net.cocotea.elysiananime.api;
 
+import cn.dev33.satoken.stp.StpUtil;
 import net.cocotea.elysiananime.common.model.ApiResult;
 import org.noear.solon.annotation.Controller;
 import org.noear.solon.annotation.Mapping;
@@ -17,7 +18,7 @@ public class HomeController {
     /**
      * 查看系统健康状态
      */
-    @Mapping(value = "health", method = MethodType.GET)
+    @Mapping(value = "/health", method = MethodType.GET)
     public ApiResult<String> health() {
         return ApiResult.ok("OK");
     }

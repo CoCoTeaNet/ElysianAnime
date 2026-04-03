@@ -23,7 +23,7 @@ sra-admin:
   # 是否开启系统日志保存功能
   save-log: true
   # 路由放行（用逗号分割）
-  excludes: /system/file/getBackground,/anime/opus/cover,/system/login,/system/captcha,/,/assets/**,/favicon.ico
+  excludes: /,/health,/system/file/getBackground,/anime/opus/cover,/system/login,/assets/**,/favicon.ico
   # 文件存放配置
   file:
     # 默认文件存放位置
@@ -104,7 +104,7 @@ sa-token:
   # token有效期，单位s 默认30天, -1代表永不过期
   timeout: 86400
   # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
-  activity-timeout: -1
+  active-timeout: -1
   # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
   is-concurrent: true
   # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
