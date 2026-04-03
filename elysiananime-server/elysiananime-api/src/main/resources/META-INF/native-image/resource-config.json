@@ -83,6 +83,56 @@
   }, {
     "pattern":"\\Qlogback.xml\\E"
   }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/anime/controller/AniRssController.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/anime/service/AniOpusService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/anime/service/AniUserOpusService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/anime/service/impl/AniOpusServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/anime/service/impl/AniUserOpusServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/controller/SysDictionaryController.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/controller/SysVersionController.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysDictionaryService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysFileService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysMenuService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysNotifyService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysRoleService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysUserService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysVersionService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysDictionaryServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysFileServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysMenuServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysNotifyServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysRoleServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysUserServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysVersionServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/common/service/BaseService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime/common/service/DetailService.class\\E"
+  }, {
+    "pattern":"\\Qnet/cocotea/elysiananime\\E"
+  }, {
+    "pattern":"\\Qorg/noear/solon/core/META-INF/solon-index/net-cocotea-elysiananime_bean_clz.index\\E"
+  }, {
     "pattern":"\\Qorg/noear/solon/core/WEB-INF/static/\\E"
   }, {
     "pattern":"\\Qorg/noear/solon/core/app.properties\\E"

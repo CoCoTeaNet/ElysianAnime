@@ -4,5 +4,5 @@
 
 - 操作功能生成所需的类信息
 ```shell
-java -agentlib:native-image-agent=config-output-dir=./native-config -jar elysiananime.jar
+java -agentlib:native-image-agent=config-merge-dir=./native-config -jar elysiananime.jar
 ```
