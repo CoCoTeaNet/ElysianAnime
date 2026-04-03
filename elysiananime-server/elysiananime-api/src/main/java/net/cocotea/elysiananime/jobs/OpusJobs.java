@@ -1,7 +1,6 @@
 package net.cocotea.elysiananime.jobs;
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import com.alibaba.fastjson2.JSON;
 import net.cocotea.elysiananime.api.anime.model.dto.RssWorksStatusDTO;

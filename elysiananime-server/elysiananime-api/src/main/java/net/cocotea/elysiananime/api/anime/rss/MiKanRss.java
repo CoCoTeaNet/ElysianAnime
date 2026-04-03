@@ -6,7 +6,6 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.lang.RegexPool;
-import cn.hutool.core.map.MapBuilder;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.ObjUtil;
@@ -15,10 +14,9 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
 import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
-import cn.hutool.system.SystemUtil;
+import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.dtflys.forest.Forest;
 import net.cocotea.elysiananime.api.anime.model.dto.AniAddOpusTorrentDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
 import net.cocotea.elysiananime.api.anime.model.po.AniOpus;
@@ -172,7 +170,7 @@ public class MiKanRss {
         String cacheKey = StrUtil.format(RSS_RESULT_CACHE, rssUrl);
         String cacheContent = redisService.get(cacheKey);
         if (StrUtil.isBlank(cacheContent)) {
-            result = Forest.get(rssUrl).executeAsString();
+            result = HttpUtil.get(rssUrl);
             redisService.saveByHours(cacheKey, result, 2);
         } else {
             result = cacheContent;
@@ -368,7 +366,7 @@ public class MiKanRss {
      * @return {@link MkXmlDetail}
      */
     public MkXmlDetail doParseMkXmlDetail(String rssUrl) {
-        String result = Forest.get(rssUrl).executeAsString();
+        String result = HttpUtil.get(rssUrl);
         List<MkXmlItem> mkXmlItems = doParseXmlItems(result);
         // 标题碎片
         List<List<String>> titleFragmentList = new ArrayList<>();
@@ -447,7 +445,7 @@ public class MiKanRss {
     }
 
     public void doRenameBtV2() {
-        String fileSeparator = SystemUtil.get(SystemUtil.FILE_SEPARATOR);
+        String fileSeparator = File.separator;
         JSONArray completedArr = qbApiUtils.info("completed");
         JSONArray seedingArr = qbApiUtils.info("seeding");
         completedArr.fluentAddAll(seedingArr);

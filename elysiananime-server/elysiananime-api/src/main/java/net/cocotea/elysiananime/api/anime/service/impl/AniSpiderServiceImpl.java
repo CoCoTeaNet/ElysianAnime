@@ -8,9 +8,9 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjUtil;
+import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import com.dtflys.forest.Forest;
 import net.cocotea.elysiananime.api.anime.model.po.AniOpus;
 import net.cocotea.elysiananime.api.anime.model.po.AniTag;
 import net.cocotea.elysiananime.api.anime.service.AniSpiderService;
@@ -102,7 +102,7 @@ public class AniSpiderServiceImpl implements AniSpiderService {
                 "select user_id from sys_user_role where role_id = (select id from sys_role where role_key  = 'role:super:admin') limit 1"
                 , userMapDTO, BigInteger.class
         );
-        bangumiClient.calendar().forEach(dayObj -> dayObj.getJSONArray("items").forEach(item -> {
+        bangumiClient.calendar().forEach(dayObj -> ((JSONObject) dayObj).getJSONArray("items").forEach(item -> {
             JSONObject itemJSON = JSON.parseObject(item.toString());
             String url = itemJSON.getString("url");
             try {
@@ -191,7 +191,7 @@ public class AniSpiderServiceImpl implements AniSpiderService {
         // 封面保存目录
         File file = FileUtil.file(fileProp.getAnimationCoverSavePath());
         if (file.exists()) {
-            ThreadUtil.execAsync(() -> Forest.get(coverUrl).setDownloadFile(file.getPath(), fileName).execute());
+            ThreadUtil.execAsync(() -> HttpUtil.downloadFile(coverUrl, file));
         } else {
             logger.warn("fetchOpusFromBangumi >>>>> coverUrl={}, fileDir={}", coverUrl, file.getPath());
         }

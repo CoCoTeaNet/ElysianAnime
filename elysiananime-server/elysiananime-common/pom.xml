@@ -31,22 +31,6 @@
             <artifactId>javax.mail</artifactId>
         </dependency>
 
-        <!--JsoupXpath-->
-        <dependency>
-            <groupId>cn.wanghaomiao</groupId>
-            <artifactId>JsoupXpath</artifactId>
-        </dependency>
-
-        <!--forest-->
-        <dependency>
-            <groupId>com.dtflys.forest</groupId>
-            <artifactId>forest-solon-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.dtflys.forest</groupId>
-            <artifactId>forest-jaxb</artifactId>
-        </dependency>
-
         <!-- solon -->
         <dependency>
             <groupId>org.noear</groupId>
