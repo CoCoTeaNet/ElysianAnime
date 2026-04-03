@@ -63,9 +63,9 @@ elysiananime:
     # qb域名或者IP地址
     domain: http://127.0.0.1:9001
     # 账号
-    username: elysiananime
+    username: admin
     # 密码
-    password: 123456
+    password: admin@qb123456
   # 邮箱通知账号（mail-notify-flag=true时生效）
   emailsender:
     # 用户名（注意：如果使用foxmail邮箱，此处user为qq号）

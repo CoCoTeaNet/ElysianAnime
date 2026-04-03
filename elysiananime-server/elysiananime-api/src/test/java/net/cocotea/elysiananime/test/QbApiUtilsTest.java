@@ -2,7 +2,6 @@ package net.cocotea.elysiananime.test;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.system.SystemUtil;
 import com.alibaba.fastjson2.JSONArray;
 import net.cocotea.elysiananime.api.anime.rss.model.QbInfo;
 import net.cocotea.elysiananime.util.QbApiUtils;
@@ -11,6 +10,8 @@ import org.junit.runner.RunWith;
 import org.noear.solon.annotation.Import;
 import org.noear.solon.annotation.Inject;
 import org.noear.solon.test.SolonJUnit4ClassRunner;
+
+import java.io.File;
 
 @Import(scanPackages = {"net.cocotea.elysiananime"})
 @RunWith(SolonJUnit4ClassRunner.class)
@@ -47,7 +48,7 @@ public class QbApiUtilsTest {
     public void renameFile() {
         JSONArray list = qbApiUtils.info("all");
         for (Object obj : list) {
-            String fileSeparator = SystemUtil.get(SystemUtil.FILE_SEPARATOR);
+            String fileSeparator = File.separator;
 
             QbInfo qbInfo = BeanUtil.toBean(obj, QbInfo.class);
             String relativePath = StrUtil.replace(qbInfo.getContentPath(), qbInfo.getSavePath()+fileSeparator, "");

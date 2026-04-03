@@ -85,6 +85,22 @@ services:
       retries: 3
       start_period: 60s
 
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - WEBUI_PORT=8080
+      - TORRENTING_PORT=6881
+    volumes:
+      - ./docker/qbittorrent/config:/config
+      - ./docker/qbittorrent/downloads:/downloads #optional
+    ports:
+      - 6600:8080
+    restart: unless-stopped
+
 networks:
   elysiananime-network:
     driver: bridge
