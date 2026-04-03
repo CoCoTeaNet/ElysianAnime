@@ -7,6 +7,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson2.JSON;
 import net.cocotea.elysiananime.api.system.model.dto.*;
 import net.cocotea.elysiananime.api.system.model.po.SysUser;
 import net.cocotea.elysiananime.api.system.model.po.SysUserRole;
@@ -18,6 +19,7 @@ import net.cocotea.elysiananime.api.system.service.SysLogService;
 import net.cocotea.elysiananime.api.system.service.SysMenuService;
 import net.cocotea.elysiananime.api.system.service.SysRoleService;
 import net.cocotea.elysiananime.api.system.service.SysUserService;
+import net.cocotea.elysiananime.common.constant.RedisKeyConst;
 import net.cocotea.elysiananime.common.enums.IsEnum;
 import net.cocotea.elysiananime.common.model.ApiPage;
 import net.cocotea.elysiananime.common.model.BusinessException;
@@ -28,7 +30,6 @@ import net.cocotea.elysiananime.util.LoginUtils;
 import net.cocotea.elysiananime.util.SecurityUtils;
 import org.noear.solon.annotation.Inject;
 import org.noear.solon.core.handle.Context;
-import org.noear.solon.data.annotation.Cache;
 import org.noear.solon.data.annotation.Tran;
 import org.sagacity.sqltoy.dao.LightDao;
 import org.sagacity.sqltoy.dao.SqlToyLazyDao;
@@ -146,6 +147,9 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public String login(SysLoginDTO loginDTO, Context context) throws BusinessException {
         SysUser sysUser = getOneOfCache(loginDTO.getUsername());
+        if (sysUser == null) {
+            throw new BusinessException("登录失败，用户不存在");
+        }
         // 校验密码
         String pwd = securityUtils.getPwd(loginDTO.getPassword());
         if (ObjUtil.notEqual(sysUser.getPassword(), pwd)) {
@@ -244,9 +248,17 @@ public class SysUserServiceImpl implements SysUserService {
         return lightDao.findOne("sys_user_getOne", new SysUser().setUsername(username), SysUser.class);
     }
 
-    @Cache(key = "sys_user_getOneOfCache:${username}", seconds = 3600)
     @Override
     public SysUser getOneOfCache(String username) throws BusinessException {
-        return getOne(username);
+        SysUser user;
+        String key = String.format(RedisKeyConst.CACHE_USERINFO, username);
+        String existUser = redisService.get(key);
+        if (existUser == null) {
+            user = getOne(username);
+            redisService.save(key, JSON.toJSONString(user));
+        } else {
+            user = JSON.parseObject(existUser, SysUser.class);
+        }
+        return user;
     }
 }

@@ -45,7 +45,7 @@
 import {ref, reactive, onMounted, nextTick} from "vue";
 import type {ElForm} from 'element-plus';
 import {UserFilled, Lock, Connection} from "@element-plus/icons-vue";
-import {getCaptcha, login} from "@/api/system/sys-login-api";
+import {login} from "@/api/system/sys-login-api";
 import {ElMessage} from "element-plus";
 import {useRouter, useRoute} from "vue-router";
 import 'element-plus/theme-chalk/display.css'
@@ -76,21 +76,6 @@ const rules = reactive({
   username: [{required: true, min: 2, max: 16, message: '长度限制2~16', trigger: 'blur'}],
   password: [{required: true, min: 6, max: 30, message: '长度限制6~30', trigger: 'blur'}],
 });
-
-onMounted(() => {
-  getVerifyCodeImage();
-});
-
-/**
- * 获取验证码
- */
-const getVerifyCodeImage = () => {
-  getCaptcha(new Date().getTime()).then((res: any) => {
-    if (res.code === ApiResultEnum.SUCCESS) {
-      loginForm.publicKey = res.data.publicKey;
-    }
-  });
-}
 
 /**
  * 提交登录信息

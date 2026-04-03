@@ -9,11 +9,5 @@ import org.noear.solon.core.AppContext;
 public class RuntimeNativeRegistrarImpl implements RuntimeNativeRegistrar {
     @Override
     public void register(AppContext context, RuntimeNativeMetadata metadata) {
-        metadata.registerResourceInclude("native-config/jni-config.json");
-        metadata.registerResourceInclude("native-config/predefined-classes-config.json");
-        metadata.registerResourceInclude("native-config/proxy-config.json");
-        metadata.registerResourceInclude("native-config/reflect-config.json");
-        metadata.registerResourceInclude("native-config/resource-config.json");
-        metadata.registerResourceInclude("native-config/serialization-config.json");
     }
 }

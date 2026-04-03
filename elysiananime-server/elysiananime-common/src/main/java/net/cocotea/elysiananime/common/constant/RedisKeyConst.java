@@ -37,4 +37,9 @@ public class RedisKeyConst {
      */
     public final static String RSS_RESULT_CACHE = "RSS_RESULT_CACHE_{}";
 
+    /**
+     * 用户信息缓存
+     */
+    public final static String CACHE_USERINFO = "CACHE_USERINFO_%s";
+
 }

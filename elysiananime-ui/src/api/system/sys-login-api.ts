@@ -1,9 +1,5 @@
 import {get, request} from '@/utils/axios-util';
 
-export function getCaptcha(data: number) {
-    return request(`system/captcha?timestamp=${data}`, {}, get);
-}
-
 /**
  * 用户登录
  */
