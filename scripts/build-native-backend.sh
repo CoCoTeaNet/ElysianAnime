@@ -107,13 +107,19 @@ EOF
 if [[ "${USE_CLI}" == "0" ]]; then
   echo "[INFO] 使用 Maven Profile 'native' 构建（推荐）..."
   pushd "${API_DIR}" >/dev/null
-  mvn -s "${MAVEN_SETTINGS}" clean package -Pnative -DskipTests -B
+  mvn -s "${MAVEN_SETTINGS}" -gs "${MAVEN_SETTINGS}" clean package -Pnative -DskipTests -B
   popd >/dev/null
 else
   echo "[WARN] 使用 native-image 命令行兜底构建（不走 Maven -Pnative）..."
-  echo "[INFO] 先编译后端（生成 target/classes 与依赖）..."
+  echo "[INFO] 先编译后端并复制 runtime 依赖（reactor 模式，避免模块被当作远程依赖解析）..."
+  LIB_DIR="${OUT_DIR}/lib"
+  mkdir -p "${LIB_DIR}"
   pushd "${SERVER_DIR}" >/dev/null
-  mvn -s "${MAVEN_SETTINGS}" -f "${SERVER_DIR}/pom.xml" clean package -pl elysiananime-api -am -DskipTests -B
+  mvn -s "${MAVEN_SETTINGS}" -gs "${MAVEN_SETTINGS}" -f "${SERVER_DIR}/pom.xml" \
+    clean package dependency:copy-dependencies \
+    -pl elysiananime-api -am \
+    -DskipTests -DincludeScope=runtime -DoutputDirectory="${LIB_DIR}" \
+    -B
   popd >/dev/null
 
   # 关键修复：
@@ -124,13 +130,6 @@ else
     echo "[ERROR] 未找到主类 class：${CLASS_DIR}/net/cocotea/elysiananime/Launcher.class" >&2
     exit 1
   fi
-
-  # 与 Windows 同理：依赖可能很多，直接拼接 classpath 容易过长，因此复制依赖到 lib/ 并使用通配符。
-  LIB_DIR="${OUT_DIR}/lib"
-  mkdir -p "${LIB_DIR}"
-  pushd "${API_DIR}" >/dev/null
-  mvn -s "${MAVEN_SETTINGS}" -q -B dependency:copy-dependencies -DincludeScope=runtime -DskipTests -DoutputDirectory="${LIB_DIR}"
-  popd >/dev/null
 
   FULL_CP="${CLASS_DIR}:${LIB_DIR}/*"
 

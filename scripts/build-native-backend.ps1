@@ -107,7 +107,7 @@ try {
     Push-Location $ApiDir
     # 说明：NATIVE-BUILD-GUIDE.md 提到可以这样打包：
     # mvn clean package -Pnative -DskipTests
-    & mvn -s $MavenSettings clean package -Pnative -DskipTests -B
+    & mvn -s $MavenSettings -gs $MavenSettings clean package -Pnative -DskipTests -B
     Pop-Location
   } else {
     Warn "使用 native-image 命令行兜底构建（不走 Maven -Pnative）..."
@@ -121,6 +121,7 @@ try {
     Push-Location $ServerDir
     $mvnArgs = @(
       '-s', $MavenSettings,
+      '-gs', $MavenSettings,
       '-f', (Join-Path $ServerDir 'pom.xml'),
       'clean', 'package',
       'dependency:copy-dependencies',
@@ -193,7 +194,16 @@ if (-not $exe) {
   exit 2
 }
 
-Copy-Item -Force $exe.FullName (Join-Path $OutPath "elysiananime.exe")
+$destExe = Join-Path $OutPath "elysiananime.exe"
+$srcExeFull = (Resolve-Path $exe.FullName).Path
+$destExeFull = $destExe
+if (Test-Path $destExe) { $destExeFull = (Resolve-Path $destExe).Path }
+
+if ($srcExeFull -ieq $destExeFull) {
+  Info "EXE 已在目标位置，无需拷贝：$destExeFull"
+} else {
+  Copy-Item -Force $srcExeFull $destExe
+}
 
 # 拷贝配置（如果存在）
 $AppYml = Join-Path $RepoRoot "release/config/app.yml"
