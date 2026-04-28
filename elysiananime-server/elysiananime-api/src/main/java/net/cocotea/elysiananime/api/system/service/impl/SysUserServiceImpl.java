@@ -126,6 +126,8 @@ public class SysUserServiceImpl implements SysUserService {
             sysUser.setPassword(securityUtils.getPwd(updateDTO.getPassword()));
         }
         Long flag = sqlToyLazyDao.update(sysUser);
+        String key = String.format(RedisKeyConst.CACHE_USERINFO, sysUser.getUsername());
+        redisService.delete(key);
         return flag > 0;
     }
 
@@ -257,7 +259,7 @@ public class SysUserServiceImpl implements SysUserService {
         String existUser = redisService.get(key);
         if (existUser == null) {
             user = getOne(username);
-            redisService.save(key, JSON.toJSONString(user));
+            redisService.saveByMinutes(key, JSON.toJSONString(user), 15);
         } else {
             user = JSON.parseObject(existUser, SysUser.class);
         }

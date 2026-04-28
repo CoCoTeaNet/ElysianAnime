@@ -98,7 +98,7 @@ services:
       - ./docker/qbittorrent/config:/config
       - ./docker/qbittorrent/downloads:/downloads #optional
     ports:
-      - 6600:8080
+      - 9001:8080
     restart: unless-stopped
 
 networks:

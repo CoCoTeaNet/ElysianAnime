@@ -21,6 +21,12 @@
   "name":"[Ljava.lang.String;"
 },
 {
+  "name":"[Ljava.lang.reflect.Field;"
+},
+{
+  "name":"[Ljava.lang.reflect.Method;"
+},
+{
   "name":"[Ljava.sql.Statement;"
 },
 {
@@ -145,6 +151,10 @@
   "methods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
 },
 {
+  "name":"cn.dev33.satoken.application.SaSetValueInterface",
+  "queryAllPublicMethods":true
+},
+{
   "name":"cn.dev33.satoken.config.SaTokenConfig",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -171,6 +181,20 @@
 {
   "name":"cn.dev33.satoken.dao.auto.SaTokenDaoBySessionFollowObject",
   "methods":[{"name":"deleteSession","parameterTypes":["java.lang.String"] }, {"name":"getSession","parameterTypes":["java.lang.String"] }, {"name":"getSessionTimeout","parameterTypes":["java.lang.String"] }, {"name":"setSession","parameterTypes":["cn.dev33.satoken.session.SaSession","long"] }, {"name":"updateSession","parameterTypes":["cn.dev33.satoken.session.SaSession"] }, {"name":"updateSessionTimeout","parameterTypes":["java.lang.String","long"] }]
+},
+{
+  "name":"cn.dev33.satoken.session.SaSession",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"cn.dev33.satoken.session.SaTerminalInfo",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"cn.dev33.satoken.solon.SaBeanInject",
@@ -235,16 +259,163 @@
   "name":"com.alibaba.fastjson.JSONObject"
 },
 {
+  "name":"com.alibaba.fastjson2.JSONArray",
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"com.alibaba.fastjson2.JSONFactory$CacheItem",
   "fields":[{"name":"bytes"}, {"name":"chars"}]
 },
 {
   "name":"com.alibaba.fastjson2.JSONObject",
-  "queryAllDeclaredConstructors":true
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"clone","parameterTypes":[] }, {"name":"containsKey","parameterTypes":["java.lang.Object"] }, {"name":"containsKey","parameterTypes":["java.lang.String"] }, {"name":"copyTo","parameterTypes":["java.lang.Object","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"eval","parameterTypes":["com.alibaba.fastjson2.JSONPath"] }, {"name":"fluentPut","parameterTypes":["java.lang.String","java.lang.Object"] }, {"name":"forEachArrayObject","parameterTypes":["java.lang.String","java.util.function.Consumer"] }, {"name":"forEchArrayObject","parameterTypes":["java.lang.String","java.util.function.Consumer"] }, {"name":"from","parameterTypes":["java.lang.Object"] }, {"name":"from","parameterTypes":["java.lang.Object","com.alibaba.fastjson2.JSONWriter$Feature[]"] }, {"name":"get","parameterTypes":["java.lang.Object"] }, {"name":"get","parameterTypes":["java.lang.String"] }, {"name":"getBigDecimal","parameterTypes":["java.lang.String"] }, {"name":"getBigInteger","parameterTypes":["java.lang.String"] }, {"name":"getBoolean","parameterTypes":["java.lang.String"] }, {"name":"getBooleanValue","parameterTypes":["java.lang.String"] }, {"name":"getBooleanValue","parameterTypes":["java.lang.String","boolean"] }, {"name":"getByPath","parameterTypes":["java.lang.String"] }, {"name":"getByte","parameterTypes":["java.lang.String"] }, {"name":"getByteValue","parameterTypes":["java.lang.String"] }, {"name":"getBytes","parameterTypes":["java.lang.String"] }, {"name":"getDate","parameterTypes":["java.lang.String"] }, {"name":"getDate","parameterTypes":["java.lang.String","java.util.Date"] }, {"name":"getDouble","parameterTypes":["java.lang.String"] }, {"name":"getDoubleValue","parameterTypes":["java.lang.String"] }, {"name":"getFloat","parameterTypes":["java.lang.String"] }, {"name":"getFloatValue","parameterTypes":["java.lang.String"] }, {"name":"getInstant","parameterTypes":["java.lang.String"] }, {"name":"getIntValue","parameterTypes":["java.lang.String"] }, {"name":"getIntValue","parameterTypes":["java.lang.String","int"] }, {"name":"getInteger","parameterTypes":["java.lang.String"] }, {"name":"getJSONArray","parameterTypes":["java.lang.String"] }, {"name":"getJSONObject","parameterTypes":["java.lang.String"] }, {"name":"getList","parameterTypes":["java.lang.String","java.lang.Class","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"getLocalDate","parameterTypes":["java.lang.String"] }, {"name":"getLocalDate","parameterTypes":["java.lang.String","java.time.LocalDate"] }, {"name":"getLocalDateTime","parameterTypes":["java.lang.String"] }, {"name":"getLocalDateTime","parameterTypes":["java.lang.String","java.time.LocalDateTime"] }, {"name":"getLocalTime","parameterTypes":["java.lang.String"] }, {"name":"getLocalTime","parameterTypes":["java.lang.String","java.time.LocalTime"] }, {"name":"getLong","parameterTypes":["java.lang.String"] }, {"name":"getLongValue","parameterTypes":["java.lang.String"] }, {"name":"getLongValue","parameterTypes":["java.lang.String","long"] }, {"name":"getObject","parameterTypes":["java.lang.String","com.alibaba.fastjson2.TypeReference","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"getObject","parameterTypes":["java.lang.String","java.lang.Class","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"getObject","parameterTypes":["java.lang.String","java.lang.reflect.Type","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"getObject","parameterTypes":["java.lang.String","java.util.function.Function"] }, {"name":"getOffsetDateTime","parameterTypes":["java.lang.String"] }, {"name":"getOffsetDateTime","parameterTypes":["java.lang.String","java.time.OffsetDateTime"] }, {"name":"getOffsetTime","parameterTypes":["java.lang.String"] }, {"name":"getOffsetTime","parameterTypes":["java.lang.String","java.time.OffsetTime"] }, {"name":"getOrDefault","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"getOrDefault","parameterTypes":["java.lang.String","java.lang.Object"] }, {"name":"getShort","parameterTypes":["java.lang.String"] }, {"name":"getShortValue","parameterTypes":["java.lang.String"] }, {"name":"getSize","parameterTypes":["java.lang.String"] }, {"name":"getString","parameterTypes":["java.lang.String"] }, {"name":"getZonedDateTime","parameterTypes":["java.lang.String"] }, {"name":"getZonedDateTime","parameterTypes":["java.lang.String","java.time.ZonedDateTime"] }, {"name":"invoke","parameterTypes":["java.lang.Object","java.lang.reflect.Method","java.lang.Object[]"] }, {"name":"isArray","parameterTypes":["java.lang.Object"] }, {"name":"isValid","parameterTypes":["com.alibaba.fastjson2.schema.JSONSchema"] }, {"name":"nameFilter","parameterTypes":["com.alibaba.fastjson2.filter.NameFilter"] }, {"name":"of","parameterTypes":[] }, {"name":"of","parameterTypes":["java.lang.String","java.lang.Object"] }, {"name":"of","parameterTypes":["java.lang.String","java.lang.Object","java.lang.String","java.lang.Object"] }, {"name":"of","parameterTypes":["java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object"] }, {"name":"of","parameterTypes":["java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object"] }, {"name":"of","parameterTypes":["java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object"] }, {"name":"of","parameterTypes":["java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.String","java.lang.Object","java.lang.Object[]"] }, {"name":"parse","parameterTypes":["java.lang.String","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"parseObject","parameterTypes":["java.lang.String"] }, {"name":"parseObject","parameterTypes":["java.lang.String","com.alibaba.fastjson2.TypeReference","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"parseObject","parameterTypes":["java.lang.String","java.lang.Class"] }, {"name":"parseObject","parameterTypes":["java.lang.String","java.lang.Class","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"parseObject","parameterTypes":["java.lang.String","java.lang.reflect.Type","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"putArray","parameterTypes":["java.lang.String"] }, {"name":"putObject","parameterTypes":["java.lang.String"] }, {"name":"to","parameterTypes":["com.alibaba.fastjson2.TypeReference","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"to","parameterTypes":["java.lang.Class","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"to","parameterTypes":["java.lang.reflect.Type","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"to","parameterTypes":["java.util.function.Function"] }, {"name":"toJSONBBytes","parameterTypes":["com.alibaba.fastjson2.JSONWriter$Feature[]"] }, {"name":"toJSONString","parameterTypes":["java.lang.Object","com.alibaba.fastjson2.JSONWriter$Feature[]"] }, {"name":"toJSONString","parameterTypes":["com.alibaba.fastjson2.JSONWriter$Feature[]"] }, {"name":"toJavaObject","parameterTypes":["com.alibaba.fastjson2.TypeReference","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"toJavaObject","parameterTypes":["java.lang.Class","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"toJavaObject","parameterTypes":["java.lang.reflect.Type","com.alibaba.fastjson2.JSONReader$Feature[]"] }, {"name":"toString","parameterTypes":[] }, {"name":"toString","parameterTypes":["com.alibaba.fastjson2.JSONWriter$Feature[]"] }, {"name":"valueFilter","parameterTypes":["com.alibaba.fastjson2.filter.ValueFilter"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.reader.ORG_1_17_SysUser",
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.util.function.Supplier","com.alibaba.fastjson2.reader.FieldReader[]"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.reader.ORG_2_7_AniTag",
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.util.function.Supplier","com.alibaba.fastjson2.reader.FieldReader[]"] }]
 },
 {
   "name":"com.alibaba.fastjson2.util.TypeUtils$Cache",
   "fields":[{"name":"chars"}]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.FieldWriter",
+  "fields":[{"name":"initObjectWriter"}]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.FieldWriterObject",
+  "fields":[{"name":"initValueClass"}]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_10_31_AniVideoVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_10_9_SysDictionaryVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_11_17_SysMenuVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_11_7_AniTag",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_12_11_AniUserOpusVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_12_15_SysUserVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_13_16_AniOpusHomeVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_13_4_QbInfo",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_14_2_RssCountVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_14_3_Media",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_15_2_SysOverviewVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_16_24_AniOpusVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_17_3_MkXmlDetail",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_18_10_MkXmlItem",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_1_4_ApiResult",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_2_17_SysUser",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_2_4_ApiPage",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_3_24_AniOpusVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_3_9_SaSession",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_4_3_MkXmlDetail",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_4_6_SaTerminalInfo",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_5_10_MkXmlItem",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_5_4_ApiPage",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_6_3_RenameInfo",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_6_8_SysLoginUserVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_7_10_SysMenuTreeVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_7_16_AniOpusHomeVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_8_10_SysLogVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_8_15_SysUserVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
+},
+{
+  "name":"com.alibaba.fastjson2.writer.OWG_9_9_SysRoleVO",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Class","java.lang.String","java.lang.String","long","java.util.List"] }]
 },
 {
   "name":"com.mysql.cj.conf.url.SingleConnectionUrl",
@@ -367,6 +538,13 @@
   "fields":[{"name":"state"}]
 },
 {
+  "name":"int",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
   "name":"java.beans.Introspector"
 },
 {
@@ -374,6 +552,10 @@
 },
 {
   "name":"java.io.FilePermission"
+},
+{
+  "name":"java.io.Serializable",
+  "queryAllPublicMethods":true
 },
 {
   "name":"java.lang.Boolean",
@@ -411,8 +593,13 @@
   "fields":[{"name":"TYPE"}]
 },
 {
+  "name":"java.lang.Math",
+  "methods":[{"name":"multiplyHigh","parameterTypes":["long","long"] }]
+},
+{
   "name":"java.lang.Object",
   "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
   "methods":[{"name":"add","parameterTypes":["java.lang.Object"] }, {"name":"addExclude","parameterTypes":["java.lang.String[]"] }, {"name":"addInclude","parameterTypes":["java.lang.String[]"] }, {"name":"deserialize","parameterTypes":["java.lang.Object","java.lang.reflect.Type"] }, {"name":"getDetail","parameterTypes":[] }, {"name":"listByPage","parameterTypes":["java.lang.Object"] }, {"name":"serialize","parameterTypes":["java.lang.Object"] }, {"name":"setAuth","parameterTypes":["cn.dev33.satoken.filter.SaFilterAuthStrategy"] }, {"name":"setBeforeAuth","parameterTypes":["cn.dev33.satoken.filter.SaFilterAuthStrategy"] }, {"name":"setError","parameterTypes":["cn.dev33.satoken.filter.SaFilterErrorStrategy"] }, {"name":"setExcludeList","parameterTypes":["java.util.List"] }, {"name":"setIncludeList","parameterTypes":["java.util.List"] }, {"name":"update","parameterTypes":["java.lang.Object"] }]
 },
 {
@@ -531,6 +718,10 @@
   "queryAllPublicMethods":true
 },
 {
+  "name":"java.lang.reflect.AccessibleObject",
+  "fields":[{"name":"override"}]
+},
+{
   "name":"java.math.BigDecimal",
   "allDeclaredFields":true
 },
@@ -555,6 +746,9 @@
   "name":"java.security.AllPermission"
 },
 {
+  "name":"java.security.KeyStoreSpi"
+},
+{
   "name":"java.security.SecureRandomParameters"
 },
 {
@@ -573,10 +767,21 @@
   "name":"java.security.interfaces.RSAPublicKey"
 },
 {
+  "name":"java.sql.Clob"
+},
+{
   "name":"java.sql.Date"
 },
 {
+  "name":"java.sql.Struct"
+},
+{
   "name":"java.sql.Timestamp"
+},
+{
+  "name":"java.util.AbstractMap",
+  "allDeclaredFields":true,
+  "methods":[{"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"hashCode","parameterTypes":[] }]
 },
 {
   "name":"java.util.ArrayList",
@@ -596,8 +801,18 @@
   "allDeclaredFields":true
 },
 {
+  "name":"java.util.HashMap",
+  "allDeclaredFields":true,
+  "methods":[{"name":"clone","parameterTypes":[] }, {"name":"compute","parameterTypes":["java.lang.Object","java.util.function.BiFunction"] }, {"name":"computeIfAbsent","parameterTypes":["java.lang.Object","java.util.function.Function"] }, {"name":"computeIfPresent","parameterTypes":["java.lang.Object","java.util.function.BiFunction"] }, {"name":"isEmpty","parameterTypes":[] }, {"name":"merge","parameterTypes":["java.lang.Object","java.lang.Object","java.util.function.BiFunction"] }, {"name":"newHashMap","parameterTypes":["int"] }, {"name":"put","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"putAll","parameterTypes":["java.util.Map"] }, {"name":"putIfAbsent","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"remove","parameterTypes":["java.lang.Object"] }, {"name":"remove","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"replace","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"replace","parameterTypes":["java.lang.Object","java.lang.Object","java.lang.Object"] }, {"name":"size","parameterTypes":[] }]
+},
+{
   "name":"java.util.Hashtable",
   "allDeclaredFields":true
+},
+{
+  "name":"java.util.LinkedHashMap",
+  "allDeclaredFields":true,
+  "methods":[{"name":"clear","parameterTypes":[] }, {"name":"containsValue","parameterTypes":["java.lang.Object"] }, {"name":"entrySet","parameterTypes":[] }, {"name":"forEach","parameterTypes":["java.util.function.BiConsumer"] }, {"name":"keySet","parameterTypes":[] }, {"name":"newLinkedHashMap","parameterTypes":["int"] }, {"name":"putFirst","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"putLast","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"replaceAll","parameterTypes":["java.util.function.BiFunction"] }, {"name":"reversed","parameterTypes":[] }, {"name":"sequencedEntrySet","parameterTypes":[] }, {"name":"sequencedKeySet","parameterTypes":[] }, {"name":"sequencedValues","parameterTypes":[] }, {"name":"values","parameterTypes":[] }]
 },
 {
   "name":"java.util.Properties",
@@ -607,6 +822,10 @@
 {
   "name":"java.util.PropertyPermission",
   "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String"] }]
+},
+{
+  "name":"java.util.SequencedMap",
+  "methods":[{"name":"firstEntry","parameterTypes":[] }, {"name":"lastEntry","parameterTypes":[] }, {"name":"pollFirstEntry","parameterTypes":[] }, {"name":"pollLastEntry","parameterTypes":[] }]
 },
 {
   "name":"java.util.concurrent.ForkJoinTask",
@@ -705,6 +924,9 @@
   "queryAllPublicMethods":true
 },
 {
+  "name":"kotlin.Metadata"
+},
+{
   "name":"long",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -769,49 +991,105 @@
   "name":"net.cocotea.elysiananime.api.anime.model.dto.AniOpusAddDTO"
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniOpusHomeDTO"
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniOpusHomeDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getDeliveryWeeks","parameterTypes":[] }, {"name":"getHasResource","parameterTypes":[] }, {"name":"getMonths","parameterTypes":[] }, {"name":"getSearchKey","parameterTypes":[] }, {"name":"getStates","parameterTypes":[] }, {"name":"getStatus","parameterTypes":[] }, {"name":"getYears","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setDeliveryWeeks","parameterTypes":["java.util.List"] }, {"name":"setHasResource","parameterTypes":["java.lang.Integer"] }, {"name":"setMonths","parameterTypes":["java.util.List"] }, {"name":"setSearchKey","parameterTypes":["java.lang.String"] }, {"name":"setStates","parameterTypes":["java.util.List"] }, {"name":"setStatus","parameterTypes":["java.util.List"] }, {"name":"setYears","parameterTypes":["java.util.List"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniOpusPageDTO"
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniOpusPageDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getAniOpus","parameterTypes":[] }, {"name":"getQuarter","parameterTypes":[] }, {"name":"getSearchKey","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setAniOpus","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniOpusPageDTO$Query"] }, {"name":"setQuarter","parameterTypes":["java.lang.String"] }, {"name":"setSearchKey","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniOpusPageDTO$Query"
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniOpusPageDTO$Query",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getHasResource","parameterTypes":[] }, {"name":"getLikeNameCn","parameterTypes":[] }, {"name":"getLikeNameOriginal","parameterTypes":[] }, {"name":"getNameCn","parameterTypes":[] }, {"name":"getNameOriginal","parameterTypes":[] }, {"name":"getRssStatus","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setHasResource","parameterTypes":["java.lang.Integer"] }, {"name":"setLikeNameCn","parameterTypes":["java.lang.String"] }, {"name":"setLikeNameOriginal","parameterTypes":["java.lang.String"] }, {"name":"setNameCn","parameterTypes":["java.lang.String"] }, {"name":"setNameOriginal","parameterTypes":["java.lang.String"] }, {"name":"setRssStatus","parameterTypes":["java.lang.Integer"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniOpusUpdateDTO"
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniOpusUpdateDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getCoverUrl","parameterTypes":[] }, {"name":"getDetailInfoUrl","parameterTypes":[] }, {"name":"getHasResource","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getNameCn","parameterTypes":[] }, {"name":"getNameOriginal","parameterTypes":[] }, {"name":"getOpusType","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setCoverUrl","parameterTypes":["java.lang.String"] }, {"name":"setDetailInfoUrl","parameterTypes":["java.lang.String"] }, {"name":"setHasResource","parameterTypes":["java.lang.Integer"] }, {"name":"setId","parameterTypes":["java.lang.String"] }, {"name":"setNameCn","parameterTypes":["java.lang.String"] }, {"name":"setNameOriginal","parameterTypes":["java.lang.String"] }, {"name":"setOpusType","parameterTypes":["java.lang.Integer"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO"
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getId","parameterTypes":[] }, {"name":"getRssExcludeRes","parameterTypes":[] }, {"name":"getRssFileType","parameterTypes":[] }, {"name":"getRssLevelIndex","parameterTypes":[] }, {"name":"getRssOnlyMark","parameterTypes":[] }, {"name":"getRssOverride","parameterTypes":[] }, {"name":"getRssUrl","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setRssExcludeRes","parameterTypes":["java.lang.String"] }, {"name":"setRssFileType","parameterTypes":["java.lang.String"] }, {"name":"setRssLevelIndex","parameterTypes":["java.lang.Integer"] }, {"name":"setRssOnlyMark","parameterTypes":["java.lang.String"] }, {"name":"setRssOverride","parameterTypes":["java.lang.Integer"] }, {"name":"setRssUrl","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusAddDTO"
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusPageDTO"
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusPageDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getIsShare","parameterTypes":[] }, {"name":"getNameCn","parameterTypes":[] }, {"name":"getNameOriginal","parameterTypes":[] }, {"name":"getReadStatus","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setIsShare","parameterTypes":["java.lang.Integer"] }, {"name":"setNameCn","parameterTypes":["java.lang.String"] }, {"name":"setNameOriginal","parameterTypes":["java.lang.String"] }, {"name":"setReadStatus","parameterTypes":["java.lang.Integer"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusUpdateDTO"
+  "name":"net.cocotea.elysiananime.api.anime.model.dto.AniUserOpusUpdateDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getId","parameterTypes":[] }, {"name":"getIsShare","parameterTypes":[] }, {"name":"getReadStatus","parameterTypes":[] }, {"name":"getReadingNum","parameterTypes":[] }, {"name":"getReadingTime","parameterTypes":[] }, {"name":"getResourceUrl","parameterTypes":[] }, {"name":"getTotalTime","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setIsShare","parameterTypes":["java.lang.Integer"] }, {"name":"setReadStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setReadingNum","parameterTypes":["java.lang.String"] }, {"name":"setReadingTime","parameterTypes":["java.lang.Long"] }, {"name":"setResourceUrl","parameterTypes":["java.lang.String"] }, {"name":"setTotalTime","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.anime.model.dto.RssWorksStatusDTO"
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.po.AniOpus"
+  "name":"net.cocotea.elysiananime.api.anime.model.po.AniOpus",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getAniSummary","parameterTypes":[] }, {"name":"getCoverUrl","parameterTypes":[] }, {"name":"getCreateBy","parameterTypes":[] }, {"name":"getCreateTime","parameterTypes":[] }, {"name":"getDeliveryWeek","parameterTypes":[] }, {"name":"getDetailInfoUrl","parameterTypes":[] }, {"name":"getEpisodes","parameterTypes":[] }, {"name":"getHasResource","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getIsDeleted","parameterTypes":[] }, {"name":"getLaunchStart","parameterTypes":[] }, {"name":"getNameCn","parameterTypes":[] }, {"name":"getNameOriginal","parameterTypes":[] }, {"name":"getRssExcludeRes","parameterTypes":[] }, {"name":"getRssFileType","parameterTypes":[] }, {"name":"getRssLevelIndex","parameterTypes":[] }, {"name":"getRssOnlyMark","parameterTypes":[] }, {"name":"getRssStatus","parameterTypes":[] }, {"name":"getRssUrl","parameterTypes":[] }, {"name":"getScore","parameterTypes":[] }, {"name":"getUpdateBy","parameterTypes":[] }, {"name":"getUpdateTime","parameterTypes":[] }, {"name":"setAniSummary","parameterTypes":["java.lang.String"] }, {"name":"setCoverUrl","parameterTypes":["java.lang.String"] }, {"name":"setCreateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setDeliveryWeek","parameterTypes":["java.lang.String"] }, {"name":"setDetailInfoUrl","parameterTypes":["java.lang.String"] }, {"name":"setEpisodes","parameterTypes":["java.lang.String"] }, {"name":"setHasResource","parameterTypes":["java.lang.Integer"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setIsDeleted","parameterTypes":["java.lang.Integer"] }, {"name":"setLaunchStart","parameterTypes":["java.lang.String"] }, {"name":"setNameCn","parameterTypes":["java.lang.String"] }, {"name":"setNameOriginal","parameterTypes":["java.lang.String"] }, {"name":"setRssFileType","parameterTypes":["java.lang.String"] }, {"name":"setRssLevelIndex","parameterTypes":["java.lang.Integer"] }, {"name":"setRssOnlyMark","parameterTypes":["java.lang.String"] }, {"name":"setRssStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setRssUrl","parameterTypes":["java.lang.String"] }, {"name":"setScore","parameterTypes":["java.lang.Float"] }, {"name":"setUpdateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setUpdateTime","parameterTypes":["java.time.LocalDateTime"] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.anime.model.po.AniOpusGroup"
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.po.AniOpusTag"
+  "name":"net.cocotea.elysiananime.api.anime.model.po.AniOpusTag",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getCreateTime","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getOpusId","parameterTypes":[] }, {"name":"getTagId","parameterTypes":[] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setOpusId","parameterTypes":["java.math.BigInteger"] }, {"name":"setTagId","parameterTypes":["java.math.BigInteger"] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.po.AniTag"
+  "name":"net.cocotea.elysiananime.api.anime.model.po.AniTag",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getCreateBy","parameterTypes":[] }, {"name":"getCreateTime","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getIsDeleted","parameterTypes":[] }, {"name":"getTagName","parameterTypes":[] }, {"name":"getUpdateBy","parameterTypes":[] }, {"name":"getUpdateTime","parameterTypes":[] }, {"name":"setCreateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setTagName","parameterTypes":["java.lang.String"] }, {"name":"setUpdateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setUpdateTime","parameterTypes":["java.time.LocalDateTime"] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.po.AniUserOpus"
+  "name":"net.cocotea.elysiananime.api.anime.model.po.AniUserOpus",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getCreateTime","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getIsShare","parameterTypes":[] }, {"name":"getOpusId","parameterTypes":[] }, {"name":"getReadStatus","parameterTypes":[] }, {"name":"getReadingNum","parameterTypes":[] }, {"name":"getReadingTime","parameterTypes":[] }, {"name":"getResourceUrl","parameterTypes":[] }, {"name":"getTotalTime","parameterTypes":[] }, {"name":"getUserId","parameterTypes":[] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setIsShare","parameterTypes":["java.lang.Integer"] }, {"name":"setOpusId","parameterTypes":["java.math.BigInteger"] }, {"name":"setReadStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setReadingNum","parameterTypes":["java.lang.String"] }, {"name":"setReadingTime","parameterTypes":["java.math.BigInteger"] }, {"name":"setResourceUrl","parameterTypes":["java.lang.String"] }, {"name":"setTotalTime","parameterTypes":["java.math.BigInteger"] }, {"name":"setUserId","parameterTypes":["java.math.BigInteger"] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniOpusHomeVO"
+  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniOpusHomeVO",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setCoverUrl","parameterTypes":["java.lang.String"] }, {"name":"setDeliveryWeek","parameterTypes":["java.lang.String"] }, {"name":"setDetailInfoUrl","parameterTypes":["java.lang.String"] }, {"name":"setEpisodes","parameterTypes":["java.lang.String"] }, {"name":"setHasResource","parameterTypes":["java.lang.Integer"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setLaunchStart","parameterTypes":["java.lang.String"] }, {"name":"setNameCn","parameterTypes":["java.lang.String"] }, {"name":"setNameOriginal","parameterTypes":["java.lang.String"] }, {"name":"setReadStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setReadingNum","parameterTypes":["java.lang.Integer"] }, {"name":"setReadingTime","parameterTypes":["java.math.BigInteger"] }, {"name":"setTotalTime","parameterTypes":["java.math.BigInteger"] }, {"name":"setUserId","parameterTypes":["java.math.BigInteger"] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.anime.model.vo.AniOpusInfoVO"
@@ -820,22 +1098,44 @@
   "name":"net.cocotea.elysiananime.api.anime.model.vo.AniOpusTagVO"
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniOpusVO"
+  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniOpusVO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setAniSummary","parameterTypes":["java.lang.String"] }, {"name":"setCoverUrl","parameterTypes":["java.lang.String"] }, {"name":"setCreateByName","parameterTypes":["java.lang.String"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setDeliveryWeek","parameterTypes":["java.lang.String"] }, {"name":"setDetailInfoUrl","parameterTypes":["java.lang.String"] }, {"name":"setEpisodes","parameterTypes":["java.lang.String"] }, {"name":"setHasResource","parameterTypes":["java.lang.Integer"] }, {"name":"setId","parameterTypes":["java.lang.String"] }, {"name":"setLaunchStart","parameterTypes":["java.lang.String"] }, {"name":"setNameCn","parameterTypes":["java.lang.String"] }, {"name":"setNameOriginal","parameterTypes":["java.lang.String"] }, {"name":"setRssExcludeRes","parameterTypes":["java.lang.String"] }, {"name":"setRssFileType","parameterTypes":["java.lang.String"] }, {"name":"setRssLevelIndex","parameterTypes":["java.lang.Integer"] }, {"name":"setRssOnlyMark","parameterTypes":["java.lang.String"] }, {"name":"setRssStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setRssUrl","parameterTypes":["java.lang.String"] }, {"name":"setScore","parameterTypes":["java.lang.Float"] }, {"name":"setUpdateByName","parameterTypes":["java.lang.String"] }, {"name":"setUpdateTime","parameterTypes":["java.time.LocalDateTime"] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.anime.model.vo.AniUserOpusSharesVO"
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniUserOpusVO"
+  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniUserOpusVO",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setCoverUrl","parameterTypes":["java.lang.String"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setIsShare","parameterTypes":["java.lang.Integer"] }, {"name":"setNameCn","parameterTypes":["java.lang.String"] }, {"name":"setNameOriginal","parameterTypes":["java.lang.String"] }, {"name":"setOpusId","parameterTypes":["java.math.BigInteger"] }, {"name":"setReadStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setReadingNum","parameterTypes":["java.lang.String"] }, {"name":"setReadingTime","parameterTypes":["java.math.BigInteger"] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniVideoVO"
+  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniVideoVO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniVideoVO$Media"
+  "name":"net.cocotea.elysiananime.api.anime.model.vo.AniVideoVO$Media",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.model.vo.RssCountVO"
+  "name":"net.cocotea.elysiananime.api.anime.model.vo.RssCountVO",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.anime.rss.MiKanRss",
@@ -846,16 +1146,33 @@
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"addOpusTorrent","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniAddOpusTorrentDTO"] }, {"name":"clearHistory","parameterTypes":[] }, {"name":"closeSubscribe","parameterTypes":["java.math.BigInteger"] }, {"name":"doCloseSubscribe","parameterTypes":[] }, {"name":"doFindRssOpusAndDownload","parameterTypes":[] }, {"name":"doParseMkXmlDetail","parameterTypes":["java.lang.String"] }, {"name":"doParseXmlItems","parameterTypes":["java.lang.String"] }, {"name":"doRenameBtV2","parameterTypes":[] }, {"name":"findBtSource","parameterTypes":["org.w3c.dom.NodeList","net.cocotea.elysiananime.api.anime.rss.model.MkXmlItem"] }, {"name":"findItemInfo","parameterTypes":["org.w3c.dom.NodeList","net.cocotea.elysiananime.api.anime.rss.model.MkXmlItem"] }, {"name":"getCounts","parameterTypes":[] }, {"name":"getRenames","parameterTypes":["java.lang.String","net.cocotea.elysiananime.api.anime.model.po.AniOpus"] }, {"name":"getRenames","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO"] }, {"name":"getRssWorkStatus","parameterTypes":[] }, {"name":"requestRss","parameterTypes":["java.lang.String","net.cocotea.elysiananime.api.anime.model.po.AniOpus"] }, {"name":"subscribe","parameterTypes":["net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO"] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.rss.model.MkXmlDetail"
+  "name":"net.cocotea.elysiananime.api.anime.rss.model.MkXmlDetail",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.rss.model.MkXmlItem"
+  "name":"net.cocotea.elysiananime.api.anime.rss.model.MkXmlItem",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.rss.model.QbInfo"
+  "name":"net.cocotea.elysiananime.api.anime.rss.model.QbInfo",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setContentPath","parameterTypes":["java.lang.String"] }, {"name":"setHash","parameterTypes":["java.lang.String"] }, {"name":"setName","parameterTypes":["java.lang.String"] }, {"name":"setSavePath","parameterTypes":["java.lang.String"] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.anime.rss.model.RenameInfo"
+  "name":"net.cocotea.elysiananime.api.anime.rss.model.RenameInfo",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.anime.service.AniOpusService"
@@ -939,14 +1256,6 @@
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.controller.SysFileController",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllPublicMethods":true,
-  "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"download","parameterTypes":["java.math.BigInteger"] }, {"name":"getAvatar","parameterTypes":["java.lang.String","org.noear.solon.core.handle.Context"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysFilePageDTO"] }, {"name":"recoveryBatch","parameterTypes":["java.util.List"] }, {"name":"recycleBinDeleteBatch","parameterTypes":["java.util.List"] }, {"name":"recycleBinPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysFilePageDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysFileUpdateDTO"] }, {"name":"upload","parameterTypes":["org.noear.solon.core.handle.UploadedFile"] }, {"name":"uploadAvatar","parameterTypes":["org.noear.solon.core.handle.UploadedFile"] }]
-},
-{
   "name":"net.cocotea.elysiananime.api.system.controller.SysLogController",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -1000,22 +1309,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysUserAddDTO"] }, {"name":"delete","parameterTypes":["java.math.BigInteger"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"doModifyPassword","parameterTypes":["com.alibaba.fastjson2.JSONObject"] }, {"name":"getDetail","parameterTypes":[] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysUserPageDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysUserUpdateDTO"] }, {"name":"updateByUser","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysLoginUserUpdateDTO"] }]
-},
-{
-  "name":"net.cocotea.elysiananime.api.system.controller.SysVersionController",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllPublicMethods":true,
-  "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysVersionAddDTO"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysVersionPageDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysVersionUpdateDTO"] }]
-},
-{
-  "name":"net.cocotea.elysiananime.api.system.controller.SysVersionController$$SolonAotProxy"
-},
-{
-  "name":"net.cocotea.elysiananime.api.system.controller.SysVersionController$$SolonAsmProxy",
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysUserAddDTO"] }, {"name":"delete","parameterTypes":["java.math.BigInteger"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"doModifyPassword","parameterTypes":["com.alibaba.fastjson2.JSONObject"] }, {"name":"getDetail","parameterTypes":[] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysUserPageDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysUserUpdateDTO"] }, {"name":"updateByUser","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysLoginUserUpdateDTO"] }, {"name":"uploadAvatar","parameterTypes":["org.noear.solon.core.handle.UploadedFile"] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.system.model.dto.SysDictionaryAddDTO"
@@ -1024,10 +1318,20 @@
   "name":"net.cocotea.elysiananime.api.system.model.dto.SysDictionaryPageDTO"
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.dto.SysDictionaryTreeDTO"
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysDictionaryTreeDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getDictionaryName","parameterTypes":[] }, {"name":"getEnableStatus","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setDictionaryName","parameterTypes":["java.lang.String"] }, {"name":"setEnableStatus","parameterTypes":["java.lang.Integer"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.dto.SysDictionaryUpdateDTO"
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysDictionaryUpdateDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getDictionaryName","parameterTypes":[] }, {"name":"getEnableStatus","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getParentId","parameterTypes":[] }, {"name":"getRemark","parameterTypes":[] }, {"name":"getSort","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setDictionaryName","parameterTypes":["java.lang.String"] }, {"name":"setEnableStatus","parameterTypes":["java.lang.String"] }, {"name":"setId","parameterTypes":["java.lang.String"] }, {"name":"setParentId","parameterTypes":["java.lang.String"] }, {"name":"setRemark","parameterTypes":["java.lang.String"] }, {"name":"setSort","parameterTypes":["java.lang.Integer"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.system.model.dto.SysFileAddDTO"
@@ -1042,19 +1346,37 @@
   "name":"net.cocotea.elysiananime.api.system.model.dto.SysFileUpdateDTO"
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.dto.SysLogAddDTO"
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysLogAddDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"getApiPath","parameterTypes":[] }, {"name":"getCreateTime","parameterTypes":[] }, {"name":"getIpAddress","parameterTypes":[] }, {"name":"getLogStatus","parameterTypes":[] }, {"name":"getLogType","parameterTypes":[] }, {"name":"getOperator","parameterTypes":[] }, {"name":"getRequestWay","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.dto.SysLogPageDTO"
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysLogPageDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getSysLog","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setSysLog","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysLogPageDTO$Query"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.dto.SysLogPageDTO$Query"
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysLogPageDTO$Query",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getApiPath","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getOperator","parameterTypes":[] }, {"name":"getRequestWay","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setApiPath","parameterTypes":["java.lang.String"] }, {"name":"setId","parameterTypes":["java.lang.String"] }, {"name":"setOperator","parameterTypes":["java.lang.String"] }, {"name":"setRequestWay","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.system.model.dto.SysLogUpdateDTO"
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.dto.SysLoginDTO"
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysLoginDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getCaptcha","parameterTypes":[] }, {"name":"getCaptchaId","parameterTypes":[] }, {"name":"getPassword","parameterTypes":[] }, {"name":"getPublicKey","parameterTypes":[] }, {"name":"getRememberMe","parameterTypes":[] }, {"name":"getUsername","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setCaptcha","parameterTypes":["java.lang.String"] }, {"name":"setCaptchaId","parameterTypes":["java.lang.String"] }, {"name":"setPassword","parameterTypes":["java.lang.String"] }, {"name":"setPublicKey","parameterTypes":["java.lang.String"] }, {"name":"setRememberMe","parameterTypes":["java.lang.Boolean"] }, {"name":"setUsername","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.system.model.dto.SysLoginUserUpdateDTO"
@@ -1069,22 +1391,47 @@
   "name":"net.cocotea.elysiananime.api.system.model.dto.SysMenuPageDTO$Query"
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.dto.SysMenuTreeDTO"
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysMenuTreeDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getIsMenu","parameterTypes":[] }, {"name":"getMenuName","parameterTypes":[] }, {"name":"getMenuStatus","parameterTypes":[] }, {"name":"getPermissionCode","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setIsMenu","parameterTypes":["java.lang.Integer"] }, {"name":"setMenuName","parameterTypes":["java.lang.String"] }, {"name":"setMenuStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setPermissionCode","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.dto.SysMenuUpdateDTO"
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysMenuUpdateDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getComponentPath","parameterTypes":[] }, {"name":"getIconPath","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getIsExternalLink","parameterTypes":[] }, {"name":"getIsMenu","parameterTypes":[] }, {"name":"getMenuName","parameterTypes":[] }, {"name":"getMenuStatus","parameterTypes":[] }, {"name":"getMenuType","parameterTypes":[] }, {"name":"getParentId","parameterTypes":[] }, {"name":"getPermissionCode","parameterTypes":[] }, {"name":"getRouterPath","parameterTypes":[] }, {"name":"getSort","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setComponentPath","parameterTypes":["java.lang.String"] }, {"name":"setIconPath","parameterTypes":["java.lang.String"] }, {"name":"setId","parameterTypes":["java.lang.String"] }, {"name":"setIsExternalLink","parameterTypes":["java.lang.String"] }, {"name":"setIsMenu","parameterTypes":["java.lang.String"] }, {"name":"setMenuName","parameterTypes":["java.lang.String"] }, {"name":"setMenuStatus","parameterTypes":["java.lang.String"] }, {"name":"setMenuType","parameterTypes":["java.lang.String"] }, {"name":"setParentId","parameterTypes":["java.lang.String"] }, {"name":"setPermissionCode","parameterTypes":["java.lang.String"] }, {"name":"setRouterPath","parameterTypes":["java.lang.String"] }, {"name":"setSort","parameterTypes":["java.lang.Integer"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.system.model.dto.SysNotifyAddDTO"
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.dto.SysRoleAddDTO"
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysRoleAddDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getRoleKey","parameterTypes":[] }, {"name":"getRoleName","parameterTypes":[] }, {"name":"getSort","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setRoleKey","parameterTypes":["java.lang.String"] }, {"name":"setRoleName","parameterTypes":["java.lang.String"] }, {"name":"setSort","parameterTypes":["java.lang.Integer"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.dto.SysRolePageDTO"
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysRolePageDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getSysRole","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setSysRole","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysRolePageDTO$Query"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.dto.SysRolePageDTO$Query"
+  "name":"net.cocotea.elysiananime.api.system.model.dto.SysRolePageDTO$Query",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getRemark","parameterTypes":[] }, {"name":"getRoleKey","parameterTypes":[] }, {"name":"getRoleName","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setRemark","parameterTypes":["java.lang.String"] }, {"name":"setRoleKey","parameterTypes":["java.lang.String"] }, {"name":"setRoleName","parameterTypes":["java.lang.String"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.system.model.dto.SysRoleUpdateDTO"
@@ -1117,25 +1464,42 @@
   "name":"net.cocotea.elysiananime.api.system.model.dto.SysVersionUpdateDTO"
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.po.SysDictionary"
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysDictionary",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getCreateBy","parameterTypes":[] }, {"name":"getCreateTime","parameterTypes":[] }, {"name":"getDictionaryName","parameterTypes":[] }, {"name":"getEnableStatus","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getIsDeleted","parameterTypes":[] }, {"name":"getParentId","parameterTypes":[] }, {"name":"getRemark","parameterTypes":[] }, {"name":"getRevision","parameterTypes":[] }, {"name":"getSort","parameterTypes":[] }, {"name":"getUpdateBy","parameterTypes":[] }, {"name":"getUpdateTime","parameterTypes":[] }, {"name":"setCreateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setDictionaryName","parameterTypes":["java.lang.String"] }, {"name":"setEnableStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setIsDeleted","parameterTypes":["java.lang.Integer"] }, {"name":"setParentId","parameterTypes":["java.math.BigInteger"] }, {"name":"setRemark","parameterTypes":["java.lang.String"] }, {"name":"setSort","parameterTypes":["java.lang.Integer"] }, {"name":"setUpdateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setUpdateTime","parameterTypes":["java.time.LocalDateTime"] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.po.SysFile"
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysLog",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getApiPath","parameterTypes":[] }, {"name":"getCreateTime","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getIpAddress","parameterTypes":[] }, {"name":"getLogStatus","parameterTypes":[] }, {"name":"getLogType","parameterTypes":[] }, {"name":"getOperator","parameterTypes":[] }, {"name":"getRequestWay","parameterTypes":[] }, {"name":"setApiPath","parameterTypes":["java.lang.String"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setIpAddress","parameterTypes":["java.lang.String"] }, {"name":"setLogStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setLogType","parameterTypes":["java.lang.Integer"] }, {"name":"setOperator","parameterTypes":["java.math.BigInteger"] }, {"name":"setRequestWay","parameterTypes":["java.lang.String"] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.po.SysLog"
-},
-{
-  "name":"net.cocotea.elysiananime.api.system.model.po.SysMenu"
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysMenu",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getComponentPath","parameterTypes":[] }, {"name":"getCreateBy","parameterTypes":[] }, {"name":"getCreateTime","parameterTypes":[] }, {"name":"getIconPath","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getIsDeleted","parameterTypes":[] }, {"name":"getIsExternalLink","parameterTypes":[] }, {"name":"getIsMenu","parameterTypes":[] }, {"name":"getMenuName","parameterTypes":[] }, {"name":"getMenuStatus","parameterTypes":[] }, {"name":"getMenuType","parameterTypes":[] }, {"name":"getParentId","parameterTypes":[] }, {"name":"getPermissionCode","parameterTypes":[] }, {"name":"getRevision","parameterTypes":[] }, {"name":"getRouterPath","parameterTypes":[] }, {"name":"getSort","parameterTypes":[] }, {"name":"getUpdateBy","parameterTypes":[] }, {"name":"getUpdateTime","parameterTypes":[] }, {"name":"setComponentPath","parameterTypes":["java.lang.String"] }, {"name":"setCreateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setIconPath","parameterTypes":["java.lang.String"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setIsDeleted","parameterTypes":["java.lang.Integer"] }, {"name":"setIsExternalLink","parameterTypes":["java.lang.Integer"] }, {"name":"setIsMenu","parameterTypes":["java.lang.Integer"] }, {"name":"setMenuName","parameterTypes":["java.lang.String"] }, {"name":"setMenuStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setMenuType","parameterTypes":["java.lang.Integer"] }, {"name":"setParentId","parameterTypes":["java.math.BigInteger"] }, {"name":"setPermissionCode","parameterTypes":["java.lang.String"] }, {"name":"setRouterPath","parameterTypes":["java.lang.String"] }, {"name":"setSort","parameterTypes":["java.lang.Integer"] }, {"name":"setUpdateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setUpdateTime","parameterTypes":["java.time.LocalDateTime"] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.system.model.po.SysNotify"
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.po.SysRole"
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysRole",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getCreateBy","parameterTypes":[] }, {"name":"getCreateTime","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getIsDeleted","parameterTypes":[] }, {"name":"getRemark","parameterTypes":[] }, {"name":"getRevision","parameterTypes":[] }, {"name":"getRoleKey","parameterTypes":[] }, {"name":"getRoleName","parameterTypes":[] }, {"name":"getSort","parameterTypes":[] }, {"name":"getUpdateBy","parameterTypes":[] }, {"name":"getUpdateTime","parameterTypes":[] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setRoleKey","parameterTypes":["java.lang.String"] }, {"name":"setRoleName","parameterTypes":["java.lang.String"] }, {"name":"setSort","parameterTypes":["java.lang.Integer"] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.po.SysRoleMenu"
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysRoleMenu",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setMenuId","parameterTypes":["java.math.BigInteger"] }, {"name":"setRoleId","parameterTypes":["java.math.BigInteger"] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.system.model.po.SysTheme"
@@ -1143,47 +1507,80 @@
 {
   "name":"net.cocotea.elysiananime.api.system.model.po.SysUser",
   "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setAccountStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setCreateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setIsDeleted","parameterTypes":["java.lang.Integer"] }, {"name":"setLastLoginIp","parameterTypes":["java.lang.String"] }, {"name":"setLastLoginTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setNickname","parameterTypes":["java.lang.String"] }, {"name":"setPassword","parameterTypes":["java.lang.String"] }, {"name":"setSex","parameterTypes":["java.lang.Integer"] }, {"name":"setUpdateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setUpdateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setUsername","parameterTypes":["java.lang.String"] }]
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getAccountStatus","parameterTypes":[] }, {"name":"getAvatar","parameterTypes":[] }, {"name":"getCreateBy","parameterTypes":[] }, {"name":"getCreateTime","parameterTypes":[] }, {"name":"getEmail","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getIsDeleted","parameterTypes":[] }, {"name":"getLastLoginIp","parameterTypes":[] }, {"name":"getLastLoginTime","parameterTypes":[] }, {"name":"getMobilePhone","parameterTypes":[] }, {"name":"getNickname","parameterTypes":[] }, {"name":"getPassword","parameterTypes":[] }, {"name":"getRevision","parameterTypes":[] }, {"name":"getSex","parameterTypes":[] }, {"name":"getUpdateBy","parameterTypes":[] }, {"name":"getUpdateTime","parameterTypes":[] }, {"name":"getUsername","parameterTypes":[] }, {"name":"setAccountStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setCreateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setIsDeleted","parameterTypes":["java.lang.Integer"] }, {"name":"setLastLoginIp","parameterTypes":["java.lang.String"] }, {"name":"setLastLoginTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setNickname","parameterTypes":["java.lang.String"] }, {"name":"setPassword","parameterTypes":["java.lang.String"] }, {"name":"setSex","parameterTypes":["java.lang.Integer"] }, {"name":"setUpdateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setUpdateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setUsername","parameterTypes":["java.lang.String"] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.po.SysUserRole"
-},
-{
-  "name":"net.cocotea.elysiananime.api.system.model.po.SysVersion"
+  "name":"net.cocotea.elysiananime.api.system.model.po.SysUserRole",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getUserId","parameterTypes":[] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setRoleId","parameterTypes":["java.math.BigInteger"] }, {"name":"setUserId","parameterTypes":["java.math.BigInteger"] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.system.model.vo.SysCaptchaVO"
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.vo.SysDictionaryVO"
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysDictionaryVO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getCreateBy","parameterTypes":[] }, {"name":"getCreateTime","parameterTypes":[] }, {"name":"getDictionaryName","parameterTypes":[] }, {"name":"getEnableStatus","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getParentId","parameterTypes":[] }, {"name":"getRemark","parameterTypes":[] }, {"name":"getSort","parameterTypes":[] }, {"name":"setCreateBy","parameterTypes":["java.lang.String"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setDictionaryName","parameterTypes":["java.lang.String"] }, {"name":"setEnableStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setParentId","parameterTypes":["java.math.BigInteger"] }, {"name":"setRemark","parameterTypes":["java.lang.String"] }, {"name":"setSort","parameterTypes":["java.lang.Integer"] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.system.model.vo.SysFileVO"
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.vo.SysLogVO"
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysLogVO",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setId","parameterTypes":["java.lang.String"] }, {"name":"setIpAddress","parameterTypes":["java.lang.String"] }, {"name":"setLogStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setLogType","parameterTypes":["java.lang.Integer"] }, {"name":"setNickname","parameterTypes":["java.lang.String"] }, {"name":"setRequestWay","parameterTypes":["java.lang.String"] }, {"name":"setUsername","parameterTypes":["java.lang.String"] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.vo.SysLoginUserVO"
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysLoginUserVO",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.vo.SysMenuTreeVO"
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysMenuTreeVO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setChildren","parameterTypes":["java.util.List"] }, {"name":"setIconPath","parameterTypes":["java.lang.String"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setIsExternalLink","parameterTypes":["java.lang.Integer"] }, {"name":"setMenuName","parameterTypes":["java.lang.String"] }, {"name":"setMenuStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setMenuType","parameterTypes":["java.lang.Integer"] }, {"name":"setParentId","parameterTypes":["java.math.BigInteger"] }, {"name":"setRouterPath","parameterTypes":["java.lang.String"] }, {"name":"setSort","parameterTypes":["java.lang.Integer"] }]
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.vo.SysMenuVO"
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysMenuVO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getChildren","parameterTypes":[] }, {"name":"getIconPath","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getIsExternalLink","parameterTypes":[] }, {"name":"getMenuName","parameterTypes":[] }, {"name":"getMenuStatus","parameterTypes":[] }, {"name":"getMenuType","parameterTypes":[] }, {"name":"getParentId","parameterTypes":[] }, {"name":"getRouterPath","parameterTypes":[] }, {"name":"getSort","parameterTypes":[] }, {"name":"setChildren","parameterTypes":["java.util.List"] }, {"name":"setComponentPath","parameterTypes":["java.lang.String"] }, {"name":"setCreateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setIconPath","parameterTypes":["java.lang.String"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setIsExternalLink","parameterTypes":["java.lang.Integer"] }, {"name":"setIsMenu","parameterTypes":["java.lang.Integer"] }, {"name":"setMenuName","parameterTypes":["java.lang.String"] }, {"name":"setMenuStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setMenuType","parameterTypes":["java.lang.Integer"] }, {"name":"setParentId","parameterTypes":["java.math.BigInteger"] }, {"name":"setPermissionCode","parameterTypes":["java.lang.String"] }, {"name":"setRouterPath","parameterTypes":["java.lang.String"] }, {"name":"setSort","parameterTypes":["java.lang.Integer"] }, {"name":"setUpdateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setUpdateTime","parameterTypes":["java.time.LocalDateTime"] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.system.model.vo.SysNotifyVO"
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.vo.SysOverviewVO"
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysOverviewVO",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.system.model.vo.SysRoleMenuVO"
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.vo.SysRoleVO"
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysRoleVO",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setCreateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setId","parameterTypes":["java.lang.String"] }, {"name":"setRoleKey","parameterTypes":["java.lang.String"] }, {"name":"setRoleName","parameterTypes":["java.lang.String"] }, {"name":"setSort","parameterTypes":["java.lang.Integer"] }, {"name":"setUpdateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setUpdateTime","parameterTypes":["java.time.LocalDateTime"] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.system.model.vo.SysThemeVO"
@@ -1192,7 +1589,12 @@
   "name":"net.cocotea.elysiananime.api.system.model.vo.SysUserRoleVO"
 },
 {
-  "name":"net.cocotea.elysiananime.api.system.model.vo.SysUserVO"
+  "name":"net.cocotea.elysiananime.api.system.model.vo.SysUserVO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setAccountStatus","parameterTypes":["java.lang.Integer"] }, {"name":"setAvatar","parameterTypes":["java.lang.String"] }, {"name":"setCreateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setCreateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setEmail","parameterTypes":["java.lang.String"] }, {"name":"setId","parameterTypes":["java.math.BigInteger"] }, {"name":"setLastLoginIp","parameterTypes":["java.lang.String"] }, {"name":"setLastLoginTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setMobilePhone","parameterTypes":["java.lang.String"] }, {"name":"setNickname","parameterTypes":["java.lang.String"] }, {"name":"setSex","parameterTypes":["java.lang.Integer"] }, {"name":"setUpdateBy","parameterTypes":["java.math.BigInteger"] }, {"name":"setUpdateTime","parameterTypes":["java.time.LocalDateTime"] }, {"name":"setUsername","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"net.cocotea.elysiananime.api.system.model.vo.SysVersionVO"
@@ -1205,9 +1607,6 @@
 },
 {
   "name":"net.cocotea.elysiananime.api.system.service.SysDictionaryService"
-},
-{
-  "name":"net.cocotea.elysiananime.api.system.service.SysFileService"
 },
 {
   "name":"net.cocotea.elysiananime.api.system.service.SysLogService"
@@ -1226,9 +1625,6 @@
 },
 {
   "name":"net.cocotea.elysiananime.api.system.service.SysUserService"
-},
-{
-  "name":"net.cocotea.elysiananime.api.system.service.SysVersionService"
 },
 {
   "name":"net.cocotea.elysiananime.api.system.service.impl.SysDashboardServiceImpl",
@@ -1251,21 +1647,6 @@
 },
 {
   "name":"net.cocotea.elysiananime.api.system.service.impl.SysDictionaryServiceImpl$$SolonAsmProxy",
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
-},
-{
-  "name":"net.cocotea.elysiananime.api.system.service.impl.SysFileServiceImpl",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllPublicMethods":true,
-  "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysFileAddDTO"] }, {"name":"delete","parameterTypes":["java.math.BigInteger"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"getFile","parameterTypes":["java.math.BigInteger"] }, {"name":"getUserFile","parameterTypes":["java.math.BigInteger"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysFilePageDTO"] }, {"name":"recoveryBatch","parameterTypes":["java.util.List"] }, {"name":"recycleBinDeleteBatch","parameterTypes":["java.util.List"] }, {"name":"recycleBinPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysFilePageDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysFileUpdateDTO"] }]
-},
-{
-  "name":"net.cocotea.elysiananime.api.system.service.impl.SysFileServiceImpl$$SolonAotProxy"
-},
-{
-  "name":"net.cocotea.elysiananime.api.system.service.impl.SysFileServiceImpl$$SolonAsmProxy",
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
 },
 {
@@ -1342,21 +1723,6 @@
 },
 {
   "name":"net.cocotea.elysiananime.api.system.service.impl.SysUserServiceImpl$$SolonAsmProxy",
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
-},
-{
-  "name":"net.cocotea.elysiananime.api.system.service.impl.SysVersionServiceImpl",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "queryAllPublicMethods":true,
-  "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"add","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysVersionAddDTO"] }, {"name":"delete","parameterTypes":["java.math.BigInteger"] }, {"name":"deleteBatch","parameterTypes":["java.util.List"] }, {"name":"listByPage","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysVersionPageDTO"] }, {"name":"update","parameterTypes":["net.cocotea.elysiananime.api.system.model.dto.SysVersionUpdateDTO"] }]
-},
-{
-  "name":"net.cocotea.elysiananime.api.system.service.impl.SysVersionServiceImpl$$SolonAotProxy"
-},
-{
-  "name":"net.cocotea.elysiananime.api.system.service.impl.SysVersionServiceImpl$$SolonAsmProxy",
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setInvocationHandler","parameterTypes":["java.lang.reflect.InvocationHandler"] }]
 },
 {
@@ -1437,13 +1803,23 @@
   "name":"net.cocotea.elysiananime.common.enums.SexEnum"
 },
 {
-  "name":"net.cocotea.elysiananime.common.model.ApiPage"
+  "name":"net.cocotea.elysiananime.common.model.ApiPage",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"net.cocotea.elysiananime.common.model.ApiPageDTO"
+  "name":"net.cocotea.elysiananime.common.model.ApiPageDTO",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"getPageNo","parameterTypes":[] }, {"name":"getPageSize","parameterTypes":[] }, {"name":"setPageNo","parameterTypes":["int"] }, {"name":"setPageSize","parameterTypes":["int"] }]
 },
 {
-  "name":"net.cocotea.elysiananime.common.model.ApiResult"
+  "name":"net.cocotea.elysiananime.common.model.ApiResult",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
   "name":"net.cocotea.elysiananime.common.model.BusinessException"
@@ -1529,6 +1905,14 @@
   "queryAllPublicMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getPermissionList","parameterTypes":["java.lang.Object","java.lang.String"] }, {"name":"getRoleList","parameterTypes":["java.lang.Object","java.lang.String"] }]
+},
+{
+  "name":"net.cocotea.elysiananime.init.InitializeSystemDirectories",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"init","parameterTypes":[] }]
 },
 {
   "name":"net.cocotea.elysiananime.jobs.OpusJobs",
@@ -1909,6 +2293,14 @@
   "methods":[{"name":"setCache","parameterTypes":["java.lang.String"] }]
 },
 {
+  "name":"org.smartboot.http.common.io.BodyInputStream",
+  "fields":[{"name":"state"}]
+},
+{
+  "name":"org.smartboot.socket.timer.HashedWheelTimer$HashedWheelTimerTask",
+  "fields":[{"name":"state"}]
+},
+{
   "name":"redis.clients.jedis.ConnectionPool",
   "queryAllPublicConstructors":true
 },
@@ -1949,6 +2341,14 @@
   "fields":[{"name":"theUnsafe"}]
 },
 {
+  "name":"sun.security.pkcs12.PKCS12KeyStore",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.pkcs12.PKCS12KeyStore$DualFormatPKCS12",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"sun.security.provider.DRBG",
   "methods":[{"name":"<init>","parameterTypes":["java.security.SecureRandomParameters"] }]
 },
@@ -1958,6 +2358,10 @@
 },
 {
   "name":"sun.security.provider.DSA$SHA256withDSA",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.MD5",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
@@ -2005,6 +2409,10 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"sun.security.ssl.SSLContextImpl$DefaultSSLContext",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"sun.security.ssl.SSLContextImpl$TLSContext",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
@@ -2013,7 +2421,47 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"sun.security.x509.AuthorityInfoAccessExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.AuthorityKeyIdentifierExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
   "name":"sun.security.x509.BasicConstraintsExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.CRLDistributionPointsExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.CertificatePoliciesExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.ExtendedKeyUsageExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.KeyUsageExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.NetscapeCertTypeExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.PrivateKeyUsageExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.SubjectAlternativeNameExtension",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+},
+{
+  "name":"sun.security.x509.SubjectKeyIdentifierExtension",
   "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
 }
 ]
