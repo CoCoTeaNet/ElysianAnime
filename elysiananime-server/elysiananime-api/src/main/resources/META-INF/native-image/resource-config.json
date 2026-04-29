@@ -9,14 +9,6 @@
   }, {
     "pattern":"\\QFiles/animation/\\E"
   }, {
-    "pattern":"\\QFiles/animation/和班上第二可爱的女孩成为朋友\\E"
-  }, {
-    "pattern":"\\QFiles/animation/女神“异世界转生想成为什么”我“勇者的肋骨”/01.mp4\\E"
-  }, {
-    "pattern":"\\QFiles/animation/女神“异世界转生想成为什么”我“勇者的肋骨”/02.mp4\\E"
-  }, {
-    "pattern":"\\QFiles/animation/女神“异世界转生想成为什么”我“勇者的肋骨”/03.mp4\\E"
-  }, {
     "pattern":"\\QFiles/animation/女神“异世界转生想成为什么”我“勇者的肋骨”\\E"
   }, {
     "pattern":"\\QFiles/avatar/\\E"
@@ -153,14 +145,6 @@
   }, {
     "pattern":"\\Qorg/noear/solon/core/Files/animation/\\E"
   }, {
-    "pattern":"\\Qorg/noear/solon/core/Files/animation/和班上第二可爱的女孩成为朋友\\E"
-  }, {
-    "pattern":"\\Qorg/noear/solon/core/Files/animation/女神“异世界转生想成为什么”我“勇者的肋骨”/01.mp4\\E"
-  }, {
-    "pattern":"\\Qorg/noear/solon/core/Files/animation/女神“异世界转生想成为什么”我“勇者的肋骨”/02.mp4\\E"
-  }, {
-    "pattern":"\\Qorg/noear/solon/core/Files/animation/女神“异世界转生想成为什么”我“勇者的肋骨”/03.mp4\\E"
-  }, {
     "pattern":"\\Qorg/noear/solon/core/Files/animation/女神“异世界转生想成为什么”我“勇者的肋骨”\\E"
   }, {
     "pattern":"\\Qorg/noear/solon/core/Files/avatar/\\E"
@@ -176,8 +160,6 @@
     "pattern":"\\Qorg/noear/solon/core/app.properties\\E"
   }, {
     "pattern":"\\Qorg/noear/solon/core/fastjson2.properties\\E"
-  }, {
-    "pattern":"\\Qorg/noear/solon/core/static/.well-known/appspecific/com.chrome.devtools.json\\E"
   }, {
     "pattern":"\\Qorg/sagacity/sqltoy/sqltoy-default.properties\\E"
   }, {
@@ -209,25 +191,15 @@
   }, {
     "pattern":"\\Qsqltoy\\E"
   }, {
-    "pattern":"\\Qstatic/.well-known/appspecific/com.chrome.devtools.json\\E"
-  }, {
     "pattern":"\\Qstatic/\\E"
   }, {
     "pattern":"\\Qstatic/assets/AdminLayout-DEXKcZe6.js\\E"
   }, {
-    "pattern":"\\Qstatic/assets/AdminLayout-WuTJydKK.css\\E"
-  }, {
     "pattern":"\\Qstatic/assets/AnimeHome-Bk7K4Oy6.js\\E"
-  }, {
-    "pattern":"\\Qstatic/assets/AnimeHome-BzZhO8rT.css\\E"
   }, {
     "pattern":"\\Qstatic/assets/AnimeOpusView-4PzTrtNg.js\\E"
   }, {
     "pattern":"\\Qstatic/assets/AnimeUserOpusView-DZScBnaR.js\\E"
-  }, {
-    "pattern":"\\Qstatic/assets/AnimeVideo-BnmpJcAg.js\\E"
-  }, {
-    "pattern":"\\Qstatic/assets/AnimeVideo-CvPl2Qo2.css\\E"
   }, {
     "pattern":"\\Qstatic/assets/ApiFeedback-zdx_bVqX.js\\E"
   }, {
@@ -237,27 +209,21 @@
   }, {
     "pattern":"\\Qstatic/assets/Home-Ba80Esn9.js\\E"
   }, {
+    "pattern":"\\Qstatic/assets/Login-BheKngvW.css\\E"
+  }, {
+    "pattern":"\\Qstatic/assets/Login-BmLdJHos.js\\E"
+  }, {
     "pattern":"\\Qstatic/assets/MenuView-lHgFY5Jw.js\\E"
   }, {
     "pattern":"\\Qstatic/assets/PermissionView-qXiyX1BR.js\\E"
   }, {
     "pattern":"\\Qstatic/assets/RoleView-DLwfxIlW.js\\E"
   }, {
-    "pattern":"\\Qstatic/assets/SysFileView-Cqd853nu.js\\E"
-  }, {
     "pattern":"\\Qstatic/assets/SysLogView-OElFpUtE.js\\E"
-  }, {
-    "pattern":"\\Qstatic/assets/SysRecycleView-ZbnIcxJh.js\\E"
-  }, {
-    "pattern":"\\Qstatic/assets/TableManage-Bh7Q1A3i.css\\E"
   }, {
     "pattern":"\\Qstatic/assets/TableManage-BrQwbq_z.js\\E"
   }, {
-    "pattern":"\\Qstatic/assets/UserCenterView-BAliZEed.css\\E"
-  }, {
     "pattern":"\\Qstatic/assets/UserCenterView-C4sGmr7i.js\\E"
-  }, {
-    "pattern":"\\Qstatic/assets/acg-user-opus-types-BI04kuP2.js\\E"
   }, {
     "pattern":"\\Qstatic/assets/ani-opus-api-BdFvZBDR.js\\E"
   }, {
@@ -267,15 +233,9 @@
   }, {
     "pattern":"\\Qstatic/assets/axios-util-uX2MbV_n.js\\E"
   }, {
-    "pattern":"\\Qstatic/assets/format-util-DSNSxQlO.js\\E"
-  }, {
     "pattern":"\\Qstatic/assets/index-BWcBCTCX.css\\E"
   }, {
     "pattern":"\\Qstatic/assets/index-h-mHcUVn.js\\E"
-  }, {
-    "pattern":"\\Qstatic/assets/list-util-C-BJBczv.js\\E"
-  }, {
-    "pattern":"\\Qstatic/assets/rules-util-eEoxDasv.js\\E"
   }, {
     "pattern":"\\Qstatic/assets/sys-login-api-DkdjviyQ.js\\E"
   }, {
@@ -285,19 +245,11 @@
   }, {
     "pattern":"\\Qstatic/assets/sys-user-api-BTpnMWWq.js\\E"
   }, {
-    "pattern":"\\Qstatic/assets/unit-util-DVnik-Ee.js\\E"
-  }, {
     "pattern":"\\Qstatic/favicon.ico\\E"
   }, {
     "pattern":"\\Qstatic/index.html\\E"
   }, {
-    "pattern":"\\Qstatic/readme.html\\E"
-  }, {
     "pattern":"\\Qtranslates\\E"
-  }, {
-    "pattern":"java.base:\\Qjdk/internal/icu/impl/data/icudt72b/uprops.icu\\E"
-  }, {
-    "pattern":"java.base:\\Qsun/net/idn/uidna.spp\\E"
   }, {
     "pattern":"java.base:\\Qsun/net/www/content-types.properties\\E"
   }, {
@@ -305,6 +257,6 @@
   }]},
   "bundles":[{
     "name":"com.mysql.cj.LocalizedErrorMessages",
-    "locales":["", "und"]
+    "locales":[""]
   }]
 }
