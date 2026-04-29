@@ -4,6 +4,11 @@
 ## release包下载
 [前往下载](https://github.com/CoCoTeaNet/ElysianAnime/releases)
 
+## docker部署
+
+```shell
+docker pull cocoteanet/elysiananime:latest
+```
 
 ## 前置条件
 
