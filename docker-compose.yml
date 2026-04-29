@@ -71,11 +71,11 @@ services:
       - ./docker/app/conf:/app/conf
       - ./docker/app/files:/app/files
       - ./docker/app/logs:/app/logs
-    depends_on:
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+#    depends_on:
+#      mysql:
+#        condition: service_healthy
+#      redis:
+#        condition: service_healthy
     networks:
       - elysiananime-network
     healthcheck:
