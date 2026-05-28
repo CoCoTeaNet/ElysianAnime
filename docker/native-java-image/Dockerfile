@@ -33,9 +33,9 @@ RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list.d/debia
 RUN set -eux; \
     arch=$(uname -m); \
     if [ "$arch" = "x86_64" ]; then \
-        GRAALVM_URL="http://192.168.0.234:3000/graalvm-jdk-21_linux-x64_bin.tar.gz"; \
+        GRAALVM_URL="https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-21.0.2/graalvm-community-jdk-21.0.2_linux-x64_bin.tar.gz"; \
     elif [ "$arch" = "aarch64" ]; then \
-        GRAALVM_URL="http://192.168.0.234:3000/graalvm-jdk-21_linux-aarch64_bin.tar.gz"; \
+        GRAALVM_URL="https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-21.0.2/graalvm-community-jdk-21.0.2_linux-aarch64_bin.tar.gz"; \
     else \
         echo "Unsupported architecture: $arch"; exit 1; \
     fi; \
@@ -67,7 +67,7 @@ RUN java -version && \
     native-image --version
 
 # 安装 Maven 3.9.14（最新稳定版本）
-RUN wget -q http://192.168.0.234:3000/apache-maven-3.9.14-bin.tar.gz && \
+RUN wget -q https://dlcdn.apache.org/maven/maven-3/3.9.14/binaries/apache-maven-3.9.14-bin.tar.gz && \
     tar -xzf apache-maven-3.9.14-bin.tar.gz -C /opt && \
     mv /opt/apache-maven-3.9.14 /opt/maven && \
     rm apache-maven-3.9.14-bin.tar.gz
