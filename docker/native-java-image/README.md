@@ -1,4 +1,4 @@
-# native-java-image 基础镜像
+# elysiananime-native-java-image 基础镜像
 
 ElysianAnime 项目的打包基础镜像，包含前后端构建所需的所有环境。
 
@@ -29,7 +29,7 @@ build-base-image.bat
 ### 方式三：直接使用 Docker 命令
 
 ```bash
-docker build -t native-java-image:latest .
+docker build -t elysiananime-native-java-image:latest .
 ```
 
 ## 在 IDEA 中运行
@@ -46,7 +46,7 @@ docker build -t native-java-image:latest .
 3. **构建镜像**
    - 右键点击 `Dockerfile` 文件
    - 选择 "Build Image..."
-   - 输入镜像标签：`native-java-image:latest`
+   - 输入镜像标签：`elysiananime-native-java-image:latest`
    - 点击 Build
 
 ### 方法 2：使用 Terminal
@@ -57,7 +57,7 @@ docker build -t native-java-image:latest .
 2. **执行构建命令**
    ```bash
    cd docker\native-java-image
-   docker build -t native-java-image:latest .
+   docker build -t elysiananime-native-java-image:latest .
    ```
 
 ### 方法 3：配置 Run/Debug Configuration
@@ -68,8 +68,8 @@ docker build -t native-java-image:latest .
    - 选择 "Docker" → "Docker Image"
 
 2. **配置参数**
-   - Name: `Build native-java-image`
-   - Image tag: `native-java-image:latest`
+   - Name: `Build elysiananime-native-java-image`
+   - Image tag: `elysiananime-native-java-image:latest`
    - Dockerfile: `docker\native-java-image\Dockerfile`
 
 3. **运行配置**
@@ -79,16 +79,16 @@ docker build -t native-java-image:latest .
 
 ```bash
 # 查看镜像
-docker images | findstr native-java-image
+docker images | findstr elysiananime-native-java-image
 
 # 测试 Java
-docker run --rm native-java-image:latest java -version
+docker run --rm elysiananime-native-java-image:latest java -version
 
 # 测试 Maven
-docker run --rm native-java-image:latest mvn -version
+docker run --rm elysiananime-native-java-image:latest mvn -version
 
 # 测试 Node.js
-docker run --rm native-java-image:latest node -v
+docker run --rm elysiananime-native-java-image:latest node -v
 ```
 
 ## 常见问题
@@ -106,7 +106,7 @@ docker run --rm native-java-image:latest node -v
 确保在正确的目录执行命令：
 ```bash
 cd D:\CodeLife\ElysianAnime\docker\native-java-image
-docker build -t native-java-image:latest .
+docker build -t elysiananime-native-java-image:latest .
 ```
 
 注意最后的 `.` 表示当前目录！
@@ -129,10 +129,10 @@ docker build -t native-java-image:latest .
 构建完成后，在主 Dockerfile 中使用：
 
 ```dockerfile
-FROM native-java-image:latest AS frontend-builder
+FROM elysiananime-native-java-image:latest AS frontend-builder
 # ... 前端构建步骤
 
-FROM native-java-image:latest AS builder
+FROM elysiananime-native-java-image:latest AS builder
 # ... 后端构建步骤
 ```
 
@@ -140,7 +140,7 @@ FROM native-java-image:latest AS builder
 
 ```bash
 # 删除镜像
-docker rmi native-java-image:latest
+docker rmi elysiananime-native-java-image:latest
 
 # 删除所有悬空镜像
 docker image prune -f

@@ -1,6 +1,7 @@
 # 多阶段构建 - 前端编译阶段
 # 使用 native-java-image 基础镜像（已包含 Node.js、Maven、GraalVM）
-FROM native-java-image:latest AS frontend-builder
+# 注意：此镜像需要先在 docker/native-java-image 目录中构建
+FROM elysiananime-native-java-image:latest AS frontend-builder
 
 # 设置工作目录
 WORKDIR /frontend
@@ -25,7 +26,8 @@ RUN echo "=== [FRONTEND] Building frontend application ===" && \
 
 # 多阶段构建 - 后端编译阶段
 # 使用 native-java-image 基础镜像进行原生镜像构建
-FROM native-java-image:latest AS builder
+# 注意：此镜像需要先在 docker/native-java-image 目录中构建
+FROM elysiananime-native-java-image:latest AS builder
 
 # 设置工作目录
 WORKDIR /build

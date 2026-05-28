@@ -40,6 +40,13 @@ jobs:
       - name: Docker version
         run: docker version
 
+      # 🔨 Build native-java-image base image first
+      - name: Build native-java-image base image
+        run: |
+          cd docker/native-java-image
+          docker build -t elysiananime-native-java-image:latest .
+          cd ../..
+
       # 🔧 一键构建：前端 + 后端 + ZIP + Docker 镜像导出（不 push）
       - name: Build artifacts (zip + docker image tar.gz)
         run: |

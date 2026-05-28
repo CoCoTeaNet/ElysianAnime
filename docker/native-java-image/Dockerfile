@@ -1,5 +1,5 @@
-# 构建 native-java-image 基础镜像
-# 用法：docker build -t native-java-image:latest .
+# 构建 elysiananime-native-java-image 基础镜像
+# 用法：docker build -t elysiananime-native-java-image:latest .
 
 FROM docker.m.daocloud.io/library/node:20-bookworm AS base
 
