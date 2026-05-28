@@ -21,7 +21,14 @@ jobs:
         with:
           node-version: '22'
           cache: 'pnpm'
-          cache-dependency-path: elysiananime-ui/pnpm-lock.lock
+          cache-dependency-path: elysiananime-ui/pnpm-lock.yaml
+
+      # 🔧 Install pnpm
+      - name: Install pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+          pnpm --version
 
       # ☕ Java（用于构建后端）
       - name: Setup Java

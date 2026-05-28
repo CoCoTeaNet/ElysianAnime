@@ -31,6 +31,13 @@ pushd elysiananime-ui >/dev/null
 # Node 16+ 通常自带 corepack；
 if command -v corepack >/dev/null 2>&1; then
   corepack enable || true
+  corepack prepare pnpm@latest --activate || true
+fi
+
+# 如果 pnpm 还不可用，尝试全局安装
+if ! command -v pnpm >/dev/null 2>&1; then
+  echo "[release] pnpm not found, installing globally..."
+  npm install -g pnpm
 fi
 
 pnpm install --frozen-lockfile
