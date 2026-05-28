@@ -40,7 +40,7 @@ if ! command -v pnpm >/dev/null 2>&1; then
   npm install -g pnpm
 fi
 
-pnpm install --frozen-lockfile
+pnpm install
 VITE_API_URL="/api" pnpm run build
 popd >/dev/null
 
