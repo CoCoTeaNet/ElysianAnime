@@ -67,7 +67,7 @@ RUN java -version && \
     native-image --version
 
 # 安装 Maven 3.9.14（最新稳定版本）
-RUN wget -q https://dlcdn.apache.org/maven/maven-3/3.9.14/binaries/apache-maven-3.9.14-bin.tar.gz && \
+RUN wget -q https://archive.apache.org/dist/maven/maven-3/3.9.14/binaries/apache-maven-3.9.14-bin.tar.gz && \
     tar -xzf apache-maven-3.9.14-bin.tar.gz -C /opt && \
     mv /opt/apache-maven-3.9.14 /opt/maven && \
     rm apache-maven-3.9.14-bin.tar.gz
