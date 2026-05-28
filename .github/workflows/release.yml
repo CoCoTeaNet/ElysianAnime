@@ -20,8 +20,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'yarn'
-          cache-dependency-path: elysiananime-ui/yarn.lock
+          cache: 'pnpm'
+          cache-dependency-path: elysiananime-ui/pnpm-lock.lock
 
       # ☕ Java（用于构建后端）
       - name: Setup Java
