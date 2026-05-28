@@ -3,7 +3,7 @@ set -euo pipefail
 
 # 用途：
 # - 给 GitHub Actions 调用：在「push tag」时构建前端、后端、ZIP 包，并构建 Docker 镜像（不 push），导出为可下载的 tar.gz
-# - 也可本地手动执行（需本机已安装：git、node/yarn、maven、docker）
+# - 也可本地手动执行（需本机已安装：git、node、maven、docker）
 #
 # 运行位置：仓库根目录
 
@@ -28,13 +28,13 @@ echo "[release] VERSION=${VERSION}"
 echo "[release] Build frontend..."
 pushd elysiananime-ui >/dev/null
 
-# Node 16+ 通常自带 corepack；在 CI 里建议先 enable，避免 yarn 不存在
+# Node 16+ 通常自带 corepack；
 if command -v corepack >/dev/null 2>&1; then
   corepack enable || true
 fi
 
-yarn install --frozen-lockfile
-VITE_API_URL="/api" yarn build
+pnpm install --frozen-lockfile
+VITE_API_URL="/api" pnpm run build
 popd >/dev/null
 
 ############################
