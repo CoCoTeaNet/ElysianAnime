@@ -67,8 +67,7 @@ RUN java -version && \
     native-image --version
 
 # 安装 Maven 3.9.14（最新稳定版本）
-# 使用阿里云镜像源以提高在国内和CI环境中的下载成功率
-RUN wget -q https://mirrors.aliyun.com/apache/maven/maven-3/3.9.14/binaries/apache-maven-3.9.14-bin.tar.gz && \
+RUN wget -q https://dlcdn.apache.org/maven/maven-3/3.9.14/binaries/apache-maven-3.9.14-bin.tar.gz && \
     tar -xzf apache-maven-3.9.14-bin.tar.gz -C /opt && \
     mv /opt/apache-maven-3.9.14 /opt/maven && \
     rm apache-maven-3.9.14-bin.tar.gz
