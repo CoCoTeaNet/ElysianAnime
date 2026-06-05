@@ -1,5 +1,6 @@
 package net.cocotea.elysiananime.test;
 
+import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
@@ -35,6 +36,12 @@ public class BangumiClientTest {
     public void subjectsTest() {
         JSONObject subjects = bangumiClient.subjects("504054");
         log.info(JSON.toJSONString(subjects));
+    }
+
+    @Test
+    public void downloadTest() {
+        String cover = "";
+        bangumiClient.downloadFile(cover, FileUtil.file(""));
     }
 
     @Test

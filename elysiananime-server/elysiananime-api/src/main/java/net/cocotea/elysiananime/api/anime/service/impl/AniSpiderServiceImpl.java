@@ -191,7 +191,13 @@ public class AniSpiderServiceImpl implements AniSpiderService {
         // 封面保存目录
         File file = FileUtil.file(fileProp.getAnimationCoverSavePath());
         if (file.exists()) {
-            ThreadUtil.execAsync(() -> HttpUtil.downloadFile(coverUrl, file));
+            ThreadUtil.execAsync(() -> {
+                boolean exist = FileUtil.exist(file.getPath() + File.separator + fileName);
+                if (exist) {
+                    return;
+                }
+                bangumiClient.downloadFile(coverUrl, file);
+            });
         } else {
             logger.warn("fetchOpusFromBangumi >>>>> coverUrl={}, fileDir={}", coverUrl, file.getPath());
         }

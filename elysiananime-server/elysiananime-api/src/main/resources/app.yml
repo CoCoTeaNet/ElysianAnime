@@ -46,6 +46,11 @@ elysiananime:
   seed-flag: true
   # true表示 启用邮件通知
   mail-notify-flag: false
+  # 代理信息
+  proxy:
+    enable: true
+    host: 127.0.0.1
+    port: 10808
   # 文件存放配置
   file:
     # 背景存放的地址
