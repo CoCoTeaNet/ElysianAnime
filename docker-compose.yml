@@ -60,22 +60,16 @@ services:
       args:
         - BUILDKIT_INLINE_CACHE=1
     container_name: elysiananime-app
-    image: cocotea/elysiananime:latest
+    image: cocoteanet/elysiananime:latest
     restart: always
     environment:
       TZ: Asia/Shanghai
-      JAVA_OPTS: "-Xms512m -Xmx1024m -XX:+UseG1GC -XX:MaxGCPauseMillis=200"
     ports:
       - "8088:8088"
     volumes:
       - ./docker/app/conf:/app/conf
-      - ./docker/app/files:/app/files
+      - ./docker/oss/elysiananime:/app/files
       - ./docker/app/logs:/app/logs
-#    depends_on:
-#      mysql:
-#        condition: service_healthy
-#      redis:
-#        condition: service_healthy
     networks:
       - elysiananime-network
     healthcheck:
@@ -96,7 +90,8 @@ services:
       - TORRENTING_PORT=6881
     volumes:
       - ./docker/qbittorrent/config:/config
-      - ./docker/qbittorrent/downloads:/downloads #optional
+      - ./docker/qbittorrent/downloads:/downloads 
+      - ./docker/oss/elysiananime/animation:/app/files/animation/
     ports:
       - 9001:8080
     restart: unless-stopped
