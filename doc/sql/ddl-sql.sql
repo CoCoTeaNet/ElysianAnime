@@ -243,3 +243,19 @@ CREATE TABLE `sys_user_role` (
                                  `role_id` bigint NOT NULL COMMENT '角色id',
                                  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='用户角色关联表';
+
+create table if not exists ani_user_feed
+(
+    id            bigint            not null comment '投喂 id'
+    primary key,
+    from_user_id  bigint            not null comment '投喂人 id',
+    to_user_id    bigint            not null comment '被投喂人 id',
+    opus_id       bigint            not null comment '作品 id',
+    create_time   datetime          not null comment '投喂时间',
+    is_deleted    tinyint default 0 not null comment '是否删除'
+)
+    comment '用户投喂关联表' collate = utf8_unicode_ci
+    row_format = DYNAMIC;
+
+create index ani_user_feed_idx_1
+    on ani_user_feed (to_user_id, is_deleted);

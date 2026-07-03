@@ -33,6 +33,9 @@
                                @click="onFollowOpus(anime.id)">
                       {{ anime.userId ? '已追番' : '追番' }}
                     </el-button>
+                    <el-button size="small" type="warning" plain @click.stop="onFeed(anime)" style="margin-top: 4px">
+                      投喂
+                    </el-button>
                   </div>
                 </div>
                 <div class="tags" style="flex-grow: 1; display: flex;  justify-content: end;"></div>
@@ -80,6 +83,9 @@
         <el-row type="flex" justify="start" style="margin: 1em 0 0 0">
           <el-button link type="primary" @click="addAcgOpusDialog = true">没找到番剧？点我提交</el-button>
         </el-row>
+        <el-row type="flex" justify="start" style="margin: 0.5em 0 0 0">
+          <el-button link type="warning" @click="router.push({name: 'AnimeFeedList'})">查看番剧投喂记录</el-button>
+        </el-row>
         <el-dialog v-model="addAcgOpusDialog">
           <el-form>
             <el-form-item label="Bangumi详细链接：">
@@ -93,6 +99,41 @@
               <el-button :loading="addAcgOpusLoading" type="warning" @click="onAddAcgOpus(1)">重 刷</el-button>
               <el-button :loading="addAcgOpusLoading" type="primary" @click="onAddAcgOpus(0)">新 增</el-button>
             </span>
+          </template>
+        </el-dialog>
+
+        <!-- 投喂用户选择弹窗 -->
+        <el-dialog v-model="feedDialogVisible" title="投喂番剧" width="500px">
+          <p style="margin-bottom: 12px; font-weight: 600">选择要投喂的用户：</p>
+          <el-input
+            v-model="feedSearchKeyword"
+            placeholder="搜索用户昵称或用户名"
+            clearable
+            @input="onFeedSearchInput"
+            style="margin-bottom: 12px"
+          />
+          <div v-loading="userSearchLoading" class="feed-user-list">
+            <div
+              v-for="user in userSearchOptions"
+              :key="user.id"
+              class="feed-user-item"
+              :class="{ selected: feedSelectedUserId === user.id }"
+              @click="feedSelectedUserId = user.id"
+            >
+              <el-avatar :size="36">{{ user.nickname?.charAt(0) || '?' }}</el-avatar>
+              <div class="feed-user-info">
+                <span class="feed-user-nickname">{{ user.nickname }}</span>
+                <span class="feed-user-username">@{{ user.username }}</span>
+              </div>
+              <el-icon v-if="feedSelectedUserId === user.id" class="feed-check-icon" color="#E6A23C">
+                <Check />
+              </el-icon>
+            </div>
+            <el-empty v-if="!userSearchLoading && userSearchOptions.length === 0" description="暂无用户" />
+          </div>
+          <template #footer>
+            <el-button @click="feedDialogVisible = false">取 消</el-button>
+            <el-button type="warning" :loading="feedLoading" :disabled="!feedSelectedUserId" @click="onConfirmFeed">确 定 投 喂</el-button>
           </template>
         </el-dialog>
       </el-col>
@@ -114,13 +155,16 @@
 import {nextTick, onMounted, ref, watch} from "vue";
 import {addOpusFromBangumi, listByUser} from "@/api/anime/ani-opus-api";
 import userOpusApi from "@/api/anime/ani-user-opus-api";
-import {reqCommonFeedback} from "@/api/ApiFeedback";
+import {feed} from "@/api/anime/ani-feed-api";
+import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import {useRoute, useRouter} from "vue-router";
 import {ElMessage} from 'element-plus'
 import MultSelection from "@/views/home/modules/MultipleConditionsSearch.vue";
 import CardBox from "@/components/container/CardBox.vue";
 import formatUtil from "@/utils/format-util.ts";
-import { Search } from "@element-plus/icons-vue";
+import { Search, Check } from "@element-plus/icons-vue";
+import {listActiveUsers, searchUsers} from "@/api/system/sys-user-api";
+import {ApiResultEnum} from '@/api/ApiResultEnum';
 
 const route = useRoute();
 const router = useRouter();
@@ -142,6 +186,14 @@ const loading = ref<boolean>(true);
 const addAcgOpusDialog = ref<boolean>(false);
 const addAcgOpusLoading = ref<boolean>(false);
 const bgmUrl = ref<string>('');
+
+const feedDialogVisible = ref<boolean>(false);
+const feedLoading = ref<boolean>(false);
+const feedSelectedUserId = ref<string>('');
+const feedTargetAnime = ref<any>(null);
+const userSearchLoading = ref<boolean>(false);
+const userSearchOptions = ref<any[]>([]);
+const feedSearchKeyword = ref<string>('');
 
 onMounted(() => {
   if (route.query.searchKey) {
@@ -268,6 +320,58 @@ const closeAddAcgOpusDialog = () => {
   addAcgOpusLoading.value = false;
 }
 
+const onFeed = (anime: any) => {
+  feedTargetAnime.value = anime;
+  feedSelectedUserId.value = '';
+  feedSearchKeyword.value = '';
+  feedDialogVisible.value = true;
+  loadActiveUsers();
+};
+
+const loadActiveUsers = () => {
+  userSearchLoading.value = true;
+  listActiveUsers().then((res: any) => {
+    userSearchOptions.value = res.data || [];
+    userSearchLoading.value = false;
+  }).catch(() => {
+    userSearchLoading.value = false;
+  });
+};
+
+const onFeedSearchInput = (keyword: string) => {
+  if (!keyword) {
+    loadActiveUsers();
+    return;
+  }
+  userSearchLoading.value = true;
+  searchUsers(keyword).then((res: any) => {
+    userSearchOptions.value = res.data || [];
+    userSearchLoading.value = false;
+  }).catch(() => {
+    userSearchLoading.value = false;
+  });
+};
+
+const onConfirmFeed = () => {
+  if (!feedSelectedUserId.value) {
+    ElMessage.warning('请选择要投喂的用户');
+    return;
+  }
+  feedLoading.value = true;
+  feed({
+    opusId: feedTargetAnime.value.id,
+    toUserId: feedSelectedUserId.value,
+  }).then(data => {
+    console.log(data);
+    if (data.code === ApiResultEnum.SUCCESS) {
+      feedDialogVisible.value = false;
+      ElMessage.success(data.message);
+    }
+  }).finally(() => {
+    feedLoading.value = false;
+  })
+};
+
 const onMultipleConditionsChange = (searchObj: any) => {
   if (searchObj.readStatus) {
     pageParam.value.status = searchObj.readStatus;
@@ -316,3 +420,52 @@ const getCurrentReading = (anime: any) => {
 </script>
 
 <style src="./AdminHome.css"></style>
+
+<style scoped>
+.feed-user-list {
+  max-height: 320px;
+  overflow-y: auto;
+  border: 1px solid var(--el-border-color-light);
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.feed-user-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.feed-user-item:hover {
+  background-color: var(--el-fill-color-light);
+}
+
+.feed-user-item.selected {
+  background-color: var(--el-color-warning-light-9);
+  border: 1px solid var(--el-color-warning-light-5);
+}
+
+.feed-user-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.feed-user-nickname {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.feed-user-username {
+  font-size: 12px;
+  color: #999;
+}
+
+.feed-check-icon {
+  font-size: 20px;
+}
+</style>

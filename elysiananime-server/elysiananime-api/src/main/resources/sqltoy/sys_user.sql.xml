@@ -21,6 +21,33 @@
         </value>
     </sql>
 
+    <sql id="sys_user_listActive">
+        <value>
+            <![CDATA[
+            select id, username, nickname
+            from sys_user
+            where is_deleted = 0
+              and account_status = 1
+            order by id asc
+            limit 50
+            ]]>
+        </value>
+    </sql>
+
+    <sql id="sys_user_search">
+        <value>
+            <![CDATA[
+            select id, username, nickname
+            from sys_user
+            where is_deleted = 0
+              and account_status = 1
+            #[and (username like :keyword or nickname like :keyword)]
+            order by id asc
+            limit 20
+            ]]>
+        </value>
+    </sql>
+
     <sql id="sys_user_getOne">
         <value>
             <![CDATA[

@@ -9,6 +9,7 @@ import net.cocotea.elysiananime.common.constant.RedisKeyConst;
 import net.cocotea.elysiananime.common.enums.LogTypeEnum;
 import net.cocotea.elysiananime.common.model.ApiResult;
 import net.cocotea.elysiananime.common.model.BusinessException;
+import net.cocotea.elysiananime.common.model.NotLogException;
 import net.cocotea.elysiananime.common.service.RedisService;
 import org.noear.solon.annotation.*;
 import org.noear.solon.core.handle.Context;

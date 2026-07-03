@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 系统用户管理接口
@@ -166,6 +167,29 @@ public class SysUserController {
         FileUploadUtils.validAvatar(file);
         userService.doModifyAvatar(saveName);
         return ApiResult.ok(true);
+    }
+
+    /**
+     * 搜索用户（用于投喂等场景，不需要管理员角色）
+     *
+     * @param keyword 搜索关键词
+     * @return 用户列表（仅包含 id, nickname, username）
+     */
+    @Get @Mapping("/search")
+    public ApiResult<List<SysUserVO>> search(@Param("keyword") String keyword) {
+        List<SysUserVO> list = userService.searchByKeyword(keyword);
+        return ApiResult.ok(list);
+    }
+
+    /**
+     * 获取所有活跃用户（用于投喂等场景）
+     *
+     * @return 用户列表（仅包含 id, nickname, username）
+     */
+    @Get @Mapping("/listActive")
+    public ApiResult<List<SysUserVO>> listActive() {
+        List<SysUserVO> list = userService.listActiveUsers();
+        return ApiResult.ok(list);
     }
 
 }
