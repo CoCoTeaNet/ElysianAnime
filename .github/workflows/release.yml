@@ -28,14 +28,12 @@ jobs:
           version: 9
           run_install: false
 
-      - name: Setup Node.js
       - name: Setup Node.js with pnpm caching
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'pnpm'
           cache-dependency-path: elysiananime-ui/pnpm-lock.yaml
-          cache-dependency-path: 'elysiananime-ui/pnpm-lock.yaml'
 
       - name: Install and Build Frontend
         run: |
