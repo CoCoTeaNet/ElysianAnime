@@ -95,7 +95,7 @@ onMounted(() => {
   reqCommonFeedback(loginInfo(), (data:any) => setUserInfo(data));
 
   if (store.state.userInfo.avatar) {
-    avatar.value = `api/system/file/getAvatar?avatar=${store.state.userInfo.avatar}`;
+    avatar.value = `api/system/user/getAvatar?avatar=${store.state.userInfo.avatar}`;
   }
 
   getNotifyList();

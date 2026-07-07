@@ -19,6 +19,7 @@ import net.cocotea.elysiananime.common.model.BusinessException;
 import net.cocotea.elysiananime.common.util.FileUploadUtils;
 import net.cocotea.elysiananime.properties.FileProp;
 import org.noear.solon.annotation.*;
+import org.noear.solon.core.handle.Context;
 import org.noear.solon.core.handle.UploadedFile;
 import org.noear.solon.validation.annotation.Validated;
 
@@ -158,7 +159,7 @@ public class SysUserController {
         FileUploadUtils.filter(uploadedFile.getName(), fileProp.getSupportFiletype());
         String saveName = IdUtil.objectId() + CharPool.UNDERLINE + uploadedFile.getName();
         String fullPath = fileProp.getAvatarPath() + saveName;
-        File file = new File(fullPath);
+        File file = FileUtil.file(fullPath);
         if (!file.exists()) {
             FileUtil.mkdir(fileProp.getAvatarPath());
         }
@@ -166,6 +167,17 @@ public class SysUserController {
         FileUploadUtils.validAvatar(file);
         userService.doModifyAvatar(saveName);
         return ApiResult.ok(true);
+    }
+
+    /**
+     * 系统用户头像文件获取
+     *
+     * @param avatar 头像文件名称
+     */
+    @Get
+    @Mapping("/getAvatar")
+    public void getAvatar(@Param("avatar") String avatar, Context context) throws BusinessException, IOException {
+        userService.getAvatar(avatar, context.outputStream());
     }
 
 }

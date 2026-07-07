@@ -9,6 +9,7 @@ import net.cocotea.elysiananime.common.model.BusinessException;
 import net.cocotea.elysiananime.common.service.DetailService;
 import org.noear.solon.core.handle.Context;
 
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
@@ -88,4 +89,9 @@ public interface SysUserService extends DetailService<ApiPage<SysUserVO>, SysUse
      * @return 用户
      */
     SysUser getOneOfCache(String username) throws BusinessException;
+
+    /**
+     * 获取用户头像
+     */
+    void getAvatar(String avatar, OutputStream outputStream) throws BusinessException;
 }
