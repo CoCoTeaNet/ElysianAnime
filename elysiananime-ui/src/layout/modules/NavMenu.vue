@@ -9,18 +9,21 @@
 <script setup lang="ts">
 import { useStore, updateCollapseMenu } from "@/store";
 import { useRoute } from "vue-router";
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import ChildMenu from "@/layout/modules/ChildMenu.vue";
 import { useWindowSize } from "@vueuse/core";
 
 const store = useStore();
 const route = useRoute();
 
+onMounted(() => {
+  initMenu();
+});
+
 /**
  * 根据路由路径动态设置当前菜单的状态
  */
 let menuState = computed(() => {
-  initMenu();
   const path = route.path;
   const routes = store.state.userInfo.menuList;
   let state = { defaultOpened: [""], defaultActive: "" };
