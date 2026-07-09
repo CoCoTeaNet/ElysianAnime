@@ -106,7 +106,7 @@
       <el-form ref="ucvFormRef" label-width="120px" label-position="right" :rules="rules" :model="editForm">
         <el-form-item prop="avatar" label="修改头像" :auto-upload="false" list-type="picture-card">
           <el-upload ref="upload"
-                     action="/api/system/file/avatar/upload"
+                     action="/api/system/user/avatar/upload"
                      list-type="picture-card"
                      drag
                      :auto-upload="false"

@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.stp.parameter.SaLoginParameter;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
@@ -27,6 +28,7 @@ import net.cocotea.elysiananime.common.model.BusinessException;
 import net.cocotea.elysiananime.common.service.RedisService;
 import net.cocotea.elysiananime.common.util.TreeBuilder;
 import net.cocotea.elysiananime.properties.DefaultProp;
+import net.cocotea.elysiananime.properties.FileProp;
 import net.cocotea.elysiananime.util.LoginUtils;
 import net.cocotea.elysiananime.util.SecurityUtils;
 import org.noear.solon.annotation.Inject;
@@ -40,6 +42,8 @@ import org.sagacity.sqltoy.solon.annotation.Db;
 import org.sagacity.sqltoy.utils.StringUtil;
 import org.noear.solon.annotation.Component;
 
+import java.io.File;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -56,6 +60,9 @@ import java.util.stream.Collectors;
 public class SysUserServiceImpl implements SysUserService {
     @Inject
     private DefaultProp defaultProp;
+
+    @Inject
+    private FileProp fileProp;
 
     @Inject
     private SysMenuService sysMenuService;
@@ -264,5 +271,16 @@ public class SysUserServiceImpl implements SysUserService {
             user = JSON.parseObject(existUser, SysUser.class);
         }
         return user;
+    }
+
+    @Override
+    public void getAvatar(String avatar, OutputStream outputStream) throws BusinessException {
+        String fullPath = fileProp.getAvatarPath() + avatar;
+        File file = FileUtil.file(fullPath);
+        if (file.exists()) {
+            FileUtil.writeToStream(file, outputStream);
+        } else {
+            throw new BusinessException("File is not found");
+        }
     }
 }
