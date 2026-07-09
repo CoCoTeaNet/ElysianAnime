@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <sql id="ani_user_feed_listByUser">
+        <value>
+            <![CDATA[
+            select aof.id,
+                   ao.id as opus_id,
+                   ao.name_cn,
+                   ao.name_original,
+                   ao.cover_url,
+                   aof.from_user_id,
+                   su.nickname as from_user_nickname,
+                   aof.create_time
+            from ani_user_feed aof
+                     left join ani_opus ao on aof.opus_id = ao.id
+                     left join sys_user su on aof.from_user_id = su.id
+            where aof.to_user_id = :toUserId
+              and aof.is_deleted = 0
+              and ao.is_deleted = 0
+              #[and ao.name_cn like :nameCn]
+              #[and ao.name_original like :nameOriginal]
+            order by aof.id desc
+            ]]>
+        </value>
+    </sql>
+
+    <sql id="ani_user_feed_listSent">
+        <value>
+            <![CDATA[
+            select aof.id,
+                   ao.id as opus_id,
+                   ao.name_cn,
+                   ao.name_original,
+                   ao.cover_url,
+                   aof.to_user_id as from_user_id,
+                   su.nickname as from_user_nickname,
+                   aof.create_time
+            from ani_user_feed aof
+                     left join ani_opus ao on aof.opus_id = ao.id
+                     left join sys_user su on aof.to_user_id = su.id
+            where aof.from_user_id = :fromUserId
+              and aof.is_deleted = 0
+              and ao.is_deleted = 0
+              #[and ao.name_cn like :nameCn]
+              #[and ao.name_original like :nameOriginal]
+            order by aof.id desc
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>

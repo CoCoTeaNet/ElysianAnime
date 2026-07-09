@@ -15,6 +15,7 @@ const AnimeUserOpusView = () => import("@/views/system/manager/anime/AnimeUserOp
 const AnimeHome = () => import("@/views/home/AnimeHome.vue");
 const AnimeVideo = () => import("@/views/home/AnimeVideo.vue");
 const AnimeShare = () => import("@/views/home/AnimeShare.vue");
+const AnimeFeedList = () => import("@/views/home/AnimeFeedList.vue");
 
 
 export const routes = [
@@ -49,6 +50,7 @@ export const routes = [
             {path: 'ani-home', meta: {title: '追番首页'}, name: 'AnimeHome', component: AnimeHome},
             {path: 'ani-video/:id/:num/:time', meta: {title: '番剧资源'}, name: 'AnimeVideo', component: AnimeVideo},
             {path: 'ani-shares', meta: {title: '番剧推荐'}, name: 'AnimeShare', component: AnimeShare},
+            {path: 'ani-feed-list', meta: {title: '番剧投喂'}, name: 'AnimeFeedList', component: AnimeFeedList},
         ]
     },
     {

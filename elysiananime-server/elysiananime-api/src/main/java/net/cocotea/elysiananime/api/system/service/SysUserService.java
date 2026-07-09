@@ -40,7 +40,7 @@ public interface SysUserService extends DetailService<ApiPage<SysUserVO>, SysUse
      *
      * @return {@link SysLoginUserVO}
      */
-    SysLoginUserVO loginUser();
+    SysLoginUserVO loginUser() ;
 
     /**
      * 登录用户修改个人信息
@@ -94,4 +94,19 @@ public interface SysUserService extends DetailService<ApiPage<SysUserVO>, SysUse
      * 获取用户头像
      */
     void getAvatar(String avatar, OutputStream outputStream) throws BusinessException;
+
+    /**
+     * 根据关键词搜索用户
+     *
+     * @param keyword 关键词
+     * @return 用户列表
+     */
+    List<SysUserVO> searchByKeyword(String keyword);
+
+    /**
+     * 获取所有活跃用户列表
+     *
+     * @return 用户列表
+     */
+    List<SysUserVO> listActiveUsers();
 }

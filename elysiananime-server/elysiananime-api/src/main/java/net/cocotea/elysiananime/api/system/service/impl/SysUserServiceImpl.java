@@ -46,9 +46,7 @@ import java.io.File;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -194,6 +192,10 @@ public class SysUserServiceImpl implements SysUserService {
     public SysLoginUserVO loginUser() {
         BigInteger loginId = LoginUtils.loginIdEx();
         SysUser sysUser = sqlToyLazyDao.loadBySql("sys_user_getOne", new SysUser().setId(loginId));
+        if (sysUser == null) {
+            StpUtil.logout(loginId);
+            return null;
+        }
         SysLoginUserVO sysLoginUser = new SysLoginUserVO();
         // 用户菜单
         List<SysMenuVO> menuList = sysMenuService.listByUserId(IsEnum.Y.getCode());
@@ -282,5 +284,20 @@ public class SysUserServiceImpl implements SysUserService {
         } else {
             throw new BusinessException("File is not found");
         }
+    }
+
+    @Override
+    public List<SysUserVO> searchByKeyword(String keyword) {
+        Map<String, Object> params = new HashMap<>(2);
+        if (StrUtil.isNotBlank(keyword)) {
+            params.put("keyword", "%" + keyword + "%");
+        }
+        return lightDao.find("sys_user_search", params, SysUserVO.class);
+    }
+
+    @Override
+    public List<SysUserVO> listActiveUsers() {
+        Map<String, Object> params = new HashMap<>(1);
+        return lightDao.find("sys_user_listActive", params, SysUserVO.class);
     }
 }

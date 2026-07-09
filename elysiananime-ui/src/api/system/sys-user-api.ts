@@ -1,4 +1,4 @@
-import {request, post} from '@/utils/axios-util';
+import {request, post, get} from '@/utils/axios-util';
 
 const sysUserApi = {
     getDetail: getDetail,
@@ -57,6 +57,14 @@ export function updateByUser(data: any) {
  */
 export function doModifyPassword(data: any) {
     return request('system/user/doModifyPassword', data, post);
+}
+
+export function listActiveUsers() {
+    return request('system/user/listActive', {}, get);
+}
+
+export function searchUsers(keyword: string) {
+    return request(`system/user/search?keyword=${encodeURIComponent(keyword)}`, {}, get);
 }
 
 export default sysUserApi;
