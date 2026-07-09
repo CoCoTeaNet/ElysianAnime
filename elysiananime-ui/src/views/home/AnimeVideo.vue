@@ -6,7 +6,7 @@
         <h2 class="a-video-title">
           {{ videoInfo.nameCn }} 第{{ currentNum }}集
         </h2>
-        <div id="dplayer" class="player"/>
+        <div id="xgplayer" class="player"/>
       </div>
       <!--番剧信息-->
       <el-card shadow="hover" class="a-video-info-card-wrap no-border-card">
@@ -111,7 +111,6 @@
           <el-form-item label="追番状态：">
             <el-button
                 type="primary"
-                :icon="Star"
                 @click="onFollowOpus(videoInfo.id)"
                 :disabled="videoInfo.isFollow === 1"
             >
@@ -177,7 +176,8 @@ import {nextTick, onMounted, onUnmounted, ref, watch} from "vue";
 import {getOpusMedia} from "@/api/anime/ani-opus-api";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import {useRoute} from "vue-router";
-import Dplayer from "dplayer";
+import Player, { Events } from "xgplayer";
+import 'xgplayer/dist/index.min.css';
 import {router} from "@/router";
 import {ElForm} from "element-plus";
 import acgUserOpusTypes from "@/types/acg-user-opus-types";
@@ -192,12 +192,12 @@ const route = useRoute();
 const loading = ref<boolean>(true);
 const videoInfo = ref<any>({readingTime: 0, isFollow: 0});
 const mediaList = ref<any[]>([]);
-const player = ref<Dplayer>(null);
+const player = ref<Player | null>(null);
 const currentNum = ref<any>('0');
 const editForm = ref<any>({});
 const epListNewStyle = ref<boolean>(true);
 const shareUrl = ref<string>('');
-const roleKeys = ref<string>([]);
+const roleKeys = ref<string[]>([]);
 const store = useStore();
 
 const init = (toParams?: any, previousParams?: any) => {
@@ -219,17 +219,25 @@ const init = (toParams?: any, previousParams?: any) => {
 
   // 创建h5播放器
   if (!player.value) {
-    let dplayer = new Dplayer({
-      autoplay: false,
-      container: document.getElementById('dplayer'),
+    let xgplayer = new Player ({
+      id: 'xgplayer',
+      width: '100%',
+      autoplay: true,
       video: {
         type: 'auto'
-      }
+      },
+      plugins: [], // 传入需要组装的插件
+      playbackRate: [0.5, 0.75, 1, 1.5, 2],
+      pip: true, //打开画中画功能
+      lastPlayTimeHideDelay: 5
     });
-    dplayer.on('loadeddata', function () {
-      dplayer.play();
+    xgplayer.on(Events.AUTOPLAY_PREVENTED, () => {
+      console.log('autoplay was prevented!!')
     });
-    player.value = dplayer;
+    xgplayer.on(Events.AUTOPLAY_STARTED, () => {
+      console.log('autoplay success!!')
+    });
+    player.value = xgplayer;
   }
 
   if (isOpusChanged) {
@@ -254,7 +262,7 @@ onMounted(() => {
   init();
 
   reqCommonFeedback(sysUserApi.getDetail(), (data: any) => {
-    data.roleList.forEach(item => {
+    data.roleList.forEach((item: { roleKey: string; }) => {
       roleKeys.value.push(item.roleKey);
     })
   });
@@ -262,13 +270,13 @@ onMounted(() => {
   // 定时更新当前播放进度
   setInterval(() => {
     if (route.name !== 'AnimeVideo') {
-      player.value.pause();
+      player.value?.pause();
     }
-    if (!player.value.video.paused && videoInfo.value.userOpusId > 0) {
-      let currentTime = parseInt(player.value.video.currentTime);
+    if (!player.value?.paused && videoInfo.value.userOpusId > 0) {
+      let currentTime = parseInt(player.value?.currentTime);
       updateProgress({
         readingTime: currentTime, 
-        totalTime: parseInt(player.value.video.duration),
+        totalTime: parseInt(player.value?.duration + '') || 0,
         id: videoInfo.value.userOpusId
       });
     }
@@ -280,7 +288,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener("onorientationchange" in window ? "orientationchange" : "resize", onOrientationchange, false);
-  player.value.pause();
+  player.value?.pause();
 });
 
 /**
@@ -299,9 +307,15 @@ const createTabItem = (title:string) => {
 
 const onOrientationchange = (): void => {
   if (window.orientation === 90 || window.orientation === -90) {
-    player.value.fullScreen.request('browser')
+    player.value?.getFullscreen();
   }
 }
+
+const switchVideo = (url: string) => {
+  if (player.value) {
+    player.value.src = url;
+  }
+};
 
 const loadData = (): void => {
   if (!loading.value) {
@@ -310,7 +324,6 @@ const loadData = (): void => {
 
   reqCommonFeedback(getOpusMedia(route.params.id), (data: any) => {
     createTabItem(data.nameCn);
-
 
     let baseUrl = window.location.href;
     const origin = store.state.userInfo.origin;
@@ -327,7 +340,7 @@ const loadData = (): void => {
     if (!route.params.num && data.readingNum <= 0) {
       // 默认播放集数
       currentNum.value = data.mediaList[0].episodes;
-      player.value.switchVideo({url: getMediaUrl(data.id, data.mediaList[0].episodes, data.mediaList[0].mediaType)});
+      switchVideo(getMediaUrl(data.id, data.mediaList[0].episodes, data.mediaList[0].mediaType));
     } else {
       // 格式化整形集数
       let currentNumFormat;
@@ -338,16 +351,14 @@ const loadData = (): void => {
         currentNumFormat = data.readingNum;
       }
       currentNum.value = currentNumFormat;
-      // 历史播放
-      player.value.seek(data.readingTime);
       let mediaType = findMediaType(data.mediaList, currentNumFormat);
       if ("UNKNOWN_MEDIA_TYPE" === mediaType) {
         let mediaName = data.mediaList[0].episodes;
         let mediaType = data.mediaList[0].mediaType;
-        player.value.switchVideo({url: getMediaUrl(data.id, mediaName, mediaType)});
+        switchVideo(getMediaUrl(data.id, mediaName, mediaType));
         currentNum.value = mediaName;
       } else {
-        player.value.switchVideo({url: getMediaUrl(data.id, currentNumFormat, mediaType)});
+        switchVideo(getMediaUrl(data.id, currentNumFormat, mediaType));
       }
       // 根据集数来自动选择选集风格
       if (data.mediaList.length >= 13) {
@@ -356,7 +367,7 @@ const loadData = (): void => {
     }
 
     // 历史播放进度
-    player.value.seek(data.readingTime);
+    player.value?.seek(data.readingTime);
   });
 };
 
@@ -366,9 +377,9 @@ const doSwitchPlay = (item: any) => {
     name: "AnimeVideo",
     params: {id: route.params.id + '', num: item.episodes, time: 1},
   });
-  player.value.switchVideo({url: getMediaUrl(videoInfo.value.id, item.episodes, item.mediaType)});
+  switchVideo(getMediaUrl(videoInfo.value.id, item.episodes, item.mediaType));
   // 切换进度
-  player.value.seek(0);
+  player.value?.seek(0);
   // 显示当前播放集数
   currentNum.value = item.episodes;
   // 更新当前播放集数

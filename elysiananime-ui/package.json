@@ -1,7 +1,7 @@
 {
   "name": "elysiananime-ui",
   "private": true,
-  "version": "2.9.0",
+  "version": "3.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -16,7 +16,6 @@
     "axios": "^0.26.0",
     "core-js": "^3.8.3",
     "dayjs": "^1.11.20",
-    "dplayer": "^1.27.1",
     "element-plus": "^2.6.3",
     "file-saver": "^2.0.5",
     "js-md5": "^0.7.3",
@@ -24,7 +23,8 @@
     "vue-axios": "^3.4.1",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.12",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "xgplayer": "^3.0.24"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.2",
