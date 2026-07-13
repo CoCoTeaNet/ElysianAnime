@@ -179,7 +179,7 @@ import {useRoute} from "vue-router";
 import Player, { Events } from "xgplayer";
 import 'xgplayer/dist/index.min.css';
 import {router} from "@/router";
-import {ElForm} from "element-plus";
+import {ElForm, ElMessage} from "element-plus";
 import acgUserOpusTypes from "@/types/acg-user-opus-types";
 import userOpusApi, {updateProgress} from "@/api/anime/ani-user-opus-api";
 import rssApi from "@/api/anime/ani-rss-api";
@@ -367,7 +367,18 @@ const loadData = (): void => {
     }
 
     // 历史播放进度
-    player.value?.seek(data.readingTime);
+      let _player = player.value;
+    _player?.pause();
+    ElMessage({
+        message: `即将从${data.readingTime}秒开始播放`,
+        type: 'primary',
+        placement: 'top',
+      });
+    setTimeout(() => {
+      if (_player) {
+        _player.seek(data.readingTime, 'play');
+      }
+    }, 1000);
   });
 };
 
