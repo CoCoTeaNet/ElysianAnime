@@ -39,3 +39,5 @@ auto-imports.d.ts
 .cache/
 
 /docker/
+
+.soloncode/
