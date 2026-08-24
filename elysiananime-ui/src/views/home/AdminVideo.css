@@ -2,8 +2,12 @@
     background: none;
 }
 
-.player {
-    width: 100%;
+.player,
+#xgplayer,
+.xgplayer {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 9 !important;
 }
 
 .a-video-wrap {
@@ -18,6 +22,7 @@
     display: flex;
     flex-direction: column;
     width: 80%;
+    max-width: 1200px;
     padding-right: 1.25rem;
 }
 

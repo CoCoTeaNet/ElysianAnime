@@ -199,6 +199,7 @@ const epListNewStyle = ref<boolean>(true);
 const shareUrl = ref<string>('');
 const roleKeys = ref<string[]>([]);
 const store = useStore();
+const seekTargetTime = ref<number>(0);
 
 const init = (toParams?: any, previousParams?: any) => {
   let isOpusChanged:boolean = true;
@@ -236,6 +237,13 @@ const init = (toParams?: any, previousParams?: any) => {
     });
     xgplayer.on(Events.AUTOPLAY_STARTED, () => {
       console.log('autoplay success!!')
+    });
+    // 视频元数据加载完成后，跳转到历史播放进度
+    xgplayer.on(Events.LOADED_METADATA, () => {
+      if (seekTargetTime.value > 0 && xgplayer.duration && isFinite(xgplayer.duration)) {
+        xgplayer.seek(seekTargetTime.value);
+        seekTargetTime.value = 0;
+      }
     });
     player.value = xgplayer;
   }
@@ -367,18 +375,21 @@ const loadData = (): void => {
     }
 
     // 历史播放进度
-      let _player = player.value;
+    let _player = player.value;
     _player?.pause();
     ElMessage({
         message: `即将从${data.readingTime}秒开始播放`,
         type: 'primary',
         placement: 'top',
       });
+    seekTargetTime.value = data.readingTime;
+    // 若视频元数据已就绪则立即跳转，否则等待 LOADED_METADATA 事件处理
     setTimeout(() => {
-      if (_player) {
-        _player.seek(data.readingTime, 'play');
+      if (seekTargetTime.value > 0 && _player && _player.duration && isFinite(_player.duration)) {
+        _player.seek(seekTargetTime.value);
+        seekTargetTime.value = 0;
       }
-    }, 1000);
+    }, 100);
   });
 };
 
