@@ -80,6 +80,18 @@ public class AniOpus implements Serializable {
 	@Column(name="rss_exclude_res",comment="排除的资源",length=50L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
 	private String rssExcludeRes;
 
+	@Column(name="media_dir",comment="资源目录绝对路径",length=512L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
+	private String mediaDir;
+
+	@Column(name="media_count",comment="已索引媒体数",length=10L,defaultValue="0",type=java.sql.Types.INTEGER,nativeType="INT",nullable=false)
+	private Integer mediaCount;
+
+	@Column(name="media_latest_key",comment="最新一集的 episode_key",length=64L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
+	private String mediaLatestKey;
+
+	@Column(name="media_scan_time",comment="最近一次扫描成功时间",length=19L,type=java.sql.Types.DATE,nativeType="DATETIME",nullable=true)
+	private LocalDateTime mediaScanTime;
+
 	@Column(name="create_time",comment="创建时间",length=19L,type=java.sql.Types.DATE,nativeType="DATETIME",nullable=false)
 	private LocalDateTime createTime;
 

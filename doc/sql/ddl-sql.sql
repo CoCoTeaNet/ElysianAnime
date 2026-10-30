@@ -18,6 +18,10 @@ CREATE TABLE `ani_opus` (
                             `rss_file_type` varchar(10) COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT '要订阅的资源格式',
                             `rss_only_mark` varchar(50) COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT '匹配的唯一标识',
                             `rss_exclude_res` varchar(50) COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT '排除的资源',
+                            `media_dir` varchar(512) COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT '资源目录绝对路径',
+                            `media_count` int NOT NULL DEFAULT '0' COMMENT '已索引媒体数',
+                            `media_latest_key` varchar(64) COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT '最新一集的 episode_key',
+                            `media_scan_time` datetime DEFAULT NULL COMMENT '最近一次扫描成功时间',
                             `create_time` datetime NOT NULL COMMENT '创建时间',
                             `create_by` bigint DEFAULT NULL COMMENT '创建人',
                             `update_time` datetime NOT NULL COMMENT '更新时间',
@@ -82,9 +86,86 @@ CREATE TABLE `ani_user_opus` (
                                  `read_status` tinyint NOT NULL DEFAULT '0' COMMENT '观看状态：0未看 1已看 2在看',
                                  `create_time` datetime NOT NULL COMMENT '关联时间',
                                  `is_share` tinyint NOT NULL DEFAULT '0' COMMENT '是否分享：0否 1是',
+                                 `last_episode_key` varchar(64) COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT '最近观看的 episode_key',
+                                 `last_media_id` bigint DEFAULT NULL COMMENT '最近观看的媒体文件id',
+                                 `last_read_time` datetime DEFAULT NULL COMMENT '最近观看时间',
                                  PRIMARY KEY (`id`),
-                                 KEY `ani_user_opus_idx_1` (`user_id`,`opus_id`)
+                                 UNIQUE KEY `ani_user_opus_uk_1` (`user_id`,`opus_id`),
+                                 KEY `ani_user_opus_idx_2` (`user_id`,`last_read_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='用户作品关联表';
+
+
+-- elysiananime.ani_media definition
+
+CREATE TABLE `ani_media` (
+  `id`              bigint        NOT NULL                COMMENT '媒体文件id',
+  `opus_id`         bigint        NOT NULL                COMMENT '作品id',
+  `file_path`       varchar(1024) NOT NULL                COMMENT '文件绝对路径（已归一化），仅服务端使用',
+  `file_path_hash`  char(32)      NOT NULL                COMMENT '归一化路径的MD5，用于唯一索引',
+  `relative_path`   varchar(512)  NOT NULL                COMMENT '相对所属资源根的路径，用于展示',
+  `file_name`       varchar(255)  NOT NULL                COMMENT '文件名（含扩展名）',
+  `extension`       varchar(16)   NOT NULL                COMMENT '扩展名，小写、不带点',
+  `episode_no`      decimal(8,2)  DEFAULT NULL            COMMENT '解析出的集数，SP 与无集数文件为空',
+  `episode_key`     varchar(64)   NOT NULL                COMMENT '逻辑集数键：1 / 12.5 / SP1 / X+文件名MD5前8位',
+  `display_name`    varchar(255)  NOT NULL                COMMENT '列表展示名：第N集 / SPn / 文件名去扩展名',
+  `file_size`       bigint        NOT NULL                COMMENT '文件字节数',
+  `file_mtime`      datetime      NOT NULL                COMMENT '文件修改时间，用于增量比对',
+  `sort_no`         decimal(10,3) DEFAULT NULL            COMMENT '排序号：正片=集数，SP=10000+序号，无集数为空',
+  `is_primary`      tinyint       NOT NULL DEFAULT '1'    COMMENT '同集是否主文件：1是 0否（同集冗余，仅索引不展示）',
+  `last_seen_time`  datetime      NOT NULL                COMMENT '最近一次扫描确认存在的时间（按部批量刷新）',
+  `create_by`       bigint        DEFAULT NULL            COMMENT '创建人',
+  `create_time`     datetime      NOT NULL                COMMENT '创建时间',
+  `update_by`       bigint        DEFAULT NULL            COMMENT '更新人',
+  `update_time`     datetime      NOT NULL                COMMENT '更新时间',
+  `is_deleted`      tinyint       NOT NULL DEFAULT '0'    COMMENT '是否删除：0否 1是',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ani_media_uk_1` (`opus_id`,`file_path_hash`),
+  KEY `ani_media_idx_1` (`opus_id`,`is_deleted`,`is_primary`,`sort_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='媒体文件索引表';
+
+
+-- elysiananime.ani_user_opus_progress definition
+
+CREATE TABLE `ani_user_opus_progress` (
+  `id`           bigint      NOT NULL                COMMENT '进度id',
+  `user_id`      bigint      NOT NULL                COMMENT '用户id',
+  `opus_id`      bigint      NOT NULL                COMMENT '作品id',
+  `episode_key`  varchar(64) NOT NULL                COMMENT '逻辑集数键：1 / 12.5 / SP1 / X+文件名MD5前8位',
+  `position_ms`  bigint      NOT NULL DEFAULT '0'    COMMENT '播放位置（毫秒）',
+  `duration_ms`  bigint      DEFAULT NULL            COMMENT '视频总时长（毫秒）',
+  `watched_ms`   bigint      NOT NULL DEFAULT '0'    COMMENT '累计观看时长（毫秒），用于状态判定',
+  `is_completed` tinyint     NOT NULL DEFAULT '0'    COMMENT '是否看完：0否 1是',
+  `session_id`   varchar(36) DEFAULT NULL            COMMENT '播放会话id，用于识别跨端会话',
+  `seq`          int         NOT NULL DEFAULT '0'    COMMENT '会话内上报序号，同会话内小于已存值则丢弃',
+  `create_by`    bigint      DEFAULT NULL            COMMENT '创建人',
+  `create_time`  datetime    NOT NULL                COMMENT '创建时间',
+  `update_by`    bigint      DEFAULT NULL            COMMENT '更新人',
+  `update_time`  datetime    NOT NULL                COMMENT '更新时间',
+  `is_deleted`   tinyint     NOT NULL DEFAULT '0'    COMMENT '是否删除：0否 1是',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ani_user_opus_progress_uk_1` (`user_id`,`opus_id`,`episode_key`),
+  KEY `ani_user_opus_progress_idx_1` (`opus_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='用户每集播放进度表';
+
+
+-- elysiananime.ani_opus_update definition
+
+CREATE TABLE `ani_opus_update` (
+  `id`          bigint       NOT NULL                COMMENT '更新动态id',
+  `opus_id`     bigint       NOT NULL                COMMENT '作品id',
+  `media_id`    bigint       DEFAULT NULL            COMMENT '媒体文件id',
+  `episode_key` varchar(64)  NOT NULL                COMMENT '逻辑集数键',
+  `episode_no`  decimal(8,2) DEFAULT NULL            COMMENT '集数，SP/OVA 与无集数文件为空',
+  `source`      tinyint      NOT NULL DEFAULT '1'    COMMENT '来源：1扫描 2RSS 3手动上传',
+  `create_by`   bigint       DEFAULT NULL            COMMENT '创建人',
+  `create_time` datetime     NOT NULL                COMMENT '创建时间，回填时取文件 mtime',
+  `update_by`   bigint       DEFAULT NULL            COMMENT '更新人',
+  `update_time` datetime     NOT NULL                COMMENT '更新时间',
+  `is_deleted`  tinyint      NOT NULL DEFAULT '0'    COMMENT '是否删除：0否 1是',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ani_opus_update_uk_1` (`opus_id`,`episode_key`),
+  KEY `ani_opus_update_idx_1` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='作品更新动态表';
 
 
 -- elysiananime.sys_dictionary definition
