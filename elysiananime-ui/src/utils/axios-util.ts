@@ -8,6 +8,11 @@ export const post = 'POST';
 export const get = 'GET';
 
 /**
+ * 接口基址：dev / docker 为 /api，线上由前置代理转发 /api，可用 VITE_API_BASE 覆盖
+ */
+export const API_BASE = import.meta.env.VITE_API_BASE || '/api';
+
+/**
  * 封装axios
  * @param url 请求地址
  * @param data 参数
@@ -16,7 +21,7 @@ export const get = 'GET';
 export async function request(url: string, data: any, method: any): Promise<any> {
     let res: any = await axios.request({
             // `url` 是用于请求的服务器 URL
-            url: `/api/${url}`,
+            url: `${API_BASE}/${url}`,
             // `method` 是创建请求时使用的方法 (默认是 get)
             method: method,
             // `transformRequest` 允许在向服务器发送前，修改请求数据
@@ -39,7 +44,7 @@ export async function request(url: string, data: any, method: any): Promise<any>
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
                 "Content-Type": 'application/json;charset=utf-8',
-                "sa-token": store.state.userInfo.token ? store.state.userInfo.token : 'sa-token'
+                "Authorization": store.state.userInfo.token ? store.state.userInfo.token : 'Authorization'
             },
             // `params` 是即将与请求一起发送的 URL 参数
             params: method === 'GET' ? data : '',
@@ -66,7 +71,7 @@ export async function request(url: string, data: any, method: any): Promise<any>
 export async function requestFile(url: string, data: any, method: any): Promise<any> {
     let res: any = await axios.request({
             // `url` 是用于请求的服务器 URL
-            url: `/api/${url}`,
+            url: `${API_BASE}/${url}`,
             // `method` 是创建请求时使用的方法 (默认是 get)
             method: method,
             // `transformRequest` 允许在向服务器发送前，修改请求数据
@@ -78,7 +83,7 @@ export async function requestFile(url: string, data: any, method: any): Promise<
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
                 "Content-Type": 'application/json;charset=utf-8',
-                "sa-token": store.state.userInfo.token ? store.state.userInfo.token : 'sa-token'
+                "Authorization": store.state.userInfo.token ? store.state.userInfo.token : 'Authorization'
             },
             // `params` 是即将与请求一起发送的 URL 参数
             params: method === 'GET' ? data : '',

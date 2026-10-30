@@ -6,10 +6,13 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONObject;
+import net.cocotea.elysiananime.api.anime.media.MediaScanner;
+import net.cocotea.elysiananime.api.anime.media.MediaStreamer;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusAddDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusHomeDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusPageDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusUpdateDTO;
+import net.cocotea.elysiananime.api.anime.model.po.AniMedia;
 import net.cocotea.elysiananime.api.anime.model.vo.AniOpusHomeVO;
 import net.cocotea.elysiananime.api.anime.model.vo.AniOpusVO;
 import net.cocotea.elysiananime.api.anime.model.vo.AniVideoVO;
@@ -23,6 +26,7 @@ import net.cocotea.elysiananime.common.model.BusinessException;
 import net.cocotea.elysiananime.common.model.FileInfo;
 import net.cocotea.elysiananime.properties.FileProp;
 import org.noear.solon.annotation.*;
+import org.noear.solon.core.handle.Context;
 import org.noear.solon.core.handle.DownloadedFile;
 import org.noear.solon.core.handle.UploadedFile;
 
@@ -51,6 +55,12 @@ public class AniOpusController {
     @Inject
     private AniSpiderService aniSpiderService;
 
+    @Inject
+    private MediaScanner mediaScanner;
+
+    @Inject
+    private MediaStreamer mediaStreamer;
+
     /**
      * 上传作品资源
      *
@@ -72,6 +82,8 @@ public class AniOpusController {
 
         FileInfo fileInfo = aniOpusService.uploadRes(opusId, (fileName + fileExtension));
         uploadedFile.transferTo(new File(fileInfo.getRealPath()));
+        // 上传后按事件触发该作品的媒体扫描
+        mediaScanner.scanOpusAsync(opusId, MediaScanner.SOURCE_UPLOAD);
 
         return ApiResult.ok(fileInfo.getFileName());
     }
@@ -166,19 +178,25 @@ public class AniOpusController {
     }
 
     /**
-     * 获取资源媒体流
+     * 获取资源媒体流（旧接口，保留到 P4）
+     * <p>
+     * 按 {@code opus_id + file_name} 查媒体索引后走统一的流式响应（支持 Range），
+     * 不再按文件名拼路径。
      *
      * @param opusId  作品ID
      * @param resName 资源名称
      */
     @Get
     @Mapping("/media/{opusId}")
-    public DownloadedFile getMedia(@Path("opusId") BigInteger opusId, @Param(value = "resName", required = true) String resName) throws BusinessException, IOException {
-        File file = aniOpusService.getMedia(opusId, resName);
-        DownloadedFile downloadedFile = new DownloadedFile(file);
-        //不做为附件下载（按需配置）
-        downloadedFile.asAttachment(false);
-        return downloadedFile;
+    public void getMedia(@Path("opusId") BigInteger opusId,
+                         @Param(value = "resName", required = true) String resName,
+                         Context ctx) throws IOException {
+        AniMedia media = aniOpusService.findMedia(opusId, resName);
+        if (media == null) {
+            mediaStreamer.writeError(ctx, 404, "资源不存在");
+            return;
+        }
+        mediaStreamer.stream(media, ctx);
     }
 
     @Get

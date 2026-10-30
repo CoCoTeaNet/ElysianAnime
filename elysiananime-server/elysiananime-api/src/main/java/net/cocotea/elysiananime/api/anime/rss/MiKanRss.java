@@ -17,6 +17,7 @@ import cn.hutool.extra.mail.MailUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import net.cocotea.elysiananime.api.anime.media.MediaScanner;
 import net.cocotea.elysiananime.api.anime.model.dto.AniAddOpusTorrentDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
 import net.cocotea.elysiananime.api.anime.model.po.AniOpus;
@@ -99,6 +100,9 @@ public class MiKanRss {
 
     @Inject
     private RedisService redisService;
+
+    @Inject
+    private MediaScanner mediaScanner;
 
     @Db
     private LightDao lightDao;
@@ -469,6 +473,10 @@ public class MiKanRss {
                 String opusName = FileUtil.file(info.getSavePath()).getName();
                 AniOpus aniOpus = aniOpusService.loadByNameCn(opusName);
                 doNotifyCatchEx(aniOpus, file);
+                // 下载完成后触发该作品的媒体扫描
+                if (aniOpus != null) {
+                    mediaScanner.scanOpusAsync(aniOpus.getId(), MediaScanner.SOURCE_RSS);
+                }
 
             } catch (Exception ex) {
                 log.error("doRenameBtV2 >>>>> 重命名失败，作品：{}，errorMsg：{}", info.getName(), ex.getMessage(), ex);

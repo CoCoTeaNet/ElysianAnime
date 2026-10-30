@@ -51,10 +51,32 @@
         <value>
             <![CDATA[
             select ao.id, ao.name_original, ao.name_cn, ao.cover_url, ao.detail_info_url, ao.episodes, ao.launch_start, ao.delivery_week, ao.ani_summary, ao.has_resource, ao.rss_url, ao.rss_status, ao.rss_level_index, ao.rss_file_type, ao.rss_only_mark, ao.rss_exclude_res,
-                   auo.read_status, auo.reading_time, auo.total_time, auo.reading_num, auo.user_id
+                   ao.media_count, ao.media_latest_key,
+                   auo.read_status, auo.reading_time, auo.total_time, auo.user_id,
+                   case when auo.reading_num rlike '^[0-9]{1,9}$' then cast(auo.reading_num as unsigned) else null end as reading_num,
+                   auo.last_episode_key, auo.last_media_id,
+                   (select count(1) from ani_user_opus_progress p
+                     where p.user_id = :loginId and p.opus_id = ao.id and p.is_deleted = 0 and p.is_completed = 1
+                       and exists (select 1 from ani_media m
+                                    where m.opus_id = ao.id and m.is_deleted = 0 and m.is_primary = 1
+                                      and m.episode_key = p.episode_key)) as completed_count,
+                   (select p.position_ms from ani_user_opus_progress p
+                     where p.user_id = :loginId and p.opus_id = ao.id and p.is_deleted = 0
+                       and p.episode_key = auo.last_episode_key limit 1) as position_ms,
+                   (select p.duration_ms from ani_user_opus_progress p
+                     where p.user_id = :loginId and p.opus_id = ao.id and p.is_deleted = 0
+                       and p.episode_key = auo.last_episode_key limit 1) as duration_ms,
+                   (select case when count(1) > 0 then 1 else 0 end from ani_user_opus_progress p
+                     where p.user_id = :loginId and p.opus_id = ao.id and p.is_deleted = 0 and p.is_completed = 1
+                       and p.episode_key = ao.media_latest_key) as latest_episode_completed,
+                   (select m.display_name from ani_media m
+                     where m.opus_id = ao.id and m.is_deleted = 0 and m.is_primary = 1
+                       and m.episode_key = ao.media_latest_key order by m.id limit 1) as episodes_newest
             from ani_opus ao
                      left join ani_user_opus auo on (auo.opus_id = ao.id and auo.user_id = :loginId)
             where ao.is_deleted = 0
+              and (:followFlag = 0 or auo.id is not null)
+              and (:unfollowFlag = 0 or auo.id is null)
               #[and ao.has_resource = :hasResource]
               #[and (ao.name_cn like :searchKey or ao.name_original like :searchKey)]
               #[and ao.id in (:opusIds)]

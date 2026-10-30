@@ -45,5 +45,9 @@ public class AniOpusHomeDTO extends ApiPageDTO implements Serializable {
      * 周
      */
     private List<String> deliveryWeeks;
+    /**
+     * 只看已追番：1 是，不传/0 不过滤
+     */
+    private Integer isFollow;
 
 }

@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serial;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -60,6 +61,30 @@ public class AniVideoVO extends AniOpusVO {
          * 是否文件夹
          */
         private Integer isFolder;
+        /**
+         * 媒体文件id
+         */
+        private BigInteger mediaId;
+        /**
+         * 逻辑集数键
+         */
+        private String episodeKey;
+        /**
+         * 集数，无集数文件为 null
+         */
+        private BigDecimal episodeNo;
+        /**
+         * 是否额外内容（SP / OVA / 剧场版 / PV / 无集数）
+         */
+        private Integer isExtra;
+        /**
+         * 排序号，无集数文件为 null
+         */
+        private BigDecimal sortNo;
+        /**
+         * 展示名
+         */
+        private String displayName;
     }
 
 }

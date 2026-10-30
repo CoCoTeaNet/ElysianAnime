@@ -27,7 +27,7 @@ sra-admin:
   # 1秒内访问服务器接口频率
   once-visits: 0
   # 路由放行（用逗号分割）
-  excludes: /system/file/getBackground,/anime/opus/cover,/system/login,/system/captcha,/,/favicon.ico,/css/**,/js/**,/img/**
+  excludes: /system/file/getBackground,/anime/opus/cover,/system/login,/system/captcha,/,/favicon.ico,/css/**,/js/**,/img/**,/anime/media/**
   # 文件存放配置
   file:
     # 默认文件存放位置
@@ -58,6 +58,10 @@ elysiananime:
     animation-cover-path: F:/Files/animation-cover/
     # 动漫资源保存位置
     animation-path: F:/Files/animation/
+  media:
+    scan:
+      # 媒体扫描间隔，支持 30s / 10m / 1h
+      interval: 15m
   qb:
     # 这三项一般默认，可以不用配置
     ok: Ok.
@@ -90,7 +94,7 @@ myapp:
   # MySQL
   db1:
     schema: elysiananime
-    jdbcUrl: jdbc:mysql://127.0.0.1:3306/elysiananime?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/elysiananime?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai&tinyInt1isBit=false&rewriteBatchedStatements=true
     driverClassName: com.mysql.cj.jdbc.Driver
     username: tester
     password: tester123456
@@ -117,3 +121,9 @@ sa-token:
   token-style: random-64
   # 是否输出操作日志
   is-log: false
+  # Cookie 配置：token 同时以 cookie 下发，<video> 这类发不出自定义 header 的请求靠它鉴权
+  cookie:
+    path: /
+    http-only: true
+    same-site: Lax
+    secure: false

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <!-- 作品的媒体索引（只取主文件），排序：无集数沉底，其余按 sort_no 升序 -->
+    <sql id="ani_media_listByOpus">
+        <value>
+            <![CDATA[
+            select id, opus_id, file_path, file_path_hash, relative_path, file_name, extension,
+                   episode_no, episode_key, display_name, file_size, file_mtime, sort_no,
+                   is_primary, last_seen_time, create_time, update_time
+            from ani_media
+            where opus_id = :opusId and is_deleted = 0 and is_primary = 1
+            order by sort_no is null, sort_no, id
+            ]]>
+        </value>
+    </sql>
+
+    <!-- 按文件名反查媒体（旧接口过渡期用，resName 是「文件名.扩展名」） -->
+    <sql id="ani_media_findByFileName">
+        <value>
+            <![CDATA[
+            select id, opus_id, file_path, file_path_hash, relative_path, file_name, extension,
+                   episode_no, episode_key, display_name, file_size, file_mtime, sort_no,
+                   is_primary, last_seen_time, create_time, update_time
+            from ani_media
+            where opus_id = :opusId and file_name = :fileName and is_deleted = 0
+            order by is_primary desc, id
+            limit 1
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>

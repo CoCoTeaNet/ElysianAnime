@@ -42,4 +42,9 @@ public class RedisKeyConst {
      */
     public final static String CACHE_USERINFO = "CACHE_USERINFO_%s";
 
+    /**
+     * 媒体扫描状态（最近一次结果，重启后仍可返回）
+     */
+    public final static String MEDIA_SCAN_STATUS = "MEDIA_SCAN_STATUS";
+
 }

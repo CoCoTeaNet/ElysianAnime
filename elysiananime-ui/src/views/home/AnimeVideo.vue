@@ -174,6 +174,7 @@
 <script lang="ts" setup>
 import {nextTick, onMounted, onUnmounted, ref, watch} from "vue";
 import {getOpusMedia} from "@/api/anime/ani-opus-api";
+import {API_BASE} from "@/utils/axios-util";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import {useRoute} from "vue-router";
 import Player, { Events } from "xgplayer";
@@ -409,7 +410,7 @@ const doSwitchPlay = (item: any) => {
 };
 
 const getMediaUrl = (id: string, episodes: string, mediaType: string) => {
-  let url = `/api/anime/opus/media/${id}?resName=${episodes}.${mediaType}`;
+  let url = `${API_BASE}/anime/opus/media/${id}?resName=${episodes}.${mediaType}`;
   console.log(url);
   return url;
 }
