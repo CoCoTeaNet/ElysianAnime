@@ -686,64 +686,64 @@ GET /anime/update/page?pageNo&pageSize&opusId&start&end
 
 ### P2 播放进度（2.5 天）
 
-- [ ] `AniPlaybackService` + 状态机（含"下一集"按 §5.1 **同组内**取后继、"最后一集"只认正片组）
-- [ ] `POST /anime/userOpus/update` 的手动改状态按 §5.2 规则执行：改「已看完」时同步 `last_episode_key / last_media_id`，并清 `watched_ms`
-- [ ] 新上报接口：`mediaId` 归属校验、自动建档、按 `(session_id, seq)` 丢弃乱序、`duration_ms` 取大值、同请求更新 `last_episode_key/last_media_id/last_read_time`
-- [ ] `getOpusMedia` 补 `progressMap`；新增 `/anime/userOpus/continue`
-- [ ] 历史进度回填（`INSERT ... ON DUPLICATE KEY UPDATE id = id`，`id` 显式生成；完成写 `sys_schema_version` 的 `3.1.0-backfill-progress` 标记，只跑一次）
-- [ ] 新增 `POST /anime/userOpus/unfollow`；`follow` 的"再点一次取消"语义**保持到 P4** 再改成幂等确认（见 §6 过渡期表）；同时去掉 `follow()` 里写死的 `readingNum = "1"`
-- [ ] 手写 SQL（进度 upsert、更新动态 upsert、回填）统一补 `id` 生成——三张新表无自增，雪花只在 `lightDao.save()` 里生效
-- [ ] 单元测试：状态机、越权、幂等、乱序、新集入库后回到继续观看
-- [ ] 进度表查询写 XML `<sql id>`；upsert 与状态机条件更新保留手写 SQL 并显式写审计时间（见 §5.2）。lambda 化留给 §12
-- [ ] 旧列过渡期双写（口径见 §4.5；SP 与无集数写空串，避免 `AniOpusHomeVO.readingNum: Integer` 映射失败）
-- [ ] 过渡期兼容：旧 `updateProgress`、旧媒体接口保留并转调新服务，`follow` 暂维持旧切换语义（见 §6），P4 后再删
+- [x] `AniPlaybackService` + 状态机（含"下一集"按 §5.1 **同组内**取后继、"最后一集"只认正片组）
+- [x] `POST /anime/userOpus/update` 的手动改状态按 §5.2 规则执行：改「已看完」时同步 `last_episode_key / last_media_id`，并清 `watched_ms`
+- [x] 新上报接口：`mediaId` 归属校验、自动建档、按 `(session_id, seq)` 丢弃乱序、`duration_ms` 取大值、同请求更新 `last_episode_key/last_media_id/last_read_time`
+- [x] `getOpusMedia` 补 `progressMap`；新增 `/anime/userOpus/continue`
+- [x] 历史进度回填（`INSERT ... ON DUPLICATE KEY UPDATE id = id`，`id` 显式生成；完成写 `sys_schema_version` 的 `3.1.0-backfill-progress` 标记，只跑一次）
+- [x] 新增 `POST /anime/userOpus/unfollow`；`follow` 的"再点一次取消"语义**保持到 P4** 再改成幂等确认（见 §6 过渡期表）；同时去掉 `follow()` 里写死的 `readingNum = "1"`
+- [x] 手写 SQL（进度 upsert、更新动态 upsert、回填）统一补 `id` 生成——三张新表无自增，雪花只在 `lightDao.save()` 里生效
+- [x] 单元测试：状态机、越权、幂等、乱序、新集入库后回到继续观看
+- [x] 进度表查询写 XML `<sql id>`；upsert 与状态机条件更新保留手写 SQL 并显式写审计时间（见 §5.2）。lambda 化留给 §12
+- [x] 旧列过渡期双写（口径见 §4.5；SP 与无集数写空串，避免 `AniOpusHomeVO.readingNum: Integer` 映射失败）
+- [x] 过渡期兼容：旧 `updateProgress`、旧媒体接口保留并转调新服务，`follow` 暂维持旧切换语义（见 §6），P4 后再删
 
 **出口标准**：§8.1 里与进度相关的条目全部有对应测试。
 
 ### P3 删除通知 + 更新动态（1.5 天）
 
-- [ ] 按 §5.4 清单删除后端/前端/配置/依赖
-- [ ] `V3_1_1__drop_notify.sql`：`DROP TABLE IF EXISTS sys_notify`，与删代码同一次发布（放 P0 会让线上每 60 秒报错）
-- [ ] 扫描器写入 `ani_opus_update`（`create_time = file_mtime`，`source` 透传，显式写审计字段）
-- [ ] 更新动态两个查询接口
-- [ ] 迁移回填每部番最新一集（写 `3.1.0-backfill-update` 标记，与 P2 的进度回填标记分开，见 §4.7）
-- [ ] grep 验收：无 `SysNotify` / `sys_notify` / `MailUtil` / `findFollowsEmail`
+- [x] 按 §5.4 清单删除后端/前端/配置/依赖
+- [x] `V3_1_1__drop_notify.sql`：`DROP TABLE IF EXISTS sys_notify`，与删代码同一次发布（放 P0 会让线上每 60 秒报错）
+- [x] 扫描器写入 `ani_opus_update`（`create_time = file_mtime`，`source` 透传，显式写审计字段）
+- [x] 更新动态两个查询接口
+- [x] 迁移回填每部番最新一集（写 `3.1.0-backfill-update` 标记，与 P2 的进度回填标记分开，见 §4.7）
+- [x] grep 验收：无 `SysNotify` / `sys_notify` / `MailUtil` / `findFollowsEmail`
 
 **出口标准**：编译通过，登录与菜单无异常，RSS 下载后能查到更新记录。
 
 ### P4 详情页与弹窗播放器（2.5 天）
 
-- [ ] `useXgPlayer` / `usePlaybackProgress`
-- [ ] `PlaybackDialog` + `VideoStage` + 选集条
-- [ ] 路由改造、旧链接映射（含 `?ep=&t=` 恢复）、5 处 `AnimeVideo` 调用点同批修改、删除 `AnimeVideo.vue`
-- [ ] keep-alive 改 `:include` + 各路由组件 `defineOptions({name})`
-- [ ] 关闭/后退语义、`pagehide` 用 `sendBeacon` 补报
-- [ ] 自动下一集（3 秒可取消倒计时）、续播、错误态、快捷键、无集数文件的展示
-- [ ] 上报节拍：10 秒 tick + pause/seek/ended/close/切集 补报
-- [ ] 集数网格与详情页 hero
-- [ ] 删除过渡期旧接口（`updateProgress`、旧媒体接口）并把 `follow` 改为幂等确认
-- [ ] `getOpusMedia` 删除只为旧页面保留的字段：`userOpusId`、`episodes`、`mediaType`、`isFolder`（`readingNum` / `readingTime` 随 P5 停写旧列一起删）
+- [x] `useXgPlayer` / `usePlaybackProgress`
+- [x] `PlaybackDialog` + `VideoStage` + 选集条
+- [x] 路由改造、旧链接映射（含 `?ep=&t=` 恢复）、5 处 `AnimeVideo` 调用点同批修改、删除 `AnimeVideo.vue`
+- [x] keep-alive 改 `:include` + 各路由组件 `defineOptions({name})`
+- [x] 关闭/后退语义、`pagehide` 用 `sendBeacon` 补报
+- [x] 自动下一集（3 秒可取消倒计时）、续播、错误态、快捷键、无集数文件的展示
+- [x] 上报节拍：10 秒 tick + pause/seek/ended/close/切集 补报
+- [x] 集数网格与详情页 hero
+- [x] 删除过渡期旧接口（`updateProgress`、旧媒体接口）并把 `follow` 改为幂等确认
+- [x] `getOpusMedia` 删除只为旧页面保留的字段：`userOpusId`、`episodes`、`mediaType`、`isFolder`（`readingNum` / `readingTime` 随 P5 停写旧列一起删）
 
 **出口标准**：§8.3 全部验收项通过。
 
 ### P5 首页与仪表盘（2.5 天）
 
-- [ ] 按子计划完成首页视觉重构（`AnimeCard` / `ContinueWatching` / `RecentUpdateStrip` / 筛选抽屉）
-- [ ] 「我的追番」走 `listByUser` 且只返回已追番（`isFollow = 1`，实现为 `auo.id is not null`）
-- [ ] 详情页视觉与子计划对齐
-- [ ] `views/system/dashboard/Dashboard.vue` 增加「更新动态」「扫描状态」
-- [ ] 我的追番列表与首页卡片视觉对齐
-- [ ] `AnimeUserOpusView` 数据源迁到新字段（`display_name` / `positionMs` / `durationMs` / `readStatus`），去掉 `readingNum` / `readingTime` / `resourceUrl` 的展示与编辑（停写旧列的前置条件，见 §5.5）
-- [ ] 停写旧列（§4.5 的落地项）：删掉 `reading_num` / `reading_time` / `total_time` 的双写代码，`resource_url` 一并停写；列本身留到 3.2 再 DROP，回滚旧镜像仍能读到停写前的值
-- [ ] 清理非 scoped 全局样式
+- [x] 按子计划完成首页视觉重构（`AnimeCard` / `ContinueWatching` / `RecentUpdateStrip` / 筛选抽屉）
+- [x] 「我的追番」走 `listByUser` 且只返回已追番（`isFollow = 1`，实现为 `auo.id is not null`）
+- [x] 详情页视觉与子计划对齐
+- [x] `views/system/dashboard/Dashboard.vue` 增加「更新动态」「扫描状态」
+- [x] 我的追番列表与首页卡片视觉对齐
+- [x] `AnimeUserOpusView` 数据源迁到新字段（`display_name` / `positionMs` / `durationMs` / `readStatus`），去掉 `readingNum` / `readingTime` / `resourceUrl` 的展示与编辑（停写旧列的前置条件，见 §5.5）
+- [x] 停写旧列（§4.5 的落地项）：删掉 `reading_num` / `reading_time` / `total_time` 的双写代码，`resource_url` 一并停写；列本身留到 3.2 再 DROP，回滚旧镜像仍能读到停写前的值
+- [x] 清理非 scoped 全局样式（`AdminHome.css` 已随旧首页删除）
 
 **出口标准**：200 部番首屏 P95 < 300ms（本地数据集）；子计划验收清单全部通过。
 
 ### P6 回归与发布（0.5 天）
 
-- [ ] 第 8 节验收清单逐条执行
-- [ ] 升级文档（含 `sys_notify` 删除不可回滚、去重不可逆、旧列停写说明）
-- [ ] 后端测试接入 CI（当前测试从未执行）
+- [x] 第 8 节验收清单逐条执行（8.1/8.2 主要由 P1–P5 各阶段的单元测试与浏览器走查覆盖：状态机 12 例、扫描解析 21 例、P4 弹窗全流程、P5 首页/我的追番/仪表盘；P6 复测安全关键项——未登录流接口 401、报文塞他人 userId 被忽略、pause 落位、播完置已看——均通过）
+- [x] 升级文档（含 `sys_notify` 删除不可回滚、去重不可逆、旧列停写说明）：`doc/sql/upgrade-3.1.0.md`
+- [x] 后端测试接入 CI（当前测试从未执行）：`.github/workflows/backend-test.yml`，JDK 21 + Maven test；依赖 MySQL/Redis 的集成测试在无环境时自动跳过（`SolonTestSupport` assumeTrue）
 
 **合计：约 13 人日**
 

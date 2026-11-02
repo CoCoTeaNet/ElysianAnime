@@ -4,7 +4,6 @@ import net.cocotea.elysiananime.api.anime.model.dto.AniOpusAddDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusHomeDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusPageDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusUpdateDTO;
-import net.cocotea.elysiananime.api.anime.model.po.AniMedia;
 import net.cocotea.elysiananime.api.anime.model.po.AniOpus;
 import net.cocotea.elysiananime.api.anime.model.vo.AniOpusHomeVO;
 import net.cocotea.elysiananime.api.anime.model.vo.AniOpusVO;
@@ -61,14 +60,6 @@ public interface AniOpusService extends BaseService<ApiPage<AniOpusVO>, AniOpusP
      * @return 资源浏览路径
      */
     FileInfo uploadRes(BigInteger opusId, String filename) throws BusinessException;
-
-    /**
-     * 按文件名反查媒体索引（旧播放接口过渡期用，resName 是「文件名.扩展名」）
-     *
-     * @param opusId 作品ID
-     * @param resName 资源名称
-     */
-    AniMedia findMedia(BigInteger opusId, String resName);
 
     /**
      * 获取封面

@@ -7,6 +7,7 @@ import { store, key } from './store'
 import * as ElIcons from '@element-plus/icons-vue'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import './styles/light/css-vars.css'
+import './styles/tokens.css'
 
 const app = createApp(App)
 

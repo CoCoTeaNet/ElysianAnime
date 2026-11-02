@@ -26,34 +26,6 @@
         <el-icon class="mouse-over" :size="iconSize-5" @click="doFullScreen">
           <full-screen />
         </el-icon>
-        <!--通知消息-->
-        <div class="mouse-over">
-          <el-popover trigger="hover" placement="bottom" width="460">
-            <template #reference>
-              <el-badge class="system-message" :is-dot="notifyList.length > 0">
-                <el-icon :size="iconSize-2">
-                  <Message />
-                </el-icon>
-              </el-badge>
-            </template>
-            <template #default>
-              <el-scrollbar max-height="460px">
-                <el-timeline v-if="notifyList.length > 0">
-                  <el-timeline-item v-for="(notify,index) in notifyList" :key="index"
-                    :type="index === 0 ? 'primary' : 'info'" :timestamp="notify.notifyTime">
-                    <el-link type="primary" @click="onReadMore(notify)">
-                      {{notify.title}}
-                    </el-link>
-                    <el-text type="info" size="small">{{notify.memo}}</el-text>
-                  </el-timeline-item>
-                </el-timeline>
-                <p v-else>
-                  <el-text class="mx-1" type="info">暂时没有新消息了哦！</el-text>
-                </p>
-              </el-scrollbar>
-            </template>
-          </el-popover>
-        </div>
         <el-dropdown>
           <span class="mouse-over">
             <el-space>
@@ -81,13 +53,11 @@ import {loginInfo, logout} from "@/api/system/sys-login-api";
 import {setUserInfo, useStore, setCollapseMenu} from "@/store";
 import AdminTab from "@/layout/modules/AdminTab.vue";
 import {onMounted, ref} from 'vue';
-import {listByType, read} from "@/api/anime/ani-notify-api";
 import default_avatar from '@/assets/svg-source/default-avatar.svg';
 
 const store = useStore();
 const route = useRoute();
 
-const notifyList = ref<any>([]);
 const iconSize = ref<number>(24);
 const avatar = ref<any>(default_avatar);
 
@@ -97,8 +67,6 @@ onMounted(() => {
   if (store.state.userInfo.avatar) {
     avatar.value = `api/system/user/getAvatar?avatar=${store.state.userInfo.avatar}`;
   }
-
-  getNotifyList();
 });
 
 /**
@@ -129,31 +97,6 @@ const doFullScreen = (event: { exitFullscreen: () => void; }) => {
     document.documentElement.requestFullscreen()
   }
 }
-
-// 获取通知列表
-const getNotifyList = async () => {
-  reqCommonFeedback(listByType('OPUS_UPDATE'), (data: any) => {
-    if (data && data.length > 0) {
-      notifyList.value = data;
-    }
-  });
-}
-
-// 通知跳转链接
-const onReadMore = (notify: any) => {
-  reqCommonFeedback(read(notify.id), () => {
-    getNotifyList();
-    router.push({
-          name: "AnimeVideo",
-          params: {
-            id: notify.jumpUrl,
-            num: 0,
-            time: 1
-          }
-        }
-    );
-  });
-}
 </script>
 
 <style>
@@ -166,11 +109,5 @@ const onReadMore = (notify: any) => {
 .mouse-over {
   cursor: pointer;
   padding: 0 3px;
-}
-
-.system-message {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 </style>

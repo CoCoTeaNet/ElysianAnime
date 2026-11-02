@@ -60,10 +60,4 @@ public class DefaultProp {
      */
     @Inject("${elysiananime.seed-flag}")
     private Boolean seedFlag;
-
-    /**
-     * 是否启用邮件通知
-     */
-    @Inject("${elysiananime.mail-notify-flag}")
-    private Boolean mailNotifyFlag;
 }

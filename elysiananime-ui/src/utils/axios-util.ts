@@ -41,10 +41,12 @@ export async function request(url: string, data: any, method: any): Promise<any>
                 return dataJson;
             }],
             // `headers` 是即将被发送的自定义请求头
+            // Authorization 与后端 token-name 同名，没登录时不能带字面量兜底值，
+            // 否则 sa-token 把它当无效 token，不再回退读 cookie，全新会话会永远登录不上
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
                 "Content-Type": 'application/json;charset=utf-8',
-                "Authorization": store.state.userInfo.token ? store.state.userInfo.token : 'Authorization'
+                ...(store.state.userInfo.token ? {Authorization: store.state.userInfo.token} : {})
             },
             // `params` 是即将与请求一起发送的 URL 参数
             params: method === 'GET' ? data : '',
@@ -80,10 +82,12 @@ export async function requestFile(url: string, data: any, method: any): Promise<
                 return JSON.stringify(data);
             }],
             // `headers` 是即将被发送的自定义请求头
+            // Authorization 与后端 token-name 同名，没登录时不能带字面量兜底值，
+            // 否则 sa-token 把它当无效 token，不再回退读 cookie，全新会话会永远登录不上
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
                 "Content-Type": 'application/json;charset=utf-8',
-                "Authorization": store.state.userInfo.token ? store.state.userInfo.token : 'Authorization'
+                ...(store.state.userInfo.token ? {Authorization: store.state.userInfo.token} : {})
             },
             // `params` 是即将与请求一起发送的 URL 参数
             params: method === 'GET' ? data : '',

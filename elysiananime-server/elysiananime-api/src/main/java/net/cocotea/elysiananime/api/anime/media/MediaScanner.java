@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import net.cocotea.elysiananime.api.anime.model.po.AniOpus;
+import net.cocotea.elysiananime.api.anime.playback.ProgressBackfill;
 import net.cocotea.elysiananime.common.constant.RedisKeyConst;
 import net.cocotea.elysiananime.common.service.RedisService;
 import net.cocotea.elysiananime.properties.FileProp;
@@ -100,6 +101,12 @@ public class MediaScanner {
     @Inject
     private MediaScanExecutor mediaScanExecutor;
 
+    @Inject
+    private ProgressBackfill progressBackfill;
+
+    @Inject
+    private UpdateBackfill updateBackfill;
+
     @Db
     private LightDao lightDao;
 
@@ -191,6 +198,10 @@ public class MediaScanner {
                 return;
             }
             scanRoots(source, result);
+            // 索引建好之后再把旧进度搬进按集进度表
+            progressBackfill.runIfNeeded();
+            // 每部番的最新一集补进更新动态，老数据不至于空白
+            updateBackfill.runIfNeeded();
         } catch (Throwable e) {
             result.setFailed(result.getFailed() + 1);
             result.setMessage(e.getMessage());

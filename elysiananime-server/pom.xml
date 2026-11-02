@@ -27,8 +27,6 @@
 
         <!-- 插件版本 -->
         <lombok.version>1.18.38</lombok.version>
-        <!-- ElysianAnime框架所需依赖 -->
-        <mail.version>1.6.2</mail.version>
         <!-- SRA-ADMIN-SOLON必备依赖 -->
         <sqltoy.version>5.6.46</sqltoy.version>
         <mysql-connector.version>8.3.0</mysql-connector.version>
@@ -61,14 +59,6 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
-            </dependency>
-
-            <!-- ElysianAnime框架所需依赖 -->
-            <!--邮件框架-->
-            <dependency>
-                <groupId>com.sun.mail</groupId>
-                <artifactId>javax.mail</artifactId>
-                <version>${mail.version}</version>
             </dependency>
 
             <!--SRA-ADMIN-SOLON必备依赖-->

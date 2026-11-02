@@ -2,7 +2,6 @@ package net.cocotea.elysiananime.api.anime.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.map.MapBuilder;
@@ -18,14 +17,11 @@ import net.cocotea.elysiananime.api.anime.model.po.AniUserOpus;
 import net.cocotea.elysiananime.api.anime.model.vo.AniOpusHomeVO;
 import net.cocotea.elysiananime.api.anime.model.vo.AniOpusVO;
 import net.cocotea.elysiananime.api.anime.model.vo.AniVideoVO;
-import net.cocotea.elysiananime.api.system.model.dto.SysNotifyAddDTO;
-import net.cocotea.elysiananime.api.system.service.SysNotifyService;
+import net.cocotea.elysiananime.api.anime.playback.AniPlaybackService;
 import net.cocotea.elysiananime.api.anime.service.AniOpusService;
 import net.cocotea.elysiananime.api.anime.service.AniTagService;
 import net.cocotea.elysiananime.api.anime.service.AniUserOpusService;
-import net.cocotea.elysiananime.common.constant.NotifyConst;
 import net.cocotea.elysiananime.common.enums.IsEnum;
-import net.cocotea.elysiananime.common.enums.LevelEnum;
 import net.cocotea.elysiananime.common.enums.ReadStatusEnum;
 import net.cocotea.elysiananime.common.model.ApiPage;
 import net.cocotea.elysiananime.common.model.BusinessException;
@@ -65,10 +61,10 @@ public class AniOpusServiceImpl implements AniOpusService {
     private ResUtils resUtils;
 
     @Inject
-    private SysNotifyService sysNotifyService;
+    private AniUserOpusService aniUserOpusService;
 
     @Inject
-    private AniUserOpusService aniUserOpusService;
+    private AniPlaybackService aniPlaybackService;
 
     @Inject
     private AniTagService aniTagService;
@@ -113,9 +109,6 @@ public class AniOpusServiceImpl implements AniOpusService {
         mapDTO.put("unfollowFlag", Integer.valueOf(0).equals(isFollow) ? 1 : 0);
         Page<AniOpusHomeVO> page = lightDao.findPage(ApiPage.create(homeDTO), "ani_opus_listByUser", mapDTO, AniOpusHomeVO.class);
         for (AniOpusHomeVO row : page.getRows()) {
-            if (row.getTotalTime() == null) {
-                row.setTotalTime(BigInteger.ONE);
-            }
             fillUpdateState(row);
         }
         return ApiPage.rest(page);
@@ -137,7 +130,6 @@ public class AniOpusServiceImpl implements AniOpusService {
         int readStatus = row.getReadStatus() == null ? 0 : row.getReadStatus();
         boolean completed = readStatus != 0 && (caughtUp || (mediaCount > 0 && completedCount >= mediaCount));
         row.setIsCompleted(completed ? 1 : 0);
-        row.setDownloadNum(mediaCount);
         if (StrUtil.isBlank(row.getEpisodesNewest())) {
             row.setEpisodesNewest(StrPool.DASHED);
         }
@@ -183,26 +175,20 @@ public class AniOpusServiceImpl implements AniOpusService {
     public AniVideoVO getOpusMedia(BigInteger opusId) {
         AniOpus aniOpus = lightDao.loadEntity(AniOpus.class, new EntityQuery().names("ID").values(opusId));
         AniVideoVO vo = Convert.convert(AniVideoVO.class, aniOpus);
-        // 查找关联用户
         AniUserOpus userOpus = aniUserOpusService.getByOpusIdAndUserId(opusId, LoginUtils.loginId());
         if (userOpus != null) {
             // 已点追番
             vo.setReadStatus(userOpus.getReadStatus());
-            vo.setReadingNum(userOpus.getReadingNum());
-            vo.setReadingTime(userOpus.getReadingTime());
             vo.setIsFollow(IsEnum.Y.getCode());
-            vo.setUserOpusId(userOpus.getId());
             vo.setIsShare(userOpus.getIsShare());
+            vo.setLastEpisodeKey(userOpus.getLastEpisodeKey());
+            vo.setLastMediaId(userOpus.getLastMediaId());
         } else {
             // 未点追番
-            userOpus = new AniUserOpus();
             vo.setReadStatus(ReadStatusEnum.NOT_READ.getCode());
-            vo.setReadingNum("1");
-            vo.setReadingTime(BigInteger.valueOf(0));
             vo.setIsFollow(IsEnum.N.getCode());
             vo.setIsShare(IsEnum.N.getCode());
         }
-        vo.setUserId(userOpus.getUserId());
         // 读媒体索引，不再扫盘
         Map<String, Object> map = MapUtil.newHashMap(1);
         map.put("opusId", opusId);
@@ -212,6 +198,8 @@ public class AniOpusServiceImpl implements AniOpusService {
             mediaList.add(toMedia(row));
         }
         vo.setMediaList(mediaList);
+        // 按集进度：集数网格的 ✓ 与进度条
+        vo.setProgressMap(aniPlaybackService.progressMap(LoginUtils.loginId(), opusId));
         // 查找标签
         List<AniTag> tagList = aniTagService.findByOpusId(aniOpus.getId());
         vo.setAniTags(tagList);
@@ -225,11 +213,7 @@ public class AniOpusServiceImpl implements AniOpusService {
                 .setEpisodeNo(row.getEpisodeNo())
                 .setIsExtra(row.getEpisodeNo() == null ? 1 : 0)
                 .setSortNo(row.getSortNo())
-                .setDisplayName(row.getDisplayName())
-                // 旧页面用「文件名去扩展名 + 扩展名」拼资源名，P4 前保留
-                .setEpisodes(StrUtil.subBefore(row.getFileName(), '.', true))
-                .setMediaType(row.getExtension())
-                .setIsFolder(IsEnum.N.getCode());
+                .setDisplayName(row.getDisplayName());
     }
 
     @Override
@@ -289,29 +273,7 @@ public class AniOpusServiceImpl implements AniOpusService {
     @Override
     public FileInfo uploadRes(BigInteger opusId, String filename) throws BusinessException {
         AniOpus opus = lightDao.load(new AniOpus().setId(opusId));
-        FileInfo fileInfo = resUtils.saveRes(opus.getNameCn(), filename);
-        // 发送系统通知
-        SysNotifyAddDTO sysNotifyAddDTO = new SysNotifyAddDTO()
-                .setTitle("【" + opus.getNameCn() + "】更新啦~~~")
-                .setMemo("资源名：" + fileInfo.getFileName())
-                .setJumpUrl(String.valueOf(opus.getId()))
-                .setNotifyTime(DateUtil.date().toTimestamp())
-                .setLevel(LevelEnum.INFO.getCode())
-                .setIsGlobal(IsEnum.Y.getCode())
-                .setNotifyType(NotifyConst.OPUS_UPDATE);
-        sysNotifyService.addNotify(sysNotifyAddDTO);
-        return fileInfo;
-    }
-
-    @Override
-    public AniMedia findMedia(BigInteger opusId, String resName) {
-        if (StrUtil.isBlank(resName)) {
-            return null;
-        }
-        Map<String, Object> map = MapUtil.newHashMap(2);
-        map.put("opusId", opusId);
-        map.put("fileName", resName);
-        return lightDao.findOne("ani_media_findByFileName", map, AniMedia.class);
+        return resUtils.saveRes(opus.getNameCn(), filename);
     }
 
     @Override

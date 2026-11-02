@@ -86,6 +86,7 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({name: "UserView"});
 import {nextTick, onMounted, ref} from "vue";
 import {reqCommonFeedback} from "@/api/ApiFeedback";
 import {listByPage, deleteBatch} from "@/api/system/sys-user-api";

@@ -32,4 +32,59 @@
         </value>
     </sql>
 
+    <!-- 同组内的下一集：正片组按集数往后找 -->
+    <sql id="ani_media_findNextMain">
+        <value>
+            <![CDATA[
+            select id, opus_id, episode_no, episode_key, display_name, sort_no
+            from ani_media
+            where opus_id = :opusId and is_deleted = 0 and is_primary = 1
+              and episode_no is not null and sort_no > :sortNo
+            order by sort_no, id
+            limit 1
+            ]]>
+        </value>
+    </sql>
+
+    <!-- 同组内的下一集：额外内容组按 SP 序号往后找（无集数文件 sort_no 为空，不会有后继） -->
+    <sql id="ani_media_findNextExtra">
+        <value>
+            <![CDATA[
+            select id, opus_id, episode_no, episode_key, display_name, sort_no
+            from ani_media
+            where opus_id = :opusId and is_deleted = 0 and is_primary = 1
+              and episode_no is null and sort_no is not null and sort_no > :sortNo
+            order by sort_no, id
+            limit 1
+            ]]>
+        </value>
+    </sql>
+
+    <!-- 按集数键取主文件 -->
+    <sql id="ani_media_findPrimaryByEpisodeKey">
+        <value>
+            <![CDATA[
+            select id, opus_id, episode_no, episode_key, display_name, sort_no
+            from ani_media
+            where opus_id = :opusId and episode_key = :episodeKey
+              and is_deleted = 0 and is_primary = 1
+            order by id
+            limit 1
+            ]]>
+        </value>
+    </sql>
+
+    <!-- 作品是否存在正片 -->
+    <sql id="ani_media_existsMain">
+        <value>
+            <![CDATA[
+            select id
+            from ani_media
+            where opus_id = :opusId and is_deleted = 0 and is_primary = 1 and episode_no is not null
+            order by id
+            limit 1
+            ]]>
+        </value>
+    </sql>
+
 </sqltoy>

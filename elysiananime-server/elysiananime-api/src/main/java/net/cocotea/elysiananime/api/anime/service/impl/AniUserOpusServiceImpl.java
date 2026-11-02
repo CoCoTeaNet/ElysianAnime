@@ -13,15 +13,14 @@ import net.cocotea.elysiananime.api.anime.model.po.AniUserOpus;
 import net.cocotea.elysiananime.api.anime.model.vo.AniOpusTagVO;
 import net.cocotea.elysiananime.api.anime.model.vo.AniUserOpusSharesVO;
 import net.cocotea.elysiananime.api.anime.model.vo.AniUserOpusVO;
+import net.cocotea.elysiananime.api.anime.playback.AniPlaybackService;
 import net.cocotea.elysiananime.api.anime.service.AniOpusService;
 import net.cocotea.elysiananime.api.anime.service.AniTagService;
 import net.cocotea.elysiananime.api.anime.service.AniUserOpusService;
-import net.cocotea.elysiananime.api.system.model.po.SysUser;
 import net.cocotea.elysiananime.common.enums.IsEnum;
 import net.cocotea.elysiananime.common.enums.ReadStatusEnum;
 import net.cocotea.elysiananime.common.model.ApiPage;
 import net.cocotea.elysiananime.common.model.BusinessException;
-import net.cocotea.elysiananime.properties.DefaultProp;
 import net.cocotea.elysiananime.util.LoginUtils;
 import org.noear.solon.annotation.Component;
 import org.noear.solon.annotation.Inject;
@@ -32,6 +31,7 @@ import org.sagacity.sqltoy.model.Page;
 import org.sagacity.sqltoy.solon.annotation.Db;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -46,9 +46,6 @@ import static java.util.stream.Collectors.groupingBy;
 @Component
 public class AniUserOpusServiceImpl implements AniUserOpusService {
 
-    @Inject
-    private DefaultProp defaultProp;
-
     @Db
     private LightDao lightDao;
 
@@ -57,6 +54,9 @@ public class AniUserOpusServiceImpl implements AniUserOpusService {
 
     @Inject
     private AniOpusService aniOpusService;
+
+    @Inject
+    private AniPlaybackService aniPlaybackService;
 
     @Override
     public boolean add(AniUserOpusAddDTO param) {
@@ -74,11 +74,71 @@ public class AniUserOpusServiceImpl implements AniUserOpusService {
         return !idList.isEmpty();
     }
 
+    /**
+     * 更新追番记录。
+     * <p>
+     * 带 {@code readStatus} 时走手动改状态规则（见 doc/plan/playback-media-rework.md §5.2）：
+     * 清零所有集的累计观看时长，改为「已看完」时同步 last_episode_key / last_media_id。
+     * <p>
+     * 优先用 id 定位，传 opusId 时按 (user_id, opus_id) 定位自己的记录。
+     */
     @Override
-    public boolean update(AniUserOpusUpdateDTO updateDTO) {
-        AniUserOpus aniUserOpus = BeanUtil.copyProperties(updateDTO, AniUserOpus.class);
-        long count = lightDao.update(aniUserOpus);
-        return count > 0;
+    public boolean update(AniUserOpusUpdateDTO updateDTO) throws BusinessException {
+        AniUserOpus userOpus = resolveOwnedUserOpus(updateDTO);
+        if (updateDTO.getReadStatus() != null) {
+            boolean applied = aniPlaybackService.applyManualStatus(userOpus, updateDTO.getReadStatus());
+            updateOtherFields(userOpus, updateDTO);
+            return applied;
+        }
+        return updateOtherFields(userOpus, updateDTO);
+    }
+
+    private AniUserOpus resolveOwnedUserOpus(AniUserOpusUpdateDTO updateDTO) throws BusinessException {
+        BigInteger loginId = LoginUtils.loginIdEx();
+        if (loginId == null) {
+            throw new BusinessException("未登录");
+        }
+        if (updateDTO.getId() != null) {
+            return loadOwnedUserOpus(updateDTO.getId(), loginId);
+        }
+        if (updateDTO.getOpusId() != null) {
+            AniUserOpus userOpus = getByOpusIdAndUserId(updateDTO.getOpusId(), loginId);
+            if (userOpus == null) {
+                throw new BusinessException("无权操作该记录");
+            }
+            return userOpus;
+        }
+        throw new BusinessException("关联id为空");
+    }
+
+    /**
+     * 只更新与观看状态无关的字段，条件带上 user_id 防止越权
+     */
+    private boolean updateOtherFields(AniUserOpus userOpus, AniUserOpusUpdateDTO updateDTO) {
+        if (updateDTO.getIsShare() == null) {
+            return true;
+        }
+        lightDao.executeSql("""
+                        update ani_user_opus
+                        set is_share = coalesce(?, is_share)
+                        where id = ? and user_id = ?
+                        """,
+                updateDTO.getIsShare(), userOpus.getId(), userOpus.getUserId());
+        return true;
+    }
+
+    /**
+     * 取出指定用户的追番记录，越权直接拒绝
+     */
+    AniUserOpus loadOwnedUserOpus(BigInteger userOpusId, BigInteger loginId) throws BusinessException {
+        if (userOpusId == null) {
+            throw new BusinessException("关联id为空");
+        }
+        AniUserOpus userOpus = lightDao.loadById(AniUserOpus.class, userOpusId);
+        if (userOpus == null || !loginId.equals(userOpus.getUserId())) {
+            throw new BusinessException("无权操作该记录");
+        }
+        return userOpus;
     }
 
     @Override
@@ -113,14 +173,32 @@ public class AniUserOpusServiceImpl implements AniUserOpusService {
                     .setOpusId(opusId)
                     .setReadStatus(ReadStatusEnum.NOT_READ.getCode())
                     .setIsShare(IsEnum.N.getCode())
-                    .setReadingNum("1")
-                    .setReadingTime(BigInteger.valueOf(0L));
+                    .setCreateTime(LocalDateTime.now());
             lightDao.save(userOpus);
             return true;
         } else {
-            // 取消关注
-            return delete(userOpusExist.getId());
+            // 已追番：幂等确认，不再当开关用，取消走 unfollow
+            return true;
         }
+    }
+
+    /**
+     * 取消追番
+     */
+    @Override
+    public boolean unfollow(BigInteger opusId) throws BusinessException {
+        if (opusId == null) {
+            throw new BusinessException("作品id为空");
+        }
+        BigInteger loginId = LoginUtils.loginIdEx();
+        if (loginId == null) {
+            throw new BusinessException("未登录");
+        }
+        AniUserOpus userOpus = getByOpusIdAndUserId(opusId, loginId);
+        if (userOpus == null) {
+            return false;
+        }
+        return delete(userOpus.getId());
     }
 
     @Override
@@ -130,32 +208,6 @@ public class AniUserOpusServiceImpl implements AniUserOpusService {
         mapDTO.put("loginId", loginId);
         Page<AniUserOpusVO> page = lightDao.findPage(ApiPage.create(pageDTO), "ani_user_opus_listByUser", mapDTO, AniUserOpusVO.class);
         return ApiPage.rest(page);
-    }
-
-    @Override
-    public boolean updateProgress(AniUserOpusUpdateDTO updateDTO) {
-        Long readingTime = updateDTO.getReadingTime();
-        Long autoReadingTime = defaultProp.getAutoReadingTime();
-        // 根据观看时长自动更新观看状态
-        if (readingTime != null && autoReadingTime != null) {
-            if (readingTime >= autoReadingTime) {
-                BigInteger id = updateDTO.getId();
-                AniUserOpus userOpus = lightDao.load(new AniUserOpus().setId(id));
-                Integer readStatus = userOpus.getReadStatus();
-                if (readStatus == ReadStatusEnum.NOT_READ.getCode().intValue()) {
-                    updateDTO.setReadStatus(ReadStatusEnum.READING.getCode());
-                }
-            }
-        }
-        return update(updateDTO);
-    }
-
-    @Override
-    public List<String> findFollowsEmail(BigInteger opusId) {
-        Map<String, Object> dtoMap = new HashMap<>(1);
-        dtoMap.put("opusId", opusId);
-        List<SysUser> list = lightDao.find("ani_user_opus_findFollowsEmail", dtoMap, SysUser.class);
-        return list.stream().map(SysUser::getEmail).collect(Collectors.toList());
     }
 
     @Override

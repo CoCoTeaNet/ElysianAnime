@@ -12,7 +12,6 @@ import net.cocotea.elysiananime.api.anime.model.dto.AniOpusAddDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusHomeDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusPageDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusUpdateDTO;
-import net.cocotea.elysiananime.api.anime.model.po.AniMedia;
 import net.cocotea.elysiananime.api.anime.model.vo.AniOpusHomeVO;
 import net.cocotea.elysiananime.api.anime.model.vo.AniOpusVO;
 import net.cocotea.elysiananime.api.anime.model.vo.AniVideoVO;
@@ -26,7 +25,6 @@ import net.cocotea.elysiananime.common.model.BusinessException;
 import net.cocotea.elysiananime.common.model.FileInfo;
 import net.cocotea.elysiananime.properties.FileProp;
 import org.noear.solon.annotation.*;
-import org.noear.solon.core.handle.Context;
 import org.noear.solon.core.handle.DownloadedFile;
 import org.noear.solon.core.handle.UploadedFile;
 
@@ -57,9 +55,6 @@ public class AniOpusController {
 
     @Inject
     private MediaScanner mediaScanner;
-
-    @Inject
-    private MediaStreamer mediaStreamer;
 
     /**
      * 上传作品资源
@@ -150,14 +145,17 @@ public class AniOpusController {
      */
     @Mapping("/listByUser")
     public ApiResult<ApiPage<AniOpusHomeVO>> listByUser(@Body AniOpusHomeDTO homeDTO) throws BusinessException {
-        List<String> list = new ArrayList<>(homeDTO.getStatus().size());
-        for (String status : homeDTO.getStatus()) {
-            if (status.equals(ReadStatusEnum.NOT_READ.getAliseName())) {
-                list.add(String.valueOf(ReadStatusEnum.NOT_READ.getCode()));
-            } else if (status.equals(ReadStatusEnum.IS_READ.getAliseName())) {
-                list.add(String.valueOf(ReadStatusEnum.IS_READ.getCode()));
-            } else if (status.equals(ReadStatusEnum.READING.getAliseName())) {
-                list.add(String.valueOf(ReadStatusEnum.READING.getCode()));
+        List<String> list = new ArrayList<>();
+        List<String> statusList = homeDTO.getStatus();
+        if (statusList != null) {
+            for (String status : statusList) {
+                if (status.equals(ReadStatusEnum.NOT_READ.getAliseName())) {
+                    list.add(String.valueOf(ReadStatusEnum.NOT_READ.getCode()));
+                } else if (status.equals(ReadStatusEnum.IS_READ.getAliseName())) {
+                    list.add(String.valueOf(ReadStatusEnum.IS_READ.getCode()));
+                } else if (status.equals(ReadStatusEnum.READING.getAliseName())) {
+                    list.add(String.valueOf(ReadStatusEnum.READING.getCode()));
+                }
             }
         }
         homeDTO.setStatus(list);
@@ -175,28 +173,6 @@ public class AniOpusController {
     @Mapping("/getOpusMedia/{opusId}")
     public ApiResult<AniVideoVO> getOpusMedia(@Path("opusId") BigInteger opusId) throws BusinessException {
         return ApiResult.ok(aniOpusService.getOpusMedia(opusId));
-    }
-
-    /**
-     * 获取资源媒体流（旧接口，保留到 P4）
-     * <p>
-     * 按 {@code opus_id + file_name} 查媒体索引后走统一的流式响应（支持 Range），
-     * 不再按文件名拼路径。
-     *
-     * @param opusId  作品ID
-     * @param resName 资源名称
-     */
-    @Get
-    @Mapping("/media/{opusId}")
-    public void getMedia(@Path("opusId") BigInteger opusId,
-                         @Param(value = "resName", required = true) String resName,
-                         Context ctx) throws IOException {
-        AniMedia media = aniOpusService.findMedia(opusId, resName);
-        if (media == null) {
-            mediaStreamer.writeError(ctx, 404, "资源不存在");
-            return;
-        }
-        mediaStreamer.stream(media, ctx);
     }
 
     @Get

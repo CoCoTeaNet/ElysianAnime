@@ -44,8 +44,6 @@ elysiananime:
   auto-reading-time: 180
   # true表示 做种
   seed-flag: true
-  # true表示 启用邮件通知
-  mail-notify-flag: false
   # 代理信息
   proxy:
     enable: true
@@ -75,20 +73,6 @@ elysiananime:
     username: admin
     # 密码
     password: admin@qb123456
-  # 邮箱通知账号（mail-notify-flag=true时生效）
-  emailsender:
-    # 用户名（注意：如果使用foxmail邮箱，此处user为qq号）
-    user: xxxxxxxxx@163.com
-    # 发件人（必须正确，否则发送失败）
-    from: tester<xxxxxxxxx@163.com>
-    # 密码（注意，某些邮箱需要为SMTP服务单独设置密码，详情查看相关帮助）
-    pass: your_pwd
-    # 邮件服务器的SMTP地址
-    host: smtp.163.com
-    # 邮件服务器的SMTP端口
-    port: 465
-    # 这个一般默认true就可以了
-    sslEnable: true
 
 
 myapp:

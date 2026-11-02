@@ -284,6 +284,7 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({name: "AnimeOpusView"});
 import { onMounted, ref, reactive, nextTick } from "vue";
 import { add, deleteBatch, update, listByPage, addOpusFromBangumi } from "@/api/anime/ani-opus-api";
 import { reqCommonFeedback, reqSuccessFeedback } from "@/api/ApiFeedback";

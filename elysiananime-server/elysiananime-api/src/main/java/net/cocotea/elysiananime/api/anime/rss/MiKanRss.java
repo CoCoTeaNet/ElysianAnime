@@ -1,7 +1,6 @@
 package net.cocotea.elysiananime.api.anime.rss;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Opt;
@@ -12,8 +11,6 @@ import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
-import cn.hutool.extra.mail.MailAccount;
-import cn.hutool.extra.mail.MailUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
@@ -25,20 +22,14 @@ import net.cocotea.elysiananime.api.anime.model.vo.AniVideoVO;
 import net.cocotea.elysiananime.api.anime.model.vo.RssCountVO;
 import net.cocotea.elysiananime.api.anime.rss.model.MkXmlDetail;
 import net.cocotea.elysiananime.api.anime.rss.model.RenameInfo;
-import net.cocotea.elysiananime.api.system.model.dto.SysNotifyAddDTO;
-import net.cocotea.elysiananime.api.system.service.SysNotifyService;
 import net.cocotea.elysiananime.api.anime.service.AniOpusService;
-import net.cocotea.elysiananime.api.anime.service.AniUserOpusService;
 import net.cocotea.elysiananime.common.constant.CharConst;
-import net.cocotea.elysiananime.common.constant.NotifyConst;
 import net.cocotea.elysiananime.common.constant.RedisKeyConst;
 import net.cocotea.elysiananime.common.enums.IsEnum;
-import net.cocotea.elysiananime.common.enums.LevelEnum;
 import net.cocotea.elysiananime.common.enums.RssStatusEnum;
 import net.cocotea.elysiananime.common.model.BusinessException;
 import net.cocotea.elysiananime.common.service.RedisService;
 import net.cocotea.elysiananime.properties.DefaultProp;
-import net.cocotea.elysiananime.properties.EmailSenderProp;
 import net.cocotea.elysiananime.properties.QbittorrentProp;
 import net.cocotea.elysiananime.util.QbApiUtils;
 import net.cocotea.elysiananime.util.ResUtils;
@@ -75,9 +66,6 @@ public class MiKanRss {
     private static final Logger log = LoggerFactory.getLogger(MiKanRss.class);
 
     @Inject
-    private EmailSenderProp emailSenderProp;
-
-    @Inject
     private DefaultProp defaultProp;
 
     @Inject
@@ -91,12 +79,6 @@ public class MiKanRss {
 
     @Inject
     private ResUtils resUtils;
-
-    @Inject
-    private SysNotifyService sysNotifyService;
-
-    @Inject
-    private AniUserOpusService aniUserOpusService;
 
     @Inject
     private RedisService redisService;
@@ -396,51 +378,6 @@ public class MiKanRss {
                 .setEpisodeIndexList(episodeIndexList);
     }
 
-    private void doNotifyCatchEx(AniOpus opus, File targetFile) {
-        try {
-            doNotify(opus, targetFile);
-        } catch (BusinessException ex) {
-            log.warn("doNotifyCatchEx >>>>> RSS通知失败，msg：{}", ex.getMessage());
-        }
-    }
-
-    private void doNotify(AniOpus opus, File targetFile) throws BusinessException {
-        SysNotifyAddDTO sysNotifyAddDTO = new SysNotifyAddDTO()
-                .setTitle("【" + opus.getNameCn() + "】更新啦~~~")
-                .setMemo("资源名：" + targetFile.getName())
-                .setJumpUrl(String.valueOf(opus.getId()))
-                .setNotifyTime(DateUtil.date().toTimestamp())
-                .setLevel(LevelEnum.INFO.getCode())
-                .setIsGlobal(IsEnum.Y.getCode())
-                .setNotifyType(NotifyConst.OPUS_UPDATE);
-        sysNotifyService.addNotify(sysNotifyAddDTO);
-
-        if (defaultProp.getMailNotifyFlag() == null || !defaultProp.getMailNotifyFlag()) {
-            log.warn("doNotify >>>>> 不启用邮件通知！！！");
-            return;
-        }
-
-        // 5、发送下载完成邮件
-        List<String> emails = aniUserOpusService.findFollowsEmail(opus.getId());
-        String emailHtml = String.format(
-                "    <div>" +
-                "        <p>中文名：" + opus.getNameCn() + "</p>" +
-                "        <p>原名：" + opus.getNameOriginal() + "</p>" +
-                "        <p>资源名称：" + targetFile.getName() + "</p>" +
-                "        <a href=\"%s/#/anime/video/" + opus.getId() + "/1/1\">点我前往ElysianAnime追番~~~</a>\n" +
-                "    </div>", defaultProp.getWebUrl()
-        );
-        String emailTitle = "ElysianAnime：你追的番剧更新了~~~【" + opus.getNameCn() + "】";
-        MailAccount mailAccount = new MailAccount()
-                .setUser(emailSenderProp.getUser())
-                .setFrom(emailSenderProp.getFrom())
-                .setPass(emailSenderProp.getPass())
-                .setHost(emailSenderProp.getHost())
-                .setPort(emailSenderProp.getPort())
-                .setSslEnable(emailSenderProp.getSslEnable());
-        MailUtil.send(mailAccount, emails, emailTitle, emailHtml, true);
-    }
-
     public JSONObject getRssWorkStatus() {
         return Optional
                 .of(redisService.get(RedisKeyConst.RSS_WORKS_STATUS))
@@ -472,7 +409,6 @@ public class MiKanRss {
                 // 通知
                 String opusName = FileUtil.file(info.getSavePath()).getName();
                 AniOpus aniOpus = aniOpusService.loadByNameCn(opusName);
-                doNotifyCatchEx(aniOpus, file);
                 // 下载完成后触发该作品的媒体扫描
                 if (aniOpus != null) {
                     mediaScanner.scanOpusAsync(aniOpus.getId(), MediaScanner.SOURCE_RSS);

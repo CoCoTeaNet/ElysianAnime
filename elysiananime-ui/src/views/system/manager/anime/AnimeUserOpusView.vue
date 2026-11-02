@@ -40,7 +40,7 @@
             <div>
               <el-link :icon="VideoCameraFilled"
                        v-if="scope.row.hasResource == 1"
-                       @click="toPlayerView(scope.row.id)"
+                       @click="toPlayerView(scope.row)"
                        style="color: var(--el-color-primary)">
                 <span style="font-weight: 600;font-size: 18px">{{ scope.row.nameCn }}</span>
               </el-link>
@@ -55,19 +55,14 @@
             {{ acgUserOpusTypes.getReadStatusCn(scope.row.readStatus) }}
           </template>
         </el-table-column>
-        <el-table-column width="100" prop="readingNum" label="观看集数"/>
-        <el-table-column width="200" prop="readingTime" label="播放进度">
+        <el-table-column width="160" label="正在观看">
           <template #default="scope">
-            {{
-              dayjs.duration(scope.row.readingTime * 1000).hours() + '时' +
-              dayjs.duration(scope.row.readingTime * 1000).minutes() + '分' +
-              dayjs.duration(scope.row.readingTime * 1000).seconds() + '秒'
-            }}
+            {{ watchingLabel(scope.row) }}
           </template>
         </el-table-column>
-        <el-table-column width="300" prop="resourceUrl" label="资源地址">
+        <el-table-column width="140" label="播放进度">
           <template #default="scope">
-            <el-link :href="scope.row.resourceUrl">{{ scope.row.resourceUrl }}</el-link>
+            {{ progressLabel(scope.row) }}
           </template>
         </el-table-column>
         <el-table-column width="200" prop="createTime" label="关注时间"/>
@@ -100,15 +95,6 @@
     <template #form>
       <el-dialog v-model="dialogFormVisible" title="编辑追番信息">
         <el-form ref="sttFormRef" label-width="120px" :model="editForm" :rules="rules">
-          <el-form-item prop="resourceUrl" label="资源地址">
-            <el-input v-model="editForm.resourceUrl"></el-input>
-          </el-form-item>
-          <el-form-item prop="readingNum" label="正在的播放集数">
-            <el-input v-model="editForm.readingNum"></el-input>
-          </el-form-item>
-          <el-form-item prop="readingTime" label="正在播放的时长">
-            <el-input v-model="editForm.readingTime"></el-input>
-          </el-form-item>
           <el-form-item prop="readStatus" label="观看状态">
             <el-radio-group v-model="editForm.readStatus">
               <el-radio :label="0">未看</el-radio>
@@ -135,20 +121,18 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({name: "AnimeUserOpusView"});
 import {onMounted, ref, reactive, watch} from "vue";
-import {follow, listByUser, update} from "@/api/anime/ani-user-opus-api";
+import {listByUser, unfollow, update} from "@/api/anime/ani-user-opus-api";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import TableManage from "@/components/container/TableManage.vue";
 import {ElForm} from "element-plus/es";
-import {ElMessage, ElMessageBox, dayjs} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 import {Edit, Search, RefreshRight, VideoCameraFilled} from "@element-plus/icons-vue";
 import acgUserOpusTypes from "@/types/acg-user-opus-types";
 import commonTypes from "@/types/common-types";
 import {router} from "@/router";
 import {useRoute} from "vue-router";
-import duration from 'dayjs/plugin/duration';
-
-dayjs.extend(duration);
 
 const route = useRoute();
 type FormInstance = InstanceType<typeof ElForm>
@@ -163,7 +147,7 @@ const pageParam = ref<any>({
   isShare: null
 });
 // 表单参数
-const editForm = ref<AcgUserOpusModel>({});
+const editForm = ref<Record<string, any>>({});
 // 加载进度
 const loading = ref<boolean>(true);
 // 表单校验规则
@@ -187,7 +171,7 @@ onMounted(() => {
   loadTableData();
 });
 
-const onEdit = (row: AcgUserOpusModel): void => {
+const onEdit = (row: Record<string, any>): void => {
   editForm.value = row;
   dialogFormVisible.value = true;
 }
@@ -229,15 +213,40 @@ const onCancelFollow = (opusId: string) => {
         type: 'warning',
       }
   ).then(() => {
-    reqCommonFeedback(follow(opusId), () => {
+    reqCommonFeedback(unfollow({opusId}), () => {
       ElMessage({type: 'success', message: '操作成功'});
       loadTableData();
     });
   });
 }
 
-const toPlayerView = (id: string) => {
-  router.push({name: 'AcgVideo', query: {'opusId': id, 'num': 1}})
+const watchingLabel = (row: any): string => {
+  return row.displayName || row.lastEpisodeKey || '—';
+}
+
+const progressLabel = (row: any): string => {
+  const duration = Number(row.durationMs || 0);
+  const position = Number(row.positionMs || 0);
+  if (duration <= 0) return '—';
+  return formatDuration(position) + ' / ' + formatDuration(duration);
+}
+
+const formatDuration = (ms: number): string => {
+  const total = Math.floor(ms / 1000);
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
+  return (h > 0 ? h + '时' : '') + m + '分' + s + '秒';
+}
+
+const toPlayerView = (row: any) => {
+  const query: Record<string, any> = {};
+  if (row.lastMediaId && Number(row.lastMediaId) > 0) {
+    query.ep = String(row.lastMediaId);
+  } else if (row.lastEpisodeKey) {
+    query.ek = row.lastEpisodeKey;
+  }
+  router.push({name: 'AnimeDetail', params: {id: row.opusId}, query})
 }
 </script>
 

@@ -228,27 +228,6 @@ CREATE TABLE `sys_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='系统菜单表';
 
 
--- elysiananime.sys_notify definition
-
-CREATE TABLE `sys_notify` (
-                              `id` bigint NOT NULL COMMENT '通知ID',
-                              `title` varchar(200) COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '通知标题',
-                              `memo` varchar(900) COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT '消息内容',
-                              `jump_url` varchar(200) COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT '跳转链接、ID、等等',
-                              `notify_type` varchar(20) COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '通知类型',
-                              `is_global` tinyint NOT NULL DEFAULT '0' COMMENT '是否全局',
-                              `receiver` bigint DEFAULT NULL COMMENT '接收人',
-                              `level` tinyint NOT NULL DEFAULT '1' COMMENT '通知等级',
-                              `notify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '通知时间',
-                              `create_by` bigint DEFAULT NULL COMMENT '创建人',
-                              `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                              `is_deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
-                              PRIMARY KEY (`id`),
-                              KEY `sys_notify_idx1` (`notify_type`,`is_deleted`,`create_time`),
-                              KEY `sys_notify_idx2` (`receiver`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci COMMENT='系统通知表';
-
-
 -- elysiananime.sys_role definition
 
 CREATE TABLE `sys_role` (

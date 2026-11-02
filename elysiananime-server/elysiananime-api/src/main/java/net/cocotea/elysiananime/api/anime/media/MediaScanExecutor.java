@@ -4,13 +4,12 @@ import cn.hutool.core.util.StrUtil;
 import net.cocotea.elysiananime.api.anime.model.po.AniMedia;
 import net.cocotea.elysiananime.api.anime.model.po.AniOpus;
 import net.cocotea.elysiananime.properties.FileProp;
+import net.cocotea.elysiananime.util.SnowflakeIds;
 import org.noear.solon.annotation.Component;
 import org.noear.solon.annotation.Inject;
 import org.noear.solon.data.annotation.Tran;
 import org.sagacity.sqltoy.dao.LightDao;
 import org.sagacity.sqltoy.model.EntityQuery;
-import org.sagacity.sqltoy.plugins.id.IdGenerator;
-import org.sagacity.sqltoy.plugins.id.impl.SnowflakeIdGenerator;
 import org.sagacity.sqltoy.solon.annotation.Db;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +29,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -135,7 +134,7 @@ public class MediaScanExecutor {
         List<AniMedia> inserts = new ArrayList<>();
         for (ScannedFile file : adds) {
             AniMedia row = new AniMedia()
-                    .setId(nextId())
+                    .setId(SnowflakeIds.nextId())
                     .setOpusId(opus.getId())
                     .setFilePathHash(file.filePathHash)
                     .setExtension(file.extension)
@@ -452,7 +451,7 @@ public class MediaScanExecutor {
                     sql.append(", ");
                 }
                 sql.append("(?, ?, ?, ?, ?, ?, ?, ?, 0)");
-                args.add(nextId());
+                args.add(SnowflakeIds.nextId());
                 args.add(row.getOpusId());
                 args.add(row.getId());
                 args.add(row.getEpisodeKey());
@@ -582,12 +581,6 @@ public class MediaScanExecutor {
 
     private static BigInteger nullSafe(BigInteger value) {
         return value == null ? BigInteger.ZERO : value;
-    }
-
-    private static BigInteger nextId() {
-        IdGenerator generator = SnowflakeIdGenerator.getInstance();
-        Object id = generator.getId(null, null, null, null, new Date(), null, 0, 0);
-        return BigInteger.valueOf(((Number) id).longValue());
     }
 
     /**

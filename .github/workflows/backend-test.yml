@@ -1,0 +1,28 @@
+name: backend-test
+
+on:
+  push:
+    paths:
+      - 'elysiananime-server/**'
+      - '.github/workflows/backend-test.yml'
+  pull_request:
+    paths:
+      - 'elysiananime-server/**'
+      - '.github/workflows/backend-test.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Run tests
+        working-directory: elysiananime-server
+        run: mvn -B -pl elysiananime-api -am test -DskipTests=false

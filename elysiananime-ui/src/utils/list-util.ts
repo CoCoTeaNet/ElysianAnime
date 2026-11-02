@@ -7,23 +7,8 @@ const treeMap = (list : any[], callback : Function): void => {
     });
 }
 
-/**
- * 通过集数查找资源URL
- */
-const findResUrl = (list: any[], readingNum: number) => {
-    let url = "";
-    for (let i = 0; i < list.length; i++) {
-        let item = list[i];
-        if (item && item.name === readingNum) {
-            url = item.url;
-            break;
-        }
-    }
-    return url;
-}
-
 const listUtil = {
-    treeMap, findResUrl
+    treeMap
 }
 
 export default listUtil;

@@ -80,6 +80,7 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({name: "AnimeFeedList"});
 import {onMounted, ref} from "vue";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import {feedListByUser, feedListSent, deleteFeed} from "@/api/anime/ani-feed-api";
@@ -125,11 +126,9 @@ const onDelete = (id: string) => {
 
 const toPlayerView = (item: any) => {
   router.push({
-    name: "AnimeVideo",
+    name: "AnimeDetail",
     params: {
       id: item.opusId,
-      num: 1,
-      time: 0
     }
   });
 };

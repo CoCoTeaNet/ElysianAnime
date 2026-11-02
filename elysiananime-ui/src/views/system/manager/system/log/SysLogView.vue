@@ -62,6 +62,7 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({name: "OperationLogView"});
 import {nextTick, onMounted, ref, watch} from "vue";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import operationLogApi from "@/api/system/sys-log-api";

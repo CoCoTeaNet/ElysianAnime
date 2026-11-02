@@ -32,14 +32,14 @@
 | `ani_user_feed` | 补齐到标准初始化脚本（老库若已手工建过则跳过） |
 | `sys_menu` | `/#/anime/home` 改为 `/admin/ani-home` |
 
-`ani_user_opus` 的 `reading_num` / `reading_time` / `total_time` / `resource_url` 在 3.1.0 期间继续双写，**不删除**，3.2 再清理。
+`ani_user_opus` 的 `reading_num` / `reading_time` / `total_time` / `resource_url` 旧列在 3.1.0 起停止写入（进度统一落 `ani_user_opus_progress`，追番位置落 `last_episode_key` / `last_media_id`），**列保留到 3.2 再 DROP**。回滚旧镜像后旧首页能读到停写前的值，但进度会冻结在停写那一刻。
 
 ## 3. 回滚
 
 回滚到旧镜像前确认以下事项：
 
 1. **`ani_user_opus` 去重不可逆**：同一 `(user_id, opus_id)` 的重复记录已在迁移中物理删除，回滚不会恢复。升级前务必留库备份
-2. **停写旧列的时点**：3.1.0 的新接口只写新表，同时双写旧列；如果之后升级到停写旧列的版本，回滚旧镜像后首页进度会冻结在停写那一刻
+2. **停写旧列的时点**：3.1.0 起新代码不再写 `reading_num` / `reading_time` / `total_time` / `resource_url`，进度只写 `ani_user_opus_progress`；回滚旧镜像后首页进度会冻结在停写那一刻（旧列有停写前的最后值）
 3. **`sys_notify` 删除不可回滚**（P3 起）：通知表被 DROP，回滚旧镜像后通知相关接口 / 定时任务会报表不存在，需要按旧版本的 DDL 重建
 4. **唯一索引带来的行为变化**：`ani_user_opus_uk_1` 生效后，旧代码并发双击追番会从"产生重复行"变成抛 DuplicateKey。旧代码是先查后插，正常路径不受影响
 

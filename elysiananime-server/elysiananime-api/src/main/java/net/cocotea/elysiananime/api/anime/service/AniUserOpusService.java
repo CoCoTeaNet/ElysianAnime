@@ -26,25 +26,14 @@ public interface AniUserOpusService extends BaseService<ApiPage<AniUserOpusVO>, 
     boolean follow(BigInteger opusId) throws BusinessException;
 
     /**
+     * 取消追番
+     */
+    boolean unfollow(BigInteger opusId) throws BusinessException;
+
+    /**
      * 查找 用户的追番列表
      */
     ApiPage<AniUserOpusVO> listByUser(AniUserOpusPageDTO param);
-
-    /**
-     * 更新播放进度
-     *
-     * @param param {@link AniUserOpusUpdateDTO}
-     * @return true or false
-     */
-    boolean updateProgress(AniUserOpusUpdateDTO param);
-
-    /**
-     * 查找追番的用户邮箱
-     *
-     * @param opusId 作品ID
-     * @return 邮箱集合
-     */
-    List<String> findFollowsEmail(BigInteger opusId);
 
     /**
      * 通关作品id和用户ID获取用户作品关联对象

@@ -1,0 +1,32 @@
+/**
+ * ElysianAnime 设计变量：颜色 / 圆角 / 阴影 / 间距 / 动效
+ * 规则见 doc/plan/playback-ui-redesign.md §3：新组件样式一律取这里的变量，不写死十六进制。
+ */
+:root {
+  --ea-color-primary: #F38181;
+  --ea-bg: #F6F7FB;
+  --ea-surface: #FFFFFF;
+  --ea-border: #EDEFF5;
+  --ea-text-1: #1F2329;
+  --ea-text-2: #6B7280;
+  --ea-text-3: #9CA3AF;
+  --ea-accent-update: #E6A23C;
+  --ea-success: #67C23A;
+
+  --ea-radius-sm: 8px;
+  --ea-radius-md: 12px;
+  --ea-radius-lg: 16px;
+
+  --ea-shadow-1: 0 2px 8px rgba(31, 35, 41, .06);
+  --ea-shadow-2: 0 8px 24px rgba(31, 35, 41, .12);
+
+  --ea-space-1: 4px;
+  --ea-space-2: 8px;
+  --ea-space-3: 12px;
+  --ea-space-4: 16px;
+  --ea-space-5: 24px;
+  --ea-space-6: 32px;
+
+  --ea-duration: 150ms;
+  --ea-duration-dialog: 250ms;
+}

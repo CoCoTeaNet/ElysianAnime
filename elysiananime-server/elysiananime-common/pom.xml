@@ -25,12 +25,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!--邮件框架-->
-        <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>javax.mail</artifactId>
-        </dependency>
-
         <!-- solon -->
         <dependency>
             <groupId>org.noear</groupId>

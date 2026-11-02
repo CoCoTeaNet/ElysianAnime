@@ -114,7 +114,10 @@ public final class SchemaMigrator {
             }
         }
 
-        String maxVersion = applied.keySet().stream().max(SchemaMigrator::compareVersion).orElse(null);
+        String maxVersion = applied.keySet().stream()
+                .filter(version -> !isMarkerVersion(version))
+                .max(SchemaMigrator::compareVersion)
+                .orElse(null);
         for (Script script : scripts) {
             String checksum = applied.get(script.version);
             if (checksum != null) {
@@ -371,12 +374,35 @@ public final class SchemaMigrator {
         return 0;
     }
 
-    private static int parsePart(String part) {
-        try {
-            return Integer.parseInt(part);
-        } catch (NumberFormatException e) {
-            throw new IllegalStateException("版本号不合法：" + part, e);
+    /**
+     * 一次回填标记（如 3.1.0-backfill-progress）不是迁移脚本，不参与版本比较
+     */
+    static boolean isMarkerVersion(String version) {
+        for (String part : version.split("\\.")) {
+            if (part.isEmpty()) {
+                return true;
+            }
+            for (int i = 0; i < part.length(); i++) {
+                if (!Character.isDigit(part.charAt(i))) {
+                    return true;
+                }
+            }
         }
+        return false;
+    }
+
+    /**
+     * 版本号分段：允许带后缀（0-backfill-progress 取 0），没有数字则视为非法
+     */
+    private static int parsePart(String part) {
+        int end = 0;
+        while (end < part.length() && Character.isDigit(part.charAt(end))) {
+            end++;
+        }
+        if (end == 0) {
+            throw new IllegalStateException("版本号不合法：" + part);
+        }
+        return Integer.parseInt(part.substring(0, end));
     }
 
     /**

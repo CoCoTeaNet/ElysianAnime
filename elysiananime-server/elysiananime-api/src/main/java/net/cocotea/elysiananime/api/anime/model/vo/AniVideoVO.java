@@ -8,6 +8,7 @@ import java.io.Serial;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -26,14 +27,6 @@ public class AniVideoVO extends AniOpusVO {
      */
     private Integer readStatus;
     /**
-     * 正在观看集数
-     */
-    private String readingNum;
-    /**
-     * 正在观看的进度
-     */
-    private BigInteger readingTime;
-    /**
      * 是否追番
      */
     private Integer isFollow;
@@ -42,9 +35,25 @@ public class AniVideoVO extends AniOpusVO {
      */
     private Integer isShare;
     /**
-     * 用户作品关联ID
+     * 最新一集的逻辑集数键
      */
-    private BigInteger userOpusId;
+    private String mediaLatestKey;
+    /**
+     * 媒体文件数
+     */
+    private Integer mediaCount;
+    /**
+     * 最近观看的集数键，未追番或还没看过时为 null
+     */
+    private String lastEpisodeKey;
+    /**
+     * 最近观看的媒体文件id，未追番或还没看过时为 null
+     */
+    private BigInteger lastMediaId;
+    /**
+     * 按集进度：key = episodeKey，value = 该集进度
+     */
+    private Map<String, AniEpisodeProgressVO> progressMap;
 
     @Data
     @Accessors(chain = true)
