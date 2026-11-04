@@ -10,7 +10,7 @@
       <el-main>
         <router-view v-slot="{ Component }">
           <transition :name="`slide-fade`" :mode="`out-in`">
-            <keep-alive>
+            <keep-alive :include="keepAliveNames">
               <component :is="Component" />
             </keep-alive>
           </transition>
@@ -25,8 +25,18 @@
 import NavMenu from "./modules/NavMenu.vue";
 import AdminHeader from "./modules/AdminHeader.vue";
 import { useStore } from "@/store";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
 
 const store = useStore();
+const route = useRoute();
+
+// 生产构建下异步组件名不能只靠文件名推断，每个路由组件必须 defineOptions({name})
+const keepAliveNames = computed(() =>
+    (route.matched
+        .map(item => item.components?.default?.name)
+        .filter((name): name is string => !!name && route.meta?.keepAlive !== false))
+);
 </script>
 
 <!--私有样式-->

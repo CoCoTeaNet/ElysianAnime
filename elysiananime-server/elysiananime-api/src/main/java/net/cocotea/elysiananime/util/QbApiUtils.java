@@ -42,9 +42,19 @@ public class QbApiUtils {
         JSONObject params = new JSONObject()
                 .fluentPut("username", qbittorrentProp.getUsername())
                 .fluentPut("password", qbittorrentProp.getPassword());
-        HttpResponse response = HttpRequest.post(url).form(params).timeout(30000).execute();
-        logger.info("qbApi[login]cookie={}", response.header("set-cookie"));
-        return response.header("set-cookie");
+        String cookie;
+        try {
+            HttpResponse response = HttpRequest.post(url).form(params).timeout(30000).execute();
+            cookie = response.header("set-cookie");
+            logger.info("qbApi[login]cookie={}", cookie);
+        } catch (Exception e) {
+            logger.warn("qbApi[login]请求失败，url={}，错误={}", url, e.getMessage());
+            throw new IllegalStateException("qBittorrent 连接失败，请检查下载器配置");
+        }
+        if (StrUtil.isBlank(cookie)) {
+            throw new IllegalStateException("qBittorrent 登录失败，请检查用户名和密码");
+        }
+        return cookie;
     }
 
     /**
@@ -61,7 +71,13 @@ public class QbApiUtils {
         } else {
             // 测试是否cookie是否有效
             String url = qbittorrentProp.getDomain().concat("/api/v2/torrents/info?filter=seeding&sort=ratio");
-            String body = HttpUtil.createGet(url).header("cookie", cookie).execute().body();
+            String body;
+            try {
+                body = HttpUtil.createGet(url).header("cookie", cookie).execute().body();
+            } catch (Exception e) {
+                logger.warn("{}校验票据失败，错误={}", baseMsg, e.getMessage());
+                throw new IllegalStateException("qBittorrent 连接失败，请检查下载器配置");
+            }
             logger.debug("{}测试是否cookie是否有效,body={}", baseMsg, body);
             if (qbittorrentProp.getForbidden().equals(body)) {
                 logger.warn("{}票据失效，重新登录", baseMsg);

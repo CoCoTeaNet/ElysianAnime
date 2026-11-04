@@ -12,10 +12,30 @@ const OperationLogView = () => import("@/views/system/manager/system/log/SysLogV
 const Login = () => import("@/views/system/login/Login.vue");
 const AnimeOpusView = () => import("@/views/system/manager/anime/AnimeOpusView.vue");
 const AnimeUserOpusView = () => import("@/views/system/manager/anime/AnimeUserOpusView.vue");
-const AnimeHome = () => import("@/views/home/AnimeHome.vue");
-const AnimeVideo = () => import("@/views/home/AnimeVideo.vue");
+const AnimeHome = () => import("@/views/anime/home/AnimeHome.vue");
+const AnimeDetail = () => import("@/views/anime/detail/AnimeDetail.vue");
 const AnimeShare = () => import("@/views/home/AnimeShare.vue");
 const AnimeFeedList = () => import("@/views/home/AnimeFeedList.vue");
+
+/**
+ * 旧链接 num 按 episode_key 规则归一：03 → 3、SP01 → SP1；
+ * 0 / 1 是旧调用方的「默认集」占位，不映射成集数
+ */
+const normalizeEpisodeKey = (raw: unknown): string => {
+    const num = String(raw ?? '').trim();
+    if (!num || num === '0' || num === '1') {
+        return '';
+    }
+    const spMatch = num.match(/^SP\s*0*(\d+)$/i);
+    if (spMatch) {
+        return `SP${spMatch[1]}`;
+    }
+    const n = Number(num);
+    if (!isNaN(n) && isFinite(n)) {
+        return String(n);
+    }
+    return num;
+};
 
 
 export const routes = [
@@ -48,7 +68,27 @@ export const routes = [
             {path: 'ani-user-opus-manager', meta: {title: '我的追番'}, name: 'AnimeUserOpusView', component: AnimeUserOpusView},
             // 番剧使用模块
             {path: 'ani-home', meta: {title: '追番首页'}, name: 'AnimeHome', component: AnimeHome},
-            {path: 'ani-video/:id/:num/:time', meta: {title: '番剧资源'}, name: 'AnimeVideo', component: AnimeVideo},
+            {
+                path: 'ani-opus/:id',
+                meta: {title: '番剧详情', keepAlive: false},
+                name: 'AnimeDetail',
+                component: AnimeDetail
+            },
+            {
+                path: 'ani-video/:id/:num/:time',
+                redirect: to => {
+                    const query: Record<string, string> = {};
+                    const ek = normalizeEpisodeKey(to.params.num);
+                    const t = Number(to.params.time);
+                    if (ek) {
+                        query.ek = ek;
+                    }
+                    if (!isNaN(t) && t > 1) {
+                        query.t = String(t);
+                    }
+                    return {path: `/admin/ani-opus/${to.params.id}`, query};
+                }
+            },
             {path: 'ani-shares', meta: {title: '番剧推荐'}, name: 'AnimeShare', component: AnimeShare},
             {path: 'ani-feed-list', meta: {title: '番剧投喂'}, name: 'AnimeFeedList', component: AnimeFeedList},
         ]

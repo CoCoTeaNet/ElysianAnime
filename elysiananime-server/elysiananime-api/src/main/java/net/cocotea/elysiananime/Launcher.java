@@ -1,6 +1,7 @@
 package net.cocotea.elysiananime;
 
 import net.cocotea.elysiananime.common.constant.GlobalConst;
+import net.cocotea.elysiananime.init.SchemaMigrator;
 import net.cocotea.elysiananime.properties.DefaultProp;
 import org.noear.solon.Solon;
 import org.noear.solon.SolonApp;
@@ -22,7 +23,14 @@ public class Launcher {
     private static final Logger log = LoggerFactory.getLogger(Launcher.class);
 
     public static void main(String[] args) {
-        SolonApp app = Solon.start(Launcher.class, args);
+        // 迁移必须在端口监听前完成，失败即终止启动；回调阶段容器 bean 尚未创建，只能直接读配置
+        SolonApp app = Solon.start(Launcher.class, args, x -> {
+            new SchemaMigrator(
+                    x.cfg().get("myapp.db1.jdbcUrl"),
+                    x.cfg().get("myapp.db1.username"),
+                    x.cfg().get("myapp.db1.password")
+            ).migrate();
+        });
         AppContext context = app.context();
 
         DefaultProp defaultProp = context.getBean("defaultProp");

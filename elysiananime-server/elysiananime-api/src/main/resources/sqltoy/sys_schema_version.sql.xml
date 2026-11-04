@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <!-- 一次性回填的幂等标记 -->
+    <sql id="sys_schema_version_count">
+        <value>
+            <![CDATA[
+            select count(*) from sys_schema_version where version = :version
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>

@@ -36,14 +36,31 @@
       <el-table @selection-change="onSelectionChange" stripe row-key="id" :data="pageVo.records" v-loading="loading">
         <el-table-column type="selection" width="55">
         </el-table-column>
-        <el-table-column prop="coverUrl" width="155" label="封面地址">
+        <el-table-column prop="coverUrl" width="155" label="封面">
           <template #default="scope">
-            <el-image style="width: 100px; height: 144px" :src="`api/anime/opus/cover?resName=${scope.row.coverUrl}`"
-              fit="fill" />
+            <div class="cover-cell" @click="toDetail(scope.row)">
+              <el-image style="width: 100px; height: 144px" :src="coverSrc(scope.row)" fit="fill">
+                <template #error>
+                  <div class="cover-empty">无封面</div>
+                </template>
+              </el-image>
+            </div>
           </template>
         </el-table-column>
-        <el-table-column width="300" prop="nameOriginal" label="原名" />
-        <el-table-column width="300" prop="nameCn" label="中文名" />
+        <el-table-column width="300" prop="nameOriginal" label="原名">
+          <template #default="scope">
+            <el-link type="primary" :underline="false" @click="toDetail(scope.row)">
+              {{ scope.row.nameOriginal }}
+            </el-link>
+          </template>
+        </el-table-column>
+        <el-table-column width="300" prop="nameCn" label="中文名">
+          <template #default="scope">
+            <el-link type="primary" :underline="false" @click="toDetail(scope.row)">
+              {{ scope.row.nameCn }}
+            </el-link>
+          </template>
+        </el-table-column>
         <el-table-column width="100" prop="score" label="评分">
           <template #default="scope">
             <el-tag>{{ scope.row.score }}</el-tag>
@@ -73,9 +90,14 @@
         <el-table-column width="200" prop="updateTime" label="更新时间" />
         <el-table-column prop="updateByName" label="更新人" />
         <!-- 单行操作 -->
-        <el-table-column fixed="right" width="400" label="操作">
+        <el-table-column fixed="right" width="520" label="操作">
           <template #default="scope">
             <el-button size="small" icon="Link" @click="onAddOpusTorrentShowDialog(scope.row)">添加资源</el-button>
+            <el-upload class="cover-upload" :show-file-list="false" action="/api/anime/opus/cover/upload" name="file"
+              :data="{ opusId: scope.row.id }" :before-upload="beforeCoverUpload"
+              :on-success="(res: any) => onCoverUploaded(res)" :on-error="onCoverUploadError">
+              <el-button size="small" icon="Picture">上传封面</el-button>
+            </el-upload>
             <el-button size="small" icon="Edit" @click="onEdit(scope.row)">编辑</el-button>
             <el-button size="small" type="primary" icon="VideoCamera" @click="onRssEdit(scope.row)">
               RSS订阅
@@ -284,7 +306,9 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({name: "AnimeOpusView"});
 import { onMounted, ref, reactive, nextTick } from "vue";
+import { useRouter } from "vue-router";
 import { add, deleteBatch, update, listByPage, addOpusFromBangumi } from "@/api/anime/ani-opus-api";
 import { reqCommonFeedback, reqSuccessFeedback } from "@/api/ApiFeedback";
 import TableManage from "@/components/container/TableManage.vue";
@@ -295,6 +319,7 @@ import { ApiResultEnum } from "@/api/ApiResultEnum";
 import {RULE_URL_HTTP} from "@/utils/rules-util";
 
 type FormInstance = InstanceType<typeof ElForm>
+const router = useRouter();
 const sttFormRef = ref<FormInstance>();
 const sttRssFormRef = ref<FormInstance>();
 const sttAddSimpleResFormRef = ref<FormInstance>();
@@ -387,6 +412,43 @@ onMounted(() => {
 const onEdit = (row: AniOpusModel): void => {
   editForm.value = row;
   dialogFormVisible.value = true;
+}
+
+// 进入番剧详情页
+const toDetail = (row: AniOpusModel): void => {
+  if (!row.id) {
+    return;
+  }
+  router.push({name: 'AnimeDetail', params: {id: row.id}});
+}
+
+const coverSrc = (row: AniOpusModel): string => {
+  return row.coverUrl ? `api/anime/opus/cover?resName=${row.coverUrl}` : '';
+}
+
+const beforeCoverUpload = (file: File): boolean => {
+  if (!['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(file.type)) {
+    ElMessage.warning('仅支持 jpg/png/gif/webp 图片');
+    return false;
+  }
+  if (file.size / 1024 / 1024 > 5) {
+    ElMessage.warning('封面不能超过 5MB');
+    return false;
+  }
+  return true;
+}
+
+const onCoverUploaded = (res: any): void => {
+  if (res && res.code === ApiResultEnum.SUCCESS) {
+    ElMessage.success('封面已更新');
+    loadTableData();
+  } else {
+    ElMessage.error(res?.message || '封面上传失败');
+  }
+}
+
+const onCoverUploadError = (): void => {
+  ElMessage.error('封面上传失败');
 }
 
 const onRssEdit = (row: AniOpusModel): void => {
@@ -738,4 +800,26 @@ const onImportShareBatch = async () => {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.cover-cell {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.cover-empty {
+  width: 100px;
+  height: 144px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--el-text-color-secondary);
+  background: var(--el-fill-color-light);
+}
+
+.cover-upload {
+  display: inline-block;
+  margin: 0 12px;
+  vertical-align: middle;
+}
+</style>

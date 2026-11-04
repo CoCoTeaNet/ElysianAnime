@@ -2,6 +2,8 @@ import {request, post, get} from '@/utils/axios-util';
 
 const userOpusApi = {
     follow: follow,
+    unfollow: unfollow,
+    update: update,
     share: share,
 }
 
@@ -17,8 +19,25 @@ export function update(data: any) {
     return request('anime/userOpus/update', data, post);
 }
 
-export function updateProgress(data: any) {
-    return request('anime/userOpus/updateProgress', data, post);
+/**
+ * 上报播放进度（新接口，状态机）
+ */
+export function reportProgress(data: any) {
+    return request('anime/userOpus/progress', data, post);
+}
+
+/**
+ * 继续观看
+ */
+export function continueList() {
+    return request('anime/userOpus/continue', {}, get);
+}
+
+/**
+ * 取消追番
+ */
+export function unfollow(data: any) {
+    return request('anime/userOpus/unfollow', data, post);
 }
 
 export function share(opusId: string) {

@@ -115,7 +115,6 @@
   }, {
     "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysMenuService.class\\E"
   }, {
-    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysNotifyService.class\\E"
   }, {
     "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/SysRoleService.class\\E"
   }, {
@@ -125,7 +124,6 @@
   }, {
     "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysMenuServiceImpl.class\\E"
   }, {
-    "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysNotifyServiceImpl.class\\E"
   }, {
     "pattern":"\\Qnet/cocotea/elysiananime/api/system/service/impl/SysRoleServiceImpl.class\\E"
   }, {
@@ -179,7 +177,7 @@
   }, {
     "pattern":"\\Qsqltoy/sys_menu.sql.xml\\E"
   }, {
-    "pattern":"\\Qsqltoy/sys_notify.sql.xml\\E"
+    "pattern":"\\Qsqltoy/ani_opus_update.sql.xml\\E"
   }, {
     "pattern":"\\Qsqltoy/sys_role.sql.xml\\E"
   }, {

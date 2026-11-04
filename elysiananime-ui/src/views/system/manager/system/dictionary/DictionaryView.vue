@@ -91,6 +91,7 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({name: "DictionaryView"});
 import {nextTick, onMounted, ref, reactive} from "vue";
 import {listByTree, add, deleteBatch, update} from "@/api/system/sys-dictionary-api";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";

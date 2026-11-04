@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <!-- 更新动态列表：displayName 缺失退回 episode_key；isExtra 现算，不为它们加列 -->
+    <sql id="ani_update_findList">
+        <value>
+            <![CDATA[
+            select aum.id,
+                   aum.opus_id                              as opusId,
+                   ao.name_cn                               as opusName,
+                   ao.cover_url                             as coverUrl,
+                   aum.episode_key                          as episodeKey,
+                   aum.episode_no                           as episodeNo,
+                   if(aum.episode_no is null, 1, 0)         as isExtra,
+                   ifnull(am.display_name, aum.episode_key) as displayName,
+                   aum.media_id                             as mediaId,
+                   aum.source,
+                   aum.create_time
+            from ani_opus_update aum
+                     left join ani_opus ao on ao.id = aum.opus_id
+                     left join ani_media am on am.id = aum.media_id
+            where aum.is_deleted = 0
+              #[and aum.opus_id = :opusId]
+              #[and aum.create_time >= :start]
+              #[and aum.create_time <= :end]
+            order by aum.create_time desc, aum.id desc
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>

@@ -10,7 +10,6 @@ import org.noear.solon.annotation.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -72,24 +71,6 @@ public class ResUtils {
             }
         }
         return existPath;
-    }
-
-    /**
-     * 获取作品名称所在的真实路径
-     *
-     * @param opusName 作品名称
-     * @param resName  媒体资源名称
-     * @return 如媒体资源存在就返回文件 {@link File}
-     */
-    public File findResource(String opusName, String resName) {
-        String mediaDir = findMediaDir(opusName);
-        if (StrUtil.isNotBlank(mediaDir)) {
-            String resourcePath = mediaDir + CharConst.LEFT_LINE + resName;
-            if (FileUtil.exist(resourcePath)) {
-                return FileUtil.file(resourcePath);
-            }
-        }
-        return null;
     }
 
     /**

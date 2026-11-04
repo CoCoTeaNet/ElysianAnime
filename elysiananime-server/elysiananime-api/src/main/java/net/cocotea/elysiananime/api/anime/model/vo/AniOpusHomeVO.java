@@ -1,5 +1,6 @@
 package net.cocotea.elysiananime.api.anime.model.vo;
 
+import com.alibaba.fastjson2.annotation.JSONField;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -60,28 +61,60 @@ public class AniOpusHomeVO implements Serializable {
      */
     private String deliveryWeek;
     /**
-     * 用户正在观看的集数
-     */
-    private Integer readingNum;
-    /**
-     * 用户正在观看的时长
-     */
-    private BigInteger readingTime;
-    /**
-     * 用户正在观看的视频总时长
-     */
-    private BigInteger totalTime;
-    /**
      * 观看状态：0未看 1已看 2在看
      */
     private Integer readStatus;
     /**
-     * 下载资源数量
+     * 是否已追番：1已追 0未追
      */
-    private Integer downloadNum;
+    private Integer isFollow;
     /**
      * 最新一集
      */
     private String episodesNewest;
+
+    /**
+     * 已看集数：与 mediaCount 同口径（只算当前仍存在的主文件）
+     */
+    private Integer completedCount;
+    /**
+     * 当前媒体数（每集一个主文件）
+     */
+    private Integer mediaCount;
+    /**
+     * 最近观看的集数键
+     */
+    private String lastEpisodeKey;
+    /**
+     * 最近观看的媒体id
+     */
+    private BigInteger lastMediaId;
+    /**
+     * 最近观看的一集播放位置（毫秒）
+     */
+    private BigInteger positionMs;
+    /**
+     * 最近观看的一集总时长（毫秒），未知为 0
+     */
+    private BigInteger durationMs;
+    /**
+     * 是否有更新：未追上最新正片集时为 1
+     */
+    private Integer hasUpdate;
+    /**
+     * 作品级是否看完，卡片 ✓ 用
+     */
+    private Integer isCompleted;
+
+    /**
+     * 内部判定字段，不对外输出
+     */
+    @JSONField(serialize = false)
+    private String mediaLatestKey;
+    /**
+     * 内部判定字段：最新正片集是否有已看完的进度行
+     */
+    @JSONField(serialize = false)
+    private Integer latestEpisodeCompleted;
 
 }

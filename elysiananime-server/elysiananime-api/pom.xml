@@ -86,6 +86,22 @@
                     <target>21</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <!-- 本地仓库与工程不同盘时，manifest jar 起不来 fork -->
+                    <useManifestOnlyJar>false</useManifestOnlyJar>
+                    <!-- 手工联调测试依赖本机 MySQL/Redis/qBittorrent 和外网，不参与自动化构建 -->
+                    <excludes>
+                        <exclude>**/BangumiClientTest.java</exclude>
+                        <exclude>**/MiKanRssTest.java</exclude>
+                        <exclude>**/QbApiUtilsTest.java</exclude>
+                        <exclude>**/OpusJobsTest.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

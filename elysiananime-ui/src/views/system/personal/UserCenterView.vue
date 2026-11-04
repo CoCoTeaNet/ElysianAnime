@@ -168,6 +168,7 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({name: "UserCenterView"});
 import {onMounted, reactive, ref} from "vue";
 import type {FormInstance, UploadRawFile, UploadUserFile, UploadInstance, UploadProps} from 'element-plus';
 import {genFileId} from 'element-plus';

@@ -86,6 +86,7 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({name: "RoleView"});
 import {onMounted, nextTick, reactive, ref} from "vue";
 import {reqCommonFeedback, reqSuccessFeedback} from "@/api/ApiFeedback";
 import roleApi, {grantPermissionsByRoleId} from "@/api/system/sys-role-api";

@@ -6,6 +6,8 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONObject;
+import net.cocotea.elysiananime.api.anime.media.MediaScanner;
+import net.cocotea.elysiananime.api.anime.media.MediaStreamer;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusAddDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusHomeDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniOpusPageDTO;
@@ -51,6 +53,9 @@ public class AniOpusController {
     @Inject
     private AniSpiderService aniSpiderService;
 
+    @Inject
+    private MediaScanner mediaScanner;
+
     /**
      * 上传作品资源
      *
@@ -72,6 +77,8 @@ public class AniOpusController {
 
         FileInfo fileInfo = aniOpusService.uploadRes(opusId, (fileName + fileExtension));
         uploadedFile.transferTo(new File(fileInfo.getRealPath()));
+        // 上传后按事件触发该作品的媒体扫描
+        mediaScanner.scanOpusAsync(opusId, MediaScanner.SOURCE_UPLOAD);
 
         return ApiResult.ok(fileInfo.getFileName());
     }
@@ -138,14 +145,17 @@ public class AniOpusController {
      */
     @Mapping("/listByUser")
     public ApiResult<ApiPage<AniOpusHomeVO>> listByUser(@Body AniOpusHomeDTO homeDTO) throws BusinessException {
-        List<String> list = new ArrayList<>(homeDTO.getStatus().size());
-        for (String status : homeDTO.getStatus()) {
-            if (status.equals(ReadStatusEnum.NOT_READ.getAliseName())) {
-                list.add(String.valueOf(ReadStatusEnum.NOT_READ.getCode()));
-            } else if (status.equals(ReadStatusEnum.IS_READ.getAliseName())) {
-                list.add(String.valueOf(ReadStatusEnum.IS_READ.getCode()));
-            } else if (status.equals(ReadStatusEnum.READING.getAliseName())) {
-                list.add(String.valueOf(ReadStatusEnum.READING.getCode()));
+        List<String> list = new ArrayList<>();
+        List<String> statusList = homeDTO.getStatus();
+        if (statusList != null) {
+            for (String status : statusList) {
+                if (status.equals(ReadStatusEnum.NOT_READ.getAliseName())) {
+                    list.add(String.valueOf(ReadStatusEnum.NOT_READ.getCode()));
+                } else if (status.equals(ReadStatusEnum.IS_READ.getAliseName())) {
+                    list.add(String.valueOf(ReadStatusEnum.IS_READ.getCode()));
+                } else if (status.equals(ReadStatusEnum.READING.getAliseName())) {
+                    list.add(String.valueOf(ReadStatusEnum.READING.getCode()));
+                }
             }
         }
         homeDTO.setStatus(list);
@@ -165,22 +175,6 @@ public class AniOpusController {
         return ApiResult.ok(aniOpusService.getOpusMedia(opusId));
     }
 
-    /**
-     * 获取资源媒体流
-     *
-     * @param opusId  作品ID
-     * @param resName 资源名称
-     */
-    @Get
-    @Mapping("/media/{opusId}")
-    public DownloadedFile getMedia(@Path("opusId") BigInteger opusId, @Param(value = "resName", required = true) String resName) throws BusinessException, IOException {
-        File file = aniOpusService.getMedia(opusId, resName);
-        DownloadedFile downloadedFile = new DownloadedFile(file);
-        //不做为附件下载（按需配置）
-        downloadedFile.asAttachment(false);
-        return downloadedFile;
-    }
-
     @Get
     @Mapping("/cover")
     public DownloadedFile getCover(@Param("resName") String resName,
@@ -188,6 +182,21 @@ public class AniOpusController {
                                    @Param(required = false) Integer h) throws BusinessException, IOException {
         File cover = aniOpusService.getCover(resName, w, h);
         return new DownloadedFile(cover);
+    }
+
+    /**
+     * 上传作品封面
+     *
+     * @param opusId       作品ID
+     * @param uploadedFile 封面文件
+     * @return 保存后的封面文件名
+     */
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
+    @Post
+    @Mapping("/cover/upload")
+    public ApiResult<String> uploadCover(@Param("opusId") BigInteger opusId,
+                                         @Param("file") UploadedFile uploadedFile) throws BusinessException, IOException {
+        return ApiResult.ok(aniOpusService.uploadCover(opusId, uploadedFile));
     }
 
     @Get

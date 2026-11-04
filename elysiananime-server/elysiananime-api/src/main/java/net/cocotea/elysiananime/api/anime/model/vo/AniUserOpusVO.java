@@ -47,22 +47,32 @@ public class AniUserOpusVO implements Serializable {
 	private String coverUrl;
 
 	/**
-	 *资源地址
+	 * 最近观看的集数键
 	 */
-	private String resourceUrl;
+	private String lastEpisodeKey;
 
 	/**
-	 *正在的播放集数
+	 * 最近观看的媒体文件ID
 	 */
-	private String readingNum;
+	private BigInteger lastMediaId;
 
 	/**
-	 *正在播放的时长
+	 * 最近观看集数的展示名
 	 */
-	private BigInteger readingTime;
+	private String displayName;
 
 	/**
-	 *观看状态：0未看 1已看 2在看
+	 * 最近观看集的播放位置（毫秒）
+	 */
+	private Long positionMs;
+
+	/**
+	 * 最近观看集的总时长（毫秒），未知为 0
+	 */
+	private Long durationMs;
+
+	/**
+	 * 观看状态：0未看 1已看 2在看
 	 */
 	private Integer readStatus;
 

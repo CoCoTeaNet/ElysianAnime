@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqltoy xmlns="http://www.sagframe.com/schema/sqltoy"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sagframe.com/schema/sqltoy http://www.sagframe.com/schema/sqltoy/sqltoy.xsd">
+
+    <!-- 单集进度行 -->
+    <sql id="ani_progress_findByEpisode">
+        <value>
+            <![CDATA[
+            select id, user_id, opus_id, episode_key, position_ms, duration_ms, watched_ms,
+                   is_completed, session_id, seq, create_time, update_time
+            from ani_user_opus_progress
+            where user_id = :userId and opus_id = :opusId and episode_key = :episodeKey
+            ]]>
+        </value>
+    </sql>
+
+    <!-- 作品的按集进度（详情页的进度网格） -->
+    <sql id="ani_progress_listByOpus">
+        <value>
+            <![CDATA[
+            select id, user_id, opus_id, episode_key, position_ms, duration_ms, watched_ms,
+                   is_completed, session_id, seq, create_time, update_time
+            from ani_user_opus_progress
+            where user_id = :userId and opus_id = :opusId and is_deleted = 0
+            ]]>
+        </value>
+    </sql>
+
+    <!--
+      继续观看：排除「已看完且已追上最新正片集」的作品。
+      新集入库后 media_latest_key 变化，caughtUp 不再成立，已看完的作品自动回到继续观看。
+    -->
+    <sql id="ani_progress_continueList">
+        <value>
+            <![CDATA[
+            select auo.opus_id          as opusId,
+                   ao.name_cn           as nameCn,
+                   ao.cover_url         as coverUrl,
+                   auo.last_episode_key as episodeKey,
+                   auo.last_media_id    as mediaId,
+                   auo.last_read_time   as lastReadTime,
+                   (select p.position_ms from ani_user_opus_progress p
+                     where p.user_id = auo.user_id and p.opus_id = auo.opus_id
+                       and p.episode_key = auo.last_episode_key and p.is_deleted = 0 limit 1) as positionMs,
+                   (select p.duration_ms from ani_user_opus_progress p
+                     where p.user_id = auo.user_id and p.opus_id = auo.opus_id
+                       and p.episode_key = auo.last_episode_key and p.is_deleted = 0 limit 1) as durationMs,
+                   (select m.display_name from ani_media m
+                     where m.opus_id = auo.opus_id and m.episode_key = auo.last_episode_key
+                       and m.is_deleted = 0 and m.is_primary = 1 order by m.id limit 1) as displayName
+            from ani_user_opus auo
+                 join ani_opus ao on ao.id = auo.opus_id and ao.is_deleted = 0
+            where auo.user_id = :userId
+              and auo.last_episode_key is not null
+              and auo.last_read_time is not null
+              and not (auo.read_status = 1
+                  and ((ao.media_latest_key is not null and auo.last_episode_key = ao.media_latest_key)
+                    or exists (select 1 from ani_user_opus_progress p
+                                where p.user_id = auo.user_id and p.opus_id = auo.opus_id
+                                  and p.episode_key = ao.media_latest_key
+                                  and p.is_completed = 1 and p.is_deleted = 0)))
+            order by auo.last_read_time desc
+            limit :limit
+            ]]>
+        </value>
+    </sql>
+
+</sqltoy>

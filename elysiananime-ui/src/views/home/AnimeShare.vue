@@ -61,6 +61,7 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({name: "AnimeShare"});
 import { onMounted, ref } from "vue";
 import { reqCommonFeedback } from "@/api/ApiFeedback";
 import { sharesList } from "@/api/anime/ani-user-opus-api";
@@ -89,11 +90,9 @@ const onOpenDetail = (url: string) => {
 
 const toPlayerView = (anime: any) => {
   router.push({
-    name: "AnimeVideo",
+    name: "AnimeDetail",
     params: {
       id: anime.opusId,
-      num: 0,
-      time: 0
     }
   });
 };

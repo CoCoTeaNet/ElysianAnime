@@ -119,6 +119,7 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({name: "MenuView"});
 import {nextTick, onMounted, reactive, ref} from "vue";
 import IconSelection from "@/components/selection/IconSelection.vue";
 import {listByTree, add, deleteBatch, update} from "@/api/system/sys-menu-api";

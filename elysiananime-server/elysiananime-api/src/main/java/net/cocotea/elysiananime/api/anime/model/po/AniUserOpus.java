@@ -57,6 +57,16 @@ public class AniUserOpus implements Serializable {
 
 	@Column(name="is_share",comment="是否分享：0否 1是",length=3L,defaultValue="0",type=java.sql.Types.TINYINT,nativeType="TINYINT",nullable=false)
 	private Integer isShare;
+
+	@Column(name="last_episode_key",comment="最近观看的 episode_key",length=64L,type=java.sql.Types.VARCHAR,nativeType="VARCHAR",nullable=true)
+	private String lastEpisodeKey;
+
+	@Column(name="last_media_id",comment="最近观看的媒体文件id",length=19L,type=java.sql.Types.BIGINT,nativeType="BIGINT",nullable=true)
+	private BigInteger lastMediaId;
+
+	@Column(name="last_read_time",comment="最近观看时间",length=19L,type=java.sql.Types.DATE,nativeType="DATETIME",nullable=true)
+	private LocalDateTime lastReadTime;
+
 	/** default constructor */
 	public AniUserOpus() {
 	}
