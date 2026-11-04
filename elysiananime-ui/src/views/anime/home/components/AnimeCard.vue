@@ -28,7 +28,10 @@
       </el-dropdown>
     </div>
     <p class="ea-card__name" :title="opus.nameCn">{{ opus.nameCn }}</p>
-    <p class="ea-card__meta">{{ metaLine }}</p>
+    <p class="ea-card__meta">
+      <span class="ea-card__status" :class="`is-${statusKey}`">{{ statusText }}</span>
+      <span v-if="metaLine" class="ea-card__meta-text">· {{ metaLine }}</span>
+    </p>
   </div>
 </template>
 
@@ -66,7 +69,13 @@ const progressPercent = computed(() => {
 
 const metaLine = computed(() => {
   const parts: string[] = [];
-  if (Number(props.opus.mediaCount) > 0) {
+  if (Number(props.opus.isFollow) === 0) {
+    if (Number(props.opus.mediaCount) > 0) {
+      parts.push(`共 ${props.opus.mediaCount} 集`);
+    } else if (props.opus.launchStart) {
+      parts.push(String(props.opus.launchStart).slice(0, 7).replace('-', '/'));
+    }
+  } else if (Number(props.opus.mediaCount) > 0) {
     parts.push(`已看 ${props.opus.completedCount || 0}/${props.opus.mediaCount}`);
   } else if (props.opus.launchStart) {
     parts.push(String(props.opus.launchStart).slice(0, 7).replace('-', '/'));
@@ -74,8 +83,18 @@ const metaLine = computed(() => {
   if (props.opus.deliveryWeek) {
     parts.push(`每周${props.opus.deliveryWeek}`);
   }
-  return parts.join(' · ') || '—';
+  return parts.join(' · ');
 });
+
+const statusKey = computed(() => {
+  if (Number(props.opus.isFollow) === 0) return 'none';
+  const readStatus = Number(props.opus.readStatus);
+  if (readStatus === 1 || props.opus.isCompleted === 1) return 'done';
+  if (readStatus === 2 || Number(props.opus.positionMs) > 0) return 'reading';
+  return 'unread';
+});
+
+const statusText = computed(() => ({done: '已看完', reading: '在看', unread: '未看', none: '未追番'}[statusKey.value]));
 
 const onCommand = (cmd: string) => {
   if (cmd === 'play') emit('play', props.opus);
@@ -202,6 +221,19 @@ const onCommand = (cmd: string) => {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.ea-card__status.is-done {
+  color: var(--ea-success);
+}
+
+.ea-card__status.is-reading {
+  color: var(--ea-color-primary);
+}
+
+.ea-card__status.is-unread,
+.ea-card__status.is-none {
+  color: var(--ea-text-3);
 }
 
 @media (max-width: 768px) {

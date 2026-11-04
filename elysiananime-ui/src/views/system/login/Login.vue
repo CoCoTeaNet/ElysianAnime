@@ -50,6 +50,9 @@ import {ElMessage} from "element-plus";
 import {useRouter, useRoute} from "vue-router";
 import 'element-plus/theme-chalk/display.css'
 import {ApiResultEnum} from "@/api/ApiResultEnum";
+import {setUserInfo, useStore} from "@/store";
+
+const store = useStore();
 
 const router = useRouter();
 const route = useRoute();
@@ -93,6 +96,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
       nextTick(() => {
         login(loginParams).then((res: any) => {
           if (res.code === ApiResultEnum.SUCCESS) {
+            // 立即写入本次登录的 token，避免继续使用缓存里的旧 token
+            setUserInfo({...store.state.userInfo, token: res.data});
             if (route.query.redirect) {
               router.push({name: route.query.redirect + ''});
             } else {

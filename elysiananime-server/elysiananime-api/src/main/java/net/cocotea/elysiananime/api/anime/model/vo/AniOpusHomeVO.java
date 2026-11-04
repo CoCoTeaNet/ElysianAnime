@@ -65,6 +65,10 @@ public class AniOpusHomeVO implements Serializable {
      */
     private Integer readStatus;
     /**
+     * 是否已追番：1已追 0未追
+     */
+    private Integer isFollow;
+    /**
      * 最新一集
      */
     private String episodesNewest;

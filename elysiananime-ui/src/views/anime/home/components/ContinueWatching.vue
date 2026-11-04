@@ -73,14 +73,16 @@ const format = (ms: number) => {
 
 .ea-cw__row {
   display: flex;
+  align-items: center;
   gap: var(--ea-space-4);
   overflow-x: auto;
 }
 
 .ea-cw__main {
   position: relative;
-  flex: 0 0 min(560px, 100%);
-  aspect-ratio: 16 / 9;
+  flex: 1 1 560px;
+  min-width: 320px;
+  height: 320px;
   border-radius: var(--ea-radius-md);
   overflow: hidden;
   cursor: pointer;
@@ -174,6 +176,8 @@ const format = (ms: number) => {
 @media (max-width: 768px) {
   .ea-cw__main {
     flex: 0 0 100%;
+    min-width: 0;
+    height: 220px;
   }
 }
 </style>

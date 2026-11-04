@@ -6,7 +6,9 @@ import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.map.MapBuilder;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.text.CharPool;
 import cn.hutool.core.text.StrPool;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import net.cocotea.elysiananime.api.anime.model.dto.*;
@@ -26,11 +28,13 @@ import net.cocotea.elysiananime.common.enums.ReadStatusEnum;
 import net.cocotea.elysiananime.common.model.ApiPage;
 import net.cocotea.elysiananime.common.model.BusinessException;
 import net.cocotea.elysiananime.common.model.FileInfo;
+import net.cocotea.elysiananime.common.util.FileUploadUtils;
 import net.cocotea.elysiananime.properties.FileProp;
 import net.cocotea.elysiananime.util.LoginUtils;
 import net.cocotea.elysiananime.util.ResUtils;
 import org.noear.solon.annotation.Component;
 import org.noear.solon.annotation.Inject;
+import org.noear.solon.core.handle.UploadedFile;
 import org.noear.solon.data.annotation.Tran;
 import org.sagacity.sqltoy.dao.LightDao;
 import org.sagacity.sqltoy.model.EntityQuery;
@@ -309,6 +313,28 @@ public class AniOpusServiceImpl implements AniOpusService {
 
         ImgUtil.scale(cover, scaleFile, w, h, null);
         return scaleFile;
+    }
+
+    @Override
+    public String uploadCover(BigInteger opusId, UploadedFile uploadedFile) throws BusinessException, IOException {
+        if (opusId == null || uploadedFile == null || StrUtil.isBlank(uploadedFile.getName())) {
+            throw new BusinessException("参数不完整");
+        }
+        AniOpus opus = loadById(opusId);
+        if (opus == null || (opus.getIsDeleted() != null && opus.getIsDeleted() == 1)) {
+            throw new BusinessException("作品不存在");
+        }
+        String saveName = IdUtil.objectId() + CharPool.UNDERLINE + uploadedFile.getName();
+        String savePath = fileProp.getAnimationCoverSavePath();
+        FileUtil.mkdir(savePath);
+        File cover = FileUtil.file(savePath, saveName);
+        uploadedFile.transferTo(cover);
+        FileUploadUtils.validImage(cover);
+        boolean updated = update(new AniOpus().setId(opusId).setCoverUrl(saveName));
+        if (!updated) {
+            throw new BusinessException("封面保存失败");
+        }
+        return saveName;
     }
 
 }

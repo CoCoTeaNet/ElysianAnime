@@ -2,6 +2,8 @@ import {request, post, get} from '@/utils/axios-util';
 
 const userOpusApi = {
     follow: follow,
+    unfollow: unfollow,
+    update: update,
     share: share,
 }
 

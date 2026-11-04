@@ -65,6 +65,11 @@ import static net.cocotea.elysiananime.common.constant.RedisKeyConst.RSS_RESULT_
 public class MiKanRss {
     private static final Logger log = LoggerFactory.getLogger(MiKanRss.class);
 
+    /**
+     * 拉取 RSS 的超时时间，避免第三方站点无响应时把接口一起拖住
+     */
+    private static final int RSS_HTTP_TIMEOUT_MS = 15_000;
+
     @Inject
     private DefaultProp defaultProp;
 
@@ -94,7 +99,13 @@ public class MiKanRss {
      */
     public void requestRss(String rssUrl, AniOpus opus) {
         String dir = resUtils.findASS(2) + opus.getNameCn() + CharConst.LEFT_LINE;
-        List<RenameInfo> list = getRenames(rssUrl, opus);
+        List<RenameInfo> list;
+        try {
+            list = getRenames(rssUrl, opus);
+        } catch (BusinessException e) {
+            log.error("requestRss >>>>> 获取 RSS 资源失败，作品：{}，错误：{}", opus.getNameCn(), e.getErrorMsg());
+            return;
+        }
 
         for (RenameInfo renameInfo : list) {
             boolean existRes = resUtils.exist(opus.getNameCn(), renameInfo.getRename());
@@ -139,6 +150,9 @@ public class MiKanRss {
 
     public List<RenameInfo> getRenames(AniRssDTO aniRssDTO) throws BusinessException {
         AniOpus opus = aniOpusService.loadById(aniRssDTO.getId());
+        if (opus == null) {
+            throw new BusinessException("作品不存在或已被删除");
+        }
         // rss订阅配置参数
         opus.setRssUrl(aniRssDTO.getRssUrl());
         opus.setRssLevelIndex(aniRssDTO.getRssLevelIndex());
@@ -150,24 +164,30 @@ public class MiKanRss {
         return getRenames(aniRssDTO.getRssUrl(), opus);
     }
 
-    public List<RenameInfo> getRenames(String rssUrl, AniOpus opus) {
-        String result;
-
+    public List<RenameInfo> getRenames(String rssUrl, AniOpus opus) throws BusinessException {
         String cacheKey = StrUtil.format(RSS_RESULT_CACHE, rssUrl);
         String cacheContent = redisService.get(cacheKey);
-        if (StrUtil.isBlank(cacheContent)) {
-            result = HttpUtil.get(rssUrl);
-            redisService.saveByHours(cacheKey, result, 2);
-        } else {
-            result = cacheContent;
+        String result = cacheContent;
+        if (StrUtil.isBlank(result)) {
+            result = fetchRssContent(rssUrl);
         }
 
         log.debug("订阅地址返回结果，result：{}", result);
-        List<MkXmlItem> mkXmlItemList = doParseXmlItems(result);
+        List<MkXmlItem> mkXmlItemList = parseXmlItems(result);
+        if (StrUtil.isBlank(cacheContent)) {
+            // 解析成功后再写缓存，避免把错误页面缓存下来
+            redisService.saveByHours(cacheKey, result, 2);
+        }
         List<RenameInfo> renameInfoList = new ArrayList<>();
+
+        int levelIndex = opus.getRssLevelIndex() == null ? 0 : opus.getRssLevelIndex();
+        String fileType = StrUtil.blankToDefault(opus.getRssFileType(), "mp4");
 
         for (MkXmlItem mkXmlItem : mkXmlItemList) {
             String title = mkXmlItem.getTitle();
+            if (StrUtil.isBlank(title)) {
+                continue;
+            }
             // 是标识的资源
             boolean remarkRes = RuleUtils.isRemarkRes(title, opus.getRssOnlyMark());
             if (!remarkRes) {
@@ -186,8 +206,14 @@ public class MiKanRss {
                     continue;
                 }
             }
-            // 资源是否存在
-            String rename = RuleUtils.rename(title, opus.getRssLevelIndex(), opus.getRssFileType());
+            // 资源是否存在（标题数字不足时跳过该条，避免整个订阅失败）
+            String rename;
+            try {
+                rename = RuleUtils.rename(title, levelIndex, fileType);
+            } catch (IndexOutOfBoundsException e) {
+                log.warn("解析结果 >>>>> 标题中找不到第 {} 个数字，跳过, title：{}", levelIndex, title);
+                continue;
+            }
 
             RenameInfo renameInfo = new RenameInfo()
                     .setRename(rename).setTitle(title).setEnclosureUrl(mkXmlItem.getEnclosureUrl());
@@ -239,8 +265,14 @@ public class MiKanRss {
                     break;
                 case "enclosure":
                     NamedNodeMap map = item.getAttributes();
-                    mkXmlItem.setEnclosureLength(String.valueOf(map.getNamedItem("length").getNodeValue()));
-                    mkXmlItem.setEnclosureUrl(String.valueOf(map.getNamedItem("url").getNodeValue()));
+                    Node lengthNode = map.getNamedItem("length");
+                    if (lengthNode != null) {
+                        mkXmlItem.setEnclosureLength(lengthNode.getNodeValue());
+                    }
+                    Node urlNode = map.getNamedItem("url");
+                    if (urlNode != null) {
+                        mkXmlItem.setEnclosureUrl(urlNode.getNodeValue());
+                    }
                     break;
                 case "torrent":
                     NodeList list = item.getChildNodes();
@@ -303,6 +335,9 @@ public class MiKanRss {
         String baseMsg = "rss[subscribe]";
         log.info(baseMsg.concat("param={}"), aniRssDTO);
         AniOpus opus = aniOpusService.loadById(aniRssDTO.getId());
+        if (opus == null) {
+            throw new BusinessException("作品不存在或已被删除");
+        }
         opus.setHasResource(IsEnum.Y.getCode());
         opus.setRssStatus(RssStatusEnum.SUBSCRIBING.getCode());
         // rss订阅配置参数
@@ -320,15 +355,19 @@ public class MiKanRss {
         // 重新刷新一下rss订阅
         if (StrUtil.isNotBlank(opus.getRssUrl())) {
             ThreadUtil.execAsync(() -> {
-                // 覆盖更新
-                if (aniRssDTO.getRssOverride() == IsEnum.Y.getCode().intValue()) {
-                    String dir = path + CharConst.LEFT_LINE;
-                    File[] files = FileUtil.ls(dir);
-                    if (files.length > 0) {
-                        doRemoveResourceIfExist(dir);
+                try {
+                    // 覆盖更新
+                    if (IsEnum.Y.getCode().equals(aniRssDTO.getRssOverride())) {
+                        String dir = path + CharConst.LEFT_LINE;
+                        File[] files = FileUtil.ls(dir);
+                        if (files.length > 0) {
+                            doRemoveResourceIfExist(dir);
+                        }
                     }
+                    requestRss(opus.getRssUrl(), opus);
+                } catch (Exception e) {
+                    log.error("异步订阅下载失败，作品：{}，错误：{}", opus.getNameCn(), e.getMessage(), e);
                 }
-                requestRss(opus.getRssUrl(), opus);
             });
         }
         return aniOpusService.update(opus);
@@ -346,31 +385,66 @@ public class MiKanRss {
     }
 
     /**
+     * 拉取 RSS 内容，网络异常统一转成业务异常，避免前端只看到“系统异常”
+     */
+    private String fetchRssContent(String rssUrl) throws BusinessException {
+        if (StrUtil.isBlank(rssUrl)) {
+            throw new BusinessException("RSS 订阅链接为空");
+        }
+        String result;
+        try {
+            result = HttpUtil.get(rssUrl, RSS_HTTP_TIMEOUT_MS);
+        } catch (Exception e) {
+            log.warn("请求RSS地址失败，url={}, error={}", rssUrl, e.getMessage());
+            throw new BusinessException("RSS 地址访问失败，请检查链接或网络");
+        }
+        if (StrUtil.isBlank(result)) {
+            throw new BusinessException("RSS 地址没有返回内容，请检查链接是否有效");
+        }
+        return result;
+    }
+
+    private List<MkXmlItem> parseXmlItems(String content) throws BusinessException {
+        List<MkXmlItem> items;
+        try {
+            items = doParseXmlItems(content);
+        } catch (Exception e) {
+            log.warn("RSS内容解析失败，error={}", e.getMessage());
+            throw new BusinessException("RSS 内容解析失败，请确认链接返回的是有效的 RSS");
+        }
+        if (items.isEmpty()) {
+            throw new BusinessException("RSS 内容为空，请确认链接指向有效的番剧订阅");
+        }
+        return items;
+    }
+
+    /**
      * 解析资源信息详细
      *
      * @param rssUrl rss地址
      * @return {@link MkXmlDetail}
      */
-    public MkXmlDetail doParseMkXmlDetail(String rssUrl) {
-        String result = HttpUtil.get(rssUrl);
-        List<MkXmlItem> mkXmlItems = doParseXmlItems(result);
+    public MkXmlDetail doParseMkXmlDetail(String rssUrl) throws BusinessException {
+        List<MkXmlItem> mkXmlItems = parseXmlItems(fetchRssContent(rssUrl));
         // 标题碎片
         List<List<String>> titleFragmentList = new ArrayList<>();
         // 集数索引
         List<List<String>> episodeIndexList = new ArrayList<>();
         for (MkXmlItem item : mkXmlItems) {
-            String[] split = item.getTitle().split("[\\[\\]/@#$%^&*()（）【】\\s]");
+            String title = StrUtil.nullToEmpty(item.getTitle());
+            String[] split = title.split("[\\[\\]/@#$%^&*()（）【】\\s]");
             List<String> titleFragment = Arrays.stream(split).filter(str -> !str.isEmpty()).collect(Collectors.toList());
             titleFragmentList.add(titleFragment);
-            List<String> episodeIndex = ReUtil.findAllGroup0(RegexPool.NUMBERS, item.getTitle());
+            List<String> episodeIndex = ReUtil.findAllGroup0(RegexPool.NUMBERS, title);
             episodeIndexList.add(episodeIndex);
             // 将数字字符高亮显示
-            String title = item.getTitle();
-            List<String> list = ReUtil.findAllGroup0(RegexPool.NUMBERS, title);
+            String titleHtml = title;
+            List<String> list = ReUtil.findAllGroup0(RegexPool.NUMBERS, titleHtml);
             for (String episodeStr : list) {
-                title = title.replaceAll(episodeStr, "<span style=\"color:#f38181\">" + episodeStr + "</span>");
+                titleHtml = titleHtml.replaceAll(episodeStr, "<span style=\"color:#f38181\">" + episodeStr + "</span>");
             }
-            item.setTitleHtml(title);
+            item.setTitle(title);
+            item.setTitleHtml(titleHtml);
         }
         return new MkXmlDetail()
                 .setItemList(mkXmlItems)
@@ -483,10 +557,21 @@ public class MiKanRss {
                     .map(String::valueOf)
                     .orElseGet(() -> aniOpus.getNameCn() + "_RES");
             rename += rename + "." + opusTorrentDTO.getFileType();
-            return qbApiUtils.addNewTorrent(opusTorrentDTO.getTorrentUrl(), mediaDir, rename);
+            return addTorrent(opusTorrentDTO.getTorrentUrl(), mediaDir, rename);
         }
 
-        return qbApiUtils.addNewTorrent(opusTorrentDTO.getTorrentUrl(), mediaDir, null);
+        return addTorrent(opusTorrentDTO.getTorrentUrl(), mediaDir, null);
+    }
+
+    /**
+     * 下载器未配置或不可用时转成业务异常，避免前端只看到“系统异常”
+     */
+    private String addTorrent(String torrentUrl, String mediaDir, String rename) throws BusinessException {
+        try {
+            return qbApiUtils.addNewTorrent(torrentUrl, mediaDir, rename);
+        } catch (IllegalStateException e) {
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     public RssCountVO getCounts() {

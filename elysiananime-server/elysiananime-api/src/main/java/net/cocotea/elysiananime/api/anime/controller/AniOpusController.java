@@ -184,6 +184,21 @@ public class AniOpusController {
         return new DownloadedFile(cover);
     }
 
+    /**
+     * 上传作品封面
+     *
+     * @param opusId       作品ID
+     * @param uploadedFile 封面文件
+     * @return 保存后的封面文件名
+     */
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin"}, mode = SaMode.OR)
+    @Post
+    @Mapping("/cover/upload")
+    public ApiResult<String> uploadCover(@Param("opusId") BigInteger opusId,
+                                         @Param("file") UploadedFile uploadedFile) throws BusinessException, IOException {
+        return ApiResult.ok(aniOpusService.uploadCover(opusId, uploadedFile));
+    }
+
     @Get
     @Mapping("/getBackground")
     public DownloadedFile getBackground(@Param(value = "resName") String resName) throws BusinessException, FileNotFoundException {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {store} from "@/store";
+import {clearLoginToken, store} from "@/store";
 import {ApiResultEnum} from "@/api/ApiResultEnum";
 import {router} from "@/router";
 
@@ -33,6 +33,10 @@ export async function request(url: string, data: any, method: any): Promise<any>
             transformResponse: [function (data: any) {
                 // 对 data 进行任意转换处理
                 let dataJson = JSON.parse(data);
+                // token 失效时清掉旧 token，否则请求会一直带着它，登录后也无法恢复
+                if (dataJson.code === ApiResultEnum.NOT_LOGIN || dataJson.code === ApiResultEnum.TOKEN_INVALID) {
+                    clearLoginToken();
+                }
                 // 无权限，跳转admin首页
                 if (dataJson.code === ApiResultEnum.NOT_PERMISSION) {
                     console.log('go to home')

@@ -74,13 +74,13 @@ public class FileUploadUtils {
     }
 
     /**
-     * 验证头像文件
+     * 验证图片文件
      * <p>
-     * 仅支持jpg、jpeg、png、gif格式
+     * 仅支持jpg、jpeg、png、gif、webp格式
      * @param file 文件
      * @throws BusinessException 验证失败
      */
-    public static void validAvatar(File file) throws BusinessException, IOException {
+    public static void validImage(File file) throws BusinessException, IOException {
         Assert.isFalse(file == null, () -> new BusinessException("空文件对象"));
         Assert.isTrue(file.exists(), () -> new BusinessException("文件不存在"));
         BufferedInputStream inputStream = FileUtil.getInputStream(file);
@@ -90,9 +90,9 @@ public class FileUploadUtils {
             FileUtil.del(file);
             return new BusinessException("未知文件格式");
         });
-        Assert.isTrue(List.of("jpg", "jpeg", "png", "gif").contains(type), () -> {
+        Assert.isTrue(List.of("jpg", "jpeg", "png", "gif", "webp").contains(type), () -> {
             FileUtil.del(file);
-            return new BusinessException("仅支持jpg、jpeg、png、gif格式");
+            return new BusinessException("仅支持jpg、jpeg、png、gif、webp格式");
         });
     }
 

@@ -75,7 +75,7 @@ public class AniRssController {
      */
     @SaCheckRole(value = {"role:super:admin", "role:simple:admin", "bangumi:rss:subscriber"}, mode = SaMode.OR)
     @Get @Mapping("/getMkXmlDetail")
-    public ApiResult<MkXmlDetail> getMkXmlDetail(@Param String rssUrl) {
+    public ApiResult<MkXmlDetail> getMkXmlDetail(@Param String rssUrl) throws BusinessException {
         MkXmlDetail detail = miKanRss.doParseMkXmlDetail(rssUrl);
         return ApiResult.ok(detail);
     }

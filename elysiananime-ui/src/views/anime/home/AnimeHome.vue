@@ -6,11 +6,14 @@
                       @add="addDialogVisible = true"/>
     </header>
 
-    <ContinueWatching @play="onContinuePlay"/>
-    <RecentUpdateStrip @open="onOpenOpus" @more="router.push({name: 'Dashboard'})"/>
+    <div class="ea-home__top">
+      <ContinueWatching class="ea-home__continue" @play="onContinuePlay"/>
+      <RecentUpdateStrip class="ea-home__updates" @open="onOpenOpus" @more="router.push({name: 'Dashboard'})"/>
+    </div>
 
     <section class="ea-home__list">
       <div class="ea-home__list-head">
+        <h2 class="ea-home__section-title">媒体库</h2>
         <div class="ea-home__tabs">
           <button
               v-for="tab in tabs"
@@ -38,7 +41,7 @@
           />
         </div>
         <div v-else-if="!loading" class="ea-home__empty">
-          <p>还没有追番，去搜索一部吧</p>
+          <p>{{ emptyText }}</p>
         </div>
       </div>
 
@@ -82,10 +85,11 @@ const router = useRouter();
 const store = useStore();
 
 const tabs = [
-  {key: 'all', label: '全部', status: [] as string[]},
-  {key: 'reading', label: '在看', status: ['正在观看']},
-  {key: 'unread', label: '未看', status: ['未看']},
-  {key: 'finished', label: '已看完', status: ['已看']},
+  {key: 'all', label: '全部番剧', status: [] as string[], isFollow: undefined},
+  {key: 'follow', label: '我的追番', status: [] as string[], isFollow: 1},
+  {key: 'reading', label: '在看', status: ['正在观看'], isFollow: 1},
+  {key: 'unread', label: '未看', status: ['未看'], isFollow: 1},
+  {key: 'finished', label: '已看完', status: ['已看'], isFollow: 1},
 ];
 
 const activeTab = ref('all');
@@ -103,6 +107,7 @@ const pageNo = ref(1);
 const pageSize = 40;
 const loading = ref(false);
 
+const emptyText = computed(() => activeTab.value === 'all' ? '媒体库里还没有番剧，先添加一部吧' : '还没有追番，去添加或搜索一部吧');
 const nickname = computed(() => store.state.userInfo.nickname || '番剧迷');
 const greeting = computed(() => {
   const h = new Date().getHours();
@@ -153,12 +158,14 @@ const loadList = () => {
   const param: any = {
     pageNo: pageNo.value,
     pageSize,
-    isFollow: 1,
     status,
     months: filters.months,
     years: filters.years,
     searchKey: keyword.value,
   };
+  if (tab?.isFollow === 1) {
+    param.isFollow = 1;
+  }
   if (filters.hasResource === 1) {
     param.hasResource = 1;
   }
@@ -224,7 +231,7 @@ const onFollow = (opus: any) => {
 };
 
 const onUnfollow = (opus: any) => {
-  reqCommonFeedback(userOpusApi.unfollow(opus.id), () => {
+  reqCommonFeedback(userOpusApi.unfollow({opusId: opus.id}), () => {
     ElMessage.success('已取消追番');
     loadList();
   });
@@ -257,11 +264,50 @@ const onFeed = (opus: any) => {
   color: var(--ea-text-1);
 }
 
+.ea-home__top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+  gap: var(--ea-space-5);
+  align-items: start;
+  margin-bottom: var(--ea-space-6);
+}
+
+.ea-home__top > .ea-home__continue {
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.ea-home__top > .ea-home__updates {
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.ea-home__top > .ea-home__updates:only-child {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 1024px) {
+  .ea-home__top {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--ea-space-6);
+  }
+
+  .ea-home__top > .ea-home__continue {
+    margin-bottom: 0;
+  }
+}
+
 .ea-home__list-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: var(--ea-space-4);
   margin-bottom: var(--ea-space-3);
+}
+
+.ea-home__section-title {
+  margin: 0;
+  font-size: 18px;
+  color: var(--ea-text-1);
 }
 
 .ea-home__tabs {

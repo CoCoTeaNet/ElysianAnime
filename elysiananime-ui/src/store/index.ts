@@ -105,6 +105,15 @@ export function setUserInfo(info: UserModel) {
 }
 
 /**
+ * 清除登录 token（内存与本地缓存）
+ * 服务端判定 token 失效时调用，避免后续请求继续携带旧 token
+ */
+export function clearLoginToken() {
+    store.state.userInfo.token = '';
+    localStorage.removeItem("userInfo");
+}
+
+/**
  * 更新用户信息
  * 不包括菜单
  * @param v 用户模型

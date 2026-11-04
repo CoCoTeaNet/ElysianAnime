@@ -5,23 +5,28 @@
       <el-button link type="primary" @click="$emit('more')">查看全部</el-button>
     </div>
     <div class="ea-ru__row">
-      <div v-for="item in items" :key="String(item.id)" class="ea-ru__item" @click="$emit('open', item)">
+      <div v-for="item in visibleItems" :key="String(item.id)" class="ea-ru__item" @click="$emit('open', item)">
         <img class="ea-ru__cover" :src="coverSrc(item)" :alt="item.opusName" loading="lazy" decoding="async"/>
-        <p class="ea-ru__name">{{ item.opusName }} {{ displayName(item) }}</p>
-        <p class="ea-ru__time">{{ relativeTime(item.createTime) }}</p>
+        <div class="ea-ru__text">
+          <p class="ea-ru__name">{{ item.opusName }} {{ displayName(item) }}</p>
+          <p class="ea-ru__time">{{ relativeTime(item.createTime) }}</p>
+        </div>
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {latest} from "@/api/anime/ani-update-api";
 import {API_BASE} from "@/utils/axios-util";
 
 defineEmits<{ (e: 'open', item: any): void; (e: 'more'): void }>();
 
 const items = ref<any[]>([]);
+
+// 侧栏空间有限，只展示最近 4 条，完整动态在「查看全部」里
+const visibleItems = computed(() => items.value.slice(0, 4));
 
 onMounted(async () => {
   const res: any = await latest(12);
@@ -69,17 +74,15 @@ const relativeTime = (time: string) => {
 
 .ea-ru__row {
   display: flex;
-  gap: var(--ea-space-4);
-  overflow-x: auto;
-  padding-bottom: var(--ea-space-2);
+  flex-direction: column;
+  gap: var(--ea-space-2);
 }
 
 .ea-ru__item {
-  flex: 0 0 200px;
   display: flex;
   align-items: center;
-  gap: var(--ea-space-2);
-  padding: var(--ea-space-2);
+  gap: var(--ea-space-3);
+  padding: var(--ea-space-2) var(--ea-space-3);
   border: 1px solid var(--ea-border);
   border-radius: var(--ea-radius-md);
   background: var(--ea-surface);
@@ -101,6 +104,11 @@ const relativeTime = (time: string) => {
   flex: none;
 }
 
+.ea-ru__text {
+  flex: 1;
+  min-width: 0;
+}
+
 .ea-ru__name {
   margin: 0;
   font-size: 13px;
@@ -114,5 +122,6 @@ const relativeTime = (time: string) => {
   margin: 2px 0 0;
   font-size: 12px;
   color: var(--ea-text-3);
+  white-space: nowrap;
 }
 </style>

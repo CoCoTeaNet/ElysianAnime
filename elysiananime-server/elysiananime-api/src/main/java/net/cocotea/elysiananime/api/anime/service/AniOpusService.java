@@ -12,6 +12,7 @@ import net.cocotea.elysiananime.common.model.ApiPage;
 import net.cocotea.elysiananime.common.model.BusinessException;
 import net.cocotea.elysiananime.common.model.FileInfo;
 import net.cocotea.elysiananime.common.service.BaseService;
+import org.noear.solon.core.handle.UploadedFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,6 +68,15 @@ public interface AniOpusService extends BaseService<ApiPage<AniOpusVO>, AniOpusP
      * @param resName  资源名称
      */
     File getCover(String resName, Integer w, Integer h) throws BusinessException, IOException;
+
+    /**
+     * 上传作品封面
+     *
+     * @param opusId       作品ID
+     * @param uploadedFile 封面文件
+     * @return 保存后的封面文件名
+     */
+    String uploadCover(BigInteger opusId, UploadedFile uploadedFile) throws BusinessException, IOException;
 
     Map<String, List<AniVideoVO.Media>> getMedias(File[] files);
 

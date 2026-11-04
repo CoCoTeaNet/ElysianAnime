@@ -4,7 +4,8 @@
       :show-close="false"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
-      width="min(1200px, 92vw)"
+      width="min(1120px, 92vw, calc((100dvh - 170px) * 16 / 9))"
+      align-center
       class="playback-dialog"
       append-to-body
       @update:model-value="onVisibleChange"
