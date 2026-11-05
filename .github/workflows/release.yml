@@ -6,6 +6,17 @@ on:
       # 仅当 git push 一个形如 1.0.0 的 tag 时触发
       # 匹配类似 1.0.0、2.3.4 这样的 tag
       - '[0-9]+.[0-9]+.[0-9]+'
+  # 添加手动触发功能，允许在GitHub界面上点击运行
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag (e.g., 3.2.0)'
+        required: true
+        type: string
+      release_name:
+        description: 'Release name'
+        required: false
+        type: string
 
 jobs:
   release:
@@ -82,54 +93,41 @@ jobs:
       # 🗜️ 打包为 ZIP
       - name: Create ZIP Archive
         run: |
-          VERSION=${GITHUB_REF#refs/tags/}
+          VERSION="${{ inputs.release_tag || github.ref_name }}"
           zip -r "ElysianAnime-$VERSION.zip" ElysianAnime-Release/
         shell: bash
         id: zip
 
       # 📜 生成 changelog
-      - name: Build Changelog
-        id: github_release
-        uses: mikepenz/release-changelog-builder-action@v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate a changelog
+        uses: orhun/git-cliff-action@v4
+        id: git-cliff
         with:
-          configurationJson: |
-            {
-              "template": "#{{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n#{{UNCATEGORIZED}}\n</details>",
-              "categories": [
-                {
-                    "title": "## 🚀 Features",
-                    "labels": ["feature", "feat"]
-                },
-                {
-                    "title": "## 🐛 Fixes",
-                    "labels": ["fix", "bug"]
-                },
-                {
-                    "title": "## 🧪 Tests",
-                    "labels": ["test"]
-                },
-                {
-                    "title": "## 💬 Other",
-                    "labels": ["other"]
-                },
-                {
-                    "title": "## 📦 Dependencies",
-                    "labels": ["dependencies"]
-                }
-              ]
-            }
-          fail_on_error: false  # 避免因无 PR 导致失败
+          config: cliff.toml
+          args: -vv --latest --strip header
+        env:
+          OUTPUT: CHANGELOG.md
+          GITHUB_REPO: ${{ github.repository }}
 
       # 🚀 创建 GitHub Release
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+      - name: Create Release
+        id: create_release
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: ${{ github.ref }}
-          name: "${{ github.ref_name }}"
-          body: ${{ steps.github_release.outputs.changelog }}
+          tag: ${{ inputs.release_tag || github.ref_name }}
+          name: ${{ inputs.release_name || inputs.release_tag || github.ref_name }}
+          bodyFile: CHANGELOG.md
+          artifacts: "ElysianAnime-*.zip"
           draft: false
           prerelease: false
-          files: |
-            ElysianAnime-*.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit
+        run: |
+          git checkout main
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          set +e
+          git add CHANGELOG.md
+          git commit -m "Update changelog"
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git main
