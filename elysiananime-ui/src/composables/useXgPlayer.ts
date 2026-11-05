@@ -15,10 +15,12 @@ export function useXgPlayer() {
         onPause?: () => void;
         onPlay?: () => void;
         onSeeked?: () => void;
-    }) => {
+    }, url: string) => {
         destroy();
         const p = new Player({
             el: el,
+            // 创建时就带源，避免空源触发初始化报错
+            url: url,
             width: '100%',
             height: '100%',
             autoplay: true,

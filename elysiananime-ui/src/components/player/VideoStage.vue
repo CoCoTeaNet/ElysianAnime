@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import {onBeforeUnmount, onMounted, ref} from "vue";
+import {onBeforeUnmount, ref} from "vue";
 import {useXgPlayer} from "@/composables/useXgPlayer";
 
 const emit = defineEmits<{
@@ -25,34 +25,39 @@ const ready = ref<boolean>(false);
 
 const {create, destroy, switchSrc, get} = useXgPlayer();
 
-onMounted(() => {
-  if (stageRef.value) {
-    create(stageRef.value, {
-      onMetadata: () => {
-        ready.value = true;
-        emit('metadata');
-      },
-      onEnded: () => emit('ended'),
-      onError: () => {
-        ready.value = false;
-        emit('error');
-      },
-      onPause: () => emit('pause'),
-      onPlay: () => emit('play'),
-      onSeeked: () => emit('seeked')
-    });
+const createPlayer = (url: string) => {
+  if (!stageRef.value) {
+    return;
   }
-});
+  create(stageRef.value, {
+    onMetadata: () => {
+      ready.value = true;
+      emit('metadata');
+    },
+    onEnded: () => emit('ended'),
+    onError: () => {
+      ready.value = false;
+      emit('error');
+    },
+    onPause: () => emit('pause'),
+    onPlay: () => emit('play'),
+    onSeeked: () => emit('seeked')
+  }, url);
+};
 
 onBeforeUnmount(() => {
   destroy();
 });
 
 defineExpose({
-  /** 切源不重建实例；续播由外层在 metadata 事件后 seek */
+  /** 实例存在时只切源；close 后重开则重建，避免落空 */
   open: (url: string) => {
     ready.value = false;
-    switchSrc(url);
+    if (get()) {
+      switchSrc(url);
+    } else {
+      createPlayer(url);
+    }
   },
   close: () => {
     destroy();

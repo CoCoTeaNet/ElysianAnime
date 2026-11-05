@@ -104,10 +104,12 @@ const countdown = ref<number>(0);
 const reporter = createProgressReporter();
 let hideChromeTimer: number | null = null;
 let countdownTimer: number | null = null;
-let resumeApplied = false;
 let pendingResumeSec = 0;
 let pagehideInstalled = false;
 let switching = false;
+let loadToken = 0;
+/** el-dialog 关闭时还会额外触发一次 update:model-value，防止 close 被上报两次 */
+let closing = false;
 
 const currentMedia = computed(() =>
     props.mediaList.find(item => item.mediaId === props.currentMediaId));
@@ -155,14 +157,48 @@ const scheduleHideChrome = () => {
   }, 3000);
 };
 
+const resumeSecFor = (mediaId: string): number => {
+  const media = props.mediaList.find(item => item.mediaId === mediaId);
+  const progress = media ? props.progressMap[media.episodeKey] : null;
+  if (!progress || progress.isCompleted === 1) {
+    return 0;
+  }
+  return Math.floor((progress.positionMs || 0) / 1000);
+};
+
+/** 弹窗首次渲染 + HEAD 探测期间 stage 可能还没挂载，等它出现而不是丢弃 open */
+const waitForStage = async (): Promise<InstanceType<typeof VideoStage> | undefined> => {
+  if (stageRef.value) {
+    return stageRef.value;
+  }
+  await new Promise<void>(resolve => {
+    const stop = watch(stageRef, value => {
+      if (value) {
+        stop();
+        resolve();
+      }
+    }, {flush: 'post'});
+    window.setTimeout(() => {
+      stop();
+      resolve();
+    }, 3000);
+  });
+  return stageRef.value;
+};
+
 const loadStream = async () => {
-  if (!props.currentMediaId) {
+  const mediaId = props.currentMediaId;
+  if (!mediaId) {
     return;
   }
+  const token = ++loadToken;
   error.value = '';
   // 流接口自己写状态码，先探一次才能区分登录失效与编码问题
   try {
-    const resp = await fetch(streamUrl(props.currentMediaId), {method: 'HEAD'});
+    const resp = await fetch(streamUrl(mediaId), {method: 'HEAD'});
+    if (token !== loadToken) {
+      return;
+    }
     if (resp.status === 401) {
       error.value = '登录已失效，请重新登录';
       return;
@@ -172,11 +208,17 @@ const loadStream = async () => {
       return;
     }
   } catch (e) {
+    if (token !== loadToken) {
+      return;
+    }
     error.value = '无法连接服务器';
     return;
   }
-  resumeApplied = false;
-  stageRef.value?.open(streamUrl(props.currentMediaId));
+  const stage = await waitForStage();
+  if (token !== loadToken) {
+    return;
+  }
+  stage?.open(streamUrl(mediaId));
 };
 
 const onMetadata = () => {
@@ -195,7 +237,6 @@ const onMetadata = () => {
     }
     pendingResumeSec = 0;
   }
-  resumeApplied = true;
   reporter.startTimer(getState);
 };
 
@@ -276,13 +317,16 @@ const switchTo = async (media: any) => {
   }
   reporter.stopTimer();
   reporter.reset();
-  pendingResumeSec = 0;
+  // 换集由 currentMediaId watcher 统一加载，并按目标集历史进度续播
   emit('switch', media);
   router.replace({query: {...router.currentRoute.value.query, ep: media.mediaId}});
-  loadStream();
 };
 
 const requestClose = () => {
+  if (closing) {
+    return;
+  }
+  closing = true;
   cancelCountdown();
   reporter.stopTimer();
   reporter.report('close', getState());
@@ -294,29 +338,43 @@ const onPageHide = () => {
   reporter.beacon(getState());
 };
 
-watch(() => props.visible, value => {
-  if (value) {
-    pendingResumeSec = props.resumeSec;
-    if (!pagehideInstalled) {
-      window.addEventListener('pagehide', onPageHide);
-      pagehideInstalled = true;
-    }
-    loadStream();
-  } else {
-    window.removeEventListener('pagehide', onPageHide);
-    pagehideInstalled = false;
-    stageRef.value?.close();
-  }
-});
-
-// 外部（?ep=）切换集数时重新加载
-watch(() => props.currentMediaId, (value, old) => {
-  if (value && value !== old && props.visible) {
-    reporter.reset();
-    pendingResumeSec = 0;
-    loadStream();
-  }
-});
+/**
+ * 打开与换集合并成一个 watcher：同一 tick 内 visible + currentMediaId 一起变化时只触发一次，
+ * 避免第二个 watcher 把刚设置的 pendingResumeSec 清零、并重复加载。
+ */
+watch([() => props.visible, () => props.currentMediaId],
+    ([visible, mediaId], [oldVisible, oldMediaId]) => {
+      if (!visible) {
+        if (oldVisible) {
+          // 父组件直接关闭（如浏览器后退）时在这里补报，requestClose 已报过则跳过
+          if (!closing) {
+            reporter.report('close', getState());
+          }
+          closing = true;
+          window.removeEventListener('pagehide', onPageHide);
+          pagehideInstalled = false;
+          stageRef.value?.close();
+        }
+        return;
+      }
+      if (!oldVisible) {
+        closing = false;
+        // 打开弹窗：续播位置以父组件传入为准（?t= 优先，其次历史进度）
+        pendingResumeSec = props.resumeSec;
+        if (!pagehideInstalled) {
+          window.addEventListener('pagehide', onPageHide);
+          pagehideInstalled = true;
+        }
+        loadStream();
+        return;
+      }
+      if (mediaId && mediaId !== oldMediaId) {
+        // 弹窗内换集：续播目标集自己的历史进度
+        reporter.reset();
+        pendingResumeSec = resumeSecFor(mediaId);
+        loadStream();
+      }
+    });
 
 // 快捷键：只在弹窗打开且焦点不在输入框时生效
 const onKeydown = (e: KeyboardEvent) => {
