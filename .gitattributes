@@ -1,0 +1,2 @@
+# 迁移脚本按字节计算 checksum，固定 LF，避免 Windows 检出 CRLF 导致启动校验失败
+*.sql text eol=lf
