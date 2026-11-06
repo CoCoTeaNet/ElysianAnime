@@ -3,6 +3,7 @@
     <header class="ea-home__header">
       <h1 class="ea-home__greeting">{{ greeting }}，{{ nickname }}</h1>
       <AnimeFilterBar :keyword="keyword" @search="onSearch" @open-filter="filterVisible = true"
+                      @quick-subscribe="quickSubscribeVisible = true"
                       @add="addDialogVisible = true"/>
     </header>
 
@@ -59,6 +60,7 @@
 
     <FilterDrawer v-model="filterVisible" :filters="filters" @apply="onFilterApply"/>
     <AddOpusDialog v-model="addDialogVisible" @success="loadList"/>
+    <QuickSubscribeDialog v-model="quickSubscribeVisible" @success="loadList"/>
     <FeedDialog v-model="feedVisible" :opus="feedTarget"/>
   </div>
 </template>
@@ -78,6 +80,7 @@ import RecentUpdateStrip from "./components/RecentUpdateStrip.vue";
 import AnimeCard from "./components/AnimeCard.vue";
 import FilterDrawer, {HomeFilters} from "./components/FilterDrawer.vue";
 import AddOpusDialog from "./components/AddOpusDialog.vue";
+import QuickSubscribeDialog from "@/components/anime/QuickSubscribeDialog.vue";
 import FeedDialog from "./components/FeedDialog.vue";
 
 const route = useRoute();
@@ -96,6 +99,7 @@ const activeTab = ref('all');
 const keyword = ref('');
 const filterVisible = ref(false);
 const addDialogVisible = ref(false);
+const quickSubscribeVisible = ref(false);
 const feedVisible = ref(false);
 const feedTarget = ref<any>(null);
 

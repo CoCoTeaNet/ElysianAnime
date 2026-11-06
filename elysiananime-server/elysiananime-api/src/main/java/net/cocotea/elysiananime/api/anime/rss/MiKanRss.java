@@ -19,10 +19,12 @@ import net.cocotea.elysiananime.api.anime.model.dto.AniAddOpusTorrentDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
 import net.cocotea.elysiananime.api.anime.model.po.AniOpus;
 import net.cocotea.elysiananime.api.anime.model.vo.AniVideoVO;
+import net.cocotea.elysiananime.api.anime.model.vo.QuickSubscribeVO;
 import net.cocotea.elysiananime.api.anime.model.vo.RssCountVO;
 import net.cocotea.elysiananime.api.anime.rss.model.MkXmlDetail;
 import net.cocotea.elysiananime.api.anime.rss.model.RenameInfo;
 import net.cocotea.elysiananime.api.anime.service.AniOpusService;
+import net.cocotea.elysiananime.api.anime.service.AniSpiderService;
 import net.cocotea.elysiananime.common.constant.CharConst;
 import net.cocotea.elysiananime.common.constant.RedisKeyConst;
 import net.cocotea.elysiananime.common.enums.IsEnum;
@@ -49,6 +51,7 @@ import org.w3c.dom.NodeList;
 
 import java.io.File;
 import java.math.BigInteger;
+import java.net.URI;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -81,6 +84,9 @@ public class MiKanRss {
 
     @Inject
     private AniOpusService aniOpusService;
+
+    @Inject
+    private AniSpiderService aniSpiderService;
 
     @Inject
     private ResUtils resUtils;
@@ -161,10 +167,15 @@ public class MiKanRss {
         if (StrUtil.isNotBlank(aniRssDTO.getRssExcludeRes())) {
             opus.setRssExcludeRes(aniRssDTO.getRssExcludeRes());
         }
-        return getRenames(aniRssDTO.getRssUrl(), opus);
+        // 预览不要求资源目录已存在，首次订阅前也能看到重命名结果
+        return getRenames(aniRssDTO.getRssUrl(), opus, false);
     }
 
     public List<RenameInfo> getRenames(String rssUrl, AniOpus opus) throws BusinessException {
+        return getRenames(rssUrl, opus, true);
+    }
+
+    private List<RenameInfo> getRenames(String rssUrl, AniOpus opus, boolean requireDir) throws BusinessException {
         String cacheKey = StrUtil.format(RSS_RESULT_CACHE, rssUrl);
         String cacheContent = redisService.get(cacheKey);
         String result = cacheContent;
@@ -194,7 +205,7 @@ public class MiKanRss {
                 log.warn("解析完成 >>>>> 不是标识资源，不进行下载, title={}, mark={}", title, opus.getRssOnlyMark());
                 continue;
             }
-            if (!resUtils.existDir(opus.getNameCn())) {
+            if (requireDir && !resUtils.existDir(opus.getNameCn())) {
                 log.warn("解析完成 >>>>> 目录不存在,opus：{}", opus.getNameCn());
                 continue;
             }
@@ -416,6 +427,77 @@ public class MiKanRss {
             throw new BusinessException("RSS 内容为空，请确认链接指向有效的番剧订阅");
         }
         return items;
+    }
+
+    /**
+     * 快速订阅准备：从蜜柑 RSS 链接解析 bangumiId，自动补齐番剧信息并返回 RSS 解析结果
+     *
+     * @param rssUrl 蜜柑番剧 RSS 链接
+     * @return {@link QuickSubscribeVO}
+     */
+    public QuickSubscribeVO quickPrepare(String rssUrl) throws BusinessException {
+        if (StrUtil.isBlank(rssUrl)) {
+            throw new BusinessException("请填写 RSS 订阅链接");
+        }
+        String bangumiId = ReUtil.get("(?i)[?&]bangumiId=(\\d+)", rssUrl.trim(), 1);
+        if (StrUtil.isBlank(bangumiId)) {
+            throw new BusinessException("链接中未找到 bangumiId，请粘贴蜜柑番剧的 RSS 链接");
+        }
+        String subjectId = resolveBgmSubjectId(rssUrl.trim(), bangumiId);
+        String detailUrl = "/subject/" + subjectId;
+        Map<String, Object> params = new HashMap<>(1);
+        params.put("detailUrl", detailUrl);
+        AniOpus opus = lightDao.findOne("ani_opus_findList", params, AniOpus.class);
+        boolean existed = opus != null;
+        if (!existed) {
+            BigInteger opusId = aniSpiderService.addOpusFromBangumi("https://bgm.tv/subject/" + subjectId, IsEnum.N.getCode().intValue());
+            opus = aniOpusService.loadById(opusId);
+        }
+        if (opus == null) {
+            throw new BusinessException("番剧信息创建失败，请稍后重试");
+        }
+        MkXmlDetail detail = doParseMkXmlDetail(rssUrl.trim());
+        return new QuickSubscribeVO()
+                .setOpusId(opus.getId())
+                .setNameCn(opus.getNameCn())
+                .setNameOriginal(opus.getNameOriginal())
+                .setCoverUrl(opus.getCoverUrl())
+                .setDetailInfoUrl(opus.getDetailInfoUrl())
+                .setExisted(existed)
+                .setRssStatus(opus.getRssStatus())
+                .setRssLevelIndex(opus.getRssLevelIndex())
+                .setRssFileType(opus.getRssFileType())
+                .setRssOnlyMark(opus.getRssOnlyMark())
+                .setRssExcludeRes(opus.getRssExcludeRes())
+                .setDetail(detail);
+    }
+
+    /**
+     * 从蜜柑番剧页面解析对应的 Bangumi 条目ID
+     */
+    private String resolveBgmSubjectId(String rssUrl, String bangumiId) throws BusinessException {
+        String host;
+        try {
+            host = URI.create(rssUrl).getHost();
+        } catch (Exception e) {
+            host = null;
+        }
+        if (StrUtil.isBlank(host)) {
+            throw new BusinessException("RSS 链接格式有误");
+        }
+        String pageUrl = "https://" + host + "/Home/Bangumi/" + bangumiId;
+        String html;
+        try {
+            html = HttpUtil.get(pageUrl, RSS_HTTP_TIMEOUT_MS);
+        } catch (Exception e) {
+            log.warn("quickPrepare >>> 请求蜜柑番剧页面失败, url={}, error={}", pageUrl, e.getMessage());
+            throw new BusinessException("无法访问蜜柑番剧页面，请检查链接或网络");
+        }
+        String subjectId = ReUtil.get("(?i)(?:bgm\\.tv|bangumi\\.tv)/subject/(\\d+)", html, 1);
+        if (StrUtil.isBlank(subjectId)) {
+            throw new BusinessException("未能从蜜柑页面解析到 Bangumi 作品，请先手动添加番剧");
+        }
+        return subjectId;
     }
 
     /**

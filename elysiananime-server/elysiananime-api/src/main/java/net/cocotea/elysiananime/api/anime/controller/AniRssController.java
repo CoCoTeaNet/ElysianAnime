@@ -5,6 +5,8 @@ import cn.dev33.satoken.annotation.SaMode;
 import com.alibaba.fastjson2.JSONObject;
 import net.cocotea.elysiananime.api.anime.model.dto.AniAddOpusTorrentDTO;
 import net.cocotea.elysiananime.api.anime.model.dto.AniRssDTO;
+import net.cocotea.elysiananime.api.anime.model.dto.QuickSubscribeDTO;
+import net.cocotea.elysiananime.api.anime.model.vo.QuickSubscribeVO;
 import net.cocotea.elysiananime.api.anime.model.vo.RssCountVO;
 import net.cocotea.elysiananime.api.anime.rss.model.MkXmlDetail;
 import net.cocotea.elysiananime.api.anime.rss.model.RenameInfo;
@@ -51,6 +53,20 @@ public class AniRssController {
     public ApiResult<Boolean> subscribe(@Body AniRssDTO rssDTO) throws BusinessException {
         boolean r = miKanRss.subscribe(rssDTO);
         return ApiResult.ok(r);
+    }
+
+    /**
+     * 快速订阅准备：根据蜜柑 RSS 链接自动创建番剧并解析资源
+     *
+     * @param prepareDTO {@link QuickSubscribeDTO}
+     * @return {@link QuickSubscribeVO}
+     */
+    @LogPersistence
+    @SaCheckRole(value = {"role:super:admin", "role:simple:admin", "bangumi:rss:subscriber"}, mode = SaMode.OR)
+    @Post
+    @Mapping("/quickPrepare")
+    public ApiResult<QuickSubscribeVO> quickPrepare(@Body QuickSubscribeDTO prepareDTO) throws BusinessException {
+        return ApiResult.ok(miKanRss.quickPrepare(prepareDTO.getRssUrl()));
     }
 
     /**

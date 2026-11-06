@@ -9,6 +9,10 @@ export function rssSubscribe(data: any) {
 	return request('anime/rss/subscribe', data, post);
 }
 
+export function quickPrepare(data: any) {
+	return request('anime/rss/quickPrepare', data, post);
+}
+
 export function closeSubscribe(opusId: any) {
 	return request(`anime/rss/${opusId}/closeSubscribe`, {}, post);
 }

@@ -10,18 +10,20 @@
         @clear="onSearch"
     />
     <el-button :icon="Filter" @click="$emit('open-filter')">筛选</el-button>
+    <el-button plain type="primary" :icon="Promotion" @click="$emit('quick-subscribe')">快速订阅</el-button>
     <el-button type="primary" :icon="Plus" @click="$emit('add')">添加番剧</el-button>
   </div>
 </template>
 
 <script setup lang="ts">
 import {ref} from "vue";
-import {Filter, Plus, Search} from "@element-plus/icons-vue";
+import {Filter, Plus, Promotion, Search} from "@element-plus/icons-vue";
 
 const props = defineProps<{ keyword: string }>();
 const emit = defineEmits<{
   (e: 'search', keyword: string): void;
   (e: 'open-filter'): void;
+  (e: 'quick-subscribe'): void;
   (e: 'add'): void;
 }>();
 
@@ -35,6 +37,7 @@ const onSearch = () => emit('search', searchKey.value.trim());
   display: flex;
   align-items: center;
   gap: var(--ea-space-2);
+  flex-wrap: wrap;
 }
 
 .ea-fbar__search {

@@ -25,6 +25,7 @@
     </template>
 
     <template #operate>
+      <el-button type="primary" @click="quickSubscribeVisible = true">快速订阅</el-button>
       <el-button type="primary" @click="addAcgOpusDialog = true">通过Bangumi添加</el-button>
       <el-button type="primary" @click="onClickShareBatchImport">批量导出 / 导入</el-button>
       <el-button type="primary" icon="Plus" @click="onAdd">添加作品</el-button>
@@ -301,6 +302,8 @@
         </template>
       </el-dialog>
 
+      <QuickSubscribeDialog v-model="quickSubscribeVisible" @success="loadTableData"/>
+
     </template>
   </table-manage>
 </template>
@@ -317,6 +320,7 @@ import { ElMessage, ElMessageBox, UploadProps } from "element-plus";
 import { rssSubscribe, closeSubscribe, getMkXmlDetail, getRenames, defaultExclusions, addOpusTorrent } from "@/api/anime/ani-rss-api";
 import { ApiResultEnum } from "@/api/ApiResultEnum";
 import {RULE_URL_HTTP} from "@/utils/rules-util";
+import QuickSubscribeDialog from "@/components/anime/QuickSubscribeDialog.vue";
 
 type FormInstance = InstanceType<typeof ElForm>
 const router = useRouter();
@@ -336,6 +340,8 @@ const hasResourceList = ref<any>([
 
 // 是否开启订阅
 const enableRss = ref<boolean>(false);
+// 快速订阅
+const quickSubscribeVisible = ref<boolean>(false);
 const pageParam = ref<PageParam>({ pageNo: 1, pageSize: 10, searchObject: {} });
 // 表单参数
 const editForm = ref<AniOpusModel>({});
