@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, nextTick, onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 import {ElMessage} from "element-plus";
 import {router} from "@/router";
@@ -81,6 +81,8 @@ const currentMediaId = ref<string>('');
 
 // 本会话是否由站内 push 带 ep 进入：决定关闭弹窗用 back 还是 replace
 let openedByPush = false;
+// 切换番剧时复用组件实例，弹窗关闭回调不能走 back/replace 和重复加载
+let switchingOpus = false;
 
 const opusId = computed(() => route.params.id as string);
 
@@ -123,20 +125,42 @@ const loadRoles = () => {
 };
 
 const load = () => {
+  const targetId = opusId.value;
   loading.value = true;
-  reqCommonFeedback(getOpusMedia(opusId.value), (data: any) => {
+  reqCommonFeedback(getOpusMedia(targetId), (data: any) => {
+    // 快速切换标签时丢弃上一部作品的迟到响应
+    if (targetId !== opusId.value) {
+      return;
+    }
     opus.value = data;
     mediaList.value = data.mediaList || [];
     progressMap.value = data.progressMap || {};
     loading.value = false;
 
-    addTabItem({name: data.nameCn, url: window.location.hash.substring(1), isActive: true});
-    updateTabItem(window.location.hash.substring(1), data.nameCn);
+    // 标签页按路径（不含 ep 查询参数）去重，避免同一部番剧每看一集就多一个标签
+    addTabItem({name: data.nameCn, url: route.path, isActive: true});
+    updateTabItem(route.path, data.nameCn);
 
     handleLegacyQuery();
     openFromQuery();
   });
 };
+
+// 路由参数变化时组件实例会被复用（顶部标签切换两个详情页），必须重新加载
+watch(opusId, () => {
+  switchingOpus = true;
+  dialogVisible.value = false;
+  openedByPush = false;
+  currentMediaId.value = '';
+  dialogResumeSec.value = 0;
+  opus.value = null;
+  mediaList.value = [];
+  progressMap.value = {};
+  load();
+  nextTick(() => {
+    switchingOpus = false;
+  });
+});
 
 /**
  * 旧链接 /admin/ani-video/:id/:num/:time 被 redirect 成 ?ek=&t=，
@@ -192,6 +216,9 @@ watch(() => route.query.ep, (ep, old) => {
 });
 
 watch(dialogVisible, value => {
+  if (switchingOpus) {
+    return;
+  }
   if (!value) {
     // 关闭弹窗：历史里有 ep 项就 back，刷新直达的 replace 去掉 ep
     if (route.query.ep) {

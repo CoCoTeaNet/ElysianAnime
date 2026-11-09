@@ -48,6 +48,7 @@
     </sql>
 
     <sql id="ani_opus_listByUser">
+        <!-- 按作品添加时间倒序：未追番作品没有 last_read_time，按追番进度排序会把它们全部挤到后面 -->
         <value>
             <![CDATA[
             select ao.id, ao.name_original, ao.name_cn, ao.cover_url, ao.detail_info_url, ao.episodes, ao.launch_start, ao.delivery_week, ao.ani_summary, ao.has_resource, ao.rss_url, ao.rss_status, ao.rss_level_index, ao.rss_file_type, ao.rss_only_mark, ao.rss_exclude_res,
@@ -59,7 +60,11 @@
                      where p.user_id = :loginId and p.opus_id = ao.id and p.is_deleted = 0 and p.is_completed = 1
                        and exists (select 1 from ani_media m
                                     where m.opus_id = ao.id and m.is_deleted = 0 and m.is_primary = 1
+                                      and m.episode_no is not null
                                       and m.episode_key = p.episode_key)) as completed_count,
+                   (select count(1) from ani_media m
+                     where m.opus_id = ao.id and m.is_deleted = 0 and m.is_primary = 1
+                       and m.episode_no is not null) as main_media_count,
                    (select p.position_ms from ani_user_opus_progress p
                      where p.user_id = :loginId and p.opus_id = ao.id and p.is_deleted = 0
                        and p.episode_key = auo.last_episode_key limit 1) as position_ms,
@@ -90,7 +95,7 @@
                 month(date_format(launch_start, '%Y-%m-%d')) in (:months)
                 )]
               #[and auo.read_status in (:status)]
-            order by auo.last_read_time desc, ao.id desc
+            order by ao.create_time desc, ao.id desc
             ]]>
         </value>
     </sql>

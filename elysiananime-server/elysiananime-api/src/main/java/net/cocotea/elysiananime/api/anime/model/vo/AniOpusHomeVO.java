@@ -74,13 +74,17 @@ public class AniOpusHomeVO implements Serializable {
     private String episodesNewest;
 
     /**
-     * 已看集数：与 mediaCount 同口径（只算当前仍存在的主文件）
+     * 已看正片集数：只算当前仍存在的主文件，不含 SP 等额外内容
      */
     private Integer completedCount;
     /**
      * 当前媒体数（每集一个主文件）
      */
     private Integer mediaCount;
+    /**
+     * 完成度分母：主表话数，话数未知时取正片媒体数
+     */
+    private Integer totalEpisodes;
     /**
      * 最近观看的集数键
      */
@@ -116,5 +120,10 @@ public class AniOpusHomeVO implements Serializable {
      */
     @JSONField(serialize = false)
     private Integer latestEpisodeCompleted;
+    /**
+     * 内部判定字段：主表话数未知时用于兜底的正片媒体数
+     */
+    @JSONField(serialize = false)
+    private Integer mainMediaCount;
 
 }

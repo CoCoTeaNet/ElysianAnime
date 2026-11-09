@@ -119,11 +119,15 @@ public class AniOpusServiceImpl implements AniOpusService {
     }
 
     /**
-     * 按「是否追上最新一集」算 NEW 与 ✓，口径见 {@code doc/plan/playback-media-rework.md} §6
+     * NEW 按「是否追上最新一集」判定；✓ 按主表话数判定，话数未知时退回正片媒体数
      */
     private void fillUpdateState(AniOpusHomeVO row) {
         int mediaCount = row.getMediaCount() == null ? 0 : row.getMediaCount();
+        int mainMediaCount = row.getMainMediaCount() == null ? 0 : row.getMainMediaCount();
         int completedCount = row.getCompletedCount() == null ? 0 : row.getCompletedCount();
+        int episodeTotal = NumberUtil.parseInt(row.getEpisodes(), 0);
+        int totalCount = episodeTotal > 0 ? episodeTotal : (mainMediaCount > 0 ? mainMediaCount : mediaCount);
+        row.setTotalEpisodes(totalCount);
         String latestKey = row.getMediaLatestKey();
         String lastKey = row.getLastEpisodeKey();
         // 看完正片后又看 SP 时 last_episode_key 会变成 SP 键，因此还要看最新正片集是否有看完的进度
@@ -132,7 +136,7 @@ public class AniOpusServiceImpl implements AniOpusService {
         boolean started = StrUtil.isNotBlank(lastKey);
         row.setHasUpdate(!caughtUp && started ? 1 : 0);
         int readStatus = row.getReadStatus() == null ? 0 : row.getReadStatus();
-        boolean completed = readStatus != 0 && (caughtUp || (mediaCount > 0 && completedCount >= mediaCount));
+        boolean completed = readStatus != 0 && totalCount > 0 && completedCount >= totalCount;
         row.setIsCompleted(completed ? 1 : 0);
         if (StrUtil.isBlank(row.getEpisodesNewest())) {
             row.setEpisodesNewest(StrPool.DASHED);

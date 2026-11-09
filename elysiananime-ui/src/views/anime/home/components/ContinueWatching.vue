@@ -39,9 +39,13 @@ onMounted(async () => {
   }
 });
 
-const coverSrc = (item: any) => `${API_BASE}/anime/opus/cover?resName=${item.coverUrl || ''}&w=480&h=640`;
+// 小卡片按 160px 展示，480x640 足够 3 倍像素密度；主卡片横跨半屏，需要更大的源图
+// 文件名可能含空格/中文，必须编码，否则 url() 里的空格会让整条 background-image 失效
+const coverSrc = (item: any, w = 480, h = 640) => `${API_BASE}/anime/opus/cover?resName=${encodeURIComponent(item.coverUrl || '')}&w=${w}&h=${h}`;
 
-const bgStyle = (item: any) => ({backgroundImage: `url(${coverSrc(item)})`});
+const bgStyle = (item: any) => item.coverUrl
+    ? {backgroundImage: `url("${coverSrc(item, 1080, 1440)}")`}
+    : {};
 
 const episodeLabel = (item: any) => item.displayName || item.episodeKey || '';
 
@@ -100,14 +104,14 @@ const format = (ms: number) => {
   inset: 0;
   background-size: cover;
   background-position: center;
-  filter: blur(16px) saturate(.9);
-  transform: scale(1.15);
 }
 
 .ea-cw__main-mask {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgba(0, 0, 0, .72), transparent 55%);
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, .55), transparent 65%),
+    linear-gradient(0deg, rgba(0, 0, 0, .72), transparent 55%);
 }
 
 .ea-cw__main-info {

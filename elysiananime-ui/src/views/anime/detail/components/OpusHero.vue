@@ -79,10 +79,10 @@ defineEmits<{
 
 const playLabel = computed(() => props.continueLabel || '开始观看');
 
-const coverSrc = computed(() => `${API_BASE}/anime/opus/cover?resName=${props.opus.coverUrl}&w=480&h=640`);
+const coverSrc = computed(() => `${API_BASE}/anime/opus/cover?resName=${encodeURIComponent(props.opus.coverUrl)}&w=480&h=640`);
 
 const bgStyle = computed(() => props.opus.coverUrl
-    ? {backgroundImage: `url(${coverSrc.value})`}
+    ? {backgroundImage: `url("${coverSrc.value}")`}
     : {});
 
 const deliveryWeekCn = computed(() => {

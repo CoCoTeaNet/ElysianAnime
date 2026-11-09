@@ -53,15 +53,16 @@ const isMobile = !!navigator.userAgent.match(/AppleWebKit.*Mobile.*/);
 
 const coverSrc = computed(() => `${API_BASE}/anime/opus/cover?resName=${props.opus.coverUrl || ''}&w=360&h=480`);
 
+const totalEpisodes = computed(() => Number(props.opus.totalEpisodes) || 0);
+
 const hasProgress = computed(() => {
-  if (props.opus.isCompleted === 1) return Number(props.opus.mediaCount) > 0;
+  if (props.opus.isCompleted === 1) return totalEpisodes.value > 0;
   return Number(props.opus.positionMs) > 0 && Number(props.opus.durationMs) > 0;
 });
 
 const progressPercent = computed(() => {
   if (props.opus.isCompleted === 1) {
-    const count = Number(props.opus.mediaCount);
-    return count > 0 ? Number(props.opus.completedCount) / count : 0;
+    return totalEpisodes.value > 0 ? Math.min(Number(props.opus.completedCount) / totalEpisodes.value, 1) : 0;
   }
   const duration = Number(props.opus.durationMs);
   return duration > 0 ? Math.min(Number(props.opus.positionMs) / duration, 1) : 0;
@@ -70,13 +71,13 @@ const progressPercent = computed(() => {
 const metaLine = computed(() => {
   const parts: string[] = [];
   if (Number(props.opus.isFollow) === 0) {
-    if (Number(props.opus.mediaCount) > 0) {
-      parts.push(`共 ${props.opus.mediaCount} 集`);
+    if (totalEpisodes.value > 0) {
+      parts.push(`共 ${totalEpisodes.value} 集`);
     } else if (props.opus.launchStart) {
       parts.push(String(props.opus.launchStart).slice(0, 7).replace('-', '/'));
     }
-  } else if (Number(props.opus.mediaCount) > 0) {
-    parts.push(`已看 ${props.opus.completedCount || 0}/${props.opus.mediaCount}`);
+  } else if (totalEpisodes.value > 0 && Number(props.opus.mediaCount) > 0) {
+    parts.push(`已看 ${Math.min(Number(props.opus.completedCount) || 0, totalEpisodes.value)}/${totalEpisodes.value}`);
   } else if (props.opus.launchStart) {
     parts.push(String(props.opus.launchStart).slice(0, 7).replace('-', '/'));
   }
